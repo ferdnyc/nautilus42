@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.8.1
-Release: 	3
+Release: 	4
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -82,6 +82,7 @@ Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch10:         nautilus-2.8.1-mime-mismatch-open.patch
 Patch11:         nautilus-2.8.1-url-links-filename.patch
 Patch12:         nautilus-2.8.1-no-app.patch
+Patch13:         nautilus-2.8.1-throbber.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -98,6 +99,7 @@ GNOME desktop project.
 %patch10 -p0 -b .mime-mismatch-open
 %patch11 -p0 -b .url-links-filename
 %patch12 -p0 -b .no-app
+%patch13 -p0 -b .throbber
 
 %build
 
@@ -180,6 +182,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Mon Oct 18 2004 Marco Pesenti Gritti <mpg@redhat.com> - 2.8.1-4
+- #135824 Fix throbber position
+
 * Fri Oct 15 2004 Alexander Larsson <alexl@redhat.com> - 2.8.1-3
 - Slightly less bad error dialog when there is no handler for a file.
   Not ideal, but this change doesn't change any strings.
