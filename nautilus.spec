@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.0.5
-Release:        3
+Release:        4
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -63,6 +63,7 @@ Patch3:         nautilus-2.0.4-fix-key-name.patch
 Patch4:         nautilus-2.0.5-session-pref.patch
 ## http://bugzilla.gnome.org/show_bug.cgi?id=91547
 Patch5:         nautilus-2.0.5-left-margin.patch
+Patch6:         nautilus-volume-handling.patch
 
 # this patch is because libc had something wrong with it in 
 # an early beta; safe to remove later.
@@ -82,6 +83,7 @@ GNOME desktop project.
 %patch3 -p1 -b .fix-key-name
 %patch4 -p1 -b .session-pref
 %patch5 -p1 -b .left-margin
+%patch6 -p0 -b .volume-handling
 %patch31 -p1 -b .starthere-hang-hackaround
 
 if test -f components/music/mpg123.c ; then
@@ -161,6 +163,9 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Wed Aug 28 2002 Alexander Larsson <alexl@redhat.com> 2.0.5-4
+- Add patch to fix bug #70667
+
 * Sun Aug 25 2002 Havoc Pennington <hp@redhat.com>
 - remove mp3
 
