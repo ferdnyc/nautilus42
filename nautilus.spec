@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	46.2
+Release: 	47
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -271,8 +271,8 @@ scrollkeeper-update
 %endif
 
 %changelog
-* Fri May 03 2002 Philip Copeland <bryce@redhat.com>
-- rebuild for alpha 7.2
+* Thu May  9 2002 Christopher Blizzard <blizzard@redhat.com>
+- Rebuild for 7.2 errata.
 
 * Mon Apr 29 2002 Havoc Pennington <hp@redhat.com>
 - port patch to use mode 600 even for metadata stored in homedir
