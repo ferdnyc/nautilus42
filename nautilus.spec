@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	47
+Release: 	48
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -20,7 +20,7 @@ Requires:	GConf >= 0.12
 Requires:	ORBit >= 0.5.7
 Requires:	oaf >= 0.6.5
 Requires:	gnome-vfs >= 1.0.1-13
-Requires:	gdk-pixbuf >= 0.10.0
+Requires:	gdk-pixbuf >= 0.14.0
 Requires:	bonobo >= 0.37
 Requires:	popt >= 1.5
 Requires:	freetype >= 2.0.1
@@ -52,7 +52,7 @@ BuildRequires:	ORBit-devel >= 0.5.7
 BuildRequires:	oaf-devel >= 0.6.5
 BuildRequires:  gnome-core-devel
 BuildRequires:	gnome-vfs-devel >= 1.0.1-4
-BuildRequires:	gdk-pixbuf-devel >= 0.10.0
+BuildRequires:	gdk-pixbuf-devel >= 0.14.0
 BuildRequires:	bonobo-devel >= 0.37
 BuildRequires:	popt >= 1.5
 BuildRequires:	freetype-devel >= 2.0.1
@@ -88,6 +88,8 @@ Patch20:	nautilus-1.0.4-1.0.6-mozilla.patch
 Patch21:        nautilus-1.0.6-metafilerace.patch
 Patch22:        nautilus-1.0.4-noglobalmetadata.patch
 Patch23:        nautilus-1.0.6-fixperms.patch
+Patch24:        nautilus-1.0.4-moz-1.0.1.patch
+Patch25:	nautilus-1.0.4-pixbuf-0.14.0.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -109,7 +111,7 @@ files to allow you to develop Nautilus components.
 Summary: Nautilus component for use with Mozilla
 Group: User Interface/Desktops
 Requires:       %name = %{version}
-Requires:	mozilla >= 0.9.2-10
+Requires:	mozilla >= 1.0.1
 Conflicts:	mozilla = M18
 Conflicts:	mozilla = M17
 
@@ -143,6 +145,8 @@ tar zxf %{SOURCE5}
 %patch21 -p1 -b .metafilerace
 %patch22 -p1 -b .noglobalmetadata
 %patch23 -p1 -b .fixperms
+%patch24 -p1 -b .moz-1.0.1
+%patch25 -p1 -b .pixbuf-0.14.0
 
 ## desktop-folders
 tar zxf %{SOURCE3}
@@ -271,6 +275,9 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Fri Sep 13 2002 Christopher Blizzard <blizzard@redhat.com>
+- Update for mozilla 1.0.1 
+
 * Thu May  9 2002 Christopher Blizzard <blizzard@redhat.com>
 - Rebuild for 7.2 errata.
 
