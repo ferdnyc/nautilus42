@@ -14,8 +14,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.0.4
-Release:        3
+Version: 	2.0.5
+Release:        1
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -54,7 +54,6 @@ Provides:       nautilus-devel
 Obsoletes:      nautilus-mozilla < 2.0
 
 Patch1:         nautilus-2.0.3-rhconfig.patch
-Patch2:         nautilus-2.0.4-toplefticons.patch
 ## http://bugzilla.gnome.org/show_bug.cgi?id=90882
 Patch3:         nautilus-2.0.4-fix-key-name.patch
 
@@ -73,7 +72,6 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch2 -p0 -b .toplefticons
 %patch3 -p1 -b .fix-key-name
 %patch31 -p1 -b .starthere-hang-hackaround
 
@@ -149,6 +147,9 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Fri Aug 23 2002 Alexander Larsson <alexl@redhat.com> 2.0.5-1
+- Update to 2.0.5, remove topleft icon patch
+
 * Thu Aug 15 2002 Alexander Larsson <alexl@redhat.com> 2.0.4-2
 - Add patch to fix the bug where desktop icons get
   stuck in the top left corner on startup
