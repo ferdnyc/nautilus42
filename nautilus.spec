@@ -1,9 +1,9 @@
-%define glib2_version 2.0.3
+%define glib2_version 2.3.0
 %define pango_version 1.1.3
-%define gtk2_version 2.1.2
+%define gtk2_version 2.3.2
 %define libgnomeui_version 2.1.0
-%define eel2_version 2.4.0
-%define gnome_icon_theme_version 1.0.2
+%define eel2_version 2.5.5
+%define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
 %define gail_version 0.17-2
@@ -17,8 +17,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.4.0
-Release: 7
+Version: 	2.5.6
+Release: 1
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -36,6 +36,7 @@ Requires:       gnome-vfs2 >= %{gnome_vfs2_version}
 Requires:       gnome-vfs2-extras
 Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
+Requires:       libexif
 PreReq:    scrollkeeper >= 0.1.4
 
 # Not technically required, but we want them on upgrades:
@@ -61,6 +62,9 @@ BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
+BuildRequires:  libexif-devel
+# For intltool:
+BuildRequires: perl-XML-Parser >= 2.31-16
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -70,10 +74,7 @@ Obsoletes:      nautilus-mozilla < 2.0
 
 # Some changes to default config
 Patch1:         nautilus-2.0.3-rhconfig.patch
-Patch2:        nautilus-2.2.3-tripleclick.patch
-Patch3:        nautilus-2.2.1-default-winsize.patch
-Patch4:        nautilus-2.4.0-cvsbackport.patch
-Patch5:        nautilus-2.4.0-kde.patch
+Patch2:        nautilus-2.4.0-kde.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -86,12 +87,12 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch2 -p1 -b .triple-click
-%patch3 -p0 -b .default-winsize
-%patch4 -p0 -b .cvsbackport
-%patch5 -p1 -b .kde
+%patch2 -p1 -b .kde
 
 %build
+
+#workaround broken perl-XML-Parser on 64bit arches
+export PERL5LIB=/usr/lib64/perl5/vendor_perl/5.8.2:/usr/lib64/perl5/vendor_perl/5.8.0
 
 libtoolize --force --copy
 CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE" %configure --disable-more-warnings
@@ -180,9 +181,16 @@ scrollkeeper-update
 %{_sysconfdir}/gconf/schemas/*
 %{_libdir}/pkgconfig/*
 %{_includedir}/libnautilus
+%{_includedir}/nautilus
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Fri Jan 30 2004 Alexander Larsson <alexl@redhat.com> 2.5.6-1
+- update to 2.5.6
+
+* Tue Jan 27 2004 Alexander Larsson <alexl@redhat.com> 2.5.5-1
+- update to 2.5.5
+
 * Tue Oct 28 2003 Than Ngo <than@redhat.com> 2.4.0-7
 - fix start-here desktop file
 
