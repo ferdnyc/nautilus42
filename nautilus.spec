@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.7.92
-Release: 	2
+Release: 	3
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -37,7 +37,9 @@ Requires:       gnome-vfs2-smb
 Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif
+%ifnarch s390 s390x
 Requires: 	eject
+%endif
 PreReq:    scrollkeeper >= 0.1.4
 
 # Not technically required, but we want them on upgrades:
@@ -178,6 +180,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Fri Sep 10 2004 Alexander Larsson <alexl@redhat.com> - 2.7.92-3
+- Don't require eject on s390(x), since there is none (#132228)
+
 * Tue Sep  7 2004 Alexander Larsson <alexl@redhat.com> - 2.7.92-2
 - Add patch to fix desktop keynav (#131894)
 
