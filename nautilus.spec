@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	45.1
+Release: 	46.1
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -87,6 +87,7 @@ Patch19:	nautilus-1.0.4-newmozilla.patch
 Patch20:	nautilus-1.0.4-1.0.6-mozilla.patch
 Patch21:        nautilus-1.0.6-metafilerace.patch
 Patch22:        nautilus-1.0.4-noglobalmetadata.patch
+Patch23:        nautilus-1.0.6-fixperms.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -141,6 +142,7 @@ tar zxf %{SOURCE5}
 %patch20 -p1 -b .1.0.6-mozilla
 %patch21 -p1 -b .metafilerace
 %patch22 -p1 -b .noglobalmetadata
+%patch23 -p1 -b .fixperms
 
 ## desktop-folders
 tar zxf %{SOURCE3}
@@ -269,6 +271,9 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Mon Apr 29 2002 Havoc Pennington <hp@redhat.com>
+- port patch to use mode 600 even for metadata stored in homedir
+
 * Sun Apr 28 2002 Havoc Pennington <hp@redhat.com>
 - port patch to totally disable global metadata
 
