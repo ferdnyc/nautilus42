@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.8.1
-Release: 	1
+Release: 	2
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -79,6 +79,9 @@ Obsoletes:      nautilus-mozilla < 2.0
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 
+Patch10:         nautilus-2.8.1-mime-mismatch-open.patch
+Patch11:         nautilus-2.8.1-url-links-filename.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -91,8 +94,8 @@ GNOME desktop project.
 
 %patch1 -p1 -b .rhconfig
 
-# Temporary hack to build before eel 2.8.0 is in buildroot
-perl -pi -e 's/EEL_REQUIRED=2.8.0/EEL_REQUIRED=2.7.92/g' configure
+%patch10 -p0 -b .mime-mismatch-open
+%patch11 -p0 -b .url-links-filename
 
 %build
 
@@ -122,11 +125,6 @@ desktop-file-install --vendor gnome --delete-original       \
   --add-only-show-in GNOME                                  \
   --add-category X-Red-Hat-Base                             \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
-
-## Munge Garrett's icons into some desktop files. The upstream 
-## desktop files seem to have really weird Icon= files.
-perl -pi -e 's/gnome-fs-folder/redhat-file-manager.png/g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
-perl -pi -e 's@document-icons/i-network.png@redhat-system-group.png@g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -180,6 +178,11 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Tue Oct 12 2004 Alexander Larsson <alexl@redhat.com> - 2.8.1-2
+- Fix open with menu on mime mismatch
+- Create desktop links ending with .desktop (#125104)
+- Remove old cruft from specfile
+
 * Mon Oct 11 2004 Alexander Larsson <alexl@redhat.com> - 2.8.1-1
 - update to 2.8.1
 
