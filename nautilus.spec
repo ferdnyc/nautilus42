@@ -14,8 +14,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.0.5
-Release:        5
+Version: 	2.0.6
+Release:        1
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -57,16 +57,14 @@ Provides:       nautilus-devel
 Obsoletes:      nautilus-mozilla < 2.0
 
 Patch1:         nautilus-2.0.3-rhconfig.patch
-## http://bugzilla.gnome.org/show_bug.cgi?id=90882
-Patch3:         nautilus-2.0.4-fix-key-name.patch
 ## http://bugzilla.gnome.org/show_bug.cgi?id=91543
 Patch4:         nautilus-2.0.5-session-pref.patch
 ## http://bugzilla.gnome.org/show_bug.cgi?id=91547
 Patch5:         nautilus-2.0.5-left-margin.patch
-Patch6:         nautilus-volume-handling.patch
 # If the _NAUTILUS_DISABLE_MOUNT_WINDOW selection has an
 # owner, don't open new windows.
 Patch7:         nautilus-2.0.5-disablemountwindow.patch
+Patch8:         nautilus-2.0.6-cdloopback.patch
 
 # this patch is because libc had something wrong with it in 
 # an early beta; safe to remove later.
@@ -83,11 +81,10 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch3 -p1 -b .fix-key-name
 %patch4 -p1 -b .session-pref
 %patch5 -p1 -b .left-margin
-%patch6 -p0 -b .volume-handling
 %patch7 -p1 -b .disablemountwindow
+%patch8 -p0 -b .cdloopback
 %patch31 -p1 -b .starthere-hang-hackaround
 
 if test -f components/music/mpg123.c ; then
@@ -167,6 +164,10 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Thu Aug 29 2002 Alexander Larsson <alexl@redhat.com>
+- Updated to 2.0.6. Removed the patches I put upstream.
+- Added patch that fixes #72410
+
 * Wed Aug 28 2002 Owen Taylor <otaylor@redhat.com>
 - Add a simple patch so that redhat-config-packages can disable 
   the new window behavior for mounted CDs behavior.
