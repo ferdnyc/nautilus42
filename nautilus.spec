@@ -1,22 +1,23 @@
 %define glib2_version 2.0.3
-%define pango_version 1.0.99
-%define gtk2_version 2.0.5
-%define libgnomeui_version 2.0.0
-%define eel2_version 2.0.6
+%define pango_version 1.1.3
+%define gtk2_version 2.1.2
+%define libgnomeui_version 2.1.0
+%define eel2_version 2.1.3
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
 %define gail_version 0.17-2
 %define desktop_backgrounds_version 2.0-4
 %define desktop_file_utils_version 0.2.90
-%define gnome_desktop_version 2.0.5
+%define gnome_desktop_version 2.1.2
 %define redhat_menus_version 0.25
 %define redhat_artwork_version 0.41
-%define gnome_vfs2_version 2.0.2-5
+%define gnome_vfs2_version 2.1.3
+%define startup_notification_version 0.4
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.0.6
-Release:        6
+Version: 	2.1.3
+Release:        1
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -53,6 +54,7 @@ BuildRequires:  Xft
 BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
+BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -61,14 +63,6 @@ Provides:       nautilus-devel
 Obsoletes:      nautilus-mozilla < 2.0
 
 Patch1:         nautilus-2.0.3-rhconfig.patch
-## http://bugzilla.gnome.org/show_bug.cgi?id=91543
-Patch4:         nautilus-2.0.5-session-pref.patch
-## http://bugzilla.gnome.org/show_bug.cgi?id=91547
-Patch5:         nautilus-2.0.5-left-margin.patch
-# If the _NAUTILUS_DISABLE_MOUNT_WINDOW selection has an
-# owner, don't open new windows.
-Patch7:         nautilus-2.0.5-disablemountwindow.patch
-Patch8:         nautilus-2.0.6-cdloopback.patch
 ## should be upstream bugzilla.redhat.com #70667
 Patch9:         nautilus-2.0.6-assertions.patch
 # Make weblinks launch a browser, somewhat of a badhack
@@ -92,15 +86,11 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch4 -p1 -b .session-pref
-%patch5 -p1 -b .left-margin
-%patch7 -p1 -b .disablemountwindow
-%patch8 -p0 -b .cdloopback
 %patch9 -p1 -b .assertions
-%patch10 -p0 -b .weblinks
+#%patch10 -p0 -b .weblinks
 %patch31 -p1 -b .starthere-hang-hackaround
 %patch42 -p1 -b .triple-click
-%patch43 -p1 -b .dblclickfix
+#%patch43 -p1 -b .dblclickfix
 
 if test -f components/music/mpg123.c ; then
         echo "Must run %{SOURCE2} on upstream tarball prior to creating the SRPM"
@@ -167,6 +157,7 @@ scrollkeeper-update
 %{_libdir}/bonobo/*.so
 %{_libdir}/bonobo/servers
 %{_datadir}/gnome-2.0
+%{_datadir}/gnome
 %{_datadir}/nautilus
 %{_datadir}/idl
 %{_datadir}/pixmaps
@@ -179,6 +170,18 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Tue Dec  3 2002 Havoc Pennington <hp@redhat.com>
+- add explicit startup-notification dependency because build system is
+  dumb 
+- 2.1.3
+
+* Wed Nov 13 2002 Havoc Pennington <hp@redhat.com>
+- 2.1.2
+
+* Thu Oct 10 2002 Havoc Pennington <hp@redhat.com>
+- 2.0.7
+- remove patches that are upstream
+
 * Tue Sep  3 2002 Alexander Larsson <alexl@redhat.com>  2.0.6-6
 - Add badhack to make weblinks on desktop work
 
