@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.8.1
-Release: 	2
+Release: 	3
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -81,6 +81,7 @@ Patch1:         nautilus-2.5.7-rhconfig.patch
 
 Patch10:         nautilus-2.8.1-mime-mismatch-open.patch
 Patch11:         nautilus-2.8.1-url-links-filename.patch
+Patch12:         nautilus-2.8.1-no-app.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -96,6 +97,7 @@ GNOME desktop project.
 
 %patch10 -p0 -b .mime-mismatch-open
 %patch11 -p0 -b .url-links-filename
+%patch12 -p0 -b .no-app
 
 %build
 
@@ -178,6 +180,10 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Fri Oct 15 2004 Alexander Larsson <alexl@redhat.com> - 2.8.1-3
+- Slightly less bad error dialog when there is no handler for a file.
+  Not ideal, but this change doesn't change any strings.
+
 * Tue Oct 12 2004 Alexander Larsson <alexl@redhat.com> - 2.8.1-2
 - Fix open with menu on mime mismatch
 - Create desktop links ending with .desktop (#125104)
