@@ -17,8 +17,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.7.92
-Release: 	3
+Version: 	2.8.0
+Release: 	1
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -93,6 +93,9 @@ GNOME desktop project.
 %patch1 -p1 -b .rhconfig
 
 %patch10 -p0 -b .desktop-keynav
+
+# Temporary hack to build before eel 2.8.0 is in buildroot
+perl -pi -e 's/EEL_REQUIRED=2.8.0/EEL_REQUIRED=2.7.92/g' configure
 
 %build
 
@@ -180,6 +183,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Mon Sep 13 2004 Alexander Larsson <alexl@redhat.com> - 2.8.0-1
+- Update to 2.8.0
+
 * Fri Sep 10 2004 Alexander Larsson <alexl@redhat.com> - 2.7.92-3
 - Don't require eject on s390(x), since there is none (#132228)
 
