@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	41
+Release: 	42
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -82,6 +82,7 @@ Patch8:		nautilus-1.0.4-noflash.patch
 Patch13:	nautilus-1.0.4-bghack.patch
 Patch16:        nautilus-1.0.4-norootwarning.patch
 Patch17:        nautilus-snap-directory.patch
+Patch18:        nautilus-1.0.4-removeicons.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -131,6 +132,7 @@ tar zxf %{SOURCE5}
 %patch13 -p1 -b .bghack
 %patch16 -p0 -b .norootwarning
 %patch17 -p0 -b .directory
+%patch18 -p1 -b .removeicons
 
 ## desktop-folders
 tar zxf %{SOURCE3}
@@ -252,6 +254,9 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Wed Sep  5 2001 Owen Taylor <otaylor@redhat.com>
+- Change handling of names on unmount to fix #52325
+
 * Tue Sep  4 2001 Havoc Pennington <hp@redhat.com>
 - put nautilus-help.desktop in file list; #53109
 
