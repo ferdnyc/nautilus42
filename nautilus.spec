@@ -15,10 +15,13 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.0.5
-Release:        2
+Release:        3
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
+
+## this is used to mangle the upstream tarball.
+Source2:        nautilus-remove-music-view.sh
 
 URL: 		http://www.gnome.org
 BuildRoot:	/var/tmp/%{name}-%{version}-root
@@ -80,6 +83,11 @@ GNOME desktop project.
 %patch4 -p1 -b .session-pref
 %patch5 -p1 -b .left-margin
 %patch31 -p1 -b .starthere-hang-hackaround
+
+if test -f components/music/mpg123.c ; then
+        echo "Must run %{SOURCE2} on upstream tarball prior to creating the SRPM"
+        exit 1
+fi
 
 %build
 
@@ -153,6 +161,9 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Sun Aug 25 2002 Havoc Pennington <hp@redhat.com>
+- remove mp3
+
 * Fri Aug 23 2002 Havoc Pennington <hp@redhat.com>
 - ignore the "add_to_session" preference as it only broke stuff
 - pad the left margin a bit to cope with poor word wrapping
