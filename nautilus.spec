@@ -1,8 +1,8 @@
 %define glib2_version 2.3.0
 %define pango_version 1.1.3
 %define gtk2_version 2.3.2
-%define libgnomeui_version 2.5.3
-%define eel2_version 2.5.91
+%define libgnomeui_version 2.6.0
+%define eel2_version 2.6.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
@@ -17,8 +17,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.5.91
-Release:	2
+Version: 	2.6.0
+Release: 4
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -75,6 +75,7 @@ Obsoletes:      nautilus-mozilla < 2.0
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:        nautilus-2.4.0-kde.patch
+Patch3:        nautilus-2.6.0-cvs-backport.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -88,6 +89,7 @@ GNOME desktop project.
 
 %patch1 -p1 -b .rhconfig
 %patch2 -p1 -b .kde
+%patch3 -p0 -b .cvs-backport
 
 %build
 
@@ -122,7 +124,6 @@ desktop-file-install --vendor gnome --delete-original       \
 ## desktop files seem to have really weird Icon= files.
 perl -pi -e 's/gnome-fs-folder/redhat-file-manager.png/g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 perl -pi -e 's@document-icons/i-network.png@redhat-system-group.png@g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
-perl -pi -e 's/network:/smb:/g' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-network-scheme.desktop
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -180,6 +181,18 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Wed Apr 14 2004 Alexander Larsson <alexl@redhat.com> 2.6.0-4
+- update cvs backport, now handles kde trash dir better
+
+* Wed Apr 14 2004 Alexander Larsson <alexl@redhat.com> 2.6.0-3
+- add cvs backport
+
+* Wed Apr  7 2004 Alex Larsson <alexl@redhat.com> 2.6.0-2
+- Make network servers go to network:// again
+
+* Thu Apr  1 2004 Alex Larsson <alexl@redhat.com> 2.6.0-1
+- update to 2.6.0
+
 * Tue Mar 16 2004 Mike A. Harrisn <mharris@redhat.com> 2.5.91-2
 - Changed BuildRequires: XFree86-libs >= 4.2.99 to BuildRequires: XFree86-devel
 - Fixed BuildRoot to use _tmppath instead of /var/tmp
