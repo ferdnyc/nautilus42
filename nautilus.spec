@@ -5,7 +5,6 @@
 %define eel2_version 2.7.92
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
-%define eog_version 1.0.0
 %define gail_version 0.17-2
 %define desktop_backgrounds_version 2.0-4
 %define desktop_file_utils_version 0.7
@@ -18,7 +17,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.8.1
-Release: 	4
+Release: 	5
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -28,7 +27,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 Requires:	fam
 Requires:       filesystem >= 2.1.1-1
-Requires:       eog >= %{eog_version}
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       redhat-artwork >= %{redhat_artwork_version}
@@ -182,6 +180,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Tue Nov  9 2004 Marco Pesenti Gritti <mpg@redhat.com> - 2.8.1-5
+- Remove eog dependency. The bonobo component is no more used.
+
 * Mon Oct 18 2004 Marco Pesenti Gritti <mpg@redhat.com> - 2.8.1-4
 - #135824 Fix throbber position
 
