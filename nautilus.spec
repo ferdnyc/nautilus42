@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.6
-Release: 	14
+Release: 	15
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}.tar.gz
@@ -96,6 +96,7 @@ Patch27:        nautilus-1.0.6-syncsomecvs.patch
 Patch28:        nautilus-1.0.6-metafilerace.patch
 Patch29:        nautilus-1.0.6-thumbnailspeed.patch
 Patch30:        nautilus-1.0.6-trash.patch
+Patch31:	nautilus-1.0.6-fixperms.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -153,6 +154,7 @@ tar zxf %{SOURCE5}
 %patch28 -p1 -b .metafilerace
 %patch29 -p1 -b .thumbnailspeed
 %patch30 -p1 -b .trash
+%patch31 -p1 -b .fixperms
 
 ## replace help component with 1.0.5 version
 /bin/rm -r components/help
@@ -274,6 +276,9 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Fri Apr 19 2002 Jonathan Blandford <jrb@redhat.com>
+- Fix permissions on .nautilus-metafile.xml
+
 * Mon Apr 15 2002 Havoc Pennington <hp@redhat.com>
 - merge translations
 
