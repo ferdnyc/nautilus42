@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	33
+Release: 	34
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -268,6 +268,11 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Wed Aug 15 2001 Havoc Pennington <hp@redhat.com>
+- make start here icon work again
+- kill some warning spew, #51661
+- cache getpwnam() results to speed things up a bit
+
 * Tue Aug 14 2001 Owen Taylor <otaylor@redhat.com>
 - Fix problem with missing desktop starthere.desktop file
 - New snapshot from our branch, fixes:
