@@ -2,7 +2,8 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.1.2
 %define libgnomeui_version 2.1.0
-%define eel2_version 2.1.3
+%define eel2_version 2.1.5
+%define gnome_icon_theme_version 0.1.5
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
 %define gail_version 0.17-2
@@ -11,13 +12,13 @@
 %define gnome_desktop_version 2.1.2
 %define redhat_menus_version 0.25
 %define redhat_artwork_version 0.41
-%define gnome_vfs2_version 2.1.3
+%define gnome_vfs2_version 2.1.5
 %define startup_notification_version 0.4
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.1.3
-Release:        1
+Version: 	2.1.5
+Release:        2a
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -37,6 +38,7 @@ Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       redhat-artwork >= %{redhat_artwork_version}
 Requires:       gnome-vfs2 >= %{gnome_vfs2_version}
 Requires:       eel2 >= %{eel2_version}
+Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
@@ -67,10 +69,8 @@ Patch1:         nautilus-2.0.3-rhconfig.patch
 Patch9:         nautilus-2.0.6-assertions.patch
 # Make weblinks launch a browser, somewhat of a badhack
 Patch10:	nautilus-weblink-badhack.patch
-
-# this patch is because libc had something wrong with it in 
-# an early beta; safe to remove later.
-Patch31:        nautilus-1.1.19-starthere-hang-hackaround.patch
+# Integrate nautilus-cd-burner
+Patch11:	nautilus-2.1.5-cdburn.patch
 
 Patch42:        nautilus-2.0.6-triple-click.patch
 Patch43:        nautilus-2.0.6-dblclickfix.patch
@@ -88,7 +88,7 @@ GNOME desktop project.
 %patch1 -p1 -b .rhconfig
 %patch9 -p1 -b .assertions
 #%patch10 -p0 -b .weblinks
-%patch31 -p1 -b .starthere-hang-hackaround
+%patch11 -p0 -b .cdburn
 %patch42 -p1 -b .triple-click
 #%patch43 -p1 -b .dblclickfix
 
@@ -170,6 +170,14 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Wed Dec 18 2002 Alexander Larsson <alexl@redhat.com> 2.1.5-2
+- Add cdburn patch.
+- Remove nautilus-1.1.19-starthere-hang-hackaround.patch
+- Require nautilus-cd-burner
+
+* Mon Dec 16 2002 Alexander Larsson <alexl@redhat.com> 2.1.5-1
+- Update to 2.1.5. Require gnome-icon-theme >= 0.1.5, gnome-vfs >= 2.1.5
+
 * Tue Dec  3 2002 Havoc Pennington <hp@redhat.com>
 - add explicit startup-notification dependency because build system is
   dumb 
