@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.3.2
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.7.3
+%define eel2_version 2.7.4
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
@@ -17,7 +17,7 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.7.2
+Version: 	2.7.4
 Release: 	1
 License: 	GPL
 Group:          User Interface/Desktops
@@ -173,6 +173,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Thu Aug 19 2004 Alex Larsson <alexl@redhat.com> 2.7.4-1
+- update to 2.7.4
+
 * Fri Aug  6 2004 Ray Strode <rstrode@redhat.com> 2.7.2-1
 - update to 2.7.2
 
