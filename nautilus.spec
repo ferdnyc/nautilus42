@@ -2,26 +2,26 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.3.2
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.6.0
+%define eel2_version 2.7.3
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
 %define gail_version 0.17-2
 %define desktop_backgrounds_version 2.0-4
-%define desktop_file_utils_version 0.2.90
+%define desktop_file_utils_version 0.7
 %define gnome_desktop_version 2.3.0
 %define redhat_menus_version 0.25
 %define redhat_artwork_version 0.41
-%define gnome_vfs2_version 2.3.6
+%define gnome_vfs2_version 2.7.90
 %define startup_notification_version 0.4
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.6.0
-Release: 	7
+Version: 	2.7.2
+Release: 	1
 License: 	GPL
 Group:          User Interface/Desktops
-Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
+Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -74,8 +74,6 @@ Obsoletes:      nautilus-mozilla < 2.0
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
-Patch2:        nautilus-2.4.0-kde.patch
-Patch3:        nautilus-2.6.0-cvs-backport.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -88,8 +86,6 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch2 -p1 -b .kde
-%patch3 -p0 -b .cvs-backport
 
 %build
 
@@ -130,10 +126,6 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
-
-rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/starthere
-rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/serverconfig
-rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/sysconfig
 
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0
 
@@ -181,6 +173,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Fri Aug  6 2004 Ray Strode <rstrode@redhat.com> 2.7.2-1
+- update to 2.7.2
+
 * Tue Aug 3 2004 Matthias Clasen <mclasen@redhat.com> 2.6.0-7
 - rebuilt
 
