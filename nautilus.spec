@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	42
+Release: 	43
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -131,7 +131,7 @@ tar zxf %{SOURCE5}
 %patch8 -p1 -b .noflash
 %patch13 -p1 -b .bghack
 %patch16 -p0 -b .norootwarning
-%patch17 -p0 -b .directory
+%patch17 -p1 -b .directory
 %patch18 -p1 -b .removeicons
 
 ## desktop-folders
@@ -254,6 +254,9 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Thu Sep  6 2001 Owen Taylor <otaylor@redhat.com>
+- Fix handling of GnomeVFSFileInfo structure (#53315)
+
 * Wed Sep  5 2001 Owen Taylor <otaylor@redhat.com>
 - Change handling of names on unmount to fix #52325
 
