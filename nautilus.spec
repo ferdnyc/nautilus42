@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.0.6
-Release:        2
+Release:        3
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -69,6 +69,7 @@ Patch5:         nautilus-2.0.5-left-margin.patch
 # owner, don't open new windows.
 Patch7:         nautilus-2.0.5-disablemountwindow.patch
 Patch8:         nautilus-2.0.6-cdloopback.patch
+## this patch didn't work.
 Patch9:         nautilus-2.0.6-html-hack.patch
 
 # this patch is because libc had something wrong with it in 
@@ -92,7 +93,8 @@ GNOME desktop project.
 %patch5 -p1 -b .left-margin
 %patch7 -p1 -b .disablemountwindow
 %patch8 -p0 -b .cdloopback
-%patch9 -p1 -b .html-hack
+# didn't work
+#%patch9 -p1 -b .html-hack
 %patch31 -p1 -b .starthere-hang-hackaround
 %patch42 -p1 -b .triple-click
 
@@ -173,6 +175,10 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Sat Aug 31 2002 Havoc Pennington <hp@redhat.com>
+- put button press mask in triple-click patch, maybe it will work
+- remove html-hack patch as it does nothing useful
+
 * Sat Aug 31 2002 Havoc Pennington <hp@redhat.com>
 - require newer redhat-artwork, -menus, eel2, gnome-vfs2 to avoid
   bogus bug reports
