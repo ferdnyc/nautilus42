@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.8.0
-Release: 	1
+Release: 	2
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -78,7 +78,7 @@ Obsoletes:      nautilus-mozilla < 2.0
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 
-Patch10:         nautilus-desktop-keynav.patch
+Patch10:         nautilus-2.8.0-cvs-backport.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -183,6 +183,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Mon Oct  4 2004 Alexander Larsson <alexl@redhat.com> - 2.8.0-2
+- Backport various bugfixes from HEAD
+
 * Mon Sep 13 2004 Alexander Larsson <alexl@redhat.com> - 2.8.0-1
 - Update to 2.8.0
 
