@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.0.5
-Release:        1
+Release:        2
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -56,6 +56,10 @@ Obsoletes:      nautilus-mozilla < 2.0
 Patch1:         nautilus-2.0.3-rhconfig.patch
 ## http://bugzilla.gnome.org/show_bug.cgi?id=90882
 Patch3:         nautilus-2.0.4-fix-key-name.patch
+## http://bugzilla.gnome.org/show_bug.cgi?id=91543
+Patch4:         nautilus-2.0.5-session-pref.patch
+## http://bugzilla.gnome.org/show_bug.cgi?id=91547
+Patch5:         nautilus-2.0.5-left-margin.patch
 
 # this patch is because libc had something wrong with it in 
 # an early beta; safe to remove later.
@@ -73,6 +77,8 @@ GNOME desktop project.
 
 %patch1 -p1 -b .rhconfig
 %patch3 -p1 -b .fix-key-name
+%patch4 -p1 -b .session-pref
+%patch5 -p1 -b .left-margin
 %patch31 -p1 -b .starthere-hang-hackaround
 
 %build
@@ -147,6 +153,10 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Fri Aug 23 2002 Havoc Pennington <hp@redhat.com>
+- ignore the "add_to_session" preference as it only broke stuff
+- pad the left margin a bit to cope with poor word wrapping
+
 * Fri Aug 23 2002 Alexander Larsson <alexl@redhat.com> 2.0.5-1
 - Update to 2.0.5, remove topleft icon patch
 
