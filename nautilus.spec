@@ -1,15 +1,21 @@
-%define glib2_version 2.0.0
-%define gtk2_version 2.0.2
-%define libgnomeui_version 1.117.2
-%define eel2_version 1.1.17
+%define glib2_version 2.0.3
+%define pango_version 1.0.99
+%define gtk2_version 2.0.5
+%define libgnomeui_version 2.0.0
+%define eel2_version 2.0.4
 %define libxml2_version 2.4.20
-%define eog_version 0.118.0-4
-%define gail_version 0.15
+%define eog_version 1.0.0
+%define gail_version 0.17-2
+%define desktop_backgrounds_version 2.0-4
+%define desktop_file_utils_version 0.2.90
+%define gnome_desktop_version 2.0.5
+%define redhat_menus_version 0.16
+%define redhat_artwork_version 0.29
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	1.1.19
-Release:        3
+Version: 	2.0.4
+Release:        2
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -21,44 +27,38 @@ Requires:	fam
 Requires:       filesystem >= 2.1.1-1
 Requires:       eog >= %{eog_version}
 PreReq:         scrollkeeper >= 0.1.4
+Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
+Requires:       redhat-menus >= %{redhat_menus_version}
+Requires:       redhat-artwork >= %{redhat_artwork_version}
 
 BuildRequires:	glib2-devel >= %{glib2_version}
+BuildRequires:	pango-devel >= %{pango_version}
 BuildRequires:	gtk2-devel >= %{gtk2_version}
 BuildRequires:	libgnomeui-devel >= %{libgnomeui_version}
 BuildRequires:	libxml2-devel >= %{libxml2_version}
 BuildRequires:  eel2-devel >= %{eel2_version}
 BuildRequires:  gail-devel >= %{gail_version}
+BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
 BuildRequires:	fam-devel
-BuildRequires:	/usr/bin/automake-1.4
-BuildRequires:	autoconf
 BuildRequires:  librsvg2
 BuildRequires:  intltool
+BuildRequires:  Xft
+BuildRequires:  fontconfig
+BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
+BuildRequires:  libtool >= 1.4.2-10
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
 Obsoletes:      nautilus-devel
 Provides:       nautilus-devel
+Obsoletes:      nautilus-mozilla < 2.0
 
-Patch1: 	nautilus-1.0.5-bookmarks.patch
-Patch2:		nautilus-1.0.5-new_theme.patch
-Patch3:		nautilus-1.0.3-no-dialog.patch
-Patch4:         nautilus-1.0.3.2-useredhattheme.patch
-Patch8:		nautilus-1.0.4-noflash.patch
-# Fixes and hacks for more efficient desktop backgrounds
-Patch13:	nautilus-1.0.5-bghack.patch
-Patch16:        nautilus-1.0.4-norootwarning.patch
-Patch19:        nautilus-1.0.5-monitorfavorites.patch
-Patch20:        nautilus-1.0.5-showonlydirectories.patch
-Patch21:        nautilus-1.0.5-unwritable.patch
-Patch22:	nautilus-1.0.6-mozilla-profile-startup.patch
-Patch23:        nautilus-1.0.6-ac25.patch
-Patch24:        nautilus-1.0.6-omf-encoding.patch
-Patch25:        nautilus-1.0.6-pixbufcache.patch
-Patch26:        nautilus-1.0.6-thumbnails.patch
-Patch27:        nautilus-1.0.6-syncsomecvs.patch
-Patch28:        nautilus-1.0.6-metafilerace.patch
-Patch29:        nautilus-1.0.6-thumbnailspeed.patch
-Patch30:        nautilus-1.0.6-trash.patch
+Patch1:         nautilus-2.0.3-rhconfig.patch
+Patch2:         nautilus-2.0.4-toplefticons.patch
+
+# this patch is because libc had something wrong with it in 
+# an early beta; safe to remove later.
+Patch31:        nautilus-1.1.19-starthere-hang-hackaround.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -70,52 +70,40 @@ GNOME desktop project.
 %prep
 %setup -q -n %{name}-%{version}
 
-#%patch1 -p0 -b .bookmarks
-#%patch2 -p1 -b .new_theme
-#%patch3 -p1 -b .no-dialog
-#%patch4 -p1 -b .useredhattheme
-#%patch8 -p1 -b .noflash
-#%patch13 -p1 -b .bghack
-#%patch16 -p0 -b .norootwarning
-#%patch19 -p0 -b .monitorfavorites
-#%patch20 -p0 -b .showonlydirectories
-#%patch21 -p0 -b .unwritable
-# upstream
-#%patch22 -p1 -b .profile
-#%patch24 -p1 -b .omf-encoding
-#%patch25 -p1 -b .pixbufcache
-# upstream
-#%patch26 -p1 -b .thumbnails
-#%patch27 -p0 -b .syncsomecvs
-#%patch28 -p1 -b .metafilerace
-#%patch29 -p1 -b .thumbnailspeed
-#%patch30 -p1 -b .trash
+%patch1 -p1 -b .rhconfig
+%patch2 -p0 -b .toplefticons
+%patch31 -p1 -b .starthere-hang-hackaround
 
 %build
 
-## some temporary hackage, take out next time we build
-if test -f %{_libdir}/libgailutil.so.13; then
-        echo "libgailutil.so.13 installed"
-        exit 1
-fi
-
-if test -f %{_libdir}/libgailutil.so.15; then
-        echo "libgailutil.so.15 installed"
-else
-        echo "No libgailutil.so.15"
-        exit 1
-fi
-
+libtoolize --force --copy
 CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings
 
-make
+LANG=en_US make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-%makeinstall
+LANG=en_US %makeinstall
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
+
+## these are in desktop-backgrounds-basic
+## (uncomment when we patch the source to look in the right place)
+## /bin/rm -rf $RPM_BUILD_ROOT%{_datadir}/nautilus/patterns
+
+desktop-file-install --vendor gnome --delete-original       \
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
+  --add-only-show-in GNOME                                  \
+  --add-category X-Red-Hat-Base                             \
+  $RPM_BUILD_ROOT%{_datadir}/applications/*
+
+rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+
+rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/starthere
+rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/serverconfig
+rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/sysconfig
 
 %find_lang %name
 
@@ -138,23 +126,74 @@ scrollkeeper-update
 
 %files  -f %{name}.lang
 %defattr(-,root,root)
-%doc AUTHORS COPYING COPYING-DOCS COPYING.LIB TRADEMARK_NOTICE ChangeLog NEWS README
+%doc AUTHORS COPYING COPYING-DOCS COPYING.LIB ChangeLog NEWS README
 
+%{_libexecdir}/*
 %{_libdir}/*.so.*
 %{_libdir}/*.so
+%{_libdir}/bonobo/*.so
 %{_libdir}/bonobo/servers
 %{_datadir}/gnome-2.0
 %{_datadir}/nautilus
+%{_datadir}/idl
 %{_datadir}/pixmaps
+%{_datadir}/applications
 #%{_datadir}/gnome
 #%{_datadir}/omf
 %{_bindir}/*
 %{_sysconfdir}/gconf/schemas/*
-%{_sysconfdir}/X11/*
-%{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*
 %{_includedir}/libnautilus
 
 %changelog
+* Thu Aug 15 2002 Alexander Larsson <alexl@redhat.com> 2.0.4-2
+- Add patch to fix the bug where desktop icons get
+  stuck in the top left corner on startup
+
+* Wed Aug 14 2002 Alexander Larsson <alexl@redhat.com> 2.0.4-1
+- 2.0.4
+
+* Tue Aug 13 2002 Havoc Pennington <hp@redhat.com>
+- obsolete nautilus-mozilla < 2.0 #69839
+
+* Mon Aug 12 2002 Havoc Pennington <hp@redhat.com>
+- add rhconfig patch to Bluecurve theme and disable sidebar by default
+
+* Wed Aug  7 2002 Havoc Pennington <hp@redhat.com>
+- drop start here files, require redhat-menus that has them
+
+* Tue Aug  6 2002 Havoc Pennington <hp@redhat.com>
+- 2.0.3
+
+* Sat Jul 27 2002 Havoc Pennington <hp@redhat.com>
+- build for new eel2, gail
+
+* Wed Jul 24 2002 Havoc Pennington <hp@redhat.com>
+- and add the libexec components, mumble
+
+* Wed Jul 24 2002 Havoc Pennington <hp@redhat.com>
+- put the components in the file list, were moved upstream
+
+* Tue Jul 23 2002 Havoc Pennington <hp@redhat.com>
+- 2.0.1
+
+* Thu Jun 27 2002 Owen Taylor <otaylor@redhat.com>
+- Relibtoolize to fix relink problems for solib components
+- Add LANG=en_US to %makeinstall as well
+- Back out previous change, force locale to en_US to prevent UTF-8 problems
+- Add workaround for intltool-merge bug on ia64
+
+* Fri Jun 21 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Sun Jun 16 2002 Havoc Pennington <hp@redhat.com>
+- 2.0.0
+- use desktop-file-install
+- require desktop-backgrounds-basic
+
+* Wed Jun 12 2002 Havoc Pennington <hp@redhat.com>
+- add wacky hack in hopes of fixing the hang-on-login thing
+
 * Sat Jun  8 2002 Havoc Pennington <hp@redhat.com>
 - add build requires on new gail
 - rebuild to try to lose broken libgailutil.so.13 dependency
