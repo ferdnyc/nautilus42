@@ -149,15 +149,11 @@ scrollkeeper-update
 %defattr(-,root,root)
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB ChangeLog NEWS README
 
-%{_libexecdir}/*
 %{_libdir}/*.so.*
 %{_libdir}/*.so
 %{_libdir}/nautilus
-%{_libdir}/bonobo/*.so
 %{_libdir}/bonobo/servers
-%{_datadir}/gnome-2.0
 %{_datadir}/nautilus
-%{_datadir}/idl
 %{_datadir}/pixmaps
 %{_datadir}/applications
 #%{_datadir}/gnome
@@ -165,9 +161,7 @@ scrollkeeper-update
 %{_bindir}/*
 %{_sysconfdir}/gconf/schemas/*
 %{_libdir}/pkgconfig/*
-%{_includedir}/libnautilus
 %{_includedir}/nautilus
-%{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
 * Tue Nov  9 2004 Marco Pesenti Gritti <mpg@redhat.com> - 2.8.1-5
