@@ -1,0 +1,59 @@
+Index: src/nautilus-shell-ui.xml
+===================================================================
+RCS file: /cvs/gnome/nautilus/src/nautilus-shell-ui.xml,v
+retrieving revision 1.115
+diff -u -p -r1.115 nautilus-shell-ui.xml
+--- src/nautilus-shell-ui.xml	29 Jul 2004 22:31:42 -0000	1.115
++++ src/nautilus-shell-ui.xml	7 Sep 2004 12:25:22 -0000
+@@ -40,6 +40,7 @@
+ 	<accel name="*Control*equal" verb="Zoom In"/>
+ 	<accel name="*Control**Shift*plus" verb="Zoom In"/>
+ 	<accel name="BackSpace" verb="Up"/>
++	<accel name="*Control*r" verb="Reload"/>
+ </keybindings>
+ 
+ <menu>
+Index: src/nautilus-spatial-window-ui.xml
+===================================================================
+RCS file: /cvs/gnome/nautilus/src/nautilus-spatial-window-ui.xml,v
+retrieving revision 1.12
+diff -u -p -r1.12 nautilus-spatial-window-ui.xml
+--- src/nautilus-spatial-window-ui.xml	29 Jul 2004 22:31:42 -0000	1.12
++++ src/nautilus-spatial-window-ui.xml	7 Sep 2004 12:25:22 -0000
+@@ -8,6 +8,7 @@
+ <keybindings>
+         <accel name="*Alt**Shift*Up" verb="UpCloseCurrent"/>
+ 	 <accel name="*Shift*BackSpace" verb="UpCloseCurrent"/>
++	 <accel name="*Alt*Home" verb="Home"/>
+ </keybindings>
+ <menu>
+ 	<submenu name="File">
+Index: src/file-manager/nautilus-directory-view-ui.xml
+===================================================================
+RCS file: /cvs/gnome/nautilus/src/file-manager/nautilus-directory-view-ui.xml,v
+retrieving revision 1.68
+diff -u -p -r1.68 nautilus-directory-view-ui.xml
+--- src/file-manager/nautilus-directory-view-ui.xml	12 Aug 2004 20:12:36 -0000	1.68
++++ src/file-manager/nautilus-directory-view-ui.xml	7 Sep 2004 12:25:22 -0000
+@@ -97,9 +97,21 @@
+ 	<accel name="KP_Delete" verb="Trash"/>
+ 	<accel name="Delete" verb="Trash"/>
+ 	<accel name="*Shift*KP_Delete" verb="Delete"/>
++	<accel name="*Shift*Delete" verb="Delete"/>
+         <accel name="*Alt*Down" verb="Open"/>
+         <accel name="*Alt**Shift*Down" verb="OpenCloseParent"/>
+ 	<accel name="*Control*i" verb="Properties"/>
++	<accel name="*Shift**Control*n" verb="New Folder"/>
++	<accel name="*Control*o" verb="Open"/>
++	<accel name="*Control**Shift*o" verb="OpenAlternate"/>
++	<accel name="*Alt*Return" verb="Properties"/>
++	<accel name="*Control*x" verb="Cut Files"/>
++	<accel name="*Control*c" verb="Copy Files"/>
++	<accel name="*Control*v" verb="Paste Files"/>
++	<accel name="*Control*m" verb="Create Link"/>
++	<accel name="F2" verb="Rename"/>
++	<accel name="*Control*a" verb="Select All"/>
++	<accel name="*Control*s" verb="Select Pattern"/>
+ </keybindings>
+ <menu>
+ 	<submenu name="File">

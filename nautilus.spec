@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.7.92
-Release: 	1
+Release: 	2
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -76,6 +76,8 @@ Obsoletes:      nautilus-mozilla < 2.0
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 
+Patch10:         nautilus-desktop-keynav.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -87,6 +89,8 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
+
+%patch10 -p0 -b .desktop-keynav
 
 %build
 
@@ -174,6 +178,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Tue Sep  7 2004 Alexander Larsson <alexl@redhat.com> - 2.7.92-2
+- Add patch to fix desktop keynav (#131894)
+
 * Tue Aug 31 2004 Alex Larsson <alexl@redhat.com> 2.7.92-1
 - update to 2.7.92
 
