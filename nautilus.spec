@@ -2,24 +2,24 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.1.2
 %define libgnomeui_version 2.1.0
-%define eel2_version 2.2.1
-%define gnome_icon_theme_version 0.1.5
+%define eel2_version 2.4.0
+%define gnome_icon_theme_version 1.0.2
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
 %define gail_version 0.17-2
 %define desktop_backgrounds_version 2.0-4
 %define desktop_file_utils_version 0.2.90
-%define gnome_desktop_version 2.1.2
+%define gnome_desktop_version 2.3.0
 %define redhat_menus_version 0.25
 %define redhat_artwork_version 0.41
-%define gnome_vfs2_version 2.1.5
+%define gnome_vfs2_version 2.3.6
 %define startup_notification_version 0.4
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.2.1
-Release:	5
-Copyright: 	GPL
+Version: 	2.4.0
+Release: 7
+License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
 
@@ -36,10 +36,9 @@ Requires:       gnome-vfs2 >= %{gnome_vfs2_version}
 Requires:       gnome-vfs2-extras
 Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
-Requires(post,postun): scrollkeeper >= 0.1.4
+PreReq:    scrollkeeper >= 0.1.4
 
 # Not technically required, but we want them on upgrades:
-Requires:	fontilus
 %ifnarch  s390 s390x
 Requires:	nautilus-cd-burner
 %endif
@@ -71,14 +70,10 @@ Obsoletes:      nautilus-mozilla < 2.0
 
 # Some changes to default config
 Patch1:         nautilus-2.0.3-rhconfig.patch
-# Integrate nautilus-cd-burner
-Patch2:	nautilus-2.1.5-cdburn.patch
-# Turn on ugly KDesktop detection hack
-Patch3:	nautilus-2.1.91-kdehack.patch
-Patch4:        nautilus-2.0.6-triple-click.patch
-Patch5:        nautilus-2.2.1-default-winsize.patch
-
-Patch10:        nautilus-cvs-2003-02-18.patch
+Patch2:        nautilus-2.2.3-tripleclick.patch
+Patch3:        nautilus-2.2.1-default-winsize.patch
+Patch4:        nautilus-2.4.0-cvsbackport.patch
+Patch5:        nautilus-2.4.0-kde.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -91,29 +86,33 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch2 -p0 -b .cdburn
-%patch3 -p1 -b .kdehack
-%patch4 -p1 -b .triple-click
-%patch5 -p0 -b .default-winsize
-%patch10 -p0 -b .cvs
+%patch2 -p1 -b .triple-click
+%patch3 -p0 -b .default-winsize
+%patch4 -p0 -b .cvsbackport
+%patch5 -p1 -b .kde
 
 %build
 
 libtoolize --force --copy
-CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings
+CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE" %configure --disable-more-warnings
 
+export tagname=CC
 LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-LANG=en_US %makeinstall
+export tagname=CC
+LANG=en_US %makeinstall LIBTOOL=/usr/bin/libtool
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 ## these are in desktop-backgrounds-basic
 ## (uncomment when we patch the source to look in the right place)
 ## /bin/rm -rf $RPM_BUILD_ROOT%{_datadir}/nautilus/patterns
+
+# make sure desktop files validate by ignoring sr@Latn
+perl -pi -e 's/sr\@Latn/sp/g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 desktop-file-install --vendor gnome --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
@@ -181,8 +180,74 @@ scrollkeeper-update
 %{_sysconfdir}/gconf/schemas/*
 %{_libdir}/pkgconfig/*
 %{_includedir}/libnautilus
+%{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Tue Oct 28 2003 Than Ngo <than@redhat.com> 2.4.0-7
+- fix start-here desktop file
+
+* Mon Oct 27 2003 Than Ngo <than@redhat.com> 2.4.0-6
+- rebuild against new librsvg2
+
+* Fri Oct  3 2003 Alexander Larsson <alexl@redhat.com> 2.4.0-5
+- Update cvs backport, now have the better desktop icon layout
+
+* Mon Sep 29 2003 Alexander Larsson <alexl@redhat.com> 2.4.0-4
+- Update cvs backport, fixes #105869
+
+* Fri Sep 19 2003 Alexander Larsson <alexl@redhat.com> 2.4.0-3
+- Backport bugfixes from the gnome-2-4 branch
+
+* Tue Sep 16 2003 Alexander Larsson <alexl@redhat.com> 2.4.0-2
+- Add patch that fixes crash when deleting in listview
+
+* Tue Sep  9 2003 Alexander Larsson <alexl@redhat.com> 2.4.0-1
+- 2.4.0
+
+* Thu Sep  4 2003 Alexander Larsson <alexl@redhat.com> 2.3.90-2
+- Add desktop icons patch
+
+* Tue Sep  2 2003 Alexander Larsson <alexl@redhat.com> 2.3.90-1
+- update to 2.3.90
+
+* Tue Aug 26 2003 Alexander Larsson <alexl@redhat.com> 2.3.9-1
+- update
+- Add patch to ignore kde desktop links
+- Re-enable kdesktop detection hack.
+  kde doesn't seem to support the manager selection yet
+
+* Wed Aug 20 2003 Alexander Larsson <alexl@redhat.com> 2.3.8-2
+- don't require fontilus
+
+* Mon Aug 18 2003 Alexander Larsson <alexl@redhat.com> 2.3.8-1
+- update to gnome 2.3
+
+* Wed Aug  6 2003 Elliot Lee <sopwith@redhat.com> 2.2.4-5
+- Fix libtool
+
+* Tue Jul  8 2003 Alexander Larsson <alexl@redhat.com> 2.2.4-4.E
+- Rebuild
+
+* Tue Jul  8 2003 Alexander Larsson <alexl@redhat.com> 2.2.4-4
+- Backport fixes from cvs
+- Change some default configurations
+
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Tue May 27 2003 Alexander Larsson <alexl@redhat.com> 2.2.4-2
+- Add performance increase backport
+- Add desktop manager selection backport
+
+* Mon May 19 2003 Alexander Larsson <alexl@redhat.com> 2.2.4-1
+- update to 2.2.4
+
+* Tue May  6 2003 Alexander Larsson <alexl@redhat.com> 2.2.3-2
+- Fix scrollkeeper pre-requires
+
+* Mon Mar 31 2003 Alexander Larsson <alexl@redhat.com> 2.2.3-1
+- Update to 2.2.3
+
 * Tue Feb 25 2003 Alexander Larsson <alexl@redhat.com> 2.2.1-5
 - Change the default new window size to fit in 800x600 (#85037)
 
