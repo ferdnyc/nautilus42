@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.3.2
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.7.4
+%define eel2_version 2.7.92
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
@@ -17,8 +17,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.7.4
-Release: 	3
+Version: 	2.7.92
+Release: 	1
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -76,8 +76,6 @@ Obsoletes:      nautilus-mozilla < 2.0
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 
-Patch2:         nautilus-cvs-backport.patch
-
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -89,7 +87,6 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch2 -p0 -b .cvs-backport
 
 %build
 
@@ -177,6 +174,9 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Tue Aug 31 2004 Alex Larsson <alexl@redhat.com> 2.7.92-1
+- update to 2.7.92
+
 * Thu Aug 26 2004 Alexander Larsson <alexl@redhat.com> - 2.7.4-3
 - Added requires eject
 - Depend on gnome-vfs2-smb instead of -extras
