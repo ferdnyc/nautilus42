@@ -1,13 +1,14 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	38
+Release: 	40
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
 Source2:        nautilus-redhat-theme.xml
 Source3:        desktop-folders.tar.gz
 Source4:        reset.png
+Source5:        nautilus-pofiles.tar.gz
 URL: 		http://nautilus.eazel.com/
 BuildRoot:	/var/tmp/%{name}-%{version}-root
 Requires:	glib >= 1.2.9
@@ -118,6 +119,9 @@ touch libnautilus-private/nautilus-desktop-file.h
 touch libnautilus-private/nautilus-desktop-file.c
 
 cp %{SOURCE4} data/patterns
+
+## unpack pofiles
+tar zxf %{SOURCE5}
 
 %patch1 -p1 -b .bookmarks
 %patch2 -p1 -b .new_theme
@@ -247,6 +251,12 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Fri Aug 31 2001 Havoc Pennington <hp@redhat.com>
+- Add po files from sources.redhat.com
+
+* Mon Aug 27 2001 Havoc Pennington <hp@redhat.com>
+- Add po files from sources.redhat.com
+
 * Thu Aug 23 2001 Alex Larsson <alexl@redhat.com> 1.0.4-38
 - Added patch to fix the .directory issuer
 
