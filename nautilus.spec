@@ -1,8 +1,8 @@
-%define glib2_version 2.3.0
+%define glib2_version 2.6.0
 %define pango_version 1.1.3
 %define gtk2_version 2.3.2
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.7.92
+%define eel2_version 2.9.90
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -16,8 +16,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.8.1
-Release: 	5
+Version: 	2.9.90
+Release: 	1
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -77,11 +77,6 @@ Obsoletes:      nautilus-mozilla < 2.0
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 
-Patch10:         nautilus-2.8.1-mime-mismatch-open.patch
-Patch11:         nautilus-2.8.1-url-links-filename.patch
-Patch12:         nautilus-2.8.1-no-app.patch
-Patch13:         nautilus-2.8.1-throbber.patch
-
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -93,11 +88,6 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-
-%patch10 -p0 -b .mime-mismatch-open
-%patch11 -p0 -b .url-links-filename
-%patch12 -p0 -b .no-app
-%patch13 -p0 -b .throbber
 
 %build
 
