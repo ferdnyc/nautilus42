@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.6
-Release: 	15
+Release: 	16
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}.tar.gz
@@ -97,6 +97,7 @@ Patch28:        nautilus-1.0.6-metafilerace.patch
 Patch29:        nautilus-1.0.6-thumbnailspeed.patch
 Patch30:        nautilus-1.0.6-trash.patch
 Patch31:	nautilus-1.0.6-fixperms.patch
+Patch32:        nautilus-1.0.4-moz-1.0.1.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -119,7 +120,7 @@ files to allow you to develop Nautilus components.
 Summary: Nautilus component for use with Mozilla
 Group: User Interface/Desktops
 Requires:       %name = %{version}
-Requires:	mozilla >= 0.9.7
+Requires:	mozilla >= 1.0.1
 Conflicts:	mozilla = M18
 Conflicts:	mozilla = M17
 Conflicts:      mozilla <= 0.9.6
@@ -155,6 +156,7 @@ tar zxf %{SOURCE5}
 %patch29 -p1 -b .thumbnailspeed
 %patch30 -p1 -b .trash
 %patch31 -p1 -b .fixperms
+%patch32 -p1 -b .moz-1.0.1
 
 ## replace help component with 1.0.5 version
 /bin/rm -r components/help
@@ -276,6 +278,9 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Fri Sep 13 2002 Christopher Blizzard <blizzard@redhat.com>1.0.6-16
+- Fixes for mozilla 1.0.1
+
 * Fri Apr 19 2002 Jonathan Blandford <jrb@redhat.com>
 - Fix permissions on .nautilus-metafile.xml
 
