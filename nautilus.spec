@@ -1,8 +1,8 @@
 %define glib2_version 2.3.0
 %define pango_version 1.1.3
 %define gtk2_version 2.3.2
-%define libgnomeui_version 2.1.0
-%define eel2_version 2.5.5
+%define libgnomeui_version 2.5.3
+%define eel2_version 2.5.91
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
@@ -17,14 +17,14 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.5.6
-Release: 1
+Version: 	2.5.91
+Release:	2
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
-BuildRoot:	/var/tmp/%{name}-%{version}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 Requires:	fam
 Requires:       filesystem >= 2.1.1-1
@@ -57,7 +57,7 @@ BuildRequires:  gnome-vfs2-devel >= %{gnome_vfs2_version}
 BuildRequires:	fam-devel
 BuildRequires:  librsvg2
 BuildRequires:  intltool
-BuildRequires:  XFree86-libs >= 4.2.99
+BuildRequires:  XFree86-devel
 BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
@@ -73,7 +73,7 @@ Provides:       nautilus-devel
 Obsoletes:      nautilus-mozilla < 2.0
 
 # Some changes to default config
-Patch1:         nautilus-2.0.3-rhconfig.patch
+Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:        nautilus-2.4.0-kde.patch
 
 %description
@@ -90,9 +90,6 @@ GNOME desktop project.
 %patch2 -p1 -b .kde
 
 %build
-
-#workaround broken perl-XML-Parser on 64bit arches
-export PERL5LIB=/usr/lib64/perl5/vendor_perl/5.8.2:/usr/lib64/perl5/vendor_perl/5.8.0
 
 libtoolize --force --copy
 CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE" %configure --disable-more-warnings
@@ -137,10 +134,7 @@ rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/starthere
 rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/serverconfig
 rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/sysconfig
 
-# Remove nautilus-server-connect, as it depends on editable vfolders
-# and breaks badly without them
-rm $RPM_BUILD_ROOT%{_bindir}/nautilus-server-connect
-rm $RPM_BUILD_ROOT%{_datadir}/gnome/network/nautilus-server-connect.desktop
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0
 
 %find_lang %name
 
@@ -168,6 +162,7 @@ scrollkeeper-update
 %{_libexecdir}/*
 %{_libdir}/*.so.*
 %{_libdir}/*.so
+%{_libdir}/nautilus
 %{_libdir}/bonobo/*.so
 %{_libdir}/bonobo/servers
 %{_datadir}/gnome-2.0
@@ -185,6 +180,31 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Tue Mar 16 2004 Mike A. Harrisn <mharris@redhat.com> 2.5.91-2
+- Changed BuildRequires: XFree86-libs >= 4.2.99 to BuildRequires: XFree86-devel
+- Fixed BuildRoot to use _tmppath instead of /var/tmp
+
+* Mon Mar 15 2004 Alex Larsson <alexl@redhat.com> 2.5.91-1
+- update to 2.5.91
+
+* Mon Mar  8 2004 Alexander Larsson <alexl@redhat.com> 2.5.90-1
+- update to 2.5.90
+
+* Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Wed Feb 25 2004 Alexander Larsson <alexl@redhat.com>
+- update libgnomeui required version to 2.5.3 (#116229)
+
+* Tue Feb 24 2004 Alexander Larsson <alexl@redhat.com> 2.5.8-1
+- update to 2.5.8
+
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Fri Feb 13 2004 Alexander Larsson <alexl@redhat.com> 2.5.7-1
+- update to 2.5.7
+
 * Fri Jan 30 2004 Alexander Larsson <alexl@redhat.com> 2.5.6-1
 - update to 2.5.6
 
