@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.0.6
-Release:        4
+Release:        5
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -69,8 +69,8 @@ Patch5:         nautilus-2.0.5-left-margin.patch
 # owner, don't open new windows.
 Patch7:         nautilus-2.0.5-disablemountwindow.patch
 Patch8:         nautilus-2.0.6-cdloopback.patch
-## this patch didn't work.
-Patch9:         nautilus-2.0.6-html-hack.patch
+## should be upstream bugzilla.redhat.com #70667
+Patch9:         nautilus-2.0.6-assertions.patch
 
 # this patch is because libc had something wrong with it in 
 # an early beta; safe to remove later.
@@ -94,8 +94,7 @@ GNOME desktop project.
 %patch5 -p1 -b .left-margin
 %patch7 -p1 -b .disablemountwindow
 %patch8 -p0 -b .cdloopback
-# didn't work
-#%patch9 -p1 -b .html-hack
+%patch9 -p1 -b .assertions
 %patch31 -p1 -b .starthere-hang-hackaround
 %patch42 -p1 -b .triple-click
 %patch43 -p1 -b .dblclickfix
@@ -177,6 +176,10 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Mon Sep  2 2002 Havoc Pennington <hp@redhat.com>
+- fix #70667 assertion failures
+- fix triple click patch
+
 * Mon Sep  2 2002 Jonathan Blandford <jrb@redhat.com>
 - don't activate on double click
 
