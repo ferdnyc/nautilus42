@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.3.2
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.9.90
+%define eel2_version 2.9.91
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
