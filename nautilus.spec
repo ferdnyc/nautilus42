@@ -66,6 +66,7 @@ BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel
+BuildRequires:  gettext
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
 
