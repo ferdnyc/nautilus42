@@ -16,7 +16,7 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.9.90
+Version: 	2.9.91
 Release: 	1
 License: 	GPL
 Group:          User Interface/Desktops
@@ -164,6 +164,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Fri Feb 11 2005 Matthias Clasen <mclasen@redhat.com> - 2.9.91-1
+- Update to 2.9.91
+
 * Tue Nov  9 2004 Marco Pesenti Gritti <mpg@redhat.com> - 2.8.1-5
 - Remove eog dependency. The bonobo component is no more used.
 
