@@ -1,11 +1,14 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.6
-Release: 	3
+Release: 	14
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}.tar.gz
 Source2:        nautilus-redhat-theme.xml
+Source3:        nautilus-1.0.5-help.tar.gz
+Source4:        hack-macros.tar.gz
+Source5:        nautilus-pofiles.tar.gz
 URL: 		http://nautilus.eazel.com/
 BuildRoot:	/var/tmp/%{name}-%{version}-root
 Requires:	glib >= 1.2.9
@@ -35,6 +38,7 @@ Requires:	hwbrowser
 Requires:	nautilus-mozilla
 %endif
 
+
 PreReq:         scrollkeeper >= 0.1.4
 
 BuildRequires:	glib-devel >= 1.2.9
@@ -59,12 +63,15 @@ BuildRequires:	libpng-devel
 BuildRequires:	control-center-devel >= 1.3
 BuildRequires:	librsvg-devel >= 1.0.1
 BuildRequires:	eel-devel >= 1.0.2
-BuildRequires:	mozilla-devel >= 0.9.6
 BuildRequires:	xpdf >= 0.90
 BuildRequires:	fam-devel
-BuildRequires:	automake
+BuildRequires:	/usr/bin/automake-1.4
 BuildRequires:	autoconf
 BuildRequires:  librsvg
+BuildRequires:  intltool
+
+## doesn't work because of ia64
+## BuildRequires:	mozilla-devel >= 0.9.8
 
 Obsoletes: nautilus-extras
 Obsoletes: nautilus-suggested
@@ -81,6 +88,14 @@ Patch19:        nautilus-1.0.5-monitorfavorites.patch
 Patch20:        nautilus-1.0.5-showonlydirectories.patch
 Patch21:        nautilus-1.0.5-unwritable.patch
 Patch22:	nautilus-1.0.6-mozilla-profile-startup.patch
+Patch23:        nautilus-1.0.6-ac25.patch
+Patch24:        nautilus-1.0.6-omf-encoding.patch
+Patch25:        nautilus-1.0.6-pixbufcache.patch
+Patch26:        nautilus-1.0.6-thumbnails.patch
+Patch27:        nautilus-1.0.6-syncsomecvs.patch
+Patch28:        nautilus-1.0.6-metafilerace.patch
+Patch29:        nautilus-1.0.6-thumbnailspeed.patch
+Patch30:        nautilus-1.0.6-trash.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -98,6 +113,7 @@ Requires:	%name = %{version}
 This package provides the necessary development libraries and include
 files to allow you to develop Nautilus components.
 
+%ifarch i386 alpha
 %package mozilla
 Summary: Nautilus component for use with Mozilla
 Group: User Interface/Desktops
@@ -109,10 +125,13 @@ Conflicts:      mozilla <= 0.9.6
 
 %description mozilla
 This enables the use of embedded Mozilla as a Nautilus component.
-
+%endif
 
 %prep
 %setup -q -n %{name}-%{version}
+
+# unpack translations
+tar zxf %{SOURCE5}
 
 %patch1 -p0 -b .bookmarks
 %patch2 -p1 -b .new_theme
@@ -124,12 +143,35 @@ This enables the use of embedded Mozilla as a Nautilus component.
 %patch19 -p0 -b .monitorfavorites
 %patch20 -p0 -b .showonlydirectories
 %patch21 -p0 -b .unwritable
-%patch22 -p1 -b .profile
+# upstream
+#%patch22 -p1 -b .profile
+%patch24 -p1 -b .omf-encoding
+%patch25 -p1 -b .pixbufcache
+# upstream
+#%patch26 -p1 -b .thumbnails
+%patch27 -p0 -b .syncsomecvs
+%patch28 -p1 -b .metafilerace
+%patch29 -p1 -b .thumbnailspeed
+%patch30 -p1 -b .trash
+
+## replace help component with 1.0.5 version
+/bin/rm -r components/help
+tar zxf %{SOURCE3}
+
+## unpack 
+
+# so we don't get the wrong libpng or have gcc whining
+perl -pi -e 's@-I\$\(includedir\)[^/]?@@g' `find -name Makefile.am`
+# put back for Milan
+#perl -pi -e 's/-lpng/-lpng10/g' configure.in
+#perl -pi -e 's/AC_CHECK_LIB\(png/AC_CHECK_LIB\(png10/g' configure.in
 
 %build
 
+tar zxf %{SOURCE4}
+aclocal-1.4 -I hack-macros
 autoheader
-automake
+automake-1.4
 autoconf
 CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings
 
@@ -221,18 +263,45 @@ scrollkeeper-update
 %files devel
 %defattr(-,root,root)
 %{_libdir}/libnautilus.so
-%{_libdir}/*.la
-%{_libdir}/vfs/modules/*.la
 %{_libdir}/*.sh
 %{_bindir}/nautilus-config
 %{_includedir}/libnautilus
 
+%ifarch i386 alpha
 %files mozilla
 %defattr(-,root,root)
 %{_bindir}/nautilus-mozilla-content-view
-%{_datadir}/oaf/Nautilus_View_mozilla.oaf
+%endif
 
 %changelog
+* Mon Apr 15 2002 Havoc Pennington <hp@redhat.com>
+- merge translations
+
+* Thu Apr  4 2002 Alex Larsson <alexl@redhat.com>
+- Add patch to fix trash crash
+
+* Mon Apr  1 2002 Havoc Pennington <hp@redhat.com>
+- fix for metadata tmp race
+- backport thumbnail speed fix and thumbnail inf. loop fix
+
+* Mon Mar 25 2002 Havoc Pennington <hp@redhat.com>
+- add some fixes from CVS version, including one for #61819 and a couple segfaults
+
+* Wed Mar 20 2002 Havoc Pennington <hp@redhat.com>
+- fix thumbnails for files with future timestamp, #56862
+
+* Mon Mar 11 2002 Havoc Pennington <hp@redhat.com>
+- buildrequires intltool #60633
+- apply Alex's pixbuf cache patch to save a few megs #60581
+
+* Wed Feb 27 2002 Havoc Pennington <hp@redhat.com>
+- drop Milan-specific features, including png10 and ac25 patches
+- copy in 1.0.5 help component to avoid large risky patch
+- remove .la files
+- drop mozilla from ia64 again
+- remove oaf file from nautilus-mozilla that was also in the base 
+  package
+
 * Mon Jan 28 2002 Bill Nottingham <notting@redhat.com>
 - enable mozilla support on ia64
 
