@@ -500,7 +500,7 @@ scrollkeeper-update
 
 * Thu Jun 27 2002 Owen Taylor <otaylor@redhat.com>
 - Relibtoolize to fix relink problems for solib components
-- Add LANG=en_US to %makeinstall as well
+- Add LANG=en_US to %%makeinstall as well
 - Back out previous change, force locale to en_US to prevent UTF-8 problems
 - Add workaround for intltool-merge bug on ia64
 
@@ -786,15 +786,15 @@ scrollkeeper-update
 * Tue Apr 17 2001 Gregory Leblanc <gleblanc@grego1.cu-portland.edu>
 - Added BuildRequires lines
 - Changed Source to point to ftp.gnome.org instead of just the tarball name
-- Moved %description sections closer to their %package sections
-- Moved %changelog to the end, where so that it's not in the way
+- Moved %%description sections closer to their %package sections
+- Moved %%changelog to the end, where so that it's not in the way
 - Changed configure and make install options to allow moving of
   libraries, includes, binaries more easily
-- Removed hard-coded paths (don't define %prefix or %docdir)
-- replace %{prefix}/bin with %{_bindir}
-- replace %{prefix}/share with %{_datadir}
-- replace %{prefix}/lib with %{_libdir}
-- replace %{prefix}/include with %{_includedir}
+- Removed hard-coded paths (don't define %%prefix or %%docdir)
+- replace %%{prefix}/bin with %%{_bindir}
+- replace %%{prefix}/share with %%{_datadir}
+- replace %%{prefix}/lib with %%{_libdir}
+- replace %%{prefix}/include with %%{_includedir}
 
 * Tue Oct 10 2000 Robin Slomkowski <rslomkow@eazel.com>
 - removed obsoletes from sub packages and added mozilla and trilobite
