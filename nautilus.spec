@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	43
+Release: 	43b
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -32,7 +32,6 @@ Requires:	eel >= 1.0.1-10
 Requires:       indexhtml
 Requires:	fam
 Requires:       filesystem >= 2.1.1-1
-Requires:	hwbrowser
 
 %ifarch i386 alpha
 Requires:	nautilus-mozilla
@@ -83,6 +82,8 @@ Patch13:	nautilus-1.0.4-bghack.patch
 Patch16:        nautilus-1.0.4-norootwarning.patch
 Patch17:        nautilus-snap-directory.patch
 Patch18:        nautilus-1.0.4-removeicons.patch
+# Fix for scrollkeeper segfault on S390
+Patch20:        nautilus-1.0.4-scrollkeeper.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -99,17 +100,6 @@ Requires:	%name = %{version}
 %description devel
 This package provides the necessary development libraries and include
 files to allow you to develop Nautilus components.
-
-%package mozilla
-Summary: Nautilus component for use with Mozilla
-Group: User Interface/Desktops
-Requires:       %name = %{version}
-Requires:	mozilla >= 0.9.2-10
-Conflicts:	mozilla = M18
-Conflicts:	mozilla = M17
-
-%description mozilla
-This enables the use of embedded Mozilla as a Nautilus component.
 
 
 %prep
@@ -133,6 +123,7 @@ tar zxf %{SOURCE5}
 %patch16 -p0 -b .norootwarning
 %patch17 -p1 -b .directory
 %patch18 -p1 -b .removeicons
+%patch20 -p1 -b .scrollkeeper
 
 ## desktop-folders
 tar zxf %{SOURCE3}
@@ -141,7 +132,7 @@ tar zxf %{SOURCE3}
 autoheader
 automake
 autoconf
-%ifarch ia64
+%ifarch ia64 s390 s390x
 CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings --disable-mozilla-component
 %else
 CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings
@@ -245,13 +236,6 @@ scrollkeeper-update
 %{_libdir}/*.sh
 %{_bindir}/nautilus-config
 %{_includedir}/libnautilus
-
-%ifnarch ia64
-%files mozilla
-%defattr(-,root,root)
-%{_bindir}/nautilus-mozilla-content-view
-%{_datadir}/oaf/Nautilus_View_mozilla.oaf
-%endif
 
 %changelog
 * Thu Sep  6 2001 Owen Taylor <otaylor@redhat.com>
