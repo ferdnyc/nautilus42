@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.6.0
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.10.0
+%define eel2_version 2.10.0-2
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -17,7 +17,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.10.0
-Release: 	2
+Release: 	3
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -73,9 +73,12 @@ Obsoletes:      nautilus-suggested
 Obsoletes:      nautilus-devel
 Provides:       nautilus-devel
 Obsoletes:      nautilus-mozilla < 2.0
+Obsoletes:      nautilus-media
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
+
+Patch10:        nautilus-2.10.0-desktop-memory-saver.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -88,6 +91,8 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
+
+%patch10 -p0 -b .desktop-memory-saver
 
 %build
 
@@ -164,6 +169,10 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Sun Apr  3 2005 David Zeuthen <davidz@redhat.com> 2.10.0-3
+- Include patches for desktop background memory saving (GNOME bug #169347)
+- Obsoletes: nautilus-media (#153223)
+
 * Mon Mar 28 2005 Matthias Clasen <mclasen@redhat.com> 2.10.0-2
 - Rebuild against newer libexif
 
