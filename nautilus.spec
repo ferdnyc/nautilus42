@@ -1,20 +1,15 @@
-# Note that this is NOT a relocatable package
-%define name		nautilus
-%define ver		1.0.3
-%define RELEASE		4
-%define rel		%{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
-
-Name:		%name
-Vendor:		Eazel Inc.
-Distribution:	Eazel 1.0.3
-Summary:	Nautilus is a network user environment
-Version: 	%ver
-Release: 	%rel
+Name:		nautilus
+Summary: Nautilus is a network user environment
+Version: 	1.0.4
+Release: 	33
 Copyright: 	GPL
-Group:		User Interface/Desktop
-Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{ver}.tar.gz
+Group: User Interface/Desktops
+Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
+Source2:        nautilus-redhat-theme.xml
+Source3:        desktop-folders.tar.gz
+Source4:        reset.png
 URL: 		http://nautilus.eazel.com/
-BuildRoot:	/var/tmp/%{name}-%{ver}-root
+BuildRoot:	/var/tmp/%{name}-%{version}-root
 Requires:	glib >= 1.2.9
 Requires:	gtk+ >= 1.2.9
 Requires:	imlib >= 1.9.8
@@ -23,7 +18,7 @@ Requires:	gnome-libs >= 1.2.11
 Requires:	GConf >= 0.12
 Requires:	ORBit >= 0.5.7
 Requires:	oaf >= 0.6.5
-Requires:	gnome-vfs >= 1.0.1
+Requires:	gnome-vfs >= 1.0.1-13
 Requires:	gdk-pixbuf >= 0.10.0
 Requires:	bonobo >= 0.37
 Requires:	popt >= 1.5
@@ -32,9 +27,15 @@ Requires:	esound >= 0.2.22
 Requires:	libpng
 Requires:	control-center >= 1.3
 Requires:	librsvg >= 1.0.0
-Requires:	eel >= 1.0
-Requires:	ammonite >= 1.0.2
+Requires:	eel >= 1.0.1-10
 Requires:       indexhtml
+Requires:	fam
+Requires:       filesystem >= 2.1.1-1
+Requires:	hwbrowser
+
+%ifarch i386 alpha
+Requires:	nautilus-mozilla
+%endif
 
 PreReq:         scrollkeeper >= 0.1.4
 
@@ -42,11 +43,14 @@ BuildRequires:	glib-devel >= 1.2.9
 BuildRequires:	gtk+-devel >= 1.2.9
 BuildRequires:	imlib-devel >= 1.9.8
 BuildRequires:	libxml-devel >= 1.8.10
+BuildRequires:  gnome-print-devel
+BuildRequires:  libghttp-devel
 BuildRequires:	gnome-libs-devel >= 1.2.11
 BuildRequires:	GConf-devel >= 0.12
 BuildRequires:	ORBit-devel >= 0.5.7
 BuildRequires:	oaf-devel >= 0.6.5
-BuildRequires:	gnome-vfs-devel >= 1.0.1
+BuildRequires:  gnome-core-devel
+BuildRequires:	gnome-vfs-devel >= 1.0.1-4
 BuildRequires:	gdk-pixbuf-devel >= 0.10.0
 BuildRequires:	bonobo-devel >= 0.37
 BuildRequires:	popt >= 1.5
@@ -56,38 +60,48 @@ BuildRequires:	scrollkeeper >= 0.1.4
 BuildRequires:	libpng-devel
 BuildRequires:	control-center-devel >= 1.3
 BuildRequires:	librsvg-devel >= 1.0.0
-BuildRequires:	eel-devel >= 1.0
-BuildRequires:	mozilla-devel >= 0.8
+BuildRequires:	eel-devel >= 1.0.1-8
+#This is commented out becaus RPM doesn't support ifarch BuildRequires
+#BuildRequires:	mozilla-devel >= 0.9.2-10
 BuildRequires:	xpdf >= 0.90
-ExcludeArch:    ia64
+BuildRequires:	fam-devel
+BuildRequires:	automake
+BuildRequires:	autoconf
+BuildRequires:  librsvg
+
 Obsoletes: nautilus-extras
 Obsoletes: nautilus-suggested
 
 Patch1: 	nautilus-1.0.3-bookmarks.patch
 Patch2:		nautilus-1.0.3-new_theme.patch
 Patch3:		nautilus-1.0.3-no-dialog.patch
+Patch4:         nautilus-1.0.3.2-useredhattheme.patch
+Patch8:		nautilus-1.0.4-noflash.patch
+# Fixes and hacks for more efficient desktop backgrounds
+Patch13:	nautilus-1.0.4-bghack.patch
+Patch16:        nautilus-1.0.4-norootwarning.patch
 
 %description
-Nautilus integrates access to files, applications, media, Internet-based
-resources and the Web.  Nautilus delivers a dynamic and rich user
-experience.  Nautilus is an free software project developed under the
-GNU General Public License and is a core component of the GNOME desktop
-project.
+Nautilus integrates access to files, applications, media,
+Internet-based resources and the Web. Nautilus delivers a dynamic and
+rich user experience. Nautilus is an free software project developed
+under the GNU General Public License and is a core component of the
+GNOME desktop project.
 
 %package devel
-Summary:	Libraries and include files for developing Nautilus components
-Group:		Development/Libraries
-Requires:	%name = %{PACKAGE_VERSION}
+Summary: Libraries and include files for developing Nautilus components
+Group: Development/Libraries
+Requires:	%name = %{version}
 
 %description devel
 This package provides the necessary development libraries and include
 files to allow you to develop Nautilus components.
 
 %package mozilla
-Summary:        Nautilus component for use with Mozilla
-Group:          User Interface/Desktop
-Requires:       %name = %{PACKAGE_VERSION}
-Requires:	mozilla >= 0.8
+Summary: Nautilus component for use with Mozilla
+Group: User Interface/Desktops
+Requires:       %name = %{version}
+Requires:	mozilla >= 0.9.2-10
 Conflicts:	mozilla = M18
 Conflicts:	mozilla = M17
 
@@ -96,13 +110,34 @@ This enables the use of embedded Mozilla as a Nautilus component.
 
 
 %prep
-%setup
+%setup -q -n %{name}-%{version}-snapshot
+
+## give us something to patch
+touch libnautilus-private/nautilus-desktop-file.h
+touch libnautilus-private/nautilus-desktop-file.c
+
+cp %{SOURCE4} data/patterns
+
 %patch1 -p1 -b .bookmarks
 %patch2 -p1 -b .new_theme
 %patch3 -p1 -b .no-dialog
+%patch4 -p1 -b .useredhattheme
+%patch8 -p1 -b .noflash
+%patch13 -p1 -b .bghack
+%patch16 -p0 -b .norootwarning
+
+## desktop-folders
+tar zxf %{SOURCE3}
 
 %build
-%configure --disable-more-warnings
+autoheader
+automake
+autoconf
+%ifarch ia64
+CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings --disable-mozilla-component
+%else
+CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings
+%endif
 
 make
 
@@ -111,23 +146,36 @@ make
 
 %makeinstall
 
+## Dynamically create Red Hat theme which is just the GNOME theme 
+## with some small tweaks 
+mkdir -p $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat
+cp -a $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/gnome/* \
+      $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat
+cp -af $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/sidebar_tab_pieces/* \
+      $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/sidebar_tab_pieces
+rm $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/gnome.xml
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/redhat.xml
+
+(cd desktop-folders && DESTDIR=$RPM_BUILD_ROOT ./run-install.sh)
+
+%find_lang %name
+
 %clean
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
 %post
-if ! grep %{_libdir} /etc/ld.so.conf > /dev/null ; then
-	echo "%{_libdir}" >> /etc/ld.so.conf
-fi
 /sbin/ldconfig
 scrollkeeper-update
 
-%postun -p /sbin/ldconfig
+%postun
+/sbin/ldconfig
 scrollkeeper-update
 
-%files
-
-%defattr(0555, bin, bin)
+%files  -f %{name}.lang
+%defattr(-,root,root)
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB TRADEMARK_NOTICE ChangeLog NEWS README
+%config /etc/X11/*/*.desktop
+%config /etc/X11/*/.directory
 %{_bindir}/nautilus-clean.sh
 %{_bindir}/nautilus-verify-rpm.sh
 %{_bindir}/nautilus-restore-settings-to-default.sh
@@ -162,24 +210,20 @@ scrollkeeper-update
 %{_libdir}/libnautilus-tree-view.so.0.0.0
 %{_libdir}/libnautilus.so.0
 %{_libdir}/libnautilus.so.0.0.0
-%{_libdir}/libnautilus-adapter.so
-%{_libdir}/libnautilus-private.so
 %{_libdir}/libnautilus-tree-view.so
-%{_libdir}/libnautilus.so
 
 
 
 %{_libdir}/vfs/modules/*.so
 
 
-%defattr (0444, bin, bin)
 %config %{_sysconfdir}/vfs/modules/*.conf
 %config %{_sysconfdir}/CORBA/servers/nautilus-launcher-applet.gnorba
 %{_datadir}/gnome/apps/Applications/*.desktop
 %{_datadir}/gnome/ui/*.xml
 %{_datadir}/nautilus/components/hyperbola/maps/*.map
 %{_datadir}/nautilus/components/hyperbola/*.xml
-%{_datadir}/locale/*/LC_MESSAGES/*.mo
+%{_datadir}/nautilus/*.desktop
 %{_datadir}/nautilus/*.xml
 %{_datadir}/nautilus/emblems/*.png
 %{_datadir}/nautilus/linksets/*.xml
@@ -188,33 +232,7 @@ scrollkeeper-update
 %{_datadir}/nautilus/patterns/.*.png
 %{_datadir}/nautilus/services/text/*.xml
 %{_datadir}/pixmaps/*.png
-%{_datadir}/pixmaps/nautilus/*.gif
-%{_datadir}/pixmaps/nautilus/*.png
-%{_datadir}/pixmaps/nautilus/*.svg
-%{_datadir}/pixmaps/nautilus/*.xml
-%{_datadir}/pixmaps/nautilus/tahoe/*.png
-%{_datadir}/pixmaps/nautilus/tahoe/*.xml
-%{_datadir}/pixmaps/nautilus/crux_teal/*.png
-%{_datadir}/pixmaps/nautilus/crux_teal/*.xml
-%{_datadir}/pixmaps/nautilus/crux_teal/throbber/*.png
-%{_datadir}/pixmaps/nautilus/crux_teal/backgrounds/*.png
-%{_datadir}/pixmaps/nautilus/crux_teal/sidebar_tab_pieces/*.png
-%{_datadir}/pixmaps/nautilus/crux_eggplant/*.png
-%{_datadir}/pixmaps/nautilus/crux_eggplant/*.xml
-%{_datadir}/pixmaps/nautilus/crux_eggplant/throbber/*.png
-%{_datadir}/pixmaps/nautilus/crux_eggplant/backgrounds/*.png
-%{_datadir}/pixmaps/nautilus/crux_eggplant/sidebar_tab_pieces/*.png
-%{_datadir}/pixmaps/nautilus/eazel-logos/*.png
-%{_datadir}/pixmaps/nautilus/eazel-logos/*.xml
-#%{_datadir}/pixmaps/nautilus/eazel-logos/throbber/*.png
-%{_datadir}/pixmaps/nautilus/eazel-logos/LICENSE
-%{_datadir}/pixmaps/nautilus/gnome/*.png
-%{_datadir}/pixmaps/nautilus/gnome/*.xml
-%{_datadir}/pixmaps/nautilus/gnome/throbber/*.png
-%{_datadir}/pixmaps/nautilus/sidebar_tab_pieces/*.png
-%{_datadir}/pixmaps/nautilus/throbber/*.png
-%{_datadir}/pixmaps/nautilus/sierra/*.xml
-%{_datadir}/pixmaps/nautilus/sierra/*.png
+%{_datadir}/pixmaps/nautilus
 %{_datadir}/oaf/Nautilus_View_help.oaf
 %{_datadir}/oaf/Nautilus_ComponentAdapterFactory_std.oaf
 %{_datadir}/oaf/Nautilus_View_content-loser.oaf
@@ -230,32 +248,162 @@ scrollkeeper-update
 %{_datadir}/oaf/Nautilus_View_tree.oaf
 %{_datadir}/oaf/Nautilus_shell.oaf
 %{_datadir}/oaf/Nautilus_Control_throbber.oaf
-
-%defattr (-, root, root)
 %{_datadir}/gnome/help
 %{_datadir}/omf/nautilus
 
 %files devel
-
-%defattr(0555, bin, bin)
+%defattr(-,root,root)
+%{_libdir}/libnautilus.so
 %{_libdir}/*.la
 %{_libdir}/vfs/modules/*.la
 %{_libdir}/*.sh
 %{_bindir}/nautilus-config
+%{_includedir}/libnautilus
 
-%defattr(0444, bin, bin)
-%{_includedir}/libnautilus/*.h
-
+%ifnarch ia64
 %files mozilla
-
-%defattr(0555, bin, bin)
+%defattr(-,root,root)
 %{_bindir}/nautilus-mozilla-content-view
-
-%defattr(0444, bin, bin)
 %{_datadir}/oaf/Nautilus_View_mozilla.oaf
-
+%endif
 
 %changelog
+* Tue Aug 14 2001 Owen Taylor <otaylor@redhat.com>
+- Fix problem with missing desktop starthere.desktop file
+- New snapshot from our branch, fixes:
+  - On upgrade, icons migrated from GNOME desktop are not properly lined up
+    (#51436)
+  - icons dropped on the desktop don't end up where dropped. (#51441)
+  - Nautilus shouldn't have fam monitor read-only windows. This
+    keeps CDROMS from being unmounted until you close all
+
+    nautilus windows pointing to them. (#51442)
+  - Warnings about 'cannot statfs...' when moving items to trash.
+- Use separate start-here.desktop for panel, since the one used
+  for the root window only works from Nautilus.
+
+* Fri Aug 10 2001 Alexander Larsson <alexl@redhat.com>
+- Changed starthere .desktop files to be links instead
+- of spawning a new nautilus. This makes start-here:
+- much faster.
+
+* Thu Aug  9 2001 Alexander Larsson <alexl@redhat.com>
+- Added hwbrowser dependency
+- New snapshot, fixes the mozilla-view submit form problem
+
+* Wed Aug  8 2001 Jonathan Blandford <jrb@redhat.com>
+- Rebuild with new xml-i18n-tools
+- fix crash in creating new desktop files
+
+* Tue Aug  7 2001 Jonathan Blandford <jrb@redhat.com>
+- Fix up DnD code some more
+
+* Thu Aug 02 2001 Havoc Pennington <hp@redhat.com>
+- Sync our CVS version; fixes some MUSTFIX
+  (the one about drawing background on startup, 
+   properly translate desktop files, etc.)
+
+* Wed Aug  1 2001 Alexander Larsson <alexl@redhat.com> 1.0.4-24
+- Fix 64bit cleanness issue
+- Fix NULL mimetype crash
+- Disable additional_text for .desktop files
+
+* Tue Jul 31 2001 Alexander Larsson <alexl@redhat.com> 1.0.4-23
+- Fix unmounting devices.
+
+* Tue Jul 31 2001 Alexander Larsson <alexl@redhat.com> 1.0.4-22
+- Make it depend on gnome-vfs-1.0.1-13. Needed for .desktop
+- mimetype sniffing.
+
+* Mon Jul 30 2001 Alexander Larsson <alexl@redhat.com> 1.0.4-21
+- Remove the "don't run as root" warning.
+- Remove eazel from bookmarks
+- langified (again? did someone change it?)
+
+* Fri Jul 27 2001 Alexander Larsson <alexl@redhat.com>
+- Apply a patch that makes nautilus dnd reset work with the latest
+- eel release.
+
+* Thu Jul 26 2001 Alexander Larsson <alexl@redhat.com>
+- Build on ia64 without the mozilla component.
+
+* Wed Jul 25 2001 Havoc Pennington <hp@redhat.com>
+- Fix crash-on-startup showstopper
+- Fix can't-find-images bug (this one was only showing up
+  when built with debug symbols, since it was an uninitialized memory
+  read)
+
+* Tue Jul 24 2001 Havoc Pennington <hp@redhat.com>
+- sync new tarball from our CVS branch, 
+  fixes some drag-and-drop, changes URI scheme names,
+  etc.
+
+* Tue Jul 24 2001 Owen Taylor <otaylor@redhat.com>
+- Add BuildRequires (#49539, 49537)
+- Fix %%post, %%postun (#49720)
+- Background efficiency improvements and hacks
+
+* Fri Jul 13 2001 Alexander Larsson <alexl@redhat.com>
+- Don't launch esd on each mouseover.
+
+* Wed Jul 11 2001 Havoc Pennington <hp@redhat.com>
+- move first time druid patch into my "CVS outstanding" patch
+- try to really remove Help/Feedback
+- try to really fix Help/Community Support
+- try again to get Start Here in the Go menu
+- try again to get Start Here on the desktop
+- don't show file sizes for .desktop files
+
+* Tue Jul 10 2001 Havoc Pennington <hp@redhat.com>
+- add newline to ends of .desktop files that were missing them
+
+* Tue Jul 10 2001 Havoc Pennington <hp@redhat.com>
+- update to my latest 'cvs diff -u' (adds default 
+  Start Here link, displays .directory name in sidebar)
+- include /etc/X11/* links (starthere, sysconfig, serverconfig)
+
+* Tue Jul 10 2001 Jonathan Blandford <jrb@redhat.com>
+- Patch to remove firsttime druid and flash
+
+* Mon Jul 09 2001 Havoc Pennington <hp@redhat.com>
+- add hacks for displaying desktop files
+- add hack to turn off the "unwriteable" emblem
+
+* Sun Jul  8 2001 Tim Powers <timp@redhat.com>
+- added defattr to the files lists to be (-,root,root)
+- languified
+
+* Sat Jul  7 2001 Alexander Larsson <alexl@redhat.com>
+- Need to run autoheader too.
+
+* Fri Jul  6 2001 Alexander Larsson <alexl@redhat.com>
+- Make the fam dependency a real runtime dependency
+- by linking to libfam (nautilus-1.0.4-fam-lib.patch)
+- Cleaned up specfile.
+
+* Fri Jul  6 2001 Alexander Larsson <alexl@redhat.com>
+- Change default background and rubberband color.
+- Use the sidebar tabs from the default theme
+- BuildDepend on fam-devel, depend on fam
+- Disable the eazel update pages in the first-time druid.
+- Remove the eazel logo from the first-time druid
+
+* Thu Jul 05 2001 Havoc Pennington <hp@redhat.com>
+- 1.0.4, removes eazel services icon and wizard page
+- Eazel logo is still in startup wizard for now, needs fixing
+
+* Tue Jul 03 2001 Havoc Pennington <hp@redhat.com>
+- fix group (s/Desktop/Desktops/) #47134
+- remove ammonite dependency
+
+* Wed Jun 27 2001 Havoc Pennington <hp@redhat.com>
+- add a different default theme
+- clean up file list overspecificity a bit
+
+* Tue Jun 26 2001 Havoc Pennington <hp@redhat.com>
+- move to a CVS snapshot of nautilus for now
+  (Darin is my hero for having distcheck work out of CVS)
+
 * Thu May 10 2001 Jonathan Blandford <jrb@redhat.com>
 - clean up defaults a bit
 
