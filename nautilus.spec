@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	40
+Release: 	41
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -226,6 +226,7 @@ scrollkeeper-update
 %config %{_sysconfdir}/vfs/modules/*.conf
 %config %{_sysconfdir}/CORBA/servers/nautilus-launcher-applet.gnorba
 %{_datadir}/gnome/apps/Applications/*.desktop
+%{_datadir}/gnome/apps/*.desktop
 %{_datadir}/gnome/ui
 %{_datadir}/nautilus
 %{_datadir}/pixmaps/*.png
@@ -251,6 +252,9 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Tue Sep  4 2001 Havoc Pennington <hp@redhat.com>
+- put nautilus-help.desktop in file list; #53109
+
 * Fri Aug 31 2001 Havoc Pennington <hp@redhat.com>
 - Add po files from sources.redhat.com
 
