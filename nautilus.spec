@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.0.6
-Release:        3
+Release:        4
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -77,6 +77,7 @@ Patch9:         nautilus-2.0.6-html-hack.patch
 Patch31:        nautilus-1.1.19-starthere-hang-hackaround.patch
 
 Patch42:        nautilus-2.0.6-triple-click.patch
+Patch43:        nautilus-2.0.6-dblclickfix.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -97,6 +98,7 @@ GNOME desktop project.
 #%patch9 -p1 -b .html-hack
 %patch31 -p1 -b .starthere-hang-hackaround
 %patch42 -p1 -b .triple-click
+%patch43 -p1 -b .dblclickfix
 
 if test -f components/music/mpg123.c ; then
         echo "Must run %{SOURCE2} on upstream tarball prior to creating the SRPM"
@@ -175,6 +177,9 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Mon Sep  2 2002 Jonathan Blandford <jrb@redhat.com>
+- don't activate on double click
+
 * Sat Aug 31 2002 Havoc Pennington <hp@redhat.com>
 - put button press mask in triple-click patch, maybe it will work
 - remove html-hack patch as it does nothing useful
