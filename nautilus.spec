@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.7.4
-Release: 	2
+Release: 	3
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -33,10 +33,11 @@ Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       redhat-artwork >= %{redhat_artwork_version}
 Requires:       gnome-vfs2 >= %{gnome_vfs2_version}
-Requires:       gnome-vfs2-extras
+Requires:       gnome-vfs2-smb
 Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif
+Requires: 	eject
 PreReq:    scrollkeeper >= 0.1.4
 
 # Not technically required, but we want them on upgrades:
@@ -176,6 +177,10 @@ scrollkeeper-update
 %{_datadir}/control-center-2.0/capplets/nautilus-file-management-properties.desktop
 
 %changelog
+* Thu Aug 26 2004 Alexander Larsson <alexl@redhat.com> - 2.7.4-3
+- Added requires eject
+- Depend on gnome-vfs2-smb instead of -extras
+
 * Tue Aug 24 2004 Alexander Larsson <alexl@redhat.com> - 2.7.4-2
 - backport cvs fixes, including default view fix
 
