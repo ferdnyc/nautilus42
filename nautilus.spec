@@ -1,14 +1,11 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
-Version: 	1.0.4
-Release: 	48
+Version: 	1.0.6
+Release: 	3
 Copyright: 	GPL
 Group: User Interface/Desktops
-Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
+Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}.tar.gz
 Source2:        nautilus-redhat-theme.xml
-Source3:        desktop-folders.tar.gz
-Source4:        reset.png
-Source5:        nautilus-pofiles.tar.gz
 URL: 		http://nautilus.eazel.com/
 BuildRoot:	/var/tmp/%{name}-%{version}-root
 Requires:	glib >= 1.2.9
@@ -19,16 +16,16 @@ Requires:	gnome-libs >= 1.2.11
 Requires:	GConf >= 0.12
 Requires:	ORBit >= 0.5.7
 Requires:	oaf >= 0.6.5
-Requires:	gnome-vfs >= 1.0.1-13
-Requires:	gdk-pixbuf >= 0.14.0
-Requires:	bonobo >= 0.37
+Requires:	gnome-vfs >= 1.0.3
+Requires:	gdk-pixbuf >= 0.10.0
+Requires:	bonobo >= 1.0.9
 Requires:	popt >= 1.5
 Requires:	freetype >= 2.0.1
 Requires:	esound >= 0.2.22
 Requires:	libpng
 Requires:	control-center >= 1.3
-Requires:	librsvg >= 1.0.0
-Requires:	eel >= 1.0.1-10
+Requires:	librsvg >= 1.0.1
+Requires:	eel >= 1.0.2
 Requires:       indexhtml
 Requires:	fam
 Requires:       filesystem >= 2.1.1-1
@@ -51,19 +48,18 @@ BuildRequires:	GConf-devel >= 0.12
 BuildRequires:	ORBit-devel >= 0.5.7
 BuildRequires:	oaf-devel >= 0.6.5
 BuildRequires:  gnome-core-devel
-BuildRequires:	gnome-vfs-devel >= 1.0.1-4
-BuildRequires:	gdk-pixbuf-devel >= 0.14.0
-BuildRequires:	bonobo-devel >= 0.37
+BuildRequires:	gnome-vfs-devel >= 1.0.3
+BuildRequires:	gdk-pixbuf-devel >= 0.10.0
+BuildRequires:	bonobo-devel >= 1.0.9
 BuildRequires:	popt >= 1.5
 BuildRequires:	freetype-devel >= 2.0.1
 BuildRequires:	esound-devel >= 0.2.22
 BuildRequires:	scrollkeeper >= 0.1.4
 BuildRequires:	libpng-devel
 BuildRequires:	control-center-devel >= 1.3
-BuildRequires:	librsvg-devel >= 1.0.0
-BuildRequires:	eel-devel >= 1.0.1-8
-#This is commented out becaus RPM doesn't support ifarch BuildRequires
-#BuildRequires:	mozilla-devel >= 0.9.2-10
+BuildRequires:	librsvg-devel >= 1.0.1
+BuildRequires:	eel-devel >= 1.0.2
+BuildRequires:	mozilla-devel >= 0.9.6
 BuildRequires:	xpdf >= 0.90
 BuildRequires:	fam-devel
 BuildRequires:	automake
@@ -73,23 +69,18 @@ BuildRequires:  librsvg
 Obsoletes: nautilus-extras
 Obsoletes: nautilus-suggested
 
-Patch1: 	nautilus-1.0.3-bookmarks.patch
-Patch2:		nautilus-1.0.3-new_theme.patch
+Patch1: 	nautilus-1.0.5-bookmarks.patch
+Patch2:		nautilus-1.0.5-new_theme.patch
 Patch3:		nautilus-1.0.3-no-dialog.patch
 Patch4:         nautilus-1.0.3.2-useredhattheme.patch
 Patch8:		nautilus-1.0.4-noflash.patch
 # Fixes and hacks for more efficient desktop backgrounds
-Patch13:	nautilus-1.0.4-bghack.patch
+Patch13:	nautilus-1.0.5-bghack.patch
 Patch16:        nautilus-1.0.4-norootwarning.patch
-Patch17:        nautilus-snap-directory.patch
-Patch18:        nautilus-1.0.4-removeicons.patch
-Patch19:	nautilus-1.0.4-newmozilla.patch
-Patch20:	nautilus-1.0.4-1.0.6-mozilla.patch
-Patch21:        nautilus-1.0.6-metafilerace.patch
-Patch22:        nautilus-1.0.4-noglobalmetadata.patch
-Patch23:        nautilus-1.0.6-fixperms.patch
-Patch24:        nautilus-1.0.4-moz-1.0.1.patch
-Patch25:	nautilus-1.0.4-pixbuf-0.14.0.patch
+Patch19:        nautilus-1.0.5-monitorfavorites.patch
+Patch20:        nautilus-1.0.5-showonlydirectories.patch
+Patch21:        nautilus-1.0.5-unwritable.patch
+Patch22:	nautilus-1.0.6-mozilla-profile-startup.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -111,64 +102,38 @@ files to allow you to develop Nautilus components.
 Summary: Nautilus component for use with Mozilla
 Group: User Interface/Desktops
 Requires:       %name = %{version}
-Requires:	mozilla >= 1.0.1
+Requires:	mozilla >= 0.9.7
 Conflicts:	mozilla = M18
 Conflicts:	mozilla = M17
+Conflicts:      mozilla <= 0.9.6
 
 %description mozilla
 This enables the use of embedded Mozilla as a Nautilus component.
 
 
 %prep
-%setup -q -n %{name}-%{version}-snapshot
+%setup -q -n %{name}-%{version}
 
-## give us something to patch
-touch libnautilus-private/nautilus-desktop-file.h
-touch libnautilus-private/nautilus-desktop-file.c
-
-cp %{SOURCE4} data/patterns
-
-## unpack pofiles
-tar zxf %{SOURCE5}
-
-%patch1 -p1 -b .bookmarks
+%patch1 -p0 -b .bookmarks
 %patch2 -p1 -b .new_theme
 %patch3 -p1 -b .no-dialog
 %patch4 -p1 -b .useredhattheme
 %patch8 -p1 -b .noflash
 %patch13 -p1 -b .bghack
 %patch16 -p0 -b .norootwarning
-%patch17 -p1 -b .directory
-%patch18 -p1 -b .removeicons
-%patch19 -p1 -b .sopwith
-%patch20 -p1 -b .1.0.6-mozilla
-%patch21 -p1 -b .metafilerace
-%patch22 -p1 -b .noglobalmetadata
-%patch23 -p1 -b .fixperms
-%patch24 -p1 -b .moz-1.0.1
-%patch25 -p1 -b .pixbuf-0.14.0
-
-## desktop-folders
-tar zxf %{SOURCE3}
+%patch19 -p0 -b .monitorfavorites
+%patch20 -p0 -b .showonlydirectories
+%patch21 -p0 -b .unwritable
+%patch22 -p1 -b .profile
 
 %build
+
 autoheader
 automake
 autoconf
-%ifarch ia64
-CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings --disable-mozilla-component
-%else
 CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings
-%endif
 
-# Hack things so that a build with smp_mflags will be more likely to work
-make -C libnautilus nautilus_view_component_idl_stamp \
-	 nautilus_distributed_undo_idl_stamp
-make -C libnautilus-adapter nautilus_adapter_factory_idl_stamp
-make -C libnautilus-private nautilus_metafile_server_idl_stamp
-make -C src nautilus_shell_interface_idl_stamp
-
-make %{?_smp_mflags}
+make
 
 %install
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
@@ -184,8 +149,6 @@ cp -af $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/sidebar_tab_pieces/* \
       $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/sidebar_tab_pieces
 rm $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/gnome.xml
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/redhat.xml
-
-(cd desktop-folders && DESTDIR=$RPM_BUILD_ROOT ./run-install.sh)
 
 %find_lang %name
 
@@ -241,10 +204,7 @@ scrollkeeper-update
 %{_libdir}/libnautilus.so.0.0.0
 %{_libdir}/libnautilus-tree-view.so
 
-
-
 %{_libdir}/vfs/modules/*.so
-
 
 %config %{_sysconfdir}/vfs/modules/*.conf
 %config %{_sysconfdir}/CORBA/servers/nautilus-launcher-applet.gnorba
@@ -267,33 +227,24 @@ scrollkeeper-update
 %{_bindir}/nautilus-config
 %{_includedir}/libnautilus
 
-%ifnarch ia64
 %files mozilla
 %defattr(-,root,root)
 %{_bindir}/nautilus-mozilla-content-view
 %{_datadir}/oaf/Nautilus_View_mozilla.oaf
-%endif
 
 %changelog
-* Fri Sep 13 2002 Christopher Blizzard <blizzard@redhat.com>
-- Update for mozilla 1.0.1 
+* Mon Jan 28 2002 Bill Nottingham <notting@redhat.com>
+- enable mozilla support on ia64
 
-* Thu May  9 2002 Christopher Blizzard <blizzard@redhat.com>
-- Rebuild for 7.2 errata.
+* Fri Dec 28 2001 Christopher Blizzard <blizzard@redhat.com>
+- require Mozilla 0.9.7
+- Add patch that puts mozilla profile startup before embedding is initialized
 
-* Mon Apr 29 2002 Havoc Pennington <hp@redhat.com>
-- port patch to use mode 600 even for metadata stored in homedir
+* Tue Nov 20 2001 Havoc Pennington <hp@redhat.com>
+- 1.0.6, require Mozilla 0.9.6
 
-* Sun Apr 28 2002 Havoc Pennington <hp@redhat.com>
-- port patch to totally disable global metadata
-
-* Mon Apr 15 2002 Havoc Pennington <hp@redhat.com>
-- backport patch for metafile race condition
-
-* Wed Mar 27 2002 Elliot Lee <sopwith@redhat.com> 1.0.4-43.1
-- Patch19 - build with mozilla 0.9.9
-- Patch20 - finish building with mozilla 0.9.9 by patching to the
-  1.0.6 mozilla component
+* Tue Oct 23 2001 Alex Larsson <alexl@redhat.com>
+- Update to 1.0.5
 
 * Thu Sep  6 2001 Owen Taylor <otaylor@redhat.com>
 - Fix handling of GnomeVFSFileInfo structure (#53315)
