@@ -1,7 +1,7 @@
 Name:		nautilus
 Summary: Nautilus is a network user environment
 Version: 	1.0.4
-Release: 	34
+Release: 	38
 Copyright: 	GPL
 Group: User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}-snapshot.tar.gz
@@ -80,6 +80,7 @@ Patch8:		nautilus-1.0.4-noflash.patch
 # Fixes and hacks for more efficient desktop backgrounds
 Patch13:	nautilus-1.0.4-bghack.patch
 Patch16:        nautilus-1.0.4-norootwarning.patch
+Patch17:        nautilus-snap-directory.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -125,6 +126,7 @@ cp %{SOURCE4} data/patterns
 %patch8 -p1 -b .noflash
 %patch13 -p1 -b .bghack
 %patch16 -p0 -b .norootwarning
+%patch17 -p0 -b .directory
 
 ## desktop-folders
 tar zxf %{SOURCE3}
@@ -220,34 +222,11 @@ scrollkeeper-update
 %config %{_sysconfdir}/vfs/modules/*.conf
 %config %{_sysconfdir}/CORBA/servers/nautilus-launcher-applet.gnorba
 %{_datadir}/gnome/apps/Applications/*.desktop
-%{_datadir}/gnome/ui/*.xml
-%{_datadir}/nautilus/components/hyperbola/maps/*.map
-%{_datadir}/nautilus/components/hyperbola/*.xml
-%{_datadir}/nautilus/*.desktop
-%{_datadir}/nautilus/*.xml
-%{_datadir}/nautilus/emblems/*.png
-%{_datadir}/nautilus/linksets/*.xml
-%{_datadir}/nautilus/patterns/*.jpg
-%{_datadir}/nautilus/patterns/*.png
-%{_datadir}/nautilus/patterns/.*.png
-%{_datadir}/nautilus/services/text/*.xml
+%{_datadir}/gnome/ui
+%{_datadir}/nautilus
 %{_datadir}/pixmaps/*.png
 %{_datadir}/pixmaps/nautilus
-%{_datadir}/oaf/Nautilus_View_help.oaf
-%{_datadir}/oaf/Nautilus_ComponentAdapterFactory_std.oaf
-%{_datadir}/oaf/Nautilus_View_content-loser.oaf
-%{_datadir}/oaf/Nautilus_View_hardware.oaf
-%{_datadir}/oaf/Nautilus_View_history.oaf
-%{_datadir}/oaf/Nautilus_View_image.oaf
-%{_datadir}/oaf/Nautilus_View_music.oaf
-%{_datadir}/oaf/Nautilus_View_news.oaf
-%{_datadir}/oaf/Nautilus_View_notes.oaf
-%{_datadir}/oaf/Nautilus_View_sample.oaf
-%{_datadir}/oaf/Nautilus_View_sidebar-loser.oaf
-%{_datadir}/oaf/Nautilus_View_text.oaf
-%{_datadir}/oaf/Nautilus_View_tree.oaf
-%{_datadir}/oaf/Nautilus_shell.oaf
-%{_datadir}/oaf/Nautilus_Control_throbber.oaf
+%{_datadir}/oaf
 %{_datadir}/gnome/help
 %{_datadir}/omf/nautilus
 
@@ -268,6 +247,27 @@ scrollkeeper-update
 %endif
 
 %changelog
+* Thu Aug 23 2001 Alex Larsson <alexl@redhat.com> 1.0.4-38
+- Added patch to fix the .directory issuer
+
+* Thu Aug 23 2001 Havoc Pennington <hp@redhat.com>
+- I screwed up the build yesterday, so it didn't actually contain the
+  fixes mentioned. This build should contain them.
+
+* Wed Aug 22 2001 Havoc Pennington <hp@redhat.com>
+- fix bug causing 32000 stats or so in large directories, 
+  should speed things up somewhat
+- fix #52104 via gruesome kdesktop-detection hack and setting
+  window type hint on our desktop window
+- fix so Start Here icon displays in sidebar
+- don't load non-local .desktop files
+
+* Mon Aug 20 2001 Havoc Pennington <hp@redhat.com>
+- make Programs icon into a link, to match the other .desktop files
+- own various directories #51164
+- web page titles in Japanese, #51709
+- tree defaults to only directories #51850
+
 * Wed Aug 15 2001 Havoc Pennington <hp@redhat.com>
 - make start here icon work again
 - kill some warning spew, #51661
