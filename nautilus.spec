@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.0.4
-Release:        2
+Release:        3
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
@@ -55,6 +55,8 @@ Obsoletes:      nautilus-mozilla < 2.0
 
 Patch1:         nautilus-2.0.3-rhconfig.patch
 Patch2:         nautilus-2.0.4-toplefticons.patch
+## http://bugzilla.gnome.org/show_bug.cgi?id=90882
+Patch3:         nautilus-2.0.4-fix-key-name.patch
 
 # this patch is because libc had something wrong with it in 
 # an early beta; safe to remove later.
@@ -72,6 +74,7 @@ GNOME desktop project.
 
 %patch1 -p1 -b .rhconfig
 %patch2 -p0 -b .toplefticons
+%patch3 -p1 -b .fix-key-name
 %patch31 -p1 -b .starthere-hang-hackaround
 
 %build
