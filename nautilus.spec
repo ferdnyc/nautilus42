@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.1.2
 %define libgnomeui_version 2.1.0
-%define eel2_version 2.1.5
+%define eel2_version 2.2.1
 %define gnome_icon_theme_version 0.1.5
 %define libxml2_version 2.4.20
 %define eog_version 1.0.0
@@ -16,29 +16,34 @@
 %define startup_notification_version 0.4
 
 Name:		nautilus
-Summary:        Nautilus is a file manager for GNOME
-Version: 	2.1.5
-Release:        2a
+Summary:        Nautilus is a file manager for GNOME.
+Version: 	2.2.1
+Release:	5
 Copyright: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
 
-## this is used to mangle the upstream tarball.
-Source2:        nautilus-remove-music-view.sh
-
-URL: 		http://www.gnome.org
+URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	/var/tmp/%{name}-%{version}-root
 
 Requires:	fam
 Requires:       filesystem >= 2.1.1-1
 Requires:       eog >= %{eog_version}
-PreReq:         scrollkeeper >= 0.1.4
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       redhat-artwork >= %{redhat_artwork_version}
 Requires:       gnome-vfs2 >= %{gnome_vfs2_version}
+Requires:       gnome-vfs2-extras
 Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
+Requires(post,postun): scrollkeeper >= 0.1.4
+
+# Not technically required, but we want them on upgrades:
+Requires:	fontilus
+%ifnarch  s390 s390x
+Requires:	nautilus-cd-burner
+%endif
+
 
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
@@ -52,7 +57,7 @@ BuildRequires:  gnome-vfs2-devel >= %{gnome_vfs2_version}
 BuildRequires:	fam-devel
 BuildRequires:  librsvg2
 BuildRequires:  intltool
-BuildRequires:  Xft
+BuildRequires:  XFree86-libs >= 4.2.99
 BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
@@ -64,16 +69,16 @@ Obsoletes:      nautilus-devel
 Provides:       nautilus-devel
 Obsoletes:      nautilus-mozilla < 2.0
 
+# Some changes to default config
 Patch1:         nautilus-2.0.3-rhconfig.patch
-## should be upstream bugzilla.redhat.com #70667
-Patch9:         nautilus-2.0.6-assertions.patch
-# Make weblinks launch a browser, somewhat of a badhack
-Patch10:	nautilus-weblink-badhack.patch
 # Integrate nautilus-cd-burner
-Patch11:	nautilus-2.1.5-cdburn.patch
+Patch2:	nautilus-2.1.5-cdburn.patch
+# Turn on ugly KDesktop detection hack
+Patch3:	nautilus-2.1.91-kdehack.patch
+Patch4:        nautilus-2.0.6-triple-click.patch
+Patch5:        nautilus-2.2.1-default-winsize.patch
 
-Patch42:        nautilus-2.0.6-triple-click.patch
-Patch43:        nautilus-2.0.6-dblclickfix.patch
+Patch10:        nautilus-cvs-2003-02-18.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -86,23 +91,18 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch9 -p1 -b .assertions
-#%patch10 -p0 -b .weblinks
-%patch11 -p0 -b .cdburn
-%patch42 -p1 -b .triple-click
-#%patch43 -p1 -b .dblclickfix
-
-if test -f components/music/mpg123.c ; then
-        echo "Must run %{SOURCE2} on upstream tarball prior to creating the SRPM"
-        exit 1
-fi
+%patch2 -p0 -b .cdburn
+%patch3 -p1 -b .kdehack
+%patch4 -p1 -b .triple-click
+%patch5 -p0 -b .default-winsize
+%patch10 -p0 -b .cvs
 
 %build
 
 libtoolize --force --copy
 CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings
 
-LANG=en_US make
+LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -121,12 +121,26 @@ desktop-file-install --vendor gnome --delete-original       \
   --add-category X-Red-Hat-Base                             \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
 
+## Munge Garrett's icons into some desktop files. The upstream 
+## desktop files seem to have really weird Icon= files.
+perl -pi -e 's/gnome-fs-folder/redhat-file-manager.png/g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
+perl -pi -e 's@document-icons/i-network.png@redhat-system-group.png@g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
+perl -pi -e 's/network:/smb:/g' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-network-scheme.desktop
+
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+
+rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.a
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 
 rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/starthere
 rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/serverconfig
 rm -r $RPM_BUILD_ROOT%{_sysconfdir}/X11/sysconfig
+
+# Remove nautilus-server-connect, as it depends on editable vfolders
+# and breaks badly without them
+rm $RPM_BUILD_ROOT%{_bindir}/nautilus-server-connect
+rm $RPM_BUILD_ROOT%{_datadir}/gnome/network/nautilus-server-connect.desktop
 
 %find_lang %name
 
@@ -157,7 +171,6 @@ scrollkeeper-update
 %{_libdir}/bonobo/*.so
 %{_libdir}/bonobo/servers
 %{_datadir}/gnome-2.0
-%{_datadir}/gnome
 %{_datadir}/nautilus
 %{_datadir}/idl
 %{_datadir}/pixmaps
@@ -170,6 +183,79 @@ scrollkeeper-update
 %{_includedir}/libnautilus
 
 %changelog
+* Tue Feb 25 2003 Alexander Larsson <alexl@redhat.com> 2.2.1-5
+- Change the default new window size to fit in 800x600 (#85037)
+
+* Thu Feb 20 2003 Alexander Larsson <alexl@redhat.com>
+- Require gnome-vfs2-extras, since network menu item uses it (#84145)
+
+* Tue Feb 18 2003 Alexander Larsson <alexl@redhat.com>
+- Update to the latest bugfixes from cvs.
+- Fixes #84291 for nautilus, context menu duplication and some other small bugs.
+
+* Thu Feb 13 2003 Alexander Larsson <alexl@redhat.com> 2.2.1-2
+- Add a patch to fix the forkbomb-under-kde bug (#81520)
+- Add a patch to fix thumbnail memory leak
+- require libXft.so.2 instead of Xft, since that changed in the XFree86 package
+
+* Tue Feb 11 2003 Alexander Larsson <alexl@redhat.com> 2.2.1-1
+- 2.2.1, lots of bugfixes
+
+* Fri Jan 31 2003 Alexander Larsson <alexl@redhat.com> 2.2.0.2-2
+- remove nautilus-server-connect since it broke without editable vfolders
+
+* Fri Jan 31 2003 Alexander Larsson <alexl@redhat.com> 2.2.0.2-1
+- Update to 2.2.0.2, fixes bg crasher
+- parallelize build
+- Added patch from cvs that fixes password hang w/ smb
+
+* Thu Jan 23 2003 Alexander Larsson <alexl@redhat.com> 2.2.0.1-1
+- Update to 2.2.0.1
+
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com> 2.2.0-2
+- rebuilt
+
+* Tue Jan 21 2003 Alexander Larsson <alexl@redhat.com> 2.2.0-1
+- update to 2.2.0
+
+* Fri Jan 17 2003 Alexander Larsson <alexl@redhat.com> 2.1.91-8
+- Add requirement on fontilus and nautilus-cd-burner to get them
+  on an upgrade.
+
+* Fri Jan 17 2003 Alexander Larsson <alexl@redhat.com> 2.1.91-7
+- Added patch to enable the look for kde desktop hack
+- Removed patches that were fixed upstream
+
+* Fri Jan 17 2003 Alexander Larsson <alexl@redhat.com> 2.1.91-6
+- Removed the requirement of nautilus-cd-burner, since
+  that is now on by default in comps
+
+* Thu Jan 16 2003 Alexander Larsson <alexl@redhat.com> 2.1.91-5
+- Require(post,postun) scrollkeeper (#67340)
+- Add dot to end of summary
+
+* Tue Jan 14 2003 Havoc Pennington <hp@redhat.com> 2.1.91-4
+- use system-group.png not network-server.png for "Network Servers"
+
+* Tue Jan 14 2003 Alexander Larsson <alexl@redhat.com> 2.1.91-3
+- Correct filename in last change
+
+* Tue Jan 14 2003 Alexander Larsson <alexl@redhat.com> 2.1.91-2
+- change the network menu item to go to smb:
+
+* Tue Jan 14 2003 Alexander Larsson <alexl@redhat.com> 2.1.91-1
+- Update to 2.1.91
+- Updated URL
+
+* Tue Jan 14 2003 Havoc Pennington <hp@redhat.com>
+- perl-munge the icon names in a couple desktop files
+  to find redhat-network-server.png and redhat-file-manager.png.
+  Upstream icon names here were weird and seem broken. 
+
+* Thu Jan  9 2003 Alexander Larsson <alexl@redhat.com>
+- 2.1.6
+- Removed mp3 stripping script. Thats gone upstream now.
+
 * Wed Dec 18 2002 Alexander Larsson <alexl@redhat.com> 2.1.5-2
 - Add cdburn patch.
 - Remove nautilus-1.1.19-starthere-hang-hackaround.patch
