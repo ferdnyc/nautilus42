@@ -1,80 +1,43 @@
+%define glib2_version 2.0.0
+%define gtk2_version 2.0.2
+%define libgnomeui_version 1.117.2
+%define eel2_version 1.1.17
+%define libxml2_version 2.4.20
+%define eog_version 0.118.0-4
+%define gail_version 0.15
+
 Name:		nautilus
-Summary: Nautilus is a network user environment
-Version: 	1.0.6
-Release: 	16
+Summary:        Nautilus is a file manager for GNOME
+Version: 	1.1.19
+Release:        3
 Copyright: 	GPL
-Group: User Interface/Desktops
-Source: 	ftp://ftp.gnome.org/pub/GNOME/stable/sources/%{name}-%{version}.tar.gz
-Source2:        nautilus-redhat-theme.xml
-Source3:        nautilus-1.0.5-help.tar.gz
-Source4:        hack-macros.tar.gz
-Source5:        nautilus-pofiles.tar.gz
-URL: 		http://nautilus.eazel.com/
+Group:          User Interface/Desktops
+Source: 	ftp://ftp.gnome.org/pub/GNOME/pre-gnome2/sources/%{name}-%{version}.tar.bz2
+
+URL: 		http://www.gnome.org
 BuildRoot:	/var/tmp/%{name}-%{version}-root
-Requires:	glib >= 1.2.9
-Requires:	gtk+ >= 1.2.9
-Requires:	imlib >= 1.9.8
-Requires:	libxml >= 1.8.10
-Requires:	gnome-libs >= 1.2.11
-Requires:	GConf >= 0.12
-Requires:	ORBit >= 0.5.7
-Requires:	oaf >= 0.6.5
-Requires:	gnome-vfs >= 1.0.3
-Requires:	gdk-pixbuf >= 0.10.0
-Requires:	bonobo >= 1.0.9
-Requires:	popt >= 1.5
-Requires:	freetype >= 2.0.1
-Requires:	esound >= 0.2.22
-Requires:	libpng
-Requires:	control-center >= 1.3
-Requires:	librsvg >= 1.0.1
-Requires:	eel >= 1.0.2
-Requires:       indexhtml
+
 Requires:	fam
 Requires:       filesystem >= 2.1.1-1
-Requires:	hwbrowser
-
-%ifarch i386 alpha
-Requires:	nautilus-mozilla
-%endif
-
-
+Requires:       eog >= %{eog_version}
 PreReq:         scrollkeeper >= 0.1.4
 
-BuildRequires:	glib-devel >= 1.2.9
-BuildRequires:	gtk+-devel >= 1.2.9
-BuildRequires:	imlib-devel >= 1.9.8
-BuildRequires:	libxml-devel >= 1.8.10
-BuildRequires:  gnome-print-devel
-BuildRequires:  libghttp-devel
-BuildRequires:	gnome-libs-devel >= 1.2.11
-BuildRequires:	GConf-devel >= 0.12
-BuildRequires:	ORBit-devel >= 0.5.7
-BuildRequires:	oaf-devel >= 0.6.5
-BuildRequires:  gnome-core-devel
-BuildRequires:	gnome-vfs-devel >= 1.0.3
-BuildRequires:	gdk-pixbuf-devel >= 0.10.0
-BuildRequires:	bonobo-devel >= 1.0.9
-BuildRequires:	popt >= 1.5
-BuildRequires:	freetype-devel >= 2.0.1
-BuildRequires:	esound-devel >= 0.2.22
-BuildRequires:	scrollkeeper >= 0.1.4
-BuildRequires:	libpng-devel
-BuildRequires:	control-center-devel >= 1.3
-BuildRequires:	librsvg-devel >= 1.0.1
-BuildRequires:	eel-devel >= 1.0.2
-BuildRequires:	xpdf >= 0.90
+BuildRequires:	glib2-devel >= %{glib2_version}
+BuildRequires:	gtk2-devel >= %{gtk2_version}
+BuildRequires:	libgnomeui-devel >= %{libgnomeui_version}
+BuildRequires:	libxml2-devel >= %{libxml2_version}
+BuildRequires:  eel2-devel >= %{eel2_version}
+BuildRequires:  gail-devel >= %{gail_version}
 BuildRequires:	fam-devel
 BuildRequires:	/usr/bin/automake-1.4
 BuildRequires:	autoconf
-BuildRequires:  librsvg
+BuildRequires:  librsvg2
 BuildRequires:  intltool
 
-## doesn't work because of ia64
-## BuildRequires:	mozilla-devel >= 0.9.8
-
-Obsoletes: nautilus-extras
-Obsoletes: nautilus-suggested
+Obsoletes:      nautilus-extras
+Obsoletes:      nautilus-suggested
+Obsoletes:      nautilus-devel
+Provides:       nautilus-devel
 
 Patch1: 	nautilus-1.0.5-bookmarks.patch
 Patch2:		nautilus-1.0.5-new_theme.patch
@@ -96,8 +59,6 @@ Patch27:        nautilus-1.0.6-syncsomecvs.patch
 Patch28:        nautilus-1.0.6-metafilerace.patch
 Patch29:        nautilus-1.0.6-thumbnailspeed.patch
 Patch30:        nautilus-1.0.6-trash.patch
-Patch31:	nautilus-1.0.6-fixperms.patch
-Patch32:        nautilus-1.0.4-moz-1.0.1.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -106,104 +67,70 @@ rich user experience. Nautilus is an free software project developed
 under the GNU General Public License and is a core component of the
 GNOME desktop project.
 
-%package devel
-Summary: Libraries and include files for developing Nautilus components
-Group: Development/Libraries
-Requires:	%name = %{version}
-
-%description devel
-This package provides the necessary development libraries and include
-files to allow you to develop Nautilus components.
-
-%ifarch i386 alpha
-%package mozilla
-Summary: Nautilus component for use with Mozilla
-Group: User Interface/Desktops
-Requires:       %name = %{version}
-Requires:	mozilla >= 1.0.1
-Conflicts:	mozilla = M18
-Conflicts:	mozilla = M17
-Conflicts:      mozilla <= 0.9.6
-
-%description mozilla
-This enables the use of embedded Mozilla as a Nautilus component.
-%endif
-
 %prep
 %setup -q -n %{name}-%{version}
 
-# unpack translations
-tar zxf %{SOURCE5}
-
-%patch1 -p0 -b .bookmarks
-%patch2 -p1 -b .new_theme
-%patch3 -p1 -b .no-dialog
-%patch4 -p1 -b .useredhattheme
-%patch8 -p1 -b .noflash
-%patch13 -p1 -b .bghack
-%patch16 -p0 -b .norootwarning
-%patch19 -p0 -b .monitorfavorites
-%patch20 -p0 -b .showonlydirectories
-%patch21 -p0 -b .unwritable
+#%patch1 -p0 -b .bookmarks
+#%patch2 -p1 -b .new_theme
+#%patch3 -p1 -b .no-dialog
+#%patch4 -p1 -b .useredhattheme
+#%patch8 -p1 -b .noflash
+#%patch13 -p1 -b .bghack
+#%patch16 -p0 -b .norootwarning
+#%patch19 -p0 -b .monitorfavorites
+#%patch20 -p0 -b .showonlydirectories
+#%patch21 -p0 -b .unwritable
 # upstream
 #%patch22 -p1 -b .profile
-%patch24 -p1 -b .omf-encoding
-%patch25 -p1 -b .pixbufcache
+#%patch24 -p1 -b .omf-encoding
+#%patch25 -p1 -b .pixbufcache
 # upstream
 #%patch26 -p1 -b .thumbnails
-%patch27 -p0 -b .syncsomecvs
-%patch28 -p1 -b .metafilerace
-%patch29 -p1 -b .thumbnailspeed
-%patch30 -p1 -b .trash
-%patch31 -p1 -b .fixperms
-%patch32 -p1 -b .moz-1.0.1
-
-## replace help component with 1.0.5 version
-/bin/rm -r components/help
-tar zxf %{SOURCE3}
-
-## unpack 
-
-# so we don't get the wrong libpng or have gcc whining
-perl -pi -e 's@-I\$\(includedir\)[^/]?@@g' `find -name Makefile.am`
-# put back for Milan
-#perl -pi -e 's/-lpng/-lpng10/g' configure.in
-#perl -pi -e 's/AC_CHECK_LIB\(png/AC_CHECK_LIB\(png10/g' configure.in
+#%patch27 -p0 -b .syncsomecvs
+#%patch28 -p1 -b .metafilerace
+#%patch29 -p1 -b .thumbnailspeed
+#%patch30 -p1 -b .trash
 
 %build
 
-tar zxf %{SOURCE4}
-aclocal-1.4 -I hack-macros
-autoheader
-automake-1.4
-autoconf
+## some temporary hackage, take out next time we build
+if test -f %{_libdir}/libgailutil.so.13; then
+        echo "libgailutil.so.13 installed"
+        exit 1
+fi
+
+if test -f %{_libdir}/libgailutil.so.15; then
+        echo "libgailutil.so.15 installed"
+else
+        echo "No libgailutil.so.15"
+        exit 1
+fi
+
 CFLAGS="$RPM_OPT_FLAGS -g" %configure --disable-more-warnings
 
 make
 
 %install
-[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
+export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 %makeinstall
-
-## Dynamically create Red Hat theme which is just the GNOME theme 
-## with some small tweaks 
-mkdir -p $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat
-cp -a $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/gnome/* \
-      $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat
-cp -af $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/sidebar_tab_pieces/* \
-      $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/sidebar_tab_pieces
-rm $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/gnome.xml
-install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_prefix}/share/pixmaps/nautilus/redhat/redhat.xml
+unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 %find_lang %name
 
 %clean
-[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
 scrollkeeper-update
+
+export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+SCHEMAS="apps_nautilus_preferences.schemas"
+for S in $SCHEMAS; do
+  gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
+done
 
 %postun
 /sbin/ldconfig
@@ -212,77 +139,65 @@ scrollkeeper-update
 %files  -f %{name}.lang
 %defattr(-,root,root)
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB TRADEMARK_NOTICE ChangeLog NEWS README
-%config /etc/X11/*/*.desktop
-%config /etc/X11/*/.directory
-%{_bindir}/nautilus-clean.sh
-%{_bindir}/nautilus-verify-rpm.sh
-%{_bindir}/nautilus-restore-settings-to-default.sh
-%{_bindir}/gnome-db2html2
-%{_bindir}/gnome-info2html2
-%{_bindir}/gnome-man2html2
-%{_bindir}/hyperbola
-%{_bindir}/nautilus
-%{_bindir}/nautilus-adapter
-%{_bindir}/nautilus-content-loser
-%{_bindir}/nautilus-error-dialog
-%{_bindir}/nautilus-hardware-view
-%{_bindir}/nautilus-history-view
-%{_bindir}/nautilus-image-view
-# %{_bindir}/nautilus-mpg123
-%{_bindir}/nautilus-music-view
-%{_bindir}/nautilus-news
-%{_bindir}/nautilus-notes
-%{_bindir}/nautilus-sample-content-view
-%{_bindir}/nautilus-sidebar-loser
-%{_bindir}/nautilus-text-view
-%{_bindir}/nautilus-throbber
-%{_bindir}/run-nautilus
-%{_bindir}/nautilus-launcher-applet
-%{_bindir}/nautilus-xml-migrate
-#%{prefix}/idl/*.idl
-%{_libdir}/libnautilus-adapter.so.0
-%{_libdir}/libnautilus-adapter.so.0.0.0
-%{_libdir}/libnautilus-private.so.0
-%{_libdir}/libnautilus-private.so.0.0.0
-%{_libdir}/libnautilus-tree-view.so.0
-%{_libdir}/libnautilus-tree-view.so.0.0.0
-%{_libdir}/libnautilus.so.0
-%{_libdir}/libnautilus.so.0.0.0
-%{_libdir}/libnautilus-tree-view.so
 
-%{_libdir}/vfs/modules/*.so
-
-%config %{_sysconfdir}/vfs/modules/*.conf
-%config %{_sysconfdir}/CORBA/servers/nautilus-launcher-applet.gnorba
-%{_datadir}/gnome/apps/Applications/*.desktop
-%{_datadir}/gnome/apps/*.desktop
-%{_datadir}/gnome/ui
+%{_libdir}/*.so.*
+%{_libdir}/*.so
+%{_libdir}/bonobo/servers
+%{_datadir}/gnome-2.0
 %{_datadir}/nautilus
-%{_datadir}/pixmaps/*.png
-%{_datadir}/pixmaps/nautilus
-%{_datadir}/oaf
-%{_datadir}/gnome/help
-%{_datadir}/omf/nautilus
-
-%files devel
-%defattr(-,root,root)
-%{_libdir}/libnautilus.so
-%{_libdir}/*.sh
-%{_bindir}/nautilus-config
+%{_datadir}/pixmaps
+#%{_datadir}/gnome
+#%{_datadir}/omf
+%{_bindir}/*
+%{_sysconfdir}/gconf/schemas/*
+%{_sysconfdir}/X11/*
+%{_libdir}/pkgconfig
 %{_includedir}/libnautilus
 
-%ifarch i386 alpha
-%files mozilla
-%defattr(-,root,root)
-%{_bindir}/nautilus-mozilla-content-view
-%endif
-
 %changelog
-* Fri Sep 13 2002 Christopher Blizzard <blizzard@redhat.com>1.0.6-16
-- Fixes for mozilla 1.0.1
+* Sat Jun  8 2002 Havoc Pennington <hp@redhat.com>
+- add build requires on new gail
+- rebuild to try to lose broken libgailutil.so.13 dependency
 
-* Fri Apr 19 2002 Jonathan Blandford <jrb@redhat.com>
-- Fix permissions on .nautilus-metafile.xml
+* Sat Jun 08 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in different environment
+
+* Wed Jun  5 2002 Havoc Pennington <hp@redhat.com>
+- 1.1.19
+
+* Fri May 31 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in different environment
+
+* Thu May 30 2002 Havoc Pennington <hp@redhat.com>
+- really remove nautilus-devel if we are going to obsolete it
+- don't require hwbrowser
+
+* Sun May 26 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Tue May 21 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in different environment
+
+* Tue May 21 2002 Havoc Pennington <hp@redhat.com>
+- 1.1.17
+
+* Fri May  3 2002 Havoc Pennington <hp@redhat.com>
+- 1.1.14
+
+* Thu Apr 25 2002 Havoc Pennington <hp@redhat.com>
+- require eog
+- obsolete nautilus-devel
+- fix name of schemas file in post
+
+* Mon Apr 22 2002 Alex Larsson <alexl@redhat.com>
+- Update to 1.1.13
+
+* Fri Apr 19 2002 Havoc Pennington <hp@redhat.com>
+- put tree view in file list
+
+* Thu Apr 18 2002 Havoc Pennington <hp@redhat.com>
+- nautilus for gnome 2
+- clean up the spec file and file list a bit
 
 * Mon Apr 15 2002 Havoc Pennington <hp@redhat.com>
 - merge translations
