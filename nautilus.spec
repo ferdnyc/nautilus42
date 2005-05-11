@@ -17,7 +17,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.10.0
-Release: 	3
+Release: 	4
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -80,6 +80,8 @@ Patch1:         nautilus-2.5.7-rhconfig.patch
 
 Patch10:        nautilus-2.10.0-desktop-memory-saver.patch
 
+Patch20:        nautilus-2.10.0-fix-default-font.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -93,6 +95,8 @@ GNOME desktop project.
 %patch1 -p1 -b .rhconfig
 
 %patch10 -p0 -b .desktop-memory-saver
+
+%patch20 -p0 -b .fix-default-font
 
 %build
 
@@ -169,6 +173,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Wed May 11 2005 David Zeuthen <davidz@redhat.com> 2.10.0-4
+- Fix default font for zh_TW (#154185)
+
 * Sun Apr  3 2005 David Zeuthen <davidz@redhat.com> 2.10.0-3
 - Include patches for desktop background memory saving (GNOME bug #169347)
 - Obsoletes: nautilus-media (#153223)
