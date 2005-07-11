@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.6.0
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.10.0-2
+%define eel2_version 2.11.3
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -13,11 +13,12 @@
 %define redhat_artwork_version 0.41
 %define gnome_vfs2_version 2.10.0
 %define startup_notification_version 0.5
+%define libexif_version 0.5.12
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.10.0
-Release: 	4
+Version: 	2.11.3
+Release: 	1
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -34,7 +35,7 @@ Requires:       gnome-vfs2 >= %{gnome_vfs2_version}
 Requires:       gnome-vfs2-smb
 Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
-Requires:       libexif
+Requires:       libexif >= %{libexif_version}
 %ifnarch s390 s390x
 Requires: 	eject
 %endif
@@ -63,7 +64,7 @@ BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
-BuildRequires:  libexif-devel
+BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  gettext
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
@@ -78,10 +79,6 @@ Obsoletes:      nautilus-media
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 
-Patch10:        nautilus-2.10.0-desktop-memory-saver.patch
-
-Patch20:        nautilus-2.10.0-fix-default-font.patch
-
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -93,10 +90,6 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-
-%patch10 -p0 -b .desktop-memory-saver
-
-%patch20 -p0 -b .fix-default-font
 
 %build
 
@@ -173,6 +166,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Mon Jul 11 2005 Matthias Clasen <mclasen@redhat.com> 2.11.3-1
+- Update to 2.11.3
+
 * Wed May 11 2005 David Zeuthen <davidz@redhat.com> 2.10.0-4
 - Fix default font for zh_TW (#154185)
 
