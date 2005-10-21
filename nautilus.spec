@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.12.1
-Release: 	1
+Release: 	2
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -78,6 +78,8 @@ Obsoletes:      nautilus-media
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
+# Upstream in 2.13
+Patch2:         nautilus-2.12.1-format.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -90,6 +92,7 @@ GNOME desktop project.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
+%patch2 -p1 -b .format
 
 %build
 
@@ -166,6 +169,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Fri Oct 21 2005 Matthias Clasen <mclasen@redhat.com> 2.12.1-2
+- Add a "Format" context menu item to the floppy in "Computer"
+
 * Thu Oct  6 2005 Matthias Clasen <mclasen@redhat.com> 2.12.1-1
 - Update to 2.12.1
 
