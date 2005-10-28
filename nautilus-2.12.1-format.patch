@@ -1,5 +1,5 @@
 --- nautilus-2.12.1/src/file-manager/fm-actions.h.format	2005-07-01 06:22:19.000000000 -0400
-+++ nautilus-2.12.1/src/file-manager/fm-actions.h	2005-10-21 10:35:58.000000000 -0400
++++ nautilus-2.12.1/src/file-manager/fm-actions.h	2005-10-27 14:35:29.000000000 -0400
 @@ -57,6 +57,7 @@
  #define FM_ACTION_MOUNT_VOLUME "Mount Volume"
  #define FM_ACTION_UNMOUNT_VOLUME "Unmount Volume"
@@ -9,7 +9,7 @@
  #define FM_ACTION_NEW_DOCUMENTS "New Documents"
  #define FM_ACTION_NEW_EMPTY_FILE "New Empty File"
 --- nautilus-2.12.1/src/file-manager/fm-directory-view.c.format	2005-09-27 04:31:43.000000000 -0400
-+++ nautilus-2.12.1/src/file-manager/fm-directory-view.c	2005-10-21 10:38:28.000000000 -0400
++++ nautilus-2.12.1/src/file-manager/fm-directory-view.c	2005-10-27 23:14:56.000000000 -0400
 @@ -377,6 +377,8 @@
  						    gpointer   data);
  static void action_unmount_volume_callback         (GtkAction *action,
@@ -19,7 +19,7 @@
  
  /* location popup-related actions */
  
-@@ -5796,6 +5798,31 @@
+@@ -5796,6 +5798,43 @@
  	nautilus_file_list_free (selection);
  }
  
@@ -30,6 +30,8 @@
 +	NautilusFile *file;
 +	GList *selection, *l;
 +	GnomeVFSDrive *drive;
++        char *device_path;
++        char *cmdline;
 +	FMDirectoryView *view;
 +
 +        view = FM_DIRECTORY_VIEW (data);
@@ -40,9 +42,19 @@
 +
 +		if (nautilus_file_has_drive (file)) {
 +			drive = nautilus_file_get_drive (file);
++			device_path = gnome_vfs_drive_get_device_path (drive);			
++
 +			if (gnome_vfs_drive_get_device_type (drive) == GNOME_VFS_DEVICE_TYPE_FLOPPY) {
-+				g_spawn_command_line_async ("gfloppy", NULL);
++
++
++				cmdline = g_strconcat ("gfloppy ", device_path, NULL);
 +			}
++			else {
++				cmdline = g_strconcat ("userformat ", device_path, NULL);
++			}
++			g_spawn_command_line_async (cmdline, NULL);
++                        g_free (cmdline);
++			g_free (device_path);
 +		}
 +	}	
 +	nautilus_file_list_free (selection);
@@ -51,7 +63,7 @@
  static void
  action_eject_volume_callback (GtkAction *action,
  			      gpointer data)
-@@ -6218,6 +6245,10 @@
+@@ -6218,6 +6257,10 @@
      N_("_Eject"), NULL,                /* label, accelerator */
      N_("Eject the selected volume"),                   /* tooltip */ 
      G_CALLBACK (action_eject_volume_callback) },
@@ -62,7 +74,7 @@
    { "OpenCloseParent", NULL,                  /* name, stock id */
      N_("Open File and Close window"), "<alt><shift>Down",                /* label, accelerator */
      NULL,                   /* tooltip */ 
-@@ -6457,7 +6488,8 @@
+@@ -6457,7 +6500,8 @@
  			  gboolean     *show_mount,
  			  gboolean     *show_unmount,
  			  gboolean     *show_eject,
@@ -72,7 +84,7 @@
  {
  	GnomeVFSVolume *volume;
  	GnomeVFSDrive *drive;
-@@ -6467,6 +6499,7 @@
+@@ -6467,6 +6511,7 @@
  	*show_unmount = FALSE;
  	*show_eject = FALSE;
  	*show_connect = FALSE;
@@ -80,19 +92,26 @@
  
  	if (nautilus_file_has_volume (file)) {
  		*show_unmount = TRUE;
-@@ -6481,6 +6514,11 @@
+@@ -6476,11 +6521,18 @@
+ 	} else if (nautilus_file_has_drive (file)) {
+ 		drive = nautilus_file_get_drive (file);
+ 		*show_eject = eject_for_type (gnome_vfs_drive_get_device_type (drive));
++                if ((gnome_vfs_drive_get_device_type (drive) == GNOME_VFS_DEVICE_TYPE_FLOPPY &&
++		    g_find_program_in_path ("gfloppy")) ||
++		    g_find_program_in_path ("userformat")) {
++			*show_format = TRUE;
++		}
+ 		if (gnome_vfs_drive_is_mounted (drive)) {
+ 			*show_unmount = TRUE;
++			*show_format = FALSE;
  		} else {
  			*show_mount = TRUE;
  		}
 +
-+                if (gnome_vfs_drive_get_device_type (drive) == GNOME_VFS_DEVICE_TYPE_FLOPPY &&
-+		    g_find_program_in_path ("gfloppy")) {
-+			*show_format = TRUE;
-+		}
  	} else if (nautilus_file_is_nautilus_link (file)) {
  		uri = nautilus_file_get_activation_uri (file);
  		if (uri != NULL &&
-@@ -6507,32 +6545,38 @@
+@@ -6507,32 +6559,38 @@
  	gboolean show_unmount;
  	gboolean show_eject;
  	gboolean show_connect;
@@ -133,7 +152,7 @@
  	}
  
  	/* We don't want both eject and unmount, since eject
-@@ -6556,6 +6600,10 @@
+@@ -6556,6 +6614,10 @@
  	action = gtk_action_group_get_action (view->details->dir_action_group,
  					      FM_ACTION_EJECT_VOLUME);
  	gtk_action_set_visible (action, show_eject);
@@ -145,7 +164,7 @@
  
  static void
 --- nautilus-2.12.1/src/file-manager/nautilus-directory-view-ui.xml.format	2005-10-03 03:45:27.000000000 -0400
-+++ nautilus-2.12.1/src/file-manager/nautilus-directory-view-ui.xml	2005-10-21 10:35:58.000000000 -0400
++++ nautilus-2.12.1/src/file-manager/nautilus-directory-view-ui.xml	2005-10-27 14:35:29.000000000 -0400
 @@ -147,6 +147,7 @@
  		<menuitem name="Mount Volume" action="Mount Volume"/>
                  <menuitem name="Unmount Volume" action="Unmount Volume"/>
