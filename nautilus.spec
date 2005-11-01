@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.12.1
-Release: 	5
+Release: 	6
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -59,7 +59,7 @@ BuildRequires:  gnome-vfs2-devel >= %{gnome_vfs2_version}
 BuildRequires:	fam-devel
 BuildRequires:  librsvg2
 BuildRequires:  intltool
-BuildRequires:  XFree86-devel
+BuildRequires:  libX11-devel
 BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
@@ -172,6 +172,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Tue Nov  1 2005 Alexander Larsson <alexl@redhat.com> - 2.12.1-6
+- Switch XFree86-devel buildrequirement to libX11-devel
+
 * Sat Oct 28 2005 Matthias Clasen <mclasen@redhat.com> 2.12.1-5
 - Implement icon stretching keynav
 - Support formatting non-floppy devices
