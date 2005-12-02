@@ -17,8 +17,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.12.1
-Release: 	6
+Version: 	2.13.2
+Release: 	1
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -78,10 +78,7 @@ Obsoletes:      nautilus-media
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
-# Partially upstream in 2.13
-Patch2:         nautilus-2.12.1-format.patch
-# Upstream in 2.13
-Patch3: 	nautilus-2.12.1-stretch.patch
+Patch2:         nautilus-2.13-format.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -95,7 +92,6 @@ GNOME desktop project.
 
 %patch1 -p1 -b .rhconfig
 %patch2 -p1 -b .format
-%patch3 -p1 -b .stretch
 
 %build
 
@@ -172,6 +168,10 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Fri Dec  2 2005 Matthias Clasen <mclasen@redhat.com> 2.13.2-1
+- Update to 2.13.2
+- Update patches
+
 * Tue Nov  1 2005 Alexander Larsson <alexl@redhat.com> - 2.12.1-6
 - Switch XFree86-devel buildrequirement to libX11-devel
 
