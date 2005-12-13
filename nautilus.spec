@@ -96,7 +96,7 @@ GNOME desktop project.
 %build
 
 libtoolize --force --copy
-CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE" %configure --disable-more-warnings
+CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE" %configure --disable-more-warnings --disable-update-mimedb
 
 export tagname=CC
 LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
@@ -138,6 +138,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 scrollkeeper-update
+%{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
 
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 SCHEMAS="apps_nautilus_preferences.schemas"
@@ -160,6 +161,7 @@ scrollkeeper-update
 %{_datadir}/nautilus
 %{_datadir}/pixmaps
 %{_datadir}/applications
+%{_datadir}/mime/package/nautilus.xml
 #%{_datadir}/gnome
 #%{_datadir}/omf
 %{_bindir}/*
