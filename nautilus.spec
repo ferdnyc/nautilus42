@@ -161,7 +161,7 @@ scrollkeeper-update
 %{_datadir}/nautilus
 %{_datadir}/pixmaps
 %{_datadir}/applications
-%{_datadir}/mime/package/nautilus.xml
+%{_datadir}/mime/packages/nautilus.xml
 #%{_datadir}/gnome
 #%{_datadir}/omf
 %{_bindir}/*
