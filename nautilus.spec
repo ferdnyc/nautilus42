@@ -66,7 +66,7 @@ BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  gettext
-%ifnarch  s390 s390x
+%ifnarch  s390 s390x ppc64
 BuildRequires:  libbeagle-devel
 %endif
 # For intltool:
