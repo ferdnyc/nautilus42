@@ -67,7 +67,7 @@ BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  gettext
 %ifnarch  s390 s390x
-BuildRequires:  libbeagle
+BuildRequires:  libbeagle-devel
 %endif
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
