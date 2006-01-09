@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.13.3
-Release: 1
+Release:	2
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -66,6 +66,9 @@ BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  gettext
+%ifnarch  s390 s390x
+BuildRequires:  libbeagle
+%endif
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
 
@@ -170,6 +173,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Mon Jan  9 2006 Alexander Larsson <alexl@redhat.com> - 2.13.3-2
+- Buildrequire libbeagle
+
 * Tue Dec 13 2005 Alexander Larsson <alexl@redhat.com> 2.13.3-1
 - Update to 2.13.3
 
