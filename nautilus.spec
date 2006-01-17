@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.6.0
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.13.3
+%define eel2_version 2.13.4
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -17,8 +17,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.13.3
-Release:	2
+Version: 	2.13.4
+Release:	1
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -173,6 +173,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Tue Jan 17 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.4-1
+- Update to 2.13.4
+
 * Mon Jan  9 2006 Alexander Larsson <alexl@redhat.com> - 2.13.3-2
 - Buildrequire libbeagle
 
