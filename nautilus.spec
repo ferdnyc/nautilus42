@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.13.90
-Release:	1
+Release:	2
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -82,6 +82,7 @@ Obsoletes:      nautilus-media
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.13-format.patch
+Patch3:		background-no-delay.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -95,6 +96,7 @@ GNOME desktop project.
 
 %patch1 -p1 -b .rhconfig
 %patch2 -p0 -b .format
+%patch3 -p1 -b .no-delay
 
 %build
 
@@ -173,6 +175,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Mon Feb  6 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.90-2
+- Avoid delays in rendering the background
+
 * Tue Jan 31 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.90-1
 - Update to 2.13.90
 
