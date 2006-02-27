@@ -11,13 +11,13 @@
 %define gnome_desktop_version 2.9.91
 %define redhat_menus_version 0.25
 %define redhat_artwork_version 0.41
-%define gnome_vfs2_version 2.13.2
+%define gnome_vfs2_version 2.13.92
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.13.91
+Version: 	2.13.92
 Release:	1
 License: 	GPL
 Group:          User Interface/Desktops
@@ -175,6 +175,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Mon Feb 27 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.92-1
+- Update to 2.13.92
+
 * Mon Feb 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.13.91-1
 - Update to 2.13.91
 
