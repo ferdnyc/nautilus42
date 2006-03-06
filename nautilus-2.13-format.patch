@@ -1,0 +1,55 @@
+--- nautilus-2.13.92/src/file-manager/fm-directory-view.c.format	2006-03-06 10:19:21.000000000 -0500
++++ nautilus-2.13.92/src/file-manager/fm-directory-view.c	2006-03-06 10:24:40.000000000 -0500
+@@ -6269,6 +6269,8 @@
+ 	GList *selection, *l;
+ 	GnomeVFSDrive *drive;
+ 	FMDirectoryView *view;
++        char *device_path;
++        char *cmdline;
+ 
+         view = FM_DIRECTORY_VIEW (data);
+ 	
+@@ -6278,9 +6280,18 @@
+ 
+ 		if (nautilus_file_has_drive (file)) {
+ 			drive = nautilus_file_get_drive (file);
++                        device_path = gnome_vfs_drive_get_device_path (drive);
++
+ 			if (gnome_vfs_drive_get_device_type (drive) == GNOME_VFS_DEVICE_TYPE_FLOPPY) {
+-				g_spawn_command_line_async ("gfloppy", NULL);
++                                cmdline = g_strconcat ("gfloppy ", device_path, NULL);
++
+ 			}
++                        else {
++                               cmdline = g_strconcat ("userformat ", device_path, NULL);
++                        }
++                        g_spawn_command_line_async (cmdline, NULL);
++                        g_free (cmdline);
++                        g_free (device_path);
+ 		}
+ 	}	
+ 	nautilus_file_list_free (selection);
+@@ -7021,16 +7032,18 @@
+ 	} else if (nautilus_file_has_drive (file)) {
+ 		drive = nautilus_file_get_drive (file);
+ 		*show_eject = eject_for_type (gnome_vfs_drive_get_device_type (drive));
++                if ((gnome_vfs_drive_get_device_type (drive) == GNOME_VFS_DEVICE_TYPE_FLOPPY &&
++                    g_find_program_in_path ("gfloppy")) ||
++                    g_find_program_in_path ("userformat")) {
++                        *show_format = TRUE;
++                }
++
+ 		if (gnome_vfs_drive_is_mounted (drive)) {
+ 			*show_unmount = TRUE;
++                        *show_format = FALSE;
+ 		} else {
+ 			*show_mount = TRUE;
+ 		}
+-
+-                if (gnome_vfs_drive_get_device_type (drive) == GNOME_VFS_DEVICE_TYPE_FLOPPY &&
+-		    g_find_program_in_path ("gfloppy")) {
+-			*show_format = TRUE;
+-		}
+ 	} else if (nautilus_file_is_nautilus_link (file)) {
+ 		uri = nautilus_file_get_activation_uri (file);
+ 		if (uri != NULL &&
