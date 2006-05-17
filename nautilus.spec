@@ -83,8 +83,6 @@ Obsoletes:      nautilus-media
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.13-format.patch
 Patch3:		background-no-delay.patch
-# http://bugzilla.gnome.org/show_bug.cgi?id=341515
-Patch4:		nautilus-2.14.1-about.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -99,7 +97,6 @@ GNOME desktop project.
 %patch1 -p1 -b .rhconfig
 %patch2 -p1 -b .format
 %patch3 -p1 -b .no-delay
-%patch4 -p1 -b .about
 
 %build
 
