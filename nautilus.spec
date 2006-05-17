@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.6.0
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.14.1
+%define eel2_version 2.15.1
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -11,7 +11,7 @@
 %define gnome_desktop_version 2.9.91
 %define redhat_menus_version 0.25
 %define redhat_artwork_version 0.41
-%define gnome_vfs2_version 2.13.92
+%define gnome_vfs2_version 2.14.2
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 
