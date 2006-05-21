@@ -60,6 +60,7 @@ BuildRequires:	fam-devel
 BuildRequires:  librsvg2
 BuildRequires:  intltool
 BuildRequires:  libX11-devel
+BuildRequires:  libXt-devel
 BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
@@ -175,6 +176,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Sun May 21 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.1-2
+- Add missing BuildRequires (#129184)
+
 * Wed May 17 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.1-1
 - Update to 2.15.1
 
