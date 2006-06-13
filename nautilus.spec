@@ -17,8 +17,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.15.1
-Release:	2
+Version: 	2.15.2
+Release:	1
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -69,6 +69,8 @@ BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  gettext
 %ifnarch  s390 s390x ppc64
 BuildRequires:  libbeagle-devel
+%else
+%define disable_beagle --disable-beagle
 %endif
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
@@ -82,7 +84,7 @@ Obsoletes:      nautilus-media
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
-Patch2:         nautilus-2.13-format.patch
+Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
 
 %description
@@ -102,7 +104,7 @@ GNOME desktop project.
 %build
 
 libtoolize --force --copy
-CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE" %configure --disable-more-warnings --disable-update-mimedb
+CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE" %configure --disable-more-warnings --disable-update-mimedb %{disable_beagle}
 
 export tagname=CC
 LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
@@ -176,6 +178,9 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Tue Jun 13 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.2-1
+- Update to 2.15.1
+
 * Sun May 21 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.1-2
 - Add missing BuildRequires (#129184)
 
