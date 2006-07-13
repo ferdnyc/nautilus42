@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.15.4
-Release:	1
+Release:	2
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -42,10 +42,9 @@ Requires: 	eject
 PreReq:    scrollkeeper >= 0.1.4
 
 # Not technically required, but we want them on upgrades:
-%ifnarch  s390 s390x
-Requires:	nautilus-cd-burner
-%endif
-
+#%ifnarch  s390 s390x
+#Requires:	nautilus-cd-burner
+#%endif
 
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
@@ -178,6 +177,10 @@ scrollkeeper-update
 %{_includedir}/nautilus
 
 %changelog
+* Wed Jul 12 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.4-2
+- Don't require nautilus-cd-burner, to avoid a 
+  BuildRequires-Requires loop
+
 * Wed Jul 12 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.4-1
 - Update to 2.15.4
 
