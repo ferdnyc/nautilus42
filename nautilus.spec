@@ -1,3 +1,8 @@
+%{?!WITH_MONO:  %define WITH_MONO 1}
+%ifarch ppc64 s390 s390x
+%define WITH_MONO 0
+%endif
+
 %define glib2_version 2.6.0
 %define pango_version 1.1.3
 %define gtk2_version 2.6.0
@@ -41,11 +46,6 @@ Requires: 	eject
 %endif
 PreReq:    scrollkeeper >= 0.1.4
 
-# Not technically required, but we want them on upgrades:
-#%ifnarch  s390 s390x
-#Requires:	nautilus-cd-burner
-#%endif
-
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
 BuildRequires:	gtk2-devel >= %{gtk2_version}
@@ -66,7 +66,7 @@ BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  gettext
-%ifnarch  s390 s390x ppc64
+%if %{WITH_MONO}
 BuildRequires:  libbeagle-devel
 %else
 %define disable_beagle --disable-beagle
