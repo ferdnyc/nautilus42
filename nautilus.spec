@@ -7,7 +7,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.6.0
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.15.4
+%define eel2_version 2.15.91
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -22,7 +22,7 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.15.90
+Version: 	2.15.91
 Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
@@ -31,7 +31,7 @@ Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.ta
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
-Requires:	fam
+Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
@@ -55,7 +55,7 @@ BuildRequires:  eel2-devel >= %{eel2_version}
 BuildRequires:  gail-devel >= %{gail_version}
 BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
 BuildRequires:  gnome-vfs2-devel >= %{gnome_vfs2_version}
-BuildRequires:	fam-devel
+BuildRequires:	gamin-devel
 BuildRequires:  librsvg2
 BuildRequires:  intltool
 BuildRequires:  libX11-devel
@@ -85,7 +85,6 @@ Obsoletes:      nautilus-media
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
-Patch4:		nautilus-2.15.90-background.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -94,13 +93,28 @@ rich user experience. Nautilus is an free software project developed
 under the GNU General Public License and is a core component of the
 GNOME desktop project.
 
+%package extensions
+Summary: Nautilus extensions library
+Group: Development/Libraries
+
+%description extensions
+This package provides the libraries used by nautilus extensions.
+
+%package devel
+Summary: Libraries and include files for developing nautilus extensions
+Group: Development/Libraries
+Requires:   %{name} = %{version}-%{release}
+
+%description devel
+This package provides the necessary development libraries and headers
+for writing nautilus extensions.
+
 %prep
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
 %patch2 -p1 -b .format
 %patch3 -p1 -b .no-delay
-%patch4 -p1 -b .background
 
 %build
 
@@ -163,8 +177,6 @@ scrollkeeper-update
 %defattr(-,root,root)
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB ChangeLog NEWS README
 
-%{_libdir}/*.so.*
-%{_libdir}/*.so
 %{_libdir}/nautilus
 %{_libdir}/bonobo/servers
 %{_datadir}/nautilus
@@ -175,10 +187,22 @@ scrollkeeper-update
 #%{_datadir}/omf
 %{_bindir}/*
 %{_sysconfdir}/gconf/schemas/*
-%{_libdir}/pkgconfig/*
+
+%files extensions
+%defattr(-, root, root)
+%{_libdir}/libnautilus-extension.so.*
+
+%files devel
+%defattr(-, root, root)
 %{_includedir}/nautilus
+%{_libdir}/pkgconfig/*
+%{_libdir}/*.so
 
 %changelog
+* Thu Aug 10 2006 Alexander Larsson <alexl@redhat.com> - 2.15.91-1
+- Update to 2.15.91
+- Split package into devel and extensions (#201967)
+
 * Thu Aug  3 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.90-1.fc6
 - Update to 2.15.90
 
