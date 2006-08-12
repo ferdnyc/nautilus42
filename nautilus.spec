@@ -23,7 +23,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.15.91
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -76,8 +76,6 @@ BuildRequires: perl-XML-Parser >= 2.31-16
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
-Obsoletes:      nautilus-devel
-Provides:       nautilus-devel
 Obsoletes:      nautilus-mozilla < 2.0
 Obsoletes:      nautilus-media
 
@@ -199,7 +197,10 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
-* Thu Aug 10 2006 Alexander Larsson <alexl@redhat.com> - 2.15.91-1
+* Sat Aug 12 2006 Matthias Clasen <mclasen@redhat.com> - 2.15.91-2.fc6
+- Don't Provide/Obsolete nautilus-devel from the main package (#202322)
+
+* Thu Aug 10 2006 Alexander Larsson <alexl@redhat.com> - 2.15.91-1.fc6
 - Update to 2.15.91
 - Split package into devel and extensions (#201967)
 
