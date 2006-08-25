@@ -23,7 +23,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.15.92.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -117,7 +117,7 @@ for writing nautilus extensions.
 %build
 
 libtoolize --force --copy
-CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE" %configure --disable-more-warnings --disable-update-mimedb %{disable_beagle}
+CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb %{disable_beagle}
 
 export tagname=CC
 LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
@@ -197,6 +197,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Fri Aug 25 2006 Alexander Larsson <alexl@redhat.com> - 2.15.92.1-2
+- Omit self check code in build
+
 * Tue Aug 22 2006 Alexander Larsson <alexl@redhat.com> - 2.15.92.1-1
 - update to 2.15.92.1
 
