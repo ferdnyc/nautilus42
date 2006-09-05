@@ -23,7 +23,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.16.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -162,10 +162,13 @@ scrollkeeper-update
 %{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
 
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-SCHEMAS="apps_nautilus_preferences.schemas"
-for S in $SCHEMAS; do
-  gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/$S > /dev/null
-done
+gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null
+
+%preun
+if [ "$1" -eq 0 ]; then
+    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+    gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null
+fi
 
 %postun
 /sbin/ldconfig
@@ -197,6 +200,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Tue Sep  5 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-2
+- Add a %%preun script (#205260)
+
 * Mon Sep  4 2006 Alexander Larsson <alexl@redhat.com> - 2.16.0-1
 - Update to 2.16.0
 
