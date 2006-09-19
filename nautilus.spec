@@ -23,7 +23,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.16.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -84,6 +84,7 @@ Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
 Patch4:		nautilus-2.16.0-model-crash.patch
+Patch5:		nautilus-2.16.0-selinux.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -115,6 +116,7 @@ for writing nautilus extensions.
 %patch2 -p1 -b .format
 %patch3 -p1 -b .no-delay
 %patch4 -p0 -b .model-crash
+%patch5 -p0 -b .selinux
 
 %build
 
@@ -202,6 +204,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Tue Sep 19 2006 Alexander Larsson <alexl@redhat.com> - 2.16.0-4
+- Support changing selinux contexts (#204030)
+
 * Thu Sep 14 2006 Alexander Larsson <alexl@redhat.com> - 2.16.0-3
 - Fix crash when opening custom icon dialog (#205352)
 
