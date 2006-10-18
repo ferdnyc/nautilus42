@@ -19,11 +19,12 @@
 %define gnome_vfs2_version 2.14.2
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
+%define gconf_version 2.14
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.16.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -74,6 +75,10 @@ BuildRequires:  libbeagle-devel
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
 
+Requires(pre): GConf2 >= %{gconf_version}
+Requires(preun): GConf2 >= %{gconf_version}
+Requires(post): GConf2 >= %{gconf_version}
+
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
 Obsoletes:      nautilus-mozilla < 2.0
@@ -104,6 +109,7 @@ This package provides the libraries used by nautilus extensions.
 Summary: Libraries and include files for developing nautilus extensions
 Group: Development/Libraries
 Requires:   %{name} = %{version}-%{release}
+Requires:   pkgconfig
 
 %description devel
 This package provides the necessary development libraries and headers
@@ -166,12 +172,18 @@ scrollkeeper-update
 %{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
 
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null
+gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null || :
+
+%pre
+if [ "$1" -gt 1 ]; then
+    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+    gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null || :
+fi
 
 %preun
 if [ "$1" -eq 0 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null
+    gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null || :
 fi
 
 %postun
@@ -204,6 +216,11 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Wed Oct 18 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.0-6
+- Fix scripts according to the packaging guidelines
+- Require GConf2 for the scripts
+- Require pkgconfig for the -devel package
+
 * Sun Oct 01 2006 Jesse Keating <jkeating@redhat.com> - 2.16.0-5
 - rebuilt for unwind info generation, broken in gcc-4.1.1-21
 
