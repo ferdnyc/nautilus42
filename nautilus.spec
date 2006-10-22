@@ -88,7 +88,6 @@ Obsoletes:      nautilus-media
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
-Patch4:		nautilus-2.16.0-model-crash.patch
 Patch5:		nautilus-2.16.0-selinux.patch
 
 %description
@@ -121,7 +120,6 @@ for writing nautilus extensions.
 %patch1 -p1 -b .rhconfig
 %patch2 -p1 -b .format
 %patch3 -p1 -b .no-delay
-%patch4 -p0 -b .model-crash
 %patch5 -p0 -b .selinux
 
 %build
