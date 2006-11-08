@@ -24,7 +24,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.16.2
-Release:	2%{?dist}
+Release:	4%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -89,6 +89,7 @@ Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
 Patch5:		nautilus-2.16.2-selinux.patch
+Patch7:		nautilus-2.16.2-icons-overlap-revert.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -121,6 +122,7 @@ for writing nautilus extensions.
 %patch2 -p1 -b .format
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
+%patch7 -p1 -b .icons-overlap-revert
 
 %build
 
@@ -214,6 +216,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Wed Nov  8 2006 Alexander Larsson <alexl@redhat.com> - 2.16.2-4.fc7
+- Revert upstream icon placement patch as it seems broken
+
 * Tue Nov  7 2006 Alexander Larsson <alexl@redhat.com> - 2.16.2-2.fc7
 - Update to 2.16.2
 
