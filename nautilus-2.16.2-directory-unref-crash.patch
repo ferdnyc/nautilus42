@@ -1,0 +1,20 @@
+--- nautilus-2.16.2/libnautilus-private/nautilus-directory-async.c.crash	2006-11-13 12:43:34.000000000 +0100
++++ nautilus-2.16.2/libnautilus-private/nautilus-directory-async.c	2006-11-13 12:45:21.000000000 +0100
+@@ -1858,6 +1858,8 @@
+ 	directory = NAUTILUS_DIRECTORY (callback_data);
+ 	directory->details->call_ready_idle_id = 0;
+ 
++	nautilus_directory_ref (directory);
++	
+ 	callback = NULL;
+ 	while (1) {
+ 		/* Check if any callbacks are non-active and call them if they are. */
+@@ -1886,6 +1888,8 @@
+ 	update_metadata_monitors (directory);
+ 
+ 	nautilus_directory_async_state_changed (directory);
++
++	nautilus_directory_unref (directory);
+ 	
+ 	return FALSE;
+ }
