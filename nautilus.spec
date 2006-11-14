@@ -24,7 +24,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.16.2
-Release:	5%{?dist}
+Release:	6%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -89,6 +89,7 @@ Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
 Patch5:		nautilus-2.16.2-selinux.patch
+Patch6:         nautilus-2.16.2-dynamic-search.patch
 Patch7:		nautilus-2.16.2-icons-overlap-revert.patch
 # From upstream
 Patch8:		nautilus-2.16.2-directory-unref-crash.patch
@@ -124,6 +125,7 @@ for writing nautilus extensions.
 %patch2 -p1 -b .format
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
+%patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .icons-overlap-revert
 %patch8 -p1 -b .directory-unref-crash
 
@@ -219,6 +221,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Tue Nov 14 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.2-6
+- Detect tracker dynamically, too
+
 * Mon Nov 13 2006 Alexander Larsson <alexl@redhat.com> - 2.16.2-5.fc7
 - Fix commonly reported NautilusDirectory crash
 
