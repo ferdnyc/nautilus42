@@ -1,8 +1,3 @@
-%{?!WITH_MONO:  %define WITH_MONO 1}
-%ifarch ppc64 s390 s390x
-%define WITH_MONO 0
-%endif
-
 %define glib2_version 2.6.0
 %define pango_version 1.1.3
 %define gtk2_version 2.6.0
@@ -24,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
 Version: 	2.16.2
-Release:	6%{?dist}
+Release:	7%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -67,11 +62,6 @@ BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  gettext
-%if %{WITH_MONO}
-BuildRequires:  libbeagle-devel
-%else
-%define disable_beagle --disable-beagle
-%endif
 # For intltool:
 BuildRequires: perl-XML-Parser >= 2.31-16
 
@@ -93,6 +83,8 @@ Patch6:         nautilus-2.16.2-dynamic-search.patch
 Patch7:		nautilus-2.16.2-icons-overlap-revert.patch
 # From upstream
 Patch8:		nautilus-2.16.2-directory-unref-crash.patch
+# Use beagle first, since tracker autostarts
+Patch9:		nautilus-2.16.2-searchengine-order.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -128,11 +120,12 @@ for writing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .icons-overlap-revert
 %patch8 -p1 -b .directory-unref-crash
+%patch9 -p1 -b .searchengine-order
 
 %build
 
 libtoolize --force --copy
-CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb %{disable_beagle}
+CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
 
 export tagname=CC
 LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
@@ -221,6 +214,12 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Wed Nov 22 2006 Alexander Larsson <alexl@redhat.com> - 2.16.2-7
+- Look for beagle before tracker, because tracker autostarts
+  This lets us support having both installed at the same time.
+- Remove buildreqs for beagle, as they are not necessary with
+  the dynamic work.
+
 * Tue Nov 14 2006 Matthias Clasen <mclasen@redhat.com> - 2.16.2-6
 - Detect tracker dynamically, too
 
