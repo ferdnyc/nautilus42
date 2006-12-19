@@ -194,7 +194,8 @@ scrollkeeper-update
 #%{_datadir}/omf
 %{_bindir}/*
 %{_sysconfdir}/gconf/schemas/*
-%{_datadir}/icons/hicolor/*/apps/nautilus.{png,svg}
+%{_datadir}/icons/hicolor/*/apps/nautilus.png
+%{_datadir}/icons/hicolor/scalable/apps/nautilus.svg
 
 %files extensions
 %defattr(-, root, root)
