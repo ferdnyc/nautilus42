@@ -108,7 +108,7 @@ for writing nautilus extensions.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch2 -p1 -b .format
+#%patch2 -p1 -b .format
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
