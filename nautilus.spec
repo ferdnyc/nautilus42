@@ -18,15 +18,14 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.16.2
-Release:	7%{?dist}
+Version: 	2.17.1
+Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
 Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
@@ -80,11 +79,6 @@ Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
 Patch5:		nautilus-2.16.2-selinux.patch
 Patch6:         nautilus-2.16.2-dynamic-search.patch
-Patch7:		nautilus-2.16.2-icons-overlap-revert.patch
-# From upstream
-Patch8:		nautilus-2.16.2-directory-unref-crash.patch
-# Use beagle first, since tracker autostarts
-Patch9:		nautilus-2.16.2-searchengine-order.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -118,9 +112,6 @@ for writing nautilus extensions.
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
-%patch7 -p1 -b .icons-overlap-revert
-%patch8 -p1 -b .directory-unref-crash
-%patch9 -p1 -b .searchengine-order
 
 %build
 
@@ -214,6 +205,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Tue Dec 19 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.1-1
+- Update to 2.17.1
+
 * Wed Nov 22 2006 Alexander Larsson <alexl@redhat.com> - 2.16.2-7
 - Look for beagle before tracker, because tracker autostarts
   This lets us support having both installed at the same time.
