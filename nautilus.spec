@@ -147,6 +147,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
+rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/icon-theme.cache
 
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0
 
@@ -193,6 +194,7 @@ scrollkeeper-update
 #%{_datadir}/omf
 %{_bindir}/*
 %{_sysconfdir}/gconf/schemas/*
+%{_datadir}/icons/hicolor/*/apps/nautilus.{png,svg}
 
 %files extensions
 %defattr(-, root, root)
