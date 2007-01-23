@@ -17,8 +17,8 @@
 %define gconf_version 2.14
 
 Name:		nautilus
-Summary:        Nautilus is a file manager for GNOME.
-Version: 	2.17.1
+Summary:        Nautilus is a file manager for GNOME
+Version: 	2.17.90
 Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
@@ -208,6 +208,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Mon Jan 22 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-1
+- Update to 2.17.90
+
 * Tue Dec 19 2006 Matthias Clasen <mclasen@redhat.com> - 2.17.1-1
 - Update to 2.17.1
 
