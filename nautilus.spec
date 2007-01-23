@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.17.90
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -77,7 +77,7 @@ Obsoletes:      nautilus-media
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
-Patch5:		nautilus-2.16.2-selinux.patch
+Patch5:		nautilus-2.17.90-selinux.patch
 Patch6:         nautilus-2.16.2-dynamic-search.patch
 
 %description
@@ -208,6 +208,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Tue Jan 23 2007 Alexander Larsson <alexl@redhat.com> - 2.17.90-2
+- Fix gnome bug #362302 in selinux patch
+
 * Mon Jan 22 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-1
 - Update to 2.17.90
 
