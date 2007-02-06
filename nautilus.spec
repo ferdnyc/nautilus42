@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.17.90
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -208,6 +208,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Tue Feb  6 2007 Alexander Larsson <alexl@redhat.com> - 2.17.90-3
+- update tracker dynamic search patch to new .so name
+
 * Tue Jan 23 2007 Alexander Larsson <alexl@redhat.com> - 2.17.90-2
 - Fix gnome bug #362302 in selinux patch
 

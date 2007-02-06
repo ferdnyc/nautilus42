@@ -286,7 +286,7 @@
 +      
 +      done = TRUE;
 + 
-+      tracker = g_module_open ("libtracker.so.0", G_MODULE_BIND_LAZY | G_MODULE_BIND_LOCAL);
++      tracker = g_module_open ("libtrackerclient.so.0", G_MODULE_BIND_LAZY | G_MODULE_BIND_LOCAL);
 +      if (!tracker)
 +	return;
 +      
