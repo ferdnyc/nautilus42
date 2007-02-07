@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.17.90
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
@@ -142,6 +142,11 @@ desktop-file-install --vendor gnome --delete-original       \
   --add-category X-Red-Hat-Base                             \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
 
+desktop-file-install --vendor gnome --delete-original       \
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
+  --add-category DesktopSettings                            \
+  $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-file-management-properties.desktop
+
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
@@ -208,6 +213,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Wed Feb  7 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-4
+- Add DesktopSettings category to nautilus-file-management-properties.desktop
+
 * Tue Feb  6 2007 Alexander Larsson <alexl@redhat.com> - 2.17.90-3
 - update tracker dynamic search patch to new .so name
 
