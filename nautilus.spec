@@ -142,10 +142,10 @@ desktop-file-install --vendor gnome --delete-original       \
   --add-category X-Red-Hat-Base                             \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
 
-desktop-file-install --vendor gnome --delete-original       \
+desktop-file-install                                        \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-category DesktopSettings                            \
-  $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-file-management-properties.desktop
+  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-nautilus-file-management-properties.desktop
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
