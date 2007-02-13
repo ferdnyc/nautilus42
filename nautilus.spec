@@ -18,11 +18,11 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.17.90
-Release:	4%{?dist}
+Version: 	2.17.91
+Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
-Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/2.7/%{name}/%{name}-%{version}.tar.bz2
+Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/2.17/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
@@ -139,13 +139,7 @@ perl -pi -e 's/sr\@Latn/sp/g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 desktop-file-install --vendor gnome --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-only-show-in GNOME                                  \
-  --add-category X-Red-Hat-Base                             \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
-
-desktop-file-install                                        \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
-  --add-category DesktopSettings                            \
-  $RPM_BUILD_ROOT%{_datadir}/applications/gnome-nautilus-file-management-properties.desktop
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -213,6 +207,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Tue Feb 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.91-1
+- Update to 2.17.91
+
 * Wed Feb  7 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.90-4
 - Add DesktopSettings category to nautilus-file-management-properties.desktop
 
