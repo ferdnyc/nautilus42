@@ -18,7 +18,7 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.17.91
+Version: 	2.17.92
 Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
@@ -62,7 +62,7 @@ BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  gettext
 # For intltool:
-BuildRequires: perl-XML-Parser >= 2.31-16
+BuildRequires: perl(XML::Parser) >= 2.31-16
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
@@ -207,6 +207,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Tue Feb 27 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.92-1
+- Update to 2.17.92
+
 * Tue Feb 13 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.91-1
 - Update to 2.17.91
 
