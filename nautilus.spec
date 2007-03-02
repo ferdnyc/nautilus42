@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.17.92
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/2.17/%{name}-%{version}.tar.bz2
@@ -80,6 +80,8 @@ Patch3:		background-no-delay.patch
 Patch5:		nautilus-2.17.90-selinux.patch
 Patch6:         nautilus-2.16.2-dynamic-search.patch
 
+Patch7:         nautilus-xdg-user-dirs.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -112,6 +114,7 @@ for writing nautilus extensions.
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
+%patch7 -p0 -b .xdg-user-dirs
 
 %build
 
@@ -207,6 +210,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Thu Mar  1 2007 Alexander Larsson <alexl@redhat.com> - 2.17.92-2
+- Add xdg-user-dirs patch
+
 * Tue Feb 27 2007 Matthias Clasen <mclasen@redhat.com> - 2.17.92-1
 - Update to 2.17.92
 
