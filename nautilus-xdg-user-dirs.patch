@@ -1,6 +1,6 @@
 Index: src/file-manager/fm-directory-view.c
 ===================================================================
---- src/file-manager/fm-directory-view.c	(revision 12767)
+--- src/file-manager/fm-directory-view.c	(revision 12790)
 +++ src/file-manager/fm-directory-view.c	(working copy)
 @@ -151,6 +151,7 @@
  #define FM_DIRECTORY_VIEW_POPUP_PATH_LOCATION				"/location"
@@ -214,9 +214,21 @@ Index: src/file-manager/fm-directory-view.c
  }
  
  
+Index: libnautilus-private/nautilus-file.c
+===================================================================
+--- libnautilus-private/nautilus-file.c	(revision 12790)
++++ libnautilus-private/nautilus-file.c	(working copy)
+@@ -839,7 +839,6 @@ nautilus_file_can_rename (NautilusFile *
+ 	}
+ 
+ 	if ((is_desktop_file (file) && !can_rename_desktop_file (file)) ||
+-	     nautilus_file_is_desktop_directory (file) ||
+ 	     nautilus_file_is_home (file)) {
+ 		return FALSE;
+ 	}
 Index: libnautilus-private/nautilus-file-utilities.c
 ===================================================================
---- libnautilus-private/nautilus-file-utilities.c	(revision 12767)
+--- libnautilus-private/nautilus-file-utilities.c	(revision 12790)
 +++ libnautilus-private/nautilus-file-utilities.c	(working copy)
 @@ -31,6 +31,7 @@
  #include "nautilus-metafile.h"
@@ -226,15 +238,18 @@ Index: libnautilus-private/nautilus-file-utilities.c
  #include <eel/eel-glib-extensions.h>
  #include <eel/eel-string.h>
  #include <eel/eel-vfs-extensions.h>
-@@ -49,6 +50,7 @@
+@@ -49,6 +50,10 @@
  #define LEGACY_DESKTOP_DIRECTORY_NAME ".gnome-desktop"
  #define DEFAULT_DESKTOP_DIRECTORY_MODE (0755)
  
 +static void update_xdg_dir_cache (void);
++static void schedule_user_dirs_changed (void);
++static void desktop_dir_changed (void);
++
  
  char *
  nautilus_compute_title_for_uri (const char *text_uri)
-@@ -148,15 +150,277 @@ nautilus_get_user_directory (void)
+@@ -148,15 +153,280 @@ nautilus_get_user_directory (void)
  	return user_directory;
  }
  
@@ -384,6 +399,8 @@ Index: libnautilus-private/nautilus-file-utilities.c
 +				      G_SPAWN_STDERR_TO_DEV_NULL,
 +				      NULL, NULL,
 +				      NULL, NULL, NULL, NULL);
++			schedule_user_dirs_changed ();
++			desktop_dir_changed ();
 +		}
 +	}
 +	g_free (file_uri);
@@ -445,6 +462,7 @@ Index: libnautilus-private/nautilus-file-utilities.c
 +		g_free (cached_xdg_dirs);
 +
 +		schedule_user_dirs_changed ();
++		desktop_dir_changed ();
 +	}
 +
 +	if (!started_monitor) {
@@ -514,7 +532,7 @@ Index: libnautilus-private/nautilus-file-utilities.c
  }
  
  /**
-@@ -231,11 +495,22 @@ nautilus_get_home_directory_uri (void)
+@@ -231,11 +501,22 @@ nautilus_get_home_directory_uri (void)
  }
  
  
@@ -539,9 +557,33 @@ Index: libnautilus-private/nautilus-file-utilities.c
  }
  
  void
+@@ -283,8 +564,9 @@ static char *escaped_desktop_dir_dirname
+ static char *escaped_desktop_dir_filename = NULL;
+ static gboolean desktop_dir_changed_callback_installed = FALSE;
+ 
++
+ static void
+-desktop_dir_changed_callback (gpointer callback_data)
++desktop_dir_changed (void)
+ {
+ 	g_free (escaped_desktop_dir);
+ 	g_free (escaped_desktop_dir_filename);
+@@ -295,6 +577,12 @@ desktop_dir_changed_callback (gpointer c
+ }
+ 
+ static void
++desktop_dir_changed_callback (gpointer callback_data)
++{
++	desktop_dir_changed ();
++}
++
++static void
+ update_desktop_dir (void)
+ {
+ 	char *uri, *path;
 Index: libnautilus-private/nautilus-file-utilities.h
 ===================================================================
---- libnautilus-private/nautilus-file-utilities.h	(revision 12767)
+--- libnautilus-private/nautilus-file-utilities.h	(revision 12790)
 +++ libnautilus-private/nautilus-file-utilities.h	(working copy)
 @@ -37,6 +37,7 @@ gboolean nautilus_file_name_matches_back
  /* These functions all return something something that needs to be
@@ -561,7 +603,7 @@ Index: libnautilus-private/nautilus-file-utilities.h
  void     nautilus_create_templates_directory         (void);
 Index: libnautilus-private/nautilus-signaller.c
 ===================================================================
---- libnautilus-private/nautilus-signaller.c	(revision 12767)
+--- libnautilus-private/nautilus-signaller.c	(revision 12790)
 +++ libnautilus-private/nautilus-signaller.c	(working copy)
 @@ -39,6 +39,7 @@ enum {
  	HISTORY_LIST_CHANGED,
