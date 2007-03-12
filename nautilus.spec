@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.17.92
-Release:	3%{?dist}
+Version: 	2.18.0.1
+Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/2.17/%{name}-%{version}.tar.bz2
@@ -210,6 +210,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Mon Mar 12 2007 Alexander Larsson <alexl@redhat.com> - 2.18.0.1-1
+- Update to 2.18.0.1
+
 * Tue Mar  6 2007 Alexander Larsson <alexl@redhat.com> - 2.17.92-3
 - Update xdg-user-dirs patch, now handle renaming desktop dir
 
