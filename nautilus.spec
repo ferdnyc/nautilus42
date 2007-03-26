@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.18.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/2.17/%{name}-%{version}.tar.bz2
@@ -166,6 +166,11 @@ scrollkeeper-update
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null || :
 
+touch --no-create %{_datadir}/icons/hicolor
+if [ -x /usr/bin/gtk-update-icon-cache ]; then
+  gtk-update-icon-cache -q %{_datadir}/icons/hicolor
+fi
+
 %pre
 if [ "$1" -gt 1 ]; then
     export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
@@ -181,6 +186,12 @@ fi
 %postun
 /sbin/ldconfig
 scrollkeeper-update
+
+touch --no-create %{_datadir}/icons/hicolor
+if [ -x /usr/bin/gtk-update-icon-cache ]; then
+  gtk-update-icon-cache -q %{_datadir}/icons/hicolor
+fi
+
 
 %files  -f %{name}.lang
 %defattr(-,root,root)
@@ -210,6 +221,9 @@ scrollkeeper-update
 %{_libdir}/*.so
 
 %changelog
+* Mon Mar 26 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0.1-2
+- Update icon caches (#234020)
+
 * Mon Mar 12 2007 Alexander Larsson <alexl@redhat.com> - 2.18.0.1-1
 - Update to 2.18.0.1
 
