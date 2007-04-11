@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.18.0.1
-Release:	2%{?dist}
+Version: 	2.18.1
+Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/2.17/%{name}-%{version}.tar.bz2
@@ -221,6 +221,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Wed Apr 11 2007 Alexander Larsson <alexl@redhat.com> - 2.18.1-1
+- Update to 2.18.1
+
 * Mon Mar 26 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.0.1-2
 - Update icon caches (#234020)
 
