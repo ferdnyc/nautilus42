@@ -18,11 +18,11 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.18.1
-Release:	2%{?dist}
+Version: 	2.19.2
+Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
-Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/2.17/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.19/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
@@ -77,13 +77,9 @@ Obsoletes:      nautilus-media
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
-Patch5:		nautilus-2.17.90-selinux.patch
+Patch5:		nautilus-2.19.2-selinux.patch
 Patch6:         nautilus-2.16.2-dynamic-search.patch
-
 Patch7:         nautilus-xdg-user-dirs.patch
-
-#backport from svn
-Patch8:         nautilus-2.18.0.1-file-and-directory-list-leak.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -118,7 +114,6 @@ for writing nautilus extensions.
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p0 -b .xdg-user-dirs
-%patch8 -p1 -b .xdg-user-dirs
 
 %build
 
@@ -225,6 +220,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Sat May 19 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.2-1
+- Update to 2.19.2
+
 * Wed Apr 11 2007 Alexander Larsson <alexl@redhat.com> - 2.18.1-2
 - Fix memleak (#235696)
 

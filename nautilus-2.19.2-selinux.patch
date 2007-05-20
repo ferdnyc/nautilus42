@@ -1,371 +1,6 @@
---- nautilus-2.16.2/libnautilus-private/nautilus-file.c.selinux	2006-11-06 13:57:32.000000000 +0100
-+++ nautilus-2.16.2/libnautilus-private/nautilus-file.c	2006-11-07 16:31:36.000000000 +0100
-@@ -3569,7 +3569,7 @@
-  * context
-  * @file: NautilusFile representing the file in question.
-  * 
-- * Returns: Newly allocated string ready to display to the user.
-+ * Returns: Newly allocated string ready to display to the user, or NULL.
-  * 
-  **/
- char *
-@@ -3602,6 +3602,133 @@
- 	return translated;
- }
- 
-+/**
-+ * nautilus_file_get_selinux_matchpathcon:
-+ * 
-+ * Get a user-displayable string representing a file's default selinux
-+ * context (as from matchpathcon). Only works on local files.
-+ * @file: NautilusFile representing the file in question.
-+ * 
-+ * Returns: Newly allocated string ready to display to the user, or NULL.
-+ * 
-+ **/
-+char *
-+nautilus_file_get_selinux_matchpathcon (NautilusFile *file)
-+{
-+	char *translated;
-+	char *raw;
-+	char *uri;
-+	char *fname;
-+	
-+	g_return_val_if_fail (NAUTILUS_IS_FILE (file), NULL);
-+
-+	translated = NULL;
-+#ifdef HAVE_SELINUX
-+	uri = nautilus_file_get_uri (file);
-+	fname = gnome_vfs_get_local_path_from_uri (uri);
-+	
-+	if (!fname) {
-+	        return NULL;
-+	}
-+
-+	raw = NULL;
-+	if (matchpathcon (fname, file->details->info->permissions, &raw) == 0) {
-+		if (selinux_raw_to_trans_context (raw, &translated) == 0) {
-+			char *tmp;
-+			tmp = g_strdup (translated);
-+			freecon (translated);
-+			translated = tmp;
-+		}
-+		freecon (raw);
-+	}
-+		      
-+	g_free (fname);
-+	g_free (uri);
-+#endif
-+	
-+	return translated;
-+}
-+
-+static void
-+set_selinux_context_callback (GnomeVFSAsyncHandle *handle,
-+			      GnomeVFSResult result,
-+			      GnomeVFSFileInfo *new_info,
-+			      gpointer callback_data)
-+{
-+	set_permissions_callback (handle, result, new_info, callback_data);
-+}
-+
-+void
-+nautilus_file_set_selinux_context (NautilusFile *file, 
-+				   const char *selinux_context,
-+				   NautilusFileOperationCallback callback,
-+				   gpointer callback_data)
-+{
-+	Operation *op;
-+	GnomeVFSURI *vfs_uri;
-+	GnomeVFSFileInfo *partial_file_info;
-+	GnomeVFSFileInfoOptions options;
-+        char *rcontext;
-+
-+	rcontext = NULL;
-+	
-+	/* this is probably mostly right... */
-+	if (!nautilus_file_can_set_permissions (file)) {
-+		/* Claim that something changed even if the permission change failed.
-+		 * This makes it easier for some clients who see the "reverting"
-+		 * to the old permissions as "changing back".
-+		 */
-+		nautilus_file_changed (file);
-+		(* callback) (file, GNOME_VFS_ERROR_ACCESS_DENIED, callback_data);
-+		return;
-+	}
-+			       
-+	/* Test the permissions-haven't-changed case explicitly
-+	 * because we don't want to send the file-changed signal if
-+	 * nothing changed.
-+	 */
-+	if (!strcmp(selinux_context, file->details->info->selinux_context)) {
-+		(* callback) (file, GNOME_VFS_OK, callback_data);
-+		return;
-+	}
-+
-+#ifdef HAVE_SELINUX
-+	/* this is really const, but prototype is wrong, *sigh* */
-+	if (selinux_trans_to_raw_context((char *)selinux_context, &rcontext)) {
-+		(* callback) (file, GNOME_VFS_ERROR_NO_MEMORY, callback_data);
-+		return;
-+	}
-+	selinux_context = rcontext;
-+#endif
-+	
-+	/* Set up a context change operation. */
-+	op = operation_new (file, callback, callback_data);
-+	op->use_slow_mime = file->details->got_slow_mime_type;
-+
-+	options = NAUTILUS_FILE_DEFAULT_FILE_INFO_OPTIONS;
-+	if (op->use_slow_mime) {
-+		options |= GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE;
-+	}
-+	/* Change the file-on-disk context. */
-+	partial_file_info = gnome_vfs_file_info_new ();
-+	g_free (partial_file_info->selinux_context);
-+	partial_file_info->selinux_context = g_strdup (selinux_context);
-+	vfs_uri = nautilus_file_get_gnome_vfs_uri (file);
-+	gnome_vfs_async_set_file_info (&op->handle,
-+				       vfs_uri, partial_file_info, 
-+				       GNOME_VFS_SET_FILE_INFO_SELINUX_CONTEXT,
-+				       options,
-+				       GNOME_VFS_PRIORITY_DEFAULT,
-+				       set_selinux_context_callback, op);
-+	gnome_vfs_file_info_unref (partial_file_info);
-+	gnome_vfs_uri_unref (vfs_uri);
-+
-+#ifdef HAVE_SELINUX
-+	freecon (rcontext);
-+#endif
-+}
-+
-+
- static char *
- get_real_name (const char *name, const char *gecos)
- {
-@@ -3804,7 +3931,7 @@
- 			      GnomeVFSResult result,
- 			      GnomeVFSFileInfo *new_info,
- 			      gpointer callback_data)
--{
-+{ /* FIXME: this is identical to set_permissions_callback */
- 	Operation *op;
- 
- 	op = callback_data;
---- nautilus-2.16.2/libnautilus-private/nautilus-file.h.selinux	2006-10-02 12:46:28.000000000 +0200
-+++ nautilus-2.16.2/libnautilus-private/nautilus-file.h	2006-11-07 16:31:36.000000000 +0100
-@@ -200,6 +200,7 @@
- GList *                 nautilus_file_get_settable_group_names          (NautilusFile                   *file);
- gboolean                nautilus_file_can_get_selinux_context           (NautilusFile                   *file);
- char *                  nautilus_file_get_selinux_context               (NautilusFile                   *file);
-+char *                  nautilus_file_get_selinux_matchpathcon          (NautilusFile                   *file);
- 
- /* "Capabilities". */
- gboolean                nautilus_file_can_read                          (NautilusFile                   *file);
-@@ -226,6 +227,10 @@
- 									 GnomeVFSFilePermissions         permissions,
- 									 NautilusFileOperationCallback   callback,
- 									 gpointer                        callback_data);
-+void                    nautilus_file_set_selinux_context               (NautilusFile *file, 
-+									 const char *selinux_context,
-+									 NautilusFileOperationCallback callback,
-+									 gpointer callback_data);
- void                    nautilus_file_rename                            (NautilusFile                   *file,
- 									 const char                     *new_name,
- 									 NautilusFileOperationCallback   callback,
---- nautilus-2.16.2/libnautilus-private/nautilus-file-operations.c.selinux	2006-11-06 13:21:46.000000000 +0100
-+++ nautilus-2.16.2/libnautilus-private/nautilus-file-operations.c	2006-11-07 16:31:36.000000000 +0100
-@@ -62,6 +62,10 @@
- #include "nautilus-trash-monitor.h"
- #include "nautilus-file-utilities.h"
- 
-+#ifdef HAVE_SELINUX
-+#include <selinux/selinux.h>
-+#endif
-+
- typedef enum   TransferKind         TransferKind;
- typedef struct TransferInfo         TransferInfo;
- typedef struct IconPositionIterator IconPositionIterator;
-@@ -2908,6 +2912,7 @@
- 	GnomeVFSFilePermissions file_mask;
- 	GnomeVFSFilePermissions dir_permissions;
- 	GnomeVFSFilePermissions dir_mask;
-+        char *context;
- 	NautilusSetPermissionsCallback callback;
- 	gpointer callback_data;
- };
-@@ -2935,6 +2940,8 @@
- 	GnomeVFSURI *uri;
- 	char *uri_str;
- 	struct FileInfo *file_info;
-+	int flags;
-+	int options;
- 	
- 	info = callback_data;
- 
-@@ -2965,10 +2972,18 @@
- 	vfs_info->permissions = 
- 			(file_info->permissions & ~info->file_mask) |
- 			info->file_permissions;
-+	flags = GNOME_VFS_SET_FILE_INFO_PERMISSIONS;
-+	options = GNOME_VFS_FILE_INFO_DEFAULT;
-+	if (info->context) {
-+		flags |= GNOME_VFS_SET_FILE_INFO_SELINUX_CONTEXT;
-+		vfs_info->valid_fields |= GNOME_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT;
-+		options |= GNOME_VFS_FILE_INFO_GET_SELINUX_CONTEXT;
-+		g_free (vfs_info->selinux_context);
-+	        vfs_info->selinux_context = g_strdup (info->context);
-+	}
- 	
- 	gnome_vfs_async_set_file_info (&info->handle, uri, vfs_info,
--				       GNOME_VFS_SET_FILE_INFO_PERMISSIONS,
--				       GNOME_VFS_FILE_INFO_DEFAULT,
-+				       flags, options,
- 				       GNOME_VFS_PRIORITY_DEFAULT,
- 				       set_permissions_set_file_info,
- 				       info);
-@@ -2976,7 +2991,6 @@
- 	gnome_vfs_file_info_unref (vfs_info);
- 	g_free (file_info->name);
- 	g_free (file_info);
--	
- }
- 
- static void
-@@ -3021,13 +3035,11 @@
- 		}
- 	}
- 
--
- 	if (result != GNOME_VFS_OK) {
- 		/* Finished with this dir, work on the files */
- 		info->current_file = NULL;
- 		set_permissions_set_file_info (NULL, GNOME_VFS_OK, NULL, info);
- 	}
--	
- }
- 
- /* Also called for the toplevel dir */
-@@ -3039,7 +3051,8 @@
- {
- 	struct RecursivePermissionsInfo *info;
- 	char *uri_str;
--
-+	int options;
-+	
- 	info = callback_data;
- 	
- 	if (result == GNOME_VFS_OK && handle != NULL) {
-@@ -3048,9 +3061,13 @@
- 		g_free (uri_str);
- 	}
- 	
-+	options = GNOME_VFS_FILE_INFO_DEFAULT;
-+	if (info->context) {
-+		options |= GNOME_VFS_FILE_INFO_GET_SELINUX_CONTEXT;
-+	}
- 	gnome_vfs_async_load_directory_uri (&info->handle,
- 					    info->current_dir,
--					    GNOME_VFS_FILE_INFO_DEFAULT,
-+					    options,
- 					    50,
- 					    GNOME_VFS_PRIORITY_DEFAULT,
- 					    set_permissions_got_files,
-@@ -3062,6 +3079,8 @@
- {
- 	struct DirInfo *dir_info;
- 	GnomeVFSFileInfo *vfs_info;
-+	int flags;
-+	int options;
- 	
- 	gnome_vfs_uri_unref (info->current_dir);
- 
-@@ -3069,6 +3088,7 @@
- 		/* No more directories, finished! */
- 		info->callback (info->callback_data);
- 		/* All parts of info should be freed now */
-+		g_free (info->context);
- 		g_free (info);
- 		return;
- 	}
-@@ -3083,12 +3103,18 @@
- 	vfs_info->permissions = 
- 			(dir_info->permissions & ~info->dir_mask) |
- 			info->dir_permissions;
--
--	gnome_vfs_async_set_file_info (&info->handle,
--				       info->current_dir,
--				       vfs_info,
--				       GNOME_VFS_SET_FILE_INFO_PERMISSIONS,
--				       GNOME_VFS_FILE_INFO_DEFAULT,
-+	flags = GNOME_VFS_SET_FILE_INFO_PERMISSIONS;
-+	options = GNOME_VFS_FILE_INFO_DEFAULT;
-+	if (info->context) {
-+		flags |= GNOME_VFS_SET_FILE_INFO_SELINUX_CONTEXT;
-+		vfs_info->valid_fields |= GNOME_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT;
-+		options |= GNOME_VFS_FILE_INFO_GET_SELINUX_CONTEXT;
-+		g_free (vfs_info->selinux_context);
-+	        vfs_info->selinux_context = g_strdup (info->context);
-+	}
-+	
-+	gnome_vfs_async_set_file_info (&info->handle, info->current_dir,
-+				       vfs_info, flags, options,
- 				       GNOME_VFS_PRIORITY_DEFAULT,
- 				       set_permissions_load_dir,
- 				       info);
-@@ -3103,6 +3129,7 @@
- 					 GnomeVFSFilePermissions         file_mask,
- 					 GnomeVFSFilePermissions         dir_permissions,
- 					 GnomeVFSFilePermissions         dir_mask,
-+					 const char                     *context,
- 					 NautilusSetPermissionsCallback  callback,
- 					 gpointer                        callback_data)
- {
-@@ -3116,6 +3143,22 @@
- 	info->file_mask = file_mask;
- 	info->dir_permissions = dir_permissions;
- 	info->dir_mask = dir_mask;
-+	if (context) {
-+		char *rcontext;
-+
-+	        rcontext = info->context = NULL;
-+#ifdef HAVE_SELINUX
-+		/* this is really const, but prototype is wrong, *sigh* */
-+		if (selinux_trans_to_raw_context((char *)context, &rcontext)) {
-+			g_error ("selinux_trans_to_raw_context: failed to allocate bytes");
-+		        return;
-+		}
-+	        info->context = g_strdup (rcontext);
-+		freecon (rcontext);
-+#endif
-+	} else {
-+	        info->context = NULL;
-+	}
- 	info->callback = callback;
- 	info->callback_data = callback_data;
- 
-@@ -3123,6 +3166,8 @@
- 
- 	if (info->current_dir == NULL) {
- 		info->callback (info->callback_data);
-+		/* All parts of info should be freed now */
-+		g_free (info->context);
- 		g_free (info);
- 		return;
- 	}
---- nautilus-2.16.2/libnautilus-private/nautilus-file-operations.h.selinux	2006-10-02 12:46:28.000000000 +0200
-+++ nautilus-2.16.2/libnautilus-private/nautilus-file-operations.h	2006-11-07 16:31:36.000000000 +0100
-@@ -76,6 +76,7 @@
- 					      GnomeVFSFilePermissions         file_mask,
- 					      GnomeVFSFilePermissions         folder_permissions,
- 					      GnomeVFSFilePermissions         folder_mask,
-+					      const char                     *context,
- 					      NautilusSetPermissionsCallback  callback,
- 					      gpointer                        callback_data);
- 
---- nautilus-2.16.2/src/file-manager/fm-error-reporting.c.selinux	2006-10-02 12:46:28.000000000 +0200
-+++ nautilus-2.16.2/src/file-manager/fm-error-reporting.c	2006-11-07 16:31:36.000000000 +0100
-@@ -251,6 +251,38 @@
+--- nautilus-2.19.2/src/file-manager/fm-error-reporting.c.selinux	2007-04-03 06:08:04.000000000 -0400
++++ nautilus-2.19.2/src/file-manager/fm-error-reporting.c	2007-05-19 22:20:22.000000000 -0400
+@@ -252,6 +252,38 @@ fm_report_error_setting_permissions (Nau
  	g_free (message);
  }		
  
@@ -404,9 +39,9 @@
  typedef struct _FMRenameData {
  	char *name;
  	NautilusFileOperationCallback callback;
---- nautilus-2.16.2/src/file-manager/fm-error-reporting.h.selinux	2006-10-02 12:46:28.000000000 +0200
-+++ nautilus-2.16.2/src/file-manager/fm-error-reporting.h	2006-11-07 16:31:36.000000000 +0100
-@@ -39,7 +39,10 @@
+--- nautilus-2.19.2/src/file-manager/fm-error-reporting.h.selinux	2007-04-03 06:08:04.000000000 -0400
++++ nautilus-2.19.2/src/file-manager/fm-error-reporting.h	2007-05-19 22:20:22.000000000 -0400
+@@ -39,7 +39,10 @@ void fm_report_error_renaming_file      
  					  GnomeVFSResult  error_code,
  					  GtkWindow	 *parent_window);
  void fm_report_error_setting_permissions (NautilusFile   *file,
@@ -418,11 +53,11 @@
  					  GtkWindow	 *parent_window);
  void fm_report_error_setting_owner       (NautilusFile   *file,
  					  GnomeVFSResult  error_code,  
---- nautilus-2.16.2/src/file-manager/fm-properties-window.c.selinux	2006-10-31 10:21:41.000000000 +0100
-+++ nautilus-2.16.2/src/file-manager/fm-properties-window.c	2006-11-07 16:41:59.000000000 +0100
-@@ -83,6 +83,10 @@
- #include <libnautilus-private/nautilus-undo.h>
- #include <string.h>
+--- nautilus-2.19.2/src/file-manager/fm-properties-window.c.selinux	2007-05-02 08:40:07.000000000 -0400
++++ nautilus-2.19.2/src/file-manager/fm-properties-window.c	2007-05-19 22:22:52.000000000 -0400
+@@ -111,6 +111,10 @@
+ #define FREE_STROKE_G  0.396078431
+ #define FREE_STROKE_B  0.643137255
  
 +#ifdef HAVE_SELINUX
 +# include <selinux/selinux.h>
@@ -431,7 +66,7 @@
  #define PREVIEW_IMAGE_WIDTH 96
  
  #define ROW_PAD 6
-@@ -102,7 +106,7 @@
+@@ -130,7 +134,7 @@ struct FMPropertiesWindowDetails {	
  
  	GtkWidget *icon_button;
  	GtkWidget *icon_image;
@@ -440,7 +75,7 @@
  
  	GtkWidget *name_label;
  	GtkWidget *name_field;
-@@ -124,12 +128,15 @@
+@@ -152,12 +156,15 @@ struct FMPropertiesWindowDetails {	
  	unsigned int  owner_change_timeout;
  
  	GList *permission_buttons;
@@ -457,7 +92,7 @@
  	GList *mime_list;
  
  	gboolean deep_count_finished;
-@@ -208,6 +215,10 @@
+@@ -239,6 +246,10 @@ static void permission_combo_update     
  						   GtkComboBox        *combo);
  static void value_field_update                    (FMPropertiesWindow *window,
  						   GtkLabel           *field);
@@ -468,10 +103,10 @@
  static void properties_window_update              (FMPropertiesWindow *window,
  						   GList              *files);
  static void is_directory_ready_callback           (NautilusFile       *file,
-@@ -235,10 +246,32 @@
- 						   int row,
- 						   int column,
- 						   const char *initial_text);
+@@ -269,9 +280,31 @@ static GtkLabel *attach_ellipsizing_valu
+ 						   
+ static GtkWidget* create_pie_widget 		  (FMPropertiesWindow *window);
+ 
 +static void attach_selinux_data_edit_field        (GtkEntry *entry,
 +						   char *attr_value,
 +						   char *def_attr_value);
@@ -479,15 +114,14 @@
 +						   char *attr_val,
 +						   char *def_attr_val);
 +
- 
  G_DEFINE_TYPE (FMPropertiesWindow, fm_properties_window, GTK_TYPE_WINDOW);
  #define parent_class fm_properties_window_parent_class 
  
 +static void
 +maybe_gtk_entry_set_text (GtkEntry *entry, const char *val)
 +{
-+        char *old_val;
-+  
++	char *old_val;
++
 +	g_assert (GTK_IS_ENTRY (entry));
 +
 +	old_val = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
@@ -501,7 +135,7 @@
  static gboolean
  is_multi_file_window (FMPropertiesWindow *window)
  {
-@@ -259,6 +292,39 @@
+@@ -292,6 +325,39 @@ is_multi_file_window (FMPropertiesWindow
  	return FALSE;
  }
  
@@ -541,7 +175,7 @@
  static int
  get_not_gone_original_file_count (FMPropertiesWindow *window)
  {
-@@ -494,7 +560,7 @@
+@@ -529,7 +595,7 @@ fm_properties_window_drag_data_received 
  		return;
  	}
  	
@@ -550,7 +184,7 @@
  	exactly_one = uris[0] != NULL && (uris[1] == NULL || uris[1][0] == '\0');
  
  
-@@ -575,7 +641,7 @@
+@@ -610,7 +676,7 @@ create_image_widget (FMPropertiesWindow 
  
  static void
  set_name_field (FMPropertiesWindow *window, const gchar *original_name,
@@ -559,7 +193,7 @@
  {
  	gboolean new_widget;
  	gboolean use_label;
-@@ -641,11 +707,7 @@
+@@ -676,11 +742,7 @@ set_name_field (FMPropertiesWindow *wind
  			 * currently showing. This causes minimal ripples (e.g.
  			 * selection change).
  			 */
@@ -572,7 +206,7 @@
  		}
  	}
  }
-@@ -721,7 +783,6 @@
+@@ -756,7 +818,6 @@ static void
  name_field_restore_original_name (NautilusEntry *name_field)
  {
  	const char *original_name;
@@ -580,7 +214,7 @@
  
  	original_name = (const char *) g_object_get_data (G_OBJECT (name_field),
  							  "original_name");
-@@ -730,14 +791,8 @@
+@@ -765,14 +826,8 @@ name_field_restore_original_name (Nautil
  		return;
  	}
  
@@ -596,7 +230,7 @@
  }
  
  static void
-@@ -850,7 +905,7 @@
+@@ -885,7 +940,7 @@ file_has_keyword (NautilusFile *file, co
  	word = g_list_find_custom (keywords, keyword, (GCompareFunc) strcmp);
  	eel_g_list_free_deep (keywords);
  	
@@ -605,7 +239,7 @@
  }
  
  static void
-@@ -1117,7 +1172,7 @@
+@@ -1152,7 +1207,7 @@ mime_list_equal (GList *a, GList *b)
  		b = b->next;
  	}
  
@@ -614,7 +248,7 @@
  }
  
  static GList *
-@@ -1199,6 +1254,14 @@
+@@ -1234,6 +1289,14 @@ properties_window_update (FMPropertiesWi
  		for (l = window->details->value_fields; l != NULL; l = l->next) {
  			value_field_update (window, GTK_LABEL (l->data));
  		}
@@ -629,8 +263,8 @@
  	}
  
  	mime_list = get_mime_list (window);
-@@ -1379,6 +1442,111 @@
- 				     ellipsize_text);
+@@ -1403,6 +1466,111 @@ value_field_update (FMPropertiesWindow *
+ 				      window->details->target_files));
  }
  
 +static void
@@ -741,7 +375,7 @@
  static GtkLabel *
  attach_label (GtkTable *table,
  	      int row,
-@@ -1430,6 +1598,45 @@
+@@ -1457,6 +1625,45 @@ attach_value_label (GtkTable *table,
  	return attach_label (table, row, column, initial_text, FALSE, FALSE, FALSE, TRUE, FALSE);
  }
  
@@ -787,7 +421,7 @@
  static GtkLabel *
  attach_ellipsizing_value_label (GtkTable *table,
  				int row,
-@@ -1489,6 +1696,672 @@
+@@ -1515,6 +1722,672 @@ attach_value_field (FMPropertiesWindow *
  				     FALSE);
  }
  
@@ -1460,7 +1094,7 @@
  static GtkWidget*
  attach_ellipsizing_value_field (FMPropertiesWindow *window,
  				GtkTable *table,
-@@ -2439,6 +3312,36 @@
+@@ -2465,6 +3338,36 @@ append_title_value_pair (FMPropertiesWin
  }
  
  static guint
@@ -1497,7 +1131,7 @@
  append_title_and_ellipsizing_value (FMPropertiesWindow *window,
  				    GtkTable *table,
  				    const char *title,
-@@ -2900,31 +3803,6 @@
+@@ -3263,31 +4166,6 @@ create_emblems_page (FMPropertiesWindow 
  }
  
  static void
@@ -1529,7 +1163,7 @@
  permission_change_callback (NautilusFile *file, GnomeVFSResult result, gpointer callback_data)
  {
  	FMPropertiesWindow *window;
-@@ -4051,14 +4929,16 @@
+@@ -4414,14 +5292,16 @@ apply_recursive_clicked (GtkWidget *recu
  	GnomeVFSFilePermissions file_permission, file_permission_mask;
  	GnomeVFSFilePermissions dir_permission, dir_permission_mask;
  	GnomeVFSFilePermissions vfs_mask, vfs_new_perm, p;
@@ -1548,7 +1182,7 @@
  	file_permission = 0;
  	file_permission_mask = 0;
  	dir_permission = 0;
-@@ -4095,9 +4975,9 @@
+@@ -4458,9 +5338,9 @@ apply_recursive_clicked (GtkWidget *recu
  	}
  	/* Simple mode, minus exec checkbox */
  	for (l = window->details->permission_combos; l != NULL; l = l->next) {
@@ -1560,7 +1194,7 @@
  			continue;
  		}
  		
-@@ -4105,7 +4985,7 @@
+@@ -4468,7 +5348,7 @@ apply_recursive_clicked (GtkWidget *recu
  		is_folder = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo),
  								"is-folder"));
  		
@@ -1569,7 +1203,7 @@
  		gtk_tree_model_get (model, &iter, 1, &new_perm, 2, &use_original, -1);
  		if (use_original) {
  			continue;
-@@ -4128,12 +5008,53 @@
+@@ -4491,12 +5371,53 @@ apply_recursive_clicked (GtkWidget *recu
  		}
  	}
  
@@ -1623,7 +1257,7 @@
  		if (nautilus_file_is_directory (file) &&
  		    nautilus_file_can_set_permissions (file)) {
  			uri = nautilus_file_get_uri (file);
-@@ -4144,11 +5065,13 @@
+@@ -4507,11 +5428,13 @@ apply_recursive_clicked (GtkWidget *recu
  								 file_permission_mask,
  								 dir_permission,
  								 dir_permission_mask,
@@ -1637,7 +1271,7 @@
  }
  
  static void
-@@ -4195,11 +5118,20 @@
+@@ -4558,11 +5481,20 @@ create_permissions_page (FMPropertiesWin
  		}
  		
  		gtk_table_set_row_spacing (page_table, page_table->nrows - 1, 18);
@@ -1663,3 +1297,369 @@
  		append_title_value_pair
  			(window, page_table, _("Last changed:"), 
  			 "date_permissions", _("--"),
+--- nautilus-2.19.2/libnautilus-private/nautilus-file-operations.c.selinux	2007-04-03 06:08:46.000000000 -0400
++++ nautilus-2.19.2/libnautilus-private/nautilus-file-operations.c	2007-05-19 22:20:22.000000000 -0400
+@@ -63,6 +63,10 @@
+ #include "nautilus-trash-monitor.h"
+ #include "nautilus-file-utilities.h"
+ 
++#ifdef HAVE_SELINUX
++#include <selinux/selinux.h>
++#endif
++
+ typedef enum   TransferKind         TransferKind;
+ typedef struct TransferInfo         TransferInfo;
+ typedef struct IconPositionIterator IconPositionIterator;
+@@ -3181,6 +3185,7 @@ struct RecursivePermissionsInfo {
+ 	GnomeVFSFilePermissions file_mask;
+ 	GnomeVFSFilePermissions dir_permissions;
+ 	GnomeVFSFilePermissions dir_mask;
++        char *context;
+ 	NautilusSetPermissionsCallback callback;
+ 	gpointer callback_data;
+ };
+@@ -3208,6 +3213,8 @@ set_permissions_set_file_info (GnomeVFSA
+ 	GnomeVFSURI *uri;
+ 	char *uri_str;
+ 	struct FileInfo *file_info;
++	int flags;
++	int options;
+ 	
+ 	info = callback_data;
+ 
+@@ -3238,10 +3245,18 @@ set_permissions_set_file_info (GnomeVFSA
+ 	vfs_info->permissions = 
+ 			(file_info->permissions & ~info->file_mask) |
+ 			info->file_permissions;
++	flags = GNOME_VFS_SET_FILE_INFO_PERMISSIONS;
++	options = GNOME_VFS_FILE_INFO_DEFAULT;
++	if (info->context) {
++		flags |= GNOME_VFS_SET_FILE_INFO_SELINUX_CONTEXT;
++		vfs_info->valid_fields |= GNOME_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT;
++		options |= GNOME_VFS_FILE_INFO_GET_SELINUX_CONTEXT;
++		g_free (vfs_info->selinux_context);
++	        vfs_info->selinux_context = g_strdup (info->context);
++	}
+ 	
+ 	gnome_vfs_async_set_file_info (&info->handle, uri, vfs_info,
+-				       GNOME_VFS_SET_FILE_INFO_PERMISSIONS,
+-				       GNOME_VFS_FILE_INFO_DEFAULT,
++				       flags, options,
+ 				       GNOME_VFS_PRIORITY_DEFAULT,
+ 				       set_permissions_set_file_info,
+ 				       info);
+@@ -3249,7 +3264,6 @@ set_permissions_set_file_info (GnomeVFSA
+ 	gnome_vfs_file_info_unref (vfs_info);
+ 	g_free (file_info->name);
+ 	g_free (file_info);
+-	
+ }
+ 
+ static void
+@@ -3294,13 +3308,11 @@ set_permissions_got_files (GnomeVFSAsync
+ 		}
+ 	}
+ 
+-
+ 	if (result != GNOME_VFS_OK) {
+ 		/* Finished with this dir, work on the files */
+ 		info->current_file = NULL;
+ 		set_permissions_set_file_info (NULL, GNOME_VFS_OK, NULL, info);
+ 	}
+-	
+ }
+ 
+ /* Also called for the toplevel dir */
+@@ -3312,7 +3324,8 @@ set_permissions_load_dir (GnomeVFSAsyncH
+ {
+ 	struct RecursivePermissionsInfo *info;
+ 	char *uri_str;
+-
++	int options;
++	
+ 	info = callback_data;
+ 	
+ 	if (result == GNOME_VFS_OK && handle != NULL) {
+@@ -3321,9 +3334,13 @@ set_permissions_load_dir (GnomeVFSAsyncH
+ 		g_free (uri_str);
+ 	}
+ 	
++	options = GNOME_VFS_FILE_INFO_DEFAULT;
++	if (info->context) {
++		options |= GNOME_VFS_FILE_INFO_GET_SELINUX_CONTEXT;
++	}
+ 	gnome_vfs_async_load_directory_uri (&info->handle,
+ 					    info->current_dir,
+-					    GNOME_VFS_FILE_INFO_DEFAULT,
++					    options,
+ 					    50,
+ 					    GNOME_VFS_PRIORITY_DEFAULT,
+ 					    set_permissions_got_files,
+@@ -3335,6 +3352,8 @@ set_permissions_run (struct RecursivePer
+ {
+ 	struct DirInfo *dir_info;
+ 	GnomeVFSFileInfo *vfs_info;
++	int flags;
++	int options;
+ 	
+ 	gnome_vfs_uri_unref (info->current_dir);
+ 
+@@ -3342,6 +3361,7 @@ set_permissions_run (struct RecursivePer
+ 		/* No more directories, finished! */
+ 		info->callback (info->callback_data);
+ 		/* All parts of info should be freed now */
++		g_free (info->context);
+ 		g_free (info);
+ 		return;
+ 	}
+@@ -3356,12 +3376,18 @@ set_permissions_run (struct RecursivePer
+ 	vfs_info->permissions = 
+ 			(dir_info->permissions & ~info->dir_mask) |
+ 			info->dir_permissions;
+-
+-	gnome_vfs_async_set_file_info (&info->handle,
+-				       info->current_dir,
+-				       vfs_info,
+-				       GNOME_VFS_SET_FILE_INFO_PERMISSIONS,
+-				       GNOME_VFS_FILE_INFO_DEFAULT,
++	flags = GNOME_VFS_SET_FILE_INFO_PERMISSIONS;
++	options = GNOME_VFS_FILE_INFO_DEFAULT;
++	if (info->context) {
++		flags |= GNOME_VFS_SET_FILE_INFO_SELINUX_CONTEXT;
++		vfs_info->valid_fields |= GNOME_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT;
++		options |= GNOME_VFS_FILE_INFO_GET_SELINUX_CONTEXT;
++		g_free (vfs_info->selinux_context);
++	        vfs_info->selinux_context = g_strdup (info->context);
++	}
++	
++	gnome_vfs_async_set_file_info (&info->handle, info->current_dir,
++				       vfs_info, flags, options,
+ 				       GNOME_VFS_PRIORITY_DEFAULT,
+ 				       set_permissions_load_dir,
+ 				       info);
+@@ -3376,6 +3402,7 @@ nautilus_file_set_permissions_recursive 
+ 					 GnomeVFSFilePermissions         file_mask,
+ 					 GnomeVFSFilePermissions         dir_permissions,
+ 					 GnomeVFSFilePermissions         dir_mask,
++					 const char                     *context,
+ 					 NautilusSetPermissionsCallback  callback,
+ 					 gpointer                        callback_data)
+ {
+@@ -3389,6 +3416,22 @@ nautilus_file_set_permissions_recursive 
+ 	info->file_mask = file_mask;
+ 	info->dir_permissions = dir_permissions;
+ 	info->dir_mask = dir_mask;
++	if (context) {
++		char *rcontext;
++
++	        rcontext = info->context = NULL;
++#ifdef HAVE_SELINUX
++		/* this is really const, but prototype is wrong, *sigh* */
++		if (selinux_trans_to_raw_context((char *)context, &rcontext)) {
++			g_error ("selinux_trans_to_raw_context: failed to allocate bytes");
++		        return;
++		}
++	        info->context = g_strdup (rcontext);
++		freecon (rcontext);
++#endif
++	} else {
++	        info->context = NULL;
++	}
+ 	info->callback = callback;
+ 	info->callback_data = callback_data;
+ 
+@@ -3396,6 +3439,8 @@ nautilus_file_set_permissions_recursive 
+ 
+ 	if (info->current_dir == NULL) {
+ 		info->callback (info->callback_data);
++		/* All parts of info should be freed now */
++		g_free (info->context);
+ 		g_free (info);
+ 		return;
+ 	}
+--- nautilus-2.19.2/libnautilus-private/nautilus-file-operations.h.selinux	2007-04-03 06:08:46.000000000 -0400
++++ nautilus-2.19.2/libnautilus-private/nautilus-file-operations.h	2007-05-19 22:20:22.000000000 -0400
+@@ -82,6 +82,7 @@ void nautilus_file_set_permissions_recur
+ 					      GnomeVFSFilePermissions         file_mask,
+ 					      GnomeVFSFilePermissions         folder_permissions,
+ 					      GnomeVFSFilePermissions         folder_mask,
++					      const char                     *context,
+ 					      NautilusSetPermissionsCallback  callback,
+ 					      gpointer                        callback_data);
+ 
+--- nautilus-2.19.2/libnautilus-private/nautilus-file.c.selinux	2007-05-09 04:32:15.000000000 -0400
++++ nautilus-2.19.2/libnautilus-private/nautilus-file.c	2007-05-19 22:20:22.000000000 -0400
+@@ -3589,7 +3589,7 @@ nautilus_file_can_get_selinux_context (N
+  * context
+  * @file: NautilusFile representing the file in question.
+  * 
+- * Returns: Newly allocated string ready to display to the user.
++ * Returns: Newly allocated string ready to display to the user, or NULL.
+  * 
+  **/
+ char *
+@@ -3622,6 +3622,134 @@ nautilus_file_get_selinux_context (Nauti
+ 	return translated;
+ }
+ 
++/**
++ * nautilus_file_get_selinux_matchpathcon:
++ * 
++ * Get a user-displayable string representing a file's default selinux
++ * context (as from matchpathcon). Only works on local files.
++ * @file: NautilusFile representing the file in question.
++ * 
++ * Returns: Newly allocated string ready to display to the user, or NULL.
++ * 
++ **/
++char *
++nautilus_file_get_selinux_matchpathcon (NautilusFile *file)
++{
++	char *translated;
++	char *raw;
++	char *uri;
++	char *fname;
++	
++	g_return_val_if_fail (NAUTILUS_IS_FILE (file), NULL);
++
++	translated = NULL;
++#ifdef HAVE_SELINUX
++	uri = nautilus_file_get_uri (file);
++	fname = gnome_vfs_get_local_path_from_uri (uri);
++	
++	if (!fname) {
++	        return NULL;
++	}
++
++	raw = NULL;
++	if (matchpathcon (fname, file->details->info->permissions, &raw) == 0) {
++		if (selinux_raw_to_trans_context (raw, &translated) == 0) {
++			char *tmp;
++			tmp = g_strdup (translated);
++			freecon (translated);
++			translated = tmp;
++		}
++		freecon (raw);
++	}
++		      
++	g_free (fname);
++	g_free (uri);
++#endif
++	
++	return translated;
++}
++
++static void
++set_selinux_context_callback (GnomeVFSAsyncHandle *handle,
++			      GnomeVFSResult result,
++			      GnomeVFSFileInfo *new_info,
++			      gpointer callback_data)
++{
++	set_permissions_callback (handle, result, new_info, callback_data);
++}
++
++void
++nautilus_file_set_selinux_context (NautilusFile *file, 
++				   const char *selinux_context,
++				   NautilusFileOperationCallback callback,
++				   gpointer callback_data)
++{
++	Operation *op;
++	GnomeVFSURI *vfs_uri;
++	GnomeVFSFileInfo *partial_file_info;
++	GnomeVFSFileInfoOptions options;
++        char *rcontext;
++
++	rcontext = NULL;
++	
++	/* this is probably mostly right... */
++	if (!nautilus_file_can_set_permissions (file)) {
++		/* Claim that something changed even if the permission change failed.
++		 * This makes it easier for some clients who see the "reverting"
++		 * to the old permissions as "changing back".
++		 */
++		nautilus_file_changed (file);
++		(* callback) (file, GNOME_VFS_ERROR_ACCESS_DENIED, callback_data);
++		return;
++	}
++			       
++	/* Test the permissions-haven't-changed case explicitly
++	 * because we don't want to send the file-changed signal if
++	 * nothing changed.
++	 */
++	if (file->details->info->selinux_context != NULL &&
++	    strcmp(selinux_context, file->details->info->selinux_context) == 0) {
++		(* callback) (file, GNOME_VFS_OK, callback_data);
++		return;
++	}
++
++#ifdef HAVE_SELINUX
++	/* this is really const, but prototype is wrong, *sigh* */
++	if (selinux_trans_to_raw_context((char *)selinux_context, &rcontext)) {
++		(* callback) (file, GNOME_VFS_ERROR_NO_MEMORY, callback_data);
++		return;
++	}
++	selinux_context = rcontext;
++#endif
++	
++	/* Set up a context change operation. */
++	op = operation_new (file, callback, callback_data);
++	op->use_slow_mime = file->details->got_slow_mime_type;
++
++	options = NAUTILUS_FILE_DEFAULT_FILE_INFO_OPTIONS;
++	if (op->use_slow_mime) {
++		options |= GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE;
++	}
++	/* Change the file-on-disk context. */
++	partial_file_info = gnome_vfs_file_info_new ();
++	g_free (partial_file_info->selinux_context);
++	partial_file_info->selinux_context = g_strdup (selinux_context);
++	vfs_uri = nautilus_file_get_gnome_vfs_uri (file);
++	gnome_vfs_async_set_file_info (&op->handle,
++				       vfs_uri, partial_file_info, 
++				       GNOME_VFS_SET_FILE_INFO_SELINUX_CONTEXT,
++				       options,
++				       GNOME_VFS_PRIORITY_DEFAULT,
++				       set_selinux_context_callback, op);
++	gnome_vfs_file_info_unref (partial_file_info);
++	gnome_vfs_uri_unref (vfs_uri);
++
++#ifdef HAVE_SELINUX
++	freecon (rcontext);
++#endif
++}
++
++
+ static char *
+ get_real_name (const char *name, const char *gecos)
+ {
+@@ -3824,7 +3952,7 @@ set_owner_and_group_callback (GnomeVFSAs
+ 			      GnomeVFSResult result,
+ 			      GnomeVFSFileInfo *new_info,
+ 			      gpointer callback_data)
+-{
++{ /* FIXME: this is identical to set_permissions_callback */
+ 	Operation *op;
+ 
+ 	op = callback_data;
+--- nautilus-2.19.2/libnautilus-private/nautilus-file.h.selinux	2007-04-03 06:08:46.000000000 -0400
++++ nautilus-2.19.2/libnautilus-private/nautilus-file.h	2007-05-19 22:20:22.000000000 -0400
+@@ -200,6 +200,7 @@ GList *                 nautilus_get_all
+ GList *                 nautilus_file_get_settable_group_names          (NautilusFile                   *file);
+ gboolean                nautilus_file_can_get_selinux_context           (NautilusFile                   *file);
+ char *                  nautilus_file_get_selinux_context               (NautilusFile                   *file);
++char *                  nautilus_file_get_selinux_matchpathcon          (NautilusFile                   *file);
+ 
+ /* "Capabilities". */
+ gboolean                nautilus_file_can_read                          (NautilusFile                   *file);
+@@ -226,6 +227,10 @@ void                    nautilus_file_se
+ 									 GnomeVFSFilePermissions         permissions,
+ 									 NautilusFileOperationCallback   callback,
+ 									 gpointer                        callback_data);
++void                    nautilus_file_set_selinux_context               (NautilusFile *file, 
++									 const char *selinux_context,
++									 NautilusFileOperationCallback callback,
++									 gpointer callback_data);
+ void                    nautilus_file_rename                            (NautilusFile                   *file,
+ 									 const char                     *new_name,
+ 									 NautilusFileOperationCallback   callback,
