@@ -136,12 +136,14 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 # make sure desktop files validate by ignoring sr@Latn
 perl -pi -e 's/sr\@Latn/sp/g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 # desktop-file-install can't handle empty OnlyShowIn correctly
-perl -pi -e 's/OnlyShowIn=;/OnlyShowIn=GNOME;/' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
+perl -pi -e 's/OnlyShowIn=;/OnlyShowIn=GNOME;/' $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-folder-default-handler.desktop
 
 desktop-file-install --vendor gnome --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-only-show-in GNOME                                  \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
+
+perl -pi -e 's/OnlyShowIn=GNOME;/OnlyShowIn=;/' $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-folder-default-handler.desktop
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
