@@ -79,7 +79,6 @@ Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
 Patch5:		nautilus-2.19.2-selinux.patch
 Patch6:         nautilus-2.16.2-dynamic-search.patch
-Patch7:         nautilus-xdg-user-dirs.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -113,7 +112,6 @@ for writing nautilus extensions.
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
-%patch7 -p0 -b .xdg-user-dirs
 
 %build
 
