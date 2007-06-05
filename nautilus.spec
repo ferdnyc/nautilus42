@@ -135,6 +135,8 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 # make sure desktop files validate by ignoring sr@Latn
 perl -pi -e 's/sr\@Latn/sp/g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
+# desktop-file-install can't handle empty OnlyShowIn correctly
+perl -pi -e 's/OnlyShowIn=;/OnlyShowIn=GNOME;/' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 desktop-file-install --vendor gnome --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
