@@ -82,9 +82,6 @@ Patch6:         nautilus-2.16.2-dynamic-search.patch
 
 Patch7:         nautilus-xdg-user-dirs.patch
 
-#backport from svn
-Patch8:         nautilus-2.18.0.1-file-and-directory-list-leak.patch
-
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -118,7 +115,6 @@ for writing nautilus extensions.
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p0 -b .xdg-user-dirs
-%patch8 -p1 -b .xdg-user-dirs
 
 %build
 
