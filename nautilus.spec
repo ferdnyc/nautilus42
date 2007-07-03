@@ -18,11 +18,11 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.18.1
-Release:	2%{?dist}
+Version: 	2.18.3
+Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
-Source: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/2.17/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.18/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
@@ -225,6 +225,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Mon Jul  2 2007 Matthias Clasen <mclasen@redhat.com> - 2.18.3-1
+- Update to 2.18.3
+
 * Wed Apr 11 2007 Alexander Larsson <alexl@redhat.com> - 2.18.1-2
 - Fix memleak (#235696)
 
