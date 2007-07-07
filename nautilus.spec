@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.19.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.19/%{name}-%{version}.tar.bz2
@@ -199,13 +199,11 @@ fi
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB ChangeLog NEWS README
 
 %{_libdir}/nautilus
-%{_libdir}/bonobo/servers
 %{_datadir}/nautilus
-%{_datadir}/pixmaps
-%{_datadir}/applications
+%{_libdir}/bonobo/servers/*
+%{_datadir}/pixmaps/*
+%{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
-#%{_datadir}/gnome
-#%{_datadir}/omf
 %{_bindir}/*
 %{_sysconfdir}/gconf/schemas/*
 %{_datadir}/icons/hicolor/*/apps/nautilus.png
@@ -222,6 +220,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Fri Jul  6 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-2
+- Fix directory ownership issues
+
 * Mon Jun 18 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.4-1
 - Update to 2.19.4
 
