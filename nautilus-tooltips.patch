@@ -1,0 +1,459 @@
+Index: src/nautilus-window-private.h
+===================================================================
+--- src/nautilus-window-private.h	(revision 13010)
++++ src/nautilus-window-private.h	(revision 13011)
+@@ -123,7 +123,6 @@
+         
+         /* Toolbar */
+         GtkWidget *toolbar;
+-        GtkTooltips *tooltips;
+         GtkWidget *location_bar;
+ 
+         guint extensions_toolbar_merge_id;
+Index: src/nautilus-navigation-window.c
+===================================================================
+--- src/nautilus-navigation-window.c	(revision 13010)
++++ src/nautilus-navigation-window.c	(revision 13011)
+@@ -182,8 +182,8 @@
+ 			       "active", location_button_should_be_active (window),
+ 			       NULL);
+ 
+-	gtk_tooltips_set_tip (window->details->tooltips, button,
+-			      _("Toggle between button and text-based location bar"), NULL);
++	gtk_widget_set_tooltip_text (button,
++				     _("Toggle between button and text-based location bar"));
+ 
+ 	g_signal_connect (button, "toggled",
+ 			  G_CALLBACK (location_button_toggled_cb), window);
+@@ -199,12 +199,8 @@
+ 	GtkWidget *view_as_menu_vbox;
+ 	GtkToolItem *item;
+ 	GtkWidget *hbox, *vbox, *eventbox, *extras_vbox;
+-	
+-	window->details = g_new0 (NautilusNavigationWindowDetails, 1);
+ 
+-	window->details->tooltips = gtk_tooltips_new ();
+-	g_object_ref (window->details->tooltips);
+-	gtk_object_sink (GTK_OBJECT (window->details->tooltips));
++	window->details = G_TYPE_INSTANCE_GET_PRIVATE (window, NAUTILUS_TYPE_NAVIGATION_WINDOW, NautilusNavigationWindowDetails);
+ 
+ 	window->details->content_paned = nautilus_horizontal_splitter_new ();
+ 	gtk_table_attach (GTK_TABLE (NAUTILUS_WINDOW (window)->details->table),
+@@ -696,11 +692,6 @@
+ 
+ 	window->details->content_paned = NULL;
+ 
+-	if (window->details->tooltips) {
+-		g_object_unref (window->details->tooltips);
+-		window->details->tooltips = NULL;
+-	}
+-	
+ 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+ }
+ 
+@@ -715,8 +706,6 @@
+ 	nautilus_navigation_window_clear_back_list (window);
+ 	nautilus_navigation_window_clear_forward_list (window);
+ 
+- 	g_free (window->details);
+-
+ 	G_OBJECT_CLASS (parent_class)->finalize (object);
+ }
+ 
+@@ -1591,4 +1580,6 @@
+ 	NAUTILUS_WINDOW_CLASS (class)->get_icon_name = real_get_icon_name;
+ 	NAUTILUS_WINDOW_CLASS (class)->get_default_size = real_get_default_size;
+ 	NAUTILUS_WINDOW_CLASS (class)->close = real_window_close;
++
++	g_type_class_add_private (G_OBJECT_CLASS (class), sizeof (NautilusNavigationWindowDetails));
+ }
+Index: src/nautilus-navigation-window.h
+===================================================================
+--- src/nautilus-navigation-window.h	(revision 13010)
++++ src/nautilus-navigation-window.h	(revision 13011)
+@@ -72,8 +72,6 @@
+         
+         /* Widgets to keep track of (for state changes, etc) */      
+         GtkWidget *zoom_control;
+-
+-	GtkTooltips *tooltips;
+ };
+ 
+ 
+Index: src/nautilus-navigation-action.c
+===================================================================
+--- src/nautilus-navigation-action.c	(revision 13010)
++++ src/nautilus-navigation-action.c	(revision 13011)
+@@ -176,31 +176,20 @@
+ 	}
+ }
+ 
+-static gboolean
+-set_tooltip_callback (GtkMenuToolButton *proxy,
+-		      GtkTooltips *tooltips,
+-		      const char *tip,
+-		      const char *tip_private,
+-		      NautilusNavigationAction *action)
+-{
+-	gtk_menu_tool_button_set_arrow_tooltip (proxy, tooltips,
+-						action->priv->arrow_tooltip,
+-						NULL);
+-
+-	return FALSE;
+-}
+-
+ static void
+ connect_proxy (GtkAction *action, GtkWidget *proxy)
+ {
+-	GtkWidget *menu;
+-	
+ 	if (GTK_IS_MENU_TOOL_BUTTON (proxy)) {
++		NautilusNavigationAction *naction = NAUTILUS_NAVIGATION_ACTION (action);
++		GtkMenuToolButton *button = GTK_MENU_TOOL_BUTTON (proxy);
++		GtkWidget *menu;
++
++		/* set an empty menu, so the arrow button becomes sensitive */
+ 		menu = gtk_menu_new ();
+-		gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (proxy),
+-					       menu);
+-		g_signal_connect (proxy, "set-tooltip",
+-				  G_CALLBACK (set_tooltip_callback), action);
++		gtk_menu_tool_button_set_menu (button, menu);
++
++		gtk_menu_tool_button_set_arrow_tooltip_text (button,
++							     naction->priv->arrow_tooltip);
+ 		
+ 		g_signal_connect (proxy, "show-menu",
+ 				  G_CALLBACK (show_menu_callback), action);
+@@ -213,7 +202,6 @@
+ disconnect_proxy (GtkAction *action, GtkWidget *proxy)
+ {
+ 	if (GTK_IS_MENU_TOOL_BUTTON (proxy)) {
+-		g_signal_handlers_disconnect_by_func (proxy, G_CALLBACK (set_tooltip_callback), action);
+ 		g_signal_handlers_disconnect_by_func (proxy, G_CALLBACK (show_menu_callback), action);
+ 	}
+ 
+Index: src/nautilus-trash-bar.c
+===================================================================
+--- src/nautilus-trash-bar.c	(revision 13010)
++++ src/nautilus-trash-bar.c	(revision 13011)
+@@ -33,7 +33,6 @@
+ 
+ struct NautilusTrashBarPrivate
+ {
+-	GtkTooltips *tooltips;
+ 	GtkWidget   *button;
+ };
+ 
+@@ -74,20 +73,6 @@
+ }
+ 
+ static void
+-nautilus_trash_bar_finalize (GObject *object)
+-{
+-	NautilusTrashBar *bar;
+-
+-	bar = NAUTILUS_TRASH_BAR (object);
+-
+-	if (bar->priv->tooltips != NULL) {
+-		g_object_unref (bar->priv->tooltips);
+-	}
+-
+-	G_OBJECT_CLASS (nautilus_trash_bar_parent_class)->finalize (object);
+-}
+-
+-static void
+ nautilus_trash_bar_trash_state_changed (NautilusTrashMonitor *trash_monitor,
+ 					gboolean              state,
+ 					gpointer              data)
+@@ -107,7 +92,6 @@
+ 
+ 	object_class = G_OBJECT_CLASS (klass);
+ 
+-	object_class->finalize     = nautilus_trash_bar_finalize;
+ 	object_class->get_property = nautilus_trash_bar_get_property;
+ 	object_class->set_property = nautilus_trash_bar_set_property;
+ 
+@@ -144,15 +128,9 @@
+ 
+ 	gtk_widget_set_sensitive (bar->priv->button,
+ 				  !nautilus_trash_monitor_is_empty ());
++	gtk_widget_set_tooltip_text (bar->priv->button,
++				     _("Delete all items in the Trash"));
+ 
+-	bar->priv->tooltips = gtk_tooltips_new ();
+-	g_object_ref_sink (bar->priv->tooltips);
+-
+-	gtk_tooltips_set_tip (GTK_TOOLTIPS (bar->priv->tooltips),
+-			      bar->priv->button,
+-			      _("Delete all items in the Trash"),
+-			      NULL);
+-
+ 	g_signal_connect (bar->priv->button,
+ 			  "clicked",
+ 			  G_CALLBACK (empty_trash_callback),
+Index: src/nautilus-query-editor.c
+===================================================================
+--- src/nautilus-query-editor.c	(revision 13010)
++++ src/nautilus-query-editor.c	(revision 13011)
+@@ -45,7 +45,6 @@
+ #include "gtk/gtkscrolledwindow.h"
+ #include <gtk/gtkfilechooserbutton.h>
+ #include "gtk/gtkcelllayout.h"
+-#include "gtk/gtktooltips.h"
+ #include "gtk/gtkcellrenderertext.h"
+ #include <libgnomevfs/gnome-vfs-utils.h>
+ #include <libgnomevfs/gnome-vfs-mime-info.h>
+@@ -87,7 +86,6 @@
+ 	gboolean is_visible;
+ 	GtkWidget *invisible_vbox;
+ 	GtkWidget *visible_vbox;
+-	GtkTooltips *tooltips;
+ 
+ 	GList *rows;
+ 	
+@@ -179,11 +177,6 @@
+ 		eel_remove_weak_pointer (&editor->details->bar);
+ 	}
+ 
+-	if (editor->details->tooltips) {
+-		g_object_unref (editor->details->tooltips);
+-		editor->details->tooltips = NULL;
+-	}
+-	
+ 	EEL_CALL_PARENT (G_OBJECT_CLASS, dispose, (object));
+ }
+ 
+@@ -931,9 +924,8 @@
+ 
+ 	g_signal_connect (button, "clicked",
+ 			  G_CALLBACK (remove_row_cb), row);
+-
+-	gtk_tooltips_set_tip (editor->details->tooltips, button,
+-			      _("Remove this criterion from the search"), NULL);
++	gtk_widget_set_tooltip_text (button,
++				     _("Remove this criterion from the search"));
+ 	
+ 	gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+ 
+@@ -991,12 +983,8 @@
+ 	g_signal_connect (button, "clicked",
+ 			  G_CALLBACK (edit_clicked), editor);
+ 
+-	editor->details->tooltips = gtk_tooltips_new ();
+-	g_object_ref (editor->details->tooltips);
+-	gtk_object_sink (GTK_OBJECT (editor->details->tooltips));
+-
+-	gtk_tooltips_set_tip (editor->details->tooltips, button,
+-			      _("Edit the saved search"), NULL);
++	gtk_widget_set_tooltip_text (button,
++				     _("Edit the saved search"));
+ }
+ 
+ void
+@@ -1026,8 +1014,8 @@
+ 	
+ 	gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+ 
+-	gtk_tooltips_set_tip (editor->details->tooltips, button,
+-			      _("Add a new criterion to this search"), NULL);
++	gtk_widget_set_tooltip_text (button,
++				     _("Add a new criterion to this search"));
+ 
+ 	if (!editor->details->is_indexed) {
+ 		if (use_go) {
+@@ -1036,10 +1024,10 @@
+ 			button = gtk_button_new_with_label (_("Reload"));
+ 		}
+ 		gtk_widget_show (button);
++
++		gtk_widget_set_tooltip_text (button,
++					     _("Perform or update the search"));
+ 		
+-		gtk_tooltips_set_tip (editor->details->tooltips, button,
+-				      _("Perform or update the search"), NULL);
+-		
+ 		g_signal_connect (button, "clicked",
+ 				  G_CALLBACK (go_search_cb), editor);
+ 		
+Index: src/nautilus-side-pane.c
+===================================================================
+--- src/nautilus-side-pane.c	(revision 13010)
++++ src/nautilus-side-pane.c	(revision 13011)
+@@ -36,7 +36,6 @@
+ #include <gtk/gtkimagemenuitem.h>
+ #include <gtk/gtknotebook.h>
+ #include <gtk/gtkstock.h>
+-#include <gtk/gtktooltips.h>
+ #include <gtk/gtktogglebutton.h>
+ #include <glib/gi18n.h>
+ 
+@@ -56,14 +55,13 @@
+ 	GtkWidget *title_hbox;
+ 	GtkWidget *title_label;
+ 	GtkWidget *shortcut_box;
+-	GtkTooltips *tooltips;
+ 	GList *panels;
+ };
+ 
+-static void nautilus_side_pane_class_init (GtkObjectClass *object_klass);
+-static void nautilus_side_pane_init       (GtkObject      *object);
+-static void nautilus_side_pane_destroy    (GtkObject      *object);
+-static void nautilus_side_pane_finalize   (GObject        *object);
++static void nautilus_side_pane_class_init (NautilusSidePaneClass *klass);
++static void nautilus_side_pane_init       (GObject *object);
++static void nautilus_side_pane_dispose    (GObject *object);
++static void nautilus_side_pane_finalize   (GObject *object);
+ 
+ enum {
+ 	CLOSE_REQUESTED,
+@@ -96,7 +94,7 @@
+ {
+ 	g_free (panel->title);
+ 	g_free (panel->tooltip);
+-	g_free (panel);
++	g_slice_free (SidePanel, panel);
+ }
+ 
+ static void
+@@ -162,24 +160,21 @@
+ 
+ /* initializing the class object by installing the operations we override */
+ static void
+-nautilus_side_pane_class_init (GtkObjectClass *object_klass)
++nautilus_side_pane_class_init (NautilusSidePaneClass *klass)
+ {
+-	GtkWidgetClass *widget_class;
+ 	GObjectClass *gobject_class;
++	GtkWidgetClass *widget_class;
++
++	gobject_class = G_OBJECT_CLASS (klass);
++	widget_class = GTK_WIDGET_CLASS (klass);
+ 	
+-	NautilusSidePaneClass *klass;
+-	
+-	widget_class = GTK_WIDGET_CLASS (object_klass);
+-	klass = NAUTILUS_SIDE_PANE_CLASS (object_klass);
+-	gobject_class = G_OBJECT_CLASS (object_klass);
+-	
+ 	gobject_class->finalize = nautilus_side_pane_finalize;
+-	object_klass->destroy = nautilus_side_pane_destroy;
++	gobject_class->dispose = nautilus_side_pane_dispose;
+ 	widget_class->size_allocate = nautilus_side_pane_size_allocate;
+ 
+ 	signals[CLOSE_REQUESTED] = g_signal_new
+ 		("close_requested",
+-		 G_TYPE_FROM_CLASS (object_klass),
++		 G_TYPE_FROM_CLASS (klass),
+ 		 G_SIGNAL_RUN_LAST,
+ 		 G_STRUCT_OFFSET (NautilusSidePaneClass,
+ 				  close_requested),
+@@ -188,13 +183,15 @@
+ 		 G_TYPE_NONE, 0);
+ 	signals[SWITCH_PAGE] = g_signal_new
+ 		("switch_page",
+-		 G_TYPE_FROM_CLASS (object_klass),
++		 G_TYPE_FROM_CLASS (klass),
+ 		 G_SIGNAL_RUN_LAST,
+ 		 G_STRUCT_OFFSET (NautilusSidePaneClass,
+ 				  switch_page),
+ 		 NULL, NULL,
+ 		 g_cclosure_marshal_VOID__OBJECT,
+ 		 G_TYPE_NONE, 1, GTK_TYPE_WIDGET);
++
++	g_type_class_add_private (gobject_class, sizeof (NautilusSidePaneDetails));
+ }
+ 
+ static void
+@@ -313,7 +310,7 @@
+ }
+ 
+ static void
+-nautilus_side_pane_init (GtkObject *object)
++nautilus_side_pane_init (GObject *object)
+ {
+ 	NautilusSidePane *side_pane;
+ 	GtkWidget *frame;
+@@ -326,7 +323,7 @@
+ 
+ 	side_pane = NAUTILUS_SIDE_PANE (object);
+ 
+-	side_pane->details = g_new0 (NautilusSidePaneDetails, 1);
++	side_pane->details = G_TYPE_INSTANCE_GET_PRIVATE (object, NAUTILUS_TYPE_SIDE_PANE, NautilusSidePaneDetails);
+ 
+ 	frame = gtk_frame_new (NULL);
+ 	side_pane->details->title_frame = frame;
+@@ -419,16 +416,12 @@
+ 	
+ 	gtk_widget_show (side_pane->details->menu);
+ 
+-	side_pane->details->tooltips = gtk_tooltips_new ();
+-	g_object_ref (side_pane->details->tooltips);
+-	gtk_object_sink (GTK_OBJECT (side_pane->details->tooltips));
+-
+-	gtk_tooltips_set_tip (side_pane->details->tooltips, close_button,
+-			      _("Close the side pane"), NULL);
++	gtk_widget_set_tooltip_text (close_button,
++				     _("Close the side pane"));
+ }
+ 
+ static void
+-nautilus_side_pane_destroy (GtkObject *object)
++nautilus_side_pane_dispose (GObject *object)
+ {
+ 	NautilusSidePane *side_pane;
+ 
+@@ -439,12 +432,7 @@
+ 		side_pane->details->menu = NULL;
+ 	}
+ 
+-	if (side_pane->details->tooltips) {
+-		g_object_unref (side_pane->details->tooltips);
+-		side_pane->details->tooltips = NULL;
+-	}
+-
+-	EEL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
++	EEL_CALL_PARENT (G_OBJECT_CLASS, dispose, (object));
+ }
+ 
+ static void
+@@ -461,8 +449,6 @@
+ 
+ 	g_list_free (side_pane->details->panels);
+ 
+-	g_free (side_pane->details);
+-	
+ 	EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
+ }
+ 
+@@ -487,7 +473,7 @@
+ 	g_return_if_fail (title != NULL);
+ 	g_return_if_fail (tooltip != NULL);
+ 
+-	panel = g_new0 (SidePanel, 1);
++	panel = g_slice_new0 (SidePanel);
+ 	panel->title = g_strdup (title);
+ 	panel->tooltip = g_strdup (tooltip);
+ 	panel->widget = widget;
+@@ -597,7 +583,7 @@
+ 	g_signal_connect (button, "clicked", 
+ 			  G_CALLBACK (shortcut_clicked_callback), side_pane);
+ 
+-	gtk_tooltips_set_tip (side_pane->details->tooltips, button, panel->tooltip, NULL);
++	gtk_widget_set_tooltip_text (button, panel->tooltip);
+ 
+ 	image = gtk_image_new_from_pixbuf (pixbuf);
+ 	gtk_widget_show (image);
+Index: configure.in
+===================================================================
+--- configure.in	(revision 13010)
++++ configure.in	(revision 13011)
+@@ -14,7 +14,7 @@
+ m4_define(gnome_vfs_minver,            2.14.2)
+ m4_define(orbit_minver,                2.4.0)
+ m4_define(pango_minver,                1.1.2)
+-m4_define(gtk_minver,                  2.10.0)
++m4_define(gtk_minver,                  2.11.6)
+ m4_define(rsvg_minver,                 2.0.1)
+ m4_define(xml_minver,                  2.4.7)
+ m4_define(startup_notification_minver, 0.8)

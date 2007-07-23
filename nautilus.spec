@@ -1,6 +1,6 @@
 %define glib2_version 2.6.0
 %define pango_version 1.1.3
-%define gtk2_version 2.6.0
+%define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
 %define eel2_version 2.15.91
 %define gnome_icon_theme_version 1.1.5
@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.19.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.19/%{name}-%{version}.tar.bz2
@@ -79,6 +79,8 @@ Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
 Patch5:		nautilus-2.19.2-selinux.patch
 Patch6:         nautilus-2.16.2-dynamic-search.patch
+# fixed in upstream svn
+Patch7:		nautilus-tooltips.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -112,6 +114,7 @@ for writing nautilus extensions.
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
+%patch7 -p0 -b .tooltips
 
 %build
 
@@ -220,6 +223,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Mon Jul 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-2
+- Port to new GTK+ tooltips API
+
 * Tue Jul 10 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-1
 - Update to 2.19.5
 
