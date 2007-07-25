@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.19.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.19/%{name}-%{version}.tar.bz2
@@ -223,6 +223,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Wed Jul 25 2007 Jesse Keating <jkeating@redhat.com> - 2.19.5-3
+- Rebuild for RH #249435
+
 * Mon Jul 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.5-2
 - Port to new GTK+ tooltips API
 
