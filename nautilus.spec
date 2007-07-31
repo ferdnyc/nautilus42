@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.19.5
-Release:	3%{?dist}
+Version: 	2.19.6
+Release:	1%{?dist}
 License: 	GPL
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.19/%{name}-%{version}.tar.bz2
@@ -79,8 +79,6 @@ Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
 Patch5:		nautilus-2.19.2-selinux.patch
 Patch6:         nautilus-2.16.2-dynamic-search.patch
-# fixed in upstream svn
-Patch7:		nautilus-tooltips.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -114,7 +112,6 @@ for writing nautilus extensions.
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
-%patch7 -p0 -b .tooltips
 
 %build
 
@@ -223,6 +220,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Mon Jul 30 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-1
+- Update to 2.19.6
+
 * Wed Jul 25 2007 Jesse Keating <jkeating@redhat.com> - 2.19.5-3
 - Rebuild for RH #249435
 
