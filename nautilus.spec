@@ -19,8 +19,8 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.19.6
-Release:	1%{?dist}
-License: 	GPL
+Release:	2%{?dist}
+License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.19/%{name}-%{version}.tar.bz2
 
@@ -89,6 +89,7 @@ GNOME desktop project.
 
 %package extensions
 Summary: Nautilus extensions library
+License: LGPLv2+
 Group: Development/Libraries
 
 %description extensions
@@ -96,6 +97,7 @@ This package provides the libraries used by nautilus extensions.
 
 %package devel
 Summary: Libraries and include files for developing nautilus extensions
+License: LGPLv2+
 Group: Development/Libraries
 Requires:   %{name} = %{version}-%{release}
 Requires:   pkgconfig
@@ -196,8 +198,7 @@ fi
 
 %files  -f %{name}.lang
 %defattr(-,root,root)
-%doc AUTHORS COPYING COPYING-DOCS COPYING.LIB ChangeLog NEWS README
-
+%doc AUTHORS COPYING COPYING-DOCS COPYING.LIB NEWS README
 %{_libdir}/nautilus
 %{_datadir}/nautilus
 %{_libdir}/bonobo/servers/*
@@ -220,6 +221,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Fri Aug  3 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-2
+- Update license field
+
 * Mon Jul 30 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-1
 - Update to 2.19.6
 
