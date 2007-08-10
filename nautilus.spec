@@ -11,7 +11,7 @@
 %define gnome_desktop_version 2.9.91
 %define redhat_menus_version 0.25
 %define redhat_artwork_version 0.41
-%define gnome_vfs2_version 2.14.2
+%define gnome_vfs2_version 2.19.3
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 %define gconf_version 2.14
@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.19.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.19/%{name}-%{version}.tar.bz2
@@ -221,6 +221,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Fri Aug 10 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-3
+- Bump gnome-vfs requirement (#251306)
+
 * Fri Aug  3 2007 Matthias Clasen <mclasen@redhat.com> - 2.19.6-2
 - Update license field
 
