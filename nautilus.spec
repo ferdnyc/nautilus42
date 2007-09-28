@@ -10,7 +10,6 @@
 %define desktop_file_utils_version 0.7
 %define gnome_desktop_version 2.9.91
 %define redhat_menus_version 0.25
-%define redhat_artwork_version 0.41
 %define gnome_vfs2_version 2.19.3
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
@@ -30,7 +29,6 @@ Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
-Requires:       redhat-artwork >= %{redhat_artwork_version}
 Requires:       gnome-vfs2 >= %{gnome_vfs2_version}
 Requires:       gnome-vfs2-smb
 Requires:       eel2 >= %{eel2_version}
@@ -221,6 +219,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Fri Sep 28 2007 Ray Strode <rstrode@redhat.com> - 2.20.0-2
+- drop redhat-artwork dep. Alex says we don't need it anymore 
+
 * Tue Sep 18 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0-1
 - Update to 2.20.0
 
