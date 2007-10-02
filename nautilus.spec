@@ -78,6 +78,9 @@ Patch3:		background-no-delay.patch
 Patch5:		nautilus-2.19.2-selinux.patch
 Patch6:         nautilus-2.16.2-dynamic-search.patch
 
+# Backports from svn:
+Patch7:         nautilus-2.20-async_thumbnail_fixes.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -112,6 +115,7 @@ for writing nautilus extensions.
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
+%patch7 -p0 -b .async_thumbnail_fixes
 
 %build
 
@@ -219,6 +223,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Tue Oct  2 2007 Alexander Larsson <alexl@redhat.com> - 2.20.0-1
+- Backport fixes for async thumbnail loading from svn
+
 * Fri Sep 28 2007 Ray Strode <rstrode@redhat.com> - 2.20.0-2
 - drop redhat-artwork dep. Alex says we don't need it anymore 
 
