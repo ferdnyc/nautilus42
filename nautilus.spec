@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.20.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.20/%{name}-%{version}.tar.bz2
@@ -205,7 +205,6 @@ fi
 %files  -f %{name}.lang
 %defattr(-,root,root)
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB NEWS README
-%{_libdir}/nautilus
 %{_datadir}/nautilus
 %{_libdir}/bonobo/servers/*
 %{_datadir}/pixmaps/*
@@ -219,6 +218,8 @@ fi
 %files extensions
 %defattr(-, root, root)
 %{_libdir}/libnautilus-extension.so.*
+%dir %{_libdir}/nautilus
+%dir %{_libdir}/nautilus/extensions-1.0
 
 %files devel
 %defattr(-, root, root)
@@ -227,6 +228,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Wed Oct  3 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0-4
+- Move /usr/lib/nautilus/extensions-1.0 to the extensions package
+
 * Tue Oct  2 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0-3
 - Fix a crash with small fonts (#242350)
 
