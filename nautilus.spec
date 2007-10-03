@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.20.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.20/%{name}-%{version}.tar.bz2
@@ -81,6 +81,9 @@ Patch6:         nautilus-2.16.2-dynamic-search.patch
 # Backports from svn:
 Patch7:         nautilus-2.20-async_thumbnail_fixes.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=454884
+Patch8:		nautilus-2.20.0-small-font-fix.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -116,6 +119,7 @@ for writing nautilus extensions.
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p0 -b .async_thumbnail_fixes
+%patch8 -p1 -b .small-font-fix
 
 %build
 
@@ -223,6 +227,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Tue Oct  2 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0-3
+- Fix a crash with small fonts (#242350)
+
 * Tue Oct  2 2007 Alexander Larsson <alexl@redhat.com> - 2.20.0-1
 - Backport fixes for async thumbnail loading from svn
 
