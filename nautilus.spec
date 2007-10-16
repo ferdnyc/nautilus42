@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.20.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.20/%{name}-%{version}.tar.bz2
@@ -84,6 +84,9 @@ Patch7:         nautilus-2.20-async_thumbnail_fixes.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=454884
 Patch8:		nautilus-2.20.0-small-font-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=486827
+Patch9:		nautilus-2.20-make-audio-preview-work.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -120,6 +123,7 @@ for writing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p0 -b .async_thumbnail_fixes
 %patch8 -p1 -b .small-font-fix
+%patch0 -p0 -b .audio-preview
 
 %build
 
@@ -228,6 +232,10 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Tue Oct 16 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.0-5
+- Add patch from upstream to get audio preview working again
+  (#332251)
+
 * Wed Oct  3 2007 Matthias Clasen <mclasen@redhat.com> - 2.20.0-4
 - Move /usr/lib/nautilus/extensions-1.0 to the extensions package
 
