@@ -123,7 +123,7 @@ for writing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p0 -b .async_thumbnail_fixes
 %patch8 -p1 -b .small-font-fix
-%patch0 -p0 -b .audio-preview
+%patch9 -p0 -b .audio-preview
 
 %build
 
