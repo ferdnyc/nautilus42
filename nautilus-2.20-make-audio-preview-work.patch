@@ -27,7 +27,7 @@ Index: src/file-manager/fm-icon-view.c
 +	if (command) {
 +		char *new_cmd;
 +
-+		new_cmd = g_strdup_printf ("%s playbin uri=fd://0", command);
++		new_cmd = g_strdup_printf ("%s uridecodebin uri=fd://0 ! audioconvert ! audioresample !  autoaudiosink", command);
 +		g_free (command);
 +		return new_cmd;
 +	}
