@@ -1,7 +1,5 @@
-Index: src/file-manager/fm-icon-view.c
-===================================================================
---- src/file-manager/fm-icon-view.c	(revision 13313)
-+++ src/file-manager/fm-icon-view.c	(working copy)
+--- src/file-manager/fm-icon-view.c	2007/10/21 22:34:58	1.1
++++ src/file-manager/fm-icon-view.c	2007/10/21 22:42:05
 @@ -24,6 +24,7 @@
  
  #include <config.h>
@@ -10,7 +8,15 @@ Index: src/file-manager/fm-icon-view.c
  
  #include "fm-actions.h"
  #include "fm-icon-container.h"
-@@ -1747,6 +1748,28 @@
+@@ -165,7 +166,6 @@ static const SortCriterion sort_criteria
+ 
+ static gboolean default_sort_in_reverse_order = FALSE;
+ static int preview_sound_auto_value;
+-static gboolean gnome_esd_enabled_auto_value;
+ 
+ #if USE_OLD_AUDIO_PREVIEW
+ static pid_t audio_preview_pid = 0;
+@@ -1747,6 +1747,28 @@ band_select_ended_callback (NautilusIcon
  
  /* handle the preview signal by inspecting the mime type.  For now, we only preview local sound files. */
  
@@ -27,7 +33,7 @@ Index: src/file-manager/fm-icon-view.c
 +	if (command) {
 +		char *new_cmd;
 +
-+		new_cmd = g_strdup_printf ("%s uridecodebin uri=fd://0 ! audioconvert ! audioresample !  autoaudiosink", command);
++		new_cmd = g_strdup_printf ("%s playbin uri=fd://0", command);
 +		g_free (command);
 +		return new_cmd;
 +	}
@@ -39,7 +45,7 @@ Index: src/file-manager/fm-icon-view.c
  /* here's the timer task that actually plays the file using mpg123, ogg123 or play. */
  /* FIXME bugzilla.gnome.org 41258: we should get the application from our mime-type stuff */
  static gboolean
-@@ -1757,50 +1780,27 @@
+@@ -1757,50 +1779,27 @@ play_file (gpointer callback_data)
  	FMIconView *icon_view;
  	FILE *sound_process;
  	char *file_uri;
@@ -95,7 +101,7 @@ Index: src/file-manager/fm-icon-view.c
  
  		/* read the file with gnome-vfs, feeding it to the sound player's standard input */
  		/* First, open the file. */
-@@ -1851,7 +1851,7 @@
+@@ -1851,7 +1850,7 @@ play_file (gpointer callback_data)
  	}
  		
  	g_free (file_uri);
@@ -104,33 +110,54 @@ Index: src/file-manager/fm-icon-view.c
  
  	icon_view->details->audio_preview_timeout = 0;
  #else
-@@ -1923,6 +1923,25 @@
+@@ -1923,15 +1922,30 @@ preview_audio (FMIconView *icon_view, Na
  }
  
  static gboolean
+-should_preview_sound (NautilusFile *file)
 +sound_preview_type_supported (NautilusFile *file)
-+{
+ {
+-	char *uri;
 +	char *mime_type;
 +	guint i;
-+
+ 
+-	/* Check gnome config sound preference */
+-	if (!gnome_esd_enabled_auto_value) {
 +	mime_type = nautilus_file_get_mime_type (file);
 +	if (mime_type == NULL)
-+		return FALSE;
+ 		return FALSE;
 +	for (i = 0; i < G_N_ELEMENTS (audio_mime_types); i++) {
-+		if (strcmp (mime_type, audio_mime_types[i]) == 0) {
++		GnomeVFSMimeEquivalence equivalence = gnome_vfs_mime_type_get_equivalence (mime_type, audio_mime_types[i]);
++		if (equivalence == GNOME_VFS_MIME_IDENTICAL || equivalence == GNOME_VFS_MIME_PARENT) {
 +			g_free (mime_type);
 +			return TRUE;
 +		}
-+	}
-+
+ 	}
+ 
 +	return FALSE;
 +}
 +
 +static gboolean
- should_preview_sound (NautilusFile *file)
- {
- 	char *uri;
-@@ -1981,25 +2000,17 @@
++should_preview_sound (NautilusFile *file)
++{
++	char *uri;
++
+ 	uri = nautilus_file_get_uri (file);
+ 	if (uri && eel_istr_has_prefix (uri, "burn:")) {
+ 		g_free (uri);
+@@ -1957,10 +1971,7 @@ can_play_sound (void)
+ 	int open_result;
+ 
+ #if USE_OLD_AUDIO_PREVIEW			
+-	/* first see if there's already one in progress; if so, return true */
+-	if (audio_preview_pid > 0) {
+-		return TRUE;
+-	}
++	return TRUE;
+ #endif
+ 
+ 	/* Now check and see if system has audio out capabilites */
+@@ -1981,25 +1992,17 @@ icon_container_preview_callback (Nautilu
  				 FMIconView *icon_view)
  {
  	int result;
@@ -158,10 +185,19 @@ Index: src/file-manager/fm-icon-view.c
  	}
  	
  	/* Display file name in status area at low zoom levels, since
-Index: src/file-manager/nautilus-audio-mime-types.h
-===================================================================
---- src/file-manager/nautilus-audio-mime-types.h	(revision 0)
-+++ src/file-manager/nautilus-audio-mime-types.h	(revision 0)
+@@ -2708,10 +2711,6 @@ fm_icon_view_init (FMIconView *icon_view
+ 		eel_preferences_add_auto_enum (NAUTILUS_PREFERENCES_PREVIEW_SOUND,
+ 					       &preview_sound_auto_value);
+ 
+-		eel_preferences_monitor_directory ("/desktop/gnome/sound");
+-		eel_preferences_add_auto_boolean ("/desktop/gnome/sound/enable_esd",
+-						  &gnome_esd_enabled_auto_value);
+-		
+ 		setup_sound_preview = TRUE;
+ 	}
+ 
+--- src/file-manager/nautilus-audio-mime-types.h	2007/10/21 22:36:41	1.1
++++ src/file-manager/nautilus-audio-mime-types.h	2007/10/21 22:36:50
 @@ -0,0 +1,41 @@
 +/* generated with mime-types-include.sh in the totem module, don't edit or 
 +   commit in the nautilus module without filing a bug against totem */
@@ -204,11 +240,9 @@ Index: src/file-manager/nautilus-audio-mime-types.h
 +"audio/x-wavpack",
 +"audio/x-vorbis",
 +};
-Index: src/file-manager/Makefile.am
-===================================================================
---- src/file-manager/Makefile.am	(revision 13313)
-+++ src/file-manager/Makefile.am	(working copy)
-@@ -38,6 +38,7 @@
+--- src/file-manager/Makefile.am	2007/10/21 22:36:41	1.1
++++ src/file-manager/Makefile.am	2007/10/21 22:36:50
+@@ -38,6 +38,7 @@ libnautilus_file_manager_la_SOURCES=	\
  	fm-tree-model.h			\
  	fm-tree-view.c			\
  	fm-tree-view.h			\

@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.20.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.20/%{name}-%{version}.tar.bz2
@@ -232,6 +232,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Wed Dec 19 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.0-7
+- Update audio preview patch to check for aliases (#381401)
+
 * Tue Oct 30 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.0-6
 - Fix audio preview command-line to use decodebin so playbin doesn't
   pop up a window for videos detected as audio
