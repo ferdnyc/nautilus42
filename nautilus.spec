@@ -79,6 +79,8 @@ Patch3:		background-no-delay.patch
 # Why is this not upstream ?
 Patch6:         nautilus-2.21.1-dynamic-search.patch
 
+Patch7:		rtl-fix.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -112,6 +114,7 @@ for writing nautilus extensions.
 %patch3 -p1 -b .no-delay
 #%patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
+%patch7 -p1 -b .rtl-fix
 
 %build
 
