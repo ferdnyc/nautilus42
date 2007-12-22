@@ -1,8 +1,8 @@
-%define glib2_version 2.6.0
+%define glib2_version 2.15.0
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.15.91
+%define eel2_version 2.21.1
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -17,11 +17,11 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.20.0
-Release:	7%{?dist}
+Version: 	2.21.1
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.20/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.21/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
@@ -29,8 +29,7 @@ Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
-Requires:       gnome-vfs2 >= %{gnome_vfs2_version}
-Requires:       gnome-vfs2-smb
+Requires:       gvfs
 Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
@@ -47,8 +46,8 @@ BuildRequires:	libxml2-devel >= %{libxml2_version}
 BuildRequires:  eel2-devel >= %{eel2_version}
 BuildRequires:  gail-devel >= %{gail_version}
 BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
-BuildRequires:  gnome-vfs2-devel >= %{gnome_vfs2_version}
 BuildRequires:	gamin-devel
+BuildRequires:	gvfs-devel
 BuildRequires:  librsvg2
 BuildRequires:  intltool
 BuildRequires:  libX11-devel
@@ -73,19 +72,12 @@ Obsoletes:      nautilus-media
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
-Patch2:         nautilus-2.15.2-format.patch
 Patch3:		background-no-delay.patch
-Patch5:		nautilus-2.19.2-selinux.patch
-Patch6:         nautilus-2.16.2-dynamic-search.patch
+# This patch needs to be redone and pushed upstream
+# Patch5:		nautilus-2.19.2-selinux.patch
 
-# Backports from svn:
-Patch7:         nautilus-2.20-async_thumbnail_fixes.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=454884
-Patch8:		nautilus-2.20.0-small-font-fix.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=486827
-Patch9:		nautilus-2.20-make-audio-preview-work.patch
+# Why is this not upstream ?
+Patch6:         nautilus-2.21.1-dynamic-search.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -117,13 +109,9 @@ for writing nautilus extensions.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-#%patch2 -p1 -b .format
 %patch3 -p1 -b .no-delay
-%patch5 -p1 -b .selinux
+#%patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
-%patch7 -p0 -b .async_thumbnail_fixes
-%patch8 -p1 -b .small-font-fix
-%patch9 -p0 -b .audio-preview
 
 %build
 
@@ -232,6 +220,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Fri Dec 21 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.1-1
+- Upodate to 2.21.1
+
 * Wed Dec 19 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.0-7
 - Update audio preview patch to check for aliases (#381401)
 
