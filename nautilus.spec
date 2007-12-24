@@ -81,6 +81,8 @@ Patch6:         nautilus-2.21.1-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
 
+Patch8:		extensiondir.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -115,6 +117,7 @@ for writing nautilus extensions.
 #%patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
+%patch8 -p1 -b .extensiondir
 
 %build
 
@@ -155,7 +158,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/icon-theme.cache
 
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-1.0
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0
 
 %find_lang %name
 
@@ -214,7 +217,7 @@ fi
 %defattr(-, root, root)
 %{_libdir}/libnautilus-extension.so.*
 %dir %{_libdir}/nautilus
-%dir %{_libdir}/nautilus/extensions-1.0
+%dir %{_libdir}/nautilus/extensions-2.0
 
 %files devel
 %defattr(-, root, root)
@@ -223,6 +226,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Sun Dec 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.1-2
+- Fix extensiondir
+
 * Fri Dec 21 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.1-1
 - Upodate to 2.21.1
 
