@@ -81,6 +81,7 @@ Patch6:         nautilus-2.21.1-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=505331
 Patch8:		extensiondir.patch
 
 %description
