@@ -1,4 +1,4 @@
-%define glib2_version 2.15.0
+%define glib2_version 2.15.1
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
@@ -14,11 +14,12 @@
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 %define gconf_version 2.14
+%define exempi_version 1.99.5 
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.21.1
-Release:	2%{?dist}
+Version: 	2.21.2
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.21/%{name}-%{version}.tar.bz2
@@ -57,6 +58,7 @@ BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
+BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
 # For intltool:
 BuildRequires: perl(XML::Parser) >= 2.31-16
@@ -80,9 +82,6 @@ Patch3:		background-no-delay.patch
 Patch6:         nautilus-2.21.1-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=505331
-Patch8:		extensiondir.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -118,7 +117,6 @@ for writing nautilus extensions.
 #%patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
-%patch8 -p1 -b .extensiondir
 
 %build
 
@@ -227,6 +225,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Tue Jan  8 2008 Matthias Clasen <mclasen@redhat.com> - 2.21.2-1
+- Update to 2.21.2
+
 * Sun Dec 23 2007 Matthias Clasen <mclasen@redhat.com> - 2.21.1-2
 - Fix extensiondir
 
