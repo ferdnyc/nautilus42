@@ -18,7 +18,7 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.21.5
+Version: 	2.21.6
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -225,6 +225,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Mon Jan 21 2008 Matthias Clasen <mclasen@redhat.com> - 2.21.6-1
+- Update to 2.21.6
+
 * Mon Jan 14 2008 Matthias Clasen <mclasen@redhat.com> - 2.21.5-1
 - Update to 2.21.5
 
