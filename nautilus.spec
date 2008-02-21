@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.20.0
-Release:	7%{?dist}
+Release:	8%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.20/%{name}-%{version}.tar.bz2
@@ -87,6 +87,9 @@ Patch8:		nautilus-2.20.0-small-font-fix.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=486827
 Patch9:		nautilus-2.20-make-audio-preview-work.patch
 
+# https://bugzilla.redhat.com/show_bug.cgi?id=430333
+Patch10:	nautilus-2.20.0-92_from_svn_no_buggy_signal_handler.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -124,6 +127,7 @@ for writing nautilus extensions.
 %patch7 -p0 -b .async_thumbnail_fixes
 %patch8 -p1 -b .small-font-fix
 %patch9 -p0 -b .audio-preview
+%patch10 -p1 -b .stuck-segfault
 
 %build
 
@@ -232,6 +236,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Thu Feb 21 2008 - Tomas Bzatek <tbzatek@redhat.com> - 2.20.0-8
+- Fix "(USER): debug log dumped due to signal 11" loop (#430333)
+
 * Wed Dec 19 2007 - Bastien Nocera <bnocera@redhat.com> - 2.20.0-7
 - Update audio preview patch to check for aliases (#381401)
 
