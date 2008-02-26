@@ -1,8 +1,8 @@
-%define glib2_version 2.15.5
+%define glib2_version 2.15.6
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.21.1
+%define eel2_version 2.21.92
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -14,11 +14,11 @@
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 %define gconf_version 2.14
-%define exempi_version 1.99.5 
+%define exempi_version 1.99.5
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.21.91
+Version: 	2.21.92
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -79,7 +79,7 @@ Patch3:		background-no-delay.patch
 # Patch5:		nautilus-2.19.2-selinux.patch
 
 # Why is this not upstream ?
-Patch6:         nautilus-2.21.1-dynamic-search.patch
+Patch6:         nautilus-2.21.1-dynamic-search-r2.patch
 
 Patch7:		rtl-fix.patch
 
@@ -225,6 +225,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Tue Feb 26 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.21.92-1
+- Update to 2.21.92
+
 * Tue Feb 12 2008 Matthias Clasen <mclasen@redhat.com> - 2.21.91-1
 - Update to 2.21.91
 
