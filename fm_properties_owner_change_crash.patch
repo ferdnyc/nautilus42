@@ -1,0 +1,15 @@
+Index: src/file-manager/fm-properties-window.c
+===================================================================
+--- src/file-manager/fm-properties-window.c	(revision 13898)
++++ src/file-manager/fm-properties-window.c	(working copy)
+@@ -2067,7 +2068,9 @@
+ 	g_assert (NAUTILUS_IS_FILE (file));
+ 
+ 	owner_text = combo_box_get_active_entry (combo_box, 0);
+-	name_array = g_strsplit (owner_text, " - ", 2);
++        if (! owner_text)
++	    return;
++    	name_array = g_strsplit (owner_text, " - ", 2);
+ 	new_owner = name_array[0];
+ 	g_free (owner_text);
+ 	cur_owner = nautilus_file_get_owner_name (file);

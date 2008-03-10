@@ -18,7 +18,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.20.0
-Release:	8%{?dist}
+Release:	9%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.20/%{name}-%{version}.tar.bz2
@@ -90,6 +90,9 @@ Patch9:		nautilus-2.20-make-audio-preview-work.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=430333
 Patch10:	nautilus-2.20.0-92_from_svn_no_buggy_signal_handler.patch
 
+# https://bugzilla.redhat.com/show_bug.cgi?id=432249
+Patch11:	fm_properties_owner_change_crash.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -128,6 +131,7 @@ for writing nautilus extensions.
 %patch8 -p1 -b .small-font-fix
 %patch9 -p0 -b .audio-preview
 %patch10 -p1 -b .stuck-segfault
+%patch11 -p0 -b .ownerchange
 
 %build
 
@@ -236,6 +240,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Fri Mar  7 2008 - Tomas Bzatek <tbzatek@redhat.com> - 2.20.0-9
+- Fix Properties window owner change crash (#432249)
+
 * Thu Feb 21 2008 - Tomas Bzatek <tbzatek@redhat.com> - 2.20.0-8
 - Fix "(USER): debug log dumped due to signal 11" loop (#430333)
 
