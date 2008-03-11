@@ -18,11 +18,11 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.21.92
-Release:	2%{?dist}
+Version: 	2.22.0
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.21/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
@@ -225,6 +225,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Mon Mar 10 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.0-1
+- Update to 2.22.0
+
 * Tue Feb 26 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.21.92-2
 - Change libbeagle .so name for libbeagle-0.3.0 in nautilus-2.21.1-dynamic-search-r2.patch (#434722)
 
