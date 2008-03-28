@@ -1,8 +1,8 @@
-%define glib2_version 2.15.6
+%define glib2_version 2.16.1
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.21.92
+%define eel2_version 2.22.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.22.0
-Release:	2%{?dist}
+Version: 	2.22.1
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -83,9 +83,6 @@ Patch6:         nautilus-2.21.1-dynamic-search-r2.patch
 
 Patch7:		rtl-fix.patch
 
-# Patches from head
-Patch8:		nautilus-2.22.0-fm_properties_owner_change_crash.patch
-Patch9:		nautilus-2.22.0-mime-application-x-ext.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -121,9 +118,6 @@ for writing nautilus extensions.
 #%patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
-
-%patch8 -p0 -b .fm-properties
-%patch9 -p1 -b .mime
 
 %build
 
@@ -232,6 +226,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Fri Mar 28 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.22.1-1
+- Update to 2.22.1
+
 * Thu Mar 13 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.22.0-2
 - Don't create application/x-ext-<extension> types for known mimetypes (patch from head)
 - Fix a crash in the Properties dialog while changing owner (patch from head)
