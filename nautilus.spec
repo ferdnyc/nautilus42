@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.22.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -82,6 +82,7 @@ Patch3:		background-no-delay.patch
 Patch6:         nautilus-2.21.1-dynamic-search-r2.patch
 
 Patch7:		rtl-fix.patch
+Patch8:		nautilus-2.22.1-hide-white-screen.patch
 
 
 %description
@@ -118,6 +119,7 @@ for writing nautilus extensions.
 #%patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
+%patch8 -p1 -b .hide-white-screen
 
 %build
 
@@ -226,6 +228,13 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Mon Mar 31 2008 Ray Strode <rstrode@redhat.com> - 2.22.1-2
+- Over the releases we've accumulated default.png, default-wide.png default-5_4.png
+  and default.jpg.  We haven't been able to drop them because it would leave some
+  users with white backgrounds on upgrade.  This patch just falls back to the
+  default image if the user's background doesn't exist.
+
+
 * Fri Mar 28 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.22.1-1
 - Update to 2.22.1
 
