@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.22.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -56,6 +56,7 @@ BuildRequires:  libXt-devel
 BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
+BuildRequires:  autoconf
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
@@ -79,7 +80,7 @@ Patch3:		background-no-delay.patch
 # Patch5:		nautilus-2.19.2-selinux.patch
 
 # Why is this not upstream ?
-Patch6:         nautilus-2.21.1-dynamic-search-r2.patch
+Patch6:         nautilus-2.22.1-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
 Patch8:		nautilus-2.22.1-hide-white-screen.patch
@@ -124,6 +125,8 @@ for writing nautilus extensions.
 %build
 
 libtoolize --force --copy
+autoconf
+
 CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
 
 export tagname=CC
@@ -228,6 +231,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Wed Apr  2 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.1-3
+- Fix the build to include tracker and beagle support again
+
 * Mon Mar 31 2008 Ray Strode <rstrode@redhat.com> - 2.22.1-2
 - Over the releases we've accumulated default.png, default-wide.png default-5_4.png
   and default.jpg.  We haven't been able to drop them because it would leave some
