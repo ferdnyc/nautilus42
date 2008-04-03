@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.22.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -61,6 +61,7 @@ BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
+BuildRequires:  libselinux-devel
 # For intltool:
 BuildRequires: perl(XML::Parser) >= 2.31-16
 
@@ -84,6 +85,9 @@ Patch6:         nautilus-2.22.1-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
 Patch8:		nautilus-2.22.1-hide-white-screen.patch
+
+# patch from head
+Patch9:		nautilus-2.22.1-show-selinux.diff
 
 
 %description
@@ -121,6 +125,7 @@ for writing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 %patch8 -p1 -b .hide-white-screen
+%patch9 -p0 -b .selinux
 
 %build
 
@@ -231,6 +236,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Thu Apr  3 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.22.1-4
+- Fix SELinux attributes display issue (#439686)
+
 * Wed Apr  2 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.1-3
 - Fix the build to include tracker and beagle support again
 
