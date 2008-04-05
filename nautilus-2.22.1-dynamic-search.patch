@@ -1,6 +1,6 @@
 diff -up nautilus-2.22.1/configure.in.dynamic-search nautilus-2.22.1/configure.in
 --- nautilus-2.22.1/configure.in.dynamic-search	2008-03-14 07:58:02.000000000 -0400
-+++ nautilus-2.22.1/configure.in	2008-04-02 09:50:55.000000000 -0400
++++ nautilus-2.22.1/configure.in	2008-04-04 23:59:12.000000000 -0400
 @@ -269,49 +269,18 @@ dnl ====================================
  dnl search implementations
  dnl ****************************
@@ -65,7 +65,7 @@ diff -up nautilus-2.22.1/configure.in.dynamic-search nautilus-2.22.1/configure.i
  
 diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dynamic-search nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c
 --- nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dynamic-search	2007-12-14 04:36:31.000000000 -0500
-+++ nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c	2008-04-02 09:50:55.000000000 -0400
++++ nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c	2008-04-04 23:59:12.000000000 -0400
 @@ -23,10 +23,20 @@
  
  #include <config.h>
@@ -88,7 +88,7 @@ diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dyn
  
  struct NautilusSearchEngineBeagleDetails {
  	BeagleClient *client;
-@@ -37,6 +47,127 @@ struct NautilusSearchEngineBeagleDetails
+@@ -37,6 +47,121 @@ struct NautilusSearchEngineBeagleDetails
  	gboolean query_finished;
  };
  
@@ -119,8 +119,6 @@ diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dyn
 +static BeagleQuery *(*beagle_query_new) (void) = NULL;
 +static void (*beagle_query_add_text) (BeagleQuery     *query,
 +				      const char      *str) = NULL;
-+static void (*beagle_query_add_hit_type) (BeagleQuery *query,
-+					  const char  *hit_type) = NULL;
 +static BeagleQueryPartProperty *(*beagle_query_part_property_new) (void) = NULL;
 +static void (*beagle_query_part_set_logic) (BeagleQueryPart      *part, 
 +					    BeagleQueryPartLogic  logic) = NULL;
@@ -138,8 +136,6 @@ diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dyn
 +static BeagleClient *(*beagle_client_new_real) (const char *client_name) = NULL;
 +static void (*beagle_query_set_max_hits) (BeagleQuery *query, 
 +					  int max_hits) = NULL;
-+static void (*beagle_query_add_mime_type) (BeagleQuery *query,
-+					   const char  *mime_type) = NULL;
 +static GSList *(*beagle_hits_subtracted_response_get_uris) (BeagleHitsSubtractedResponse *response) = NULL;
 +
 +static struct BeagleDlMapping
@@ -154,7 +150,6 @@ diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dyn
 +  MAP (beagle_hits_added_response_get_hits),
 +  MAP (beagle_query_new),
 +  MAP (beagle_query_add_text),
-+  MAP (beagle_query_add_hit_type),
 +  MAP (beagle_query_part_property_new),
 +  MAP (beagle_query_part_set_logic),
 +  MAP (beagle_query_part_property_set_key),
@@ -165,7 +160,6 @@ diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dyn
 +  MAP (beagle_query_part_get_type),
 +  MAP (beagle_util_daemon_is_running),
 +  MAP (beagle_query_set_max_hits),
-+  MAP (beagle_query_add_mime_type),
 +  MAP (beagle_hits_subtracted_response_get_uris),
 +#undef MAP
 +  { "beagle_client_new", (gpointer *)&beagle_client_new_real },
@@ -216,7 +210,7 @@ diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dyn
  
  static void  nautilus_search_engine_beagle_class_init       (NautilusSearchEngineBeagleClass *class);
  static void  nautilus_search_engine_beagle_init             (NautilusSearchEngineBeagle      *engine);
-@@ -276,8 +407,11 @@ nautilus_search_engine_beagle_new (void)
+@@ -276,8 +401,11 @@ nautilus_search_engine_beagle_new (void)
  {
  	NautilusSearchEngineBeagle *engine;
  	BeagleClient *client;
@@ -231,7 +225,7 @@ diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-beagle.c.dyn
  		return NULL;
 diff -up nautilus-2.22.1/libnautilus-private/nautilus-search-engine-tracker.c.dynamic-search nautilus-2.22.1/libnautilus-private/nautilus-search-engine-tracker.c
 --- nautilus-2.22.1/libnautilus-private/nautilus-search-engine-tracker.c.dynamic-search	2008-03-19 11:34:17.000000000 -0400
-+++ nautilus-2.22.1/libnautilus-private/nautilus-search-engine-tracker.c	2008-04-02 09:57:19.000000000 -0400
++++ nautilus-2.22.1/libnautilus-private/nautilus-search-engine-tracker.c	2008-04-04 23:59:12.000000000 -0400
 @@ -23,11 +23,92 @@
  
  #include <config.h>
