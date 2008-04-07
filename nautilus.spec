@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.22.1
-Release:	6%{?dist}
+Version: 	2.22.2
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -89,9 +89,6 @@ Patch8:		nautilus-2.22.1-hide-white-screen.patch
 # patch from head
 Patch9:		nautilus-2.22.1-show-selinux.diff
 
-# backport from upstream svn
-Patch10:	parent-info.patch
-
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -129,7 +126,6 @@ for writing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 %patch8 -p1 -b .hide-white-screen
 %patch9 -p0 -b .selinux
-%patch10 -p0 -b .parent-info
 
 %build
 
@@ -240,6 +236,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Mon Apr  7 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.2-1
+- Update to 2.22.2
+
 * Sun Apr  6 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.1-6
 - Backport a patch from upstream svn thats needed for file-roller
 
