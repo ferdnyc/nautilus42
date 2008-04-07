@@ -1,0 +1,83 @@
+Index: libnautilus-private/nautilus-file.c
+===================================================================
+--- libnautilus-private/nautilus-file.c	(revision 13949)
++++ libnautilus-private/nautilus-file.c	(working copy)
+@@ -7044,11 +7044,13 @@
+ 	iface->get_uri = nautilus_file_get_uri;
+ 	iface->get_parent_location = nautilus_file_get_parent_location;
+ 	iface->get_parent_uri = nautilus_file_get_parent_uri;
++	iface->get_parent_info = nautilus_file_get_parent;
+ 	iface->get_uri_scheme = nautilus_file_get_uri_scheme;
+ 	iface->get_activation_uri = nautilus_file_get_activation_uri;
+ 	iface->get_mime_type = nautilus_file_get_mime_type;
+ 	iface->is_mime_type = nautilus_file_is_mime_type;
+ 	iface->is_directory = nautilus_file_is_directory;
++	iface->can_write = nautilus_file_can_write;
+ 	iface->add_emblem = nautilus_file_add_emblem;
+ 	iface->get_string_attribute = nautilus_file_get_string_attribute;
+ 	iface->add_string_attribute = nautilus_file_add_string_attribute;
+Index: libnautilus-extension/nautilus-file-info.c
+===================================================================
+--- libnautilus-extension/nautilus-file-info.c	(revision 13949)
++++ libnautilus-extension/nautilus-file-info.c	(working copy)
+@@ -152,6 +152,15 @@
+ 	return NAUTILUS_FILE_INFO_GET_IFACE (file)->get_parent_uri (file);
+ }
+ 
++NautilusFileInfo *
++nautilus_file_info_get_parent_info (NautilusFileInfo *file)
++{
++	g_return_val_if_fail (NAUTILUS_IS_FILE_INFO (file), NULL);
++	g_return_val_if_fail (NAUTILUS_FILE_INFO_GET_IFACE (file)->get_parent_info != NULL, NULL);
++
++	return NAUTILUS_FILE_INFO_GET_IFACE (file)->get_parent_info (file);
++}
++
+ char *
+ nautilus_file_info_get_uri_scheme (NautilusFileInfo *file)
+ {
+@@ -191,6 +200,15 @@
+ 	return NAUTILUS_FILE_INFO_GET_IFACE (file)->is_directory (file);
+ }
+ 
++gboolean
++nautilus_file_info_can_write (NautilusFileInfo *file)
++{
++	g_return_val_if_fail (NAUTILUS_IS_FILE_INFO (file), FALSE);
++	g_return_val_if_fail (NAUTILUS_FILE_INFO_GET_IFACE (file)->can_write != NULL, FALSE);
++
++	return NAUTILUS_FILE_INFO_GET_IFACE (file)->can_write (file);
++}
++
+ void
+ nautilus_file_info_add_emblem (NautilusFileInfo *file,
+ 			       const char *emblem_name)
+Index: libnautilus-extension/nautilus-file-info.h
+===================================================================
+--- libnautilus-extension/nautilus-file-info.h	(revision 13949)
++++ libnautilus-extension/nautilus-file-info.h	(working copy)
+@@ -78,6 +78,8 @@
+ 	GFileType         (*get_file_type)        (NautilusFileInfo *file);
+ 	GFile *           (*get_location)         (NautilusFileInfo *file);
+ 	GFile *           (*get_parent_location)  (NautilusFileInfo *file);
++	NautilusFileInfo* (*get_parent_info)      (NautilusFileInfo *file);
++	gboolean          (*can_write)            (NautilusFileInfo *file);
+   
+ };
+ 
+@@ -96,6 +98,7 @@
+ char *            nautilus_file_info_get_activation_uri   (NautilusFileInfo *file);
+ GFile *           nautilus_file_info_get_parent_location  (NautilusFileInfo *file);
+ char *            nautilus_file_info_get_parent_uri       (NautilusFileInfo *file);
++NautilusFileInfo* nautilus_file_info_get_parent_info      (NautilusFileInfo *file); 
+ char *            nautilus_file_info_get_uri_scheme       (NautilusFileInfo *file);
+ 
+ /* File Type */
+@@ -103,6 +106,7 @@
+ gboolean          nautilus_file_info_is_mime_type         (NautilusFileInfo *file,
+ 							   const char       *mime_type);
+ gboolean          nautilus_file_info_is_directory         (NautilusFileInfo *file);
++gboolean          nautilus_file_info_can_write            (NautilusFileInfo *file);
+ 
+ 
+ /* Modifying the NautilusFileInfo */
