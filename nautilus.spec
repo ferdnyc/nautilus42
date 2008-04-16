@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.22.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -86,9 +86,7 @@ Patch6:         nautilus-2.22.1-dynamic-search.patch
 Patch7:		rtl-fix.patch
 Patch8:		nautilus-2.22.1-hide-white-screen.patch
 
-# livecd hiding patch (https://bugzilla.redhat.com/show_bug.cgi?id=439166)
-Patch9:		nautilus-2.22.2-hide-livecd-mount.diff
-
+Patch9:		nautilus-2.22-fix-autorun.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -125,7 +123,7 @@ for writing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 %patch8 -p1 -b .hide-white-screen
-%patch9 -p0 -b .livecd
+%patch9 -p0 -b .fix-autorun
 
 %build
 
@@ -236,6 +234,11 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Wed Apr 16 2008 David Zeuthen <davidz@redhat.com> - 2.22.2-3
+- Revert Fedora livecd mount (fix is in latest gvfs packages) and
+  add a patch to avoid trying to autorun mounts that are mounted
+  from outside Nautilus (#442189)
+
 * Fri Apr 11 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.22.2-2
 - Hide Fedora livecd mount (#439166)
 

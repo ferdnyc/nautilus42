@@ -1,0 +1,266 @@
+Index: src/nautilus-application.c
+===================================================================
+--- src/nautilus-application.c	(revision 14073)
++++ src/nautilus-application.c	(working copy)
+@@ -171,9 +171,7 @@
+ 			 GAsyncResult *res,
+ 			 gpointer user_data)
+ {
+-	if (g_volume_mount_finish (G_VOLUME (source_object), res, NULL)) {
+-		nautilus_inhibit_autorun_for_volume (G_VOLUME (source_object));
+-	}
++	g_volume_mount_finish (G_VOLUME (source_object), res, NULL);
+ }
+ 
+ static void
+@@ -1344,7 +1342,7 @@
+ 	if (eel_preferences_get_boolean (NAUTILUS_PREFERENCES_MEDIA_AUTOMOUNT) &&
+ 	    g_volume_should_automount (volume) &&
+ 	    g_volume_can_mount (volume)) {
+-		nautilus_file_operations_mount_volume (NULL, volume, FALSE);
++		nautilus_file_operations_mount_volume (NULL, volume, TRUE);
+ 	}
+ }
+ 
+Index: src/nautilus-window-manage-views.c
+===================================================================
+--- src/nautilus-window-manage-views.c	(revision 14073)
++++ src/nautilus-window-manage-views.c	(working copy)
+@@ -913,7 +913,6 @@
+ 		window->details->mount_error = NULL;
+ 		g_error_free (error);
+ 	} else {
+-		nautilus_inhibit_autorun_for_file (G_FILE (source_object));
+ 		nautilus_file_invalidate_all_attributes (window->details->determine_view_file);
+ 		nautilus_file_call_when_ready (window->details->determine_view_file,
+ 					       NAUTILUS_FILE_ATTRIBUTE_INFO |
+Index: src/nautilus-places-sidebar.c
+===================================================================
+--- src/nautilus-places-sidebar.c	(revision 14073)
++++ src/nautilus-places-sidebar.c	(working copy)
+@@ -1325,7 +1325,7 @@
+ 		GVolume *volume;
+ 		gtk_tree_model_get (model, &iter, PLACES_SIDEBAR_COLUMN_VOLUME, &volume, -1);
+ 		if (volume != NULL) {
+-			nautilus_file_operations_mount_volume (NULL, volume, TRUE);
++			nautilus_file_operations_mount_volume (NULL, volume, FALSE);
+ 			g_object_unref (volume);
+ 		}
+ 	}
+@@ -1440,7 +1440,7 @@
+ 			    -1);
+ 
+ 	if (volume != NULL) {
+-		nautilus_file_operations_mount_volume (NULL, volume, TRUE);
++		nautilus_file_operations_mount_volume (NULL, volume, FALSE);
+ 		g_object_unref (volume);
+ 	}
+ }
+Index: src/nautilus-x-content-bar.c
+===================================================================
+--- src/nautilus-x-content-bar.c	(revision 14073)
++++ src/nautilus-x-content-bar.c	(working copy)
+@@ -271,7 +271,9 @@
+ 	hbox = GTK_WIDGET (bar);
+ 
+ 	bar->priv->label = gtk_label_new (NULL);
+-	gtk_box_pack_start (GTK_BOX (bar), bar->priv->label, FALSE, FALSE, 0);
++	gtk_label_set_ellipsize (GTK_LABEL (bar->priv->label), PANGO_ELLIPSIZE_END);
++	gtk_misc_set_alignment (GTK_MISC (bar->priv->label), 0.0, 0.5);
++	gtk_box_pack_start (GTK_BOX (bar), bar->priv->label, TRUE, TRUE, 0);
+ 
+ 	bar->priv->button = gtk_button_new ();
+ 	gtk_box_pack_end (GTK_BOX (hbox), bar->priv->button, FALSE, FALSE, 0);
+Index: libnautilus-private/nautilus-mime-actions.c
+===================================================================
+--- libnautilus-private/nautilus-mime-actions.c	(revision 14073)
++++ libnautilus-private/nautilus-mime-actions.c	(working copy)
+@@ -1258,7 +1258,6 @@
+ 		g_error_free (error);
+ 	} else {
+ 		location = nautilus_file_get_location (file);
+-		nautilus_inhibit_autorun_for_file (location);
+ 		g_object_unref (G_OBJECT (location));
+ 	}
+ 	
+Index: libnautilus-private/nautilus-autorun.c
+===================================================================
+--- libnautilus-private/nautilus-autorun.c	(revision 14073)
++++ libnautilus-private/nautilus-autorun.c	(working copy)
+@@ -1353,52 +1353,22 @@
+ 	return NULL;
+ }
+ 
+-
+-static GList *inhibit_mount_handling_for = NULL;
+-
+-
+ static gboolean
+-remove_inhibit_file_cb (gpointer data)
++remove_allow_volume (gpointer data)
+ {
+-	GFile *file = data;
+-	GList *l;
+-
+-	l = g_list_find (inhibit_mount_handling_for, file);
+-	if (l != NULL) {
+-		inhibit_mount_handling_for = g_list_delete_link (inhibit_mount_handling_for, l);
+-		g_object_unref (file);
+-	}
+-	
+-	return FALSE;
+-}
+-
+-void
+-nautilus_inhibit_autorun_for_file (GFile *file)
+-{
+-	inhibit_mount_handling_for = g_list_prepend (inhibit_mount_handling_for, g_object_ref (file));
+-	g_timeout_add_full (0,
+-			    5000,
+-			    remove_inhibit_file_cb,
+-			    g_object_ref (file),
+-			    g_object_unref);
+-}
+-
+-static gboolean
+-remove_inhibit_volume (gpointer data)
+-{
+ 	GVolume *volume = data;
+ 
+-	g_object_set_data (G_OBJECT (volume), "nautilus-inhibit-autorun", NULL);
++	g_object_set_data (G_OBJECT (volume), "nautilus-allow-autorun", NULL);
+ 	return FALSE;
+ }
+ 
+ void
+-nautilus_inhibit_autorun_for_volume (GVolume *volume)
++nautilus_allow_autorun_for_volume (GVolume *volume)
+ {
+-	g_object_set_data (G_OBJECT (volume), "nautilus-inhibit-autorun", GINT_TO_POINTER (1));
++	g_object_set_data (G_OBJECT (volume), "nautilus-allow-autorun", GINT_TO_POINTER (1));
+ 	g_timeout_add_full (0,
+ 			    5000,
+-			    remove_inhibit_volume,
++			    remove_allow_volume,
+ 			    g_object_ref (volume),
+ 			    g_object_unref);
+ }
+@@ -1425,12 +1395,12 @@
+ 	GVolume *enclosing_volume;
+ 	gboolean ignore_autorun;
+ 
+-	ignore_autorun = FALSE;
++	ignore_autorun = TRUE;
+ 	enclosing_volume = g_mount_get_volume (mount);
+ 	if (enclosing_volume != NULL) {
+-		if (g_object_get_data (G_OBJECT (enclosing_volume), "nautilus-inhibit-autorun") != NULL) {
+-			ignore_autorun = TRUE;
+-			g_object_set_data (G_OBJECT (enclosing_volume), "nautilus-inhibit-autorun", NULL);
++		if (g_object_get_data (G_OBJECT (enclosing_volume), "nautilus-allow-autorun") != NULL) {
++			ignore_autorun = FALSE;
++			g_object_set_data (G_OBJECT (enclosing_volume), "nautilus-allow-autorun", NULL);
+ 		}
+ 	}
+ 
+@@ -1443,18 +1413,6 @@
+ 	
+ 	root = g_mount_get_root (mount);
+ 
+-	for (l = inhibit_mount_handling_for; l != NULL; l = l->next) {
+-		file = l->data;
+-		if (g_file_has_prefix (file, root)) {
+-			ignore_autorun = TRUE;
+-			
+-			inhibit_mount_handling_for = g_list_delete_link (inhibit_mount_handling_for, l);
+-			g_object_unref (file);
+-			
+-			break;
+-		}
+-	}
+-
+ 	/* only do autorun on local files or files where g_volume_should_automount() returns TRUE */
+ 	ignore_autorun = TRUE;
+ 	if ((g_file_is_native (root) && !should_skip_native_mount_root (root)) || 
+Index: libnautilus-private/nautilus-autorun.h
+===================================================================
+--- libnautilus-private/nautilus-autorun.h	(revision 14073)
++++ libnautilus-private/nautilus-autorun.h	(working copy)
+@@ -89,7 +89,6 @@
+ 
+ void nautilus_autorun_launch_for_mount (GMount *mount, GAppInfo *app_info);
+ 
+-void nautilus_inhibit_autorun_for_volume (GVolume *volume);
+-void nautilus_inhibit_autorun_for_file (GFile *file);
++void nautilus_allow_autorun_for_volume (GVolume *volume);
+ 
+ #endif /* NAUTILUS_AUTORUN_H */
+Index: libnautilus-private/nautilus-vfs-file.c
+===================================================================
+--- libnautilus-private/nautilus-vfs-file.c	(revision 14073)
++++ libnautilus-private/nautilus-vfs-file.c	(working copy)
+@@ -239,7 +239,6 @@
+ 						    res, &error);
+ 	nautilus_file_operation_complete (op, mounted_on, error);
+ 	if (mounted_on) {
+-		nautilus_inhibit_autorun_for_file (mounted_on);
+ 		g_object_unref (mounted_on);
+ 	}
+ 	if (error) {
+Index: libnautilus-private/nautilus-file-operations.c
+===================================================================
+--- libnautilus-private/nautilus-file-operations.c	(revision 14073)
++++ libnautilus-private/nautilus-file-operations.c	(working copy)
+@@ -2017,10 +2017,7 @@
+ 	GError *error;
+ 	char *primary;
+ 	char *name;
+-	gboolean inhibit_autorun;
+ 
+-	inhibit_autorun = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (mount_op), "inhibit-autorun"));
+-
+ 	error = NULL;
+ 	if (!g_volume_mount_finish (G_VOLUME (source_object), res, &error)) {
+ 		if (error->code != G_IO_ERROR_FAILED_HANDLED) {
+@@ -2033,12 +2030,8 @@
+ 			g_free (primary);
+ 		}
+ 		g_error_free (error);
+-	} else {
+-		if (inhibit_autorun) {
+-			nautilus_inhibit_autorun_for_volume (G_VOLUME (source_object));
+-		}
+ 	}
+-	
++
+ 	g_object_unref (mount_op);
+ }
+ 
+@@ -2046,12 +2039,13 @@
+ void
+ nautilus_file_operations_mount_volume (GtkWindow *parent_window,
+ 				       GVolume *volume,
+-				       gboolean inhibit_autorun)
++				       gboolean allow_autorun)
+ {
+ 	GMountOperation *mount_op;
+ 	
+ 	mount_op = eel_mount_operation_new (parent_window);
+-	g_object_set_data (G_OBJECT (mount_op), "inhibit-autorun", GINT_TO_POINTER (inhibit_autorun));
++	if (allow_autorun)
++		nautilus_allow_autorun_for_volume (volume);
+ 	g_volume_mount (volume, 0, mount_op, NULL, volume_mount_cb, mount_op);
+ }
+ 
+Index: libnautilus-private/nautilus-file-operations.h
+===================================================================
+--- libnautilus-private/nautilus-file-operations.h	(revision 14073)
++++ libnautilus-private/nautilus-file-operations.h	(working copy)
+@@ -93,7 +93,7 @@
+ 					     gboolean                        check_trash);
+ void nautilus_file_operations_mount_volume  (GtkWindow                      *parent_window,
+ 					     GVolume                        *volume,
+-					     gboolean                        inhibit_autorun);
++					     gboolean                        allow_autorun);
+ 								
+ 
+ void nautilus_file_operations_copy      (GList                *files,
