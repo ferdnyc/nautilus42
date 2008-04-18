@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.22.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -88,6 +88,8 @@ Patch8:		nautilus-2.22.1-hide-white-screen.patch
 
 Patch9:		nautilus-2.22-fix-autorun.patch
 
+Patch10:        nautilus-gvfs-desktop-key.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -124,6 +126,7 @@ for writing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 %patch8 -p1 -b .hide-white-screen
 %patch9 -p0 -b .fix-autorun
+%patch10 -p0 -b .gvfs-desktop-key
 
 %build
 
@@ -234,6 +237,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Thu Apr 17 2008 David Zeuthen <davidz@redhat.com> - 2.22.2-4
+- Put X-Gnome-Vfs-System=gio into desktop files (See #442835)
+
 * Wed Apr 16 2008 David Zeuthen <davidz@redhat.com> - 2.22.2-3
 - Revert Fedora livecd mount (fix is in latest gvfs packages) and
   add a patch to avoid trying to autorun mounts that are mounted
