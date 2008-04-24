@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.23.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -77,8 +77,8 @@ Obsoletes:      nautilus-media
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch3:		background-no-delay.patch
-# This patch needs to be redone and pushed upstream
-# Patch5:		nautilus-2.19.2-selinux.patch
+
+Patch5:		nautilus-2.22.2-selinux.diff
 
 # Why is this not upstream ?
 Patch6:         nautilus-2.22.1-dynamic-search.patch
@@ -124,7 +124,7 @@ for writing nautilus extensions.
 
 %patch1 -p1 -b .rhconfig
 %patch3 -p1 -b .no-delay
-#%patch5 -p1 -b .selinux
+%patch5 -p0 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 %patch8 -p1 -b .hide-white-screen
@@ -243,6 +243,9 @@ fi
 
 
 %changelog
+* Thu Apr 24 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.1-2
+- Add SELinux patch (gnomebz #529694)
+
 * Wed Apr 23 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.1-1
 - Update to 2.23.1
 
