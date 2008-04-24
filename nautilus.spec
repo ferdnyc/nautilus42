@@ -2,7 +2,7 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.22.0
+%define eel2_version 2.23.1
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -18,11 +18,11 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.22.2
-Release:	5%{?dist}
+Version: 	2.23.1
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
@@ -239,8 +239,13 @@ fi
 %{_includedir}/nautilus
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
+%doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
+
 
 %changelog
+* Wed Apr 23 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.1-1
+- Update to 2.23.1
+
 * Thu Apr 17 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.2-5
 - Make "Open Folder" work as expected for media handling
 
