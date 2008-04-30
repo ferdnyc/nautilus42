@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.22.2
-Release:	5%{?dist}
+Release:	6%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -93,6 +93,13 @@ Patch10:        nautilus-gvfs-desktop-key.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=528675
 Patch11:	nautilus-fix-open-folder.patch
 
+# https://bugzilla.redhat.com/show_bug.cgi?id=443944
+Patch12:	nautilus-cd-burner-move-workaround.patch
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=530720
+Patch13:	nautilus-copymove_inside_itself.patch
+
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -131,6 +138,8 @@ for writing nautilus extensions.
 %patch9 -p0 -b .fix-autorun
 %patch10 -p0 -b .gvfs-desktop-key
 %patch11 -p1 -b .fix-open-folder
+%patch12 -p0 -b .cd-burner
+%patch13 -p0 -b .recurse
 
 %build
 
@@ -241,6 +250,10 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Wed Apr 30 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.22.2-6
+- Mask file moving to nautilus-cd-burner window as copy operation (#443944)
+- Don't allow recursive move/copy into itself (gnomebz #530720)
+
 * Thu Apr 17 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.2-5
 - Make "Open Folder" work as expected for media handling
 
