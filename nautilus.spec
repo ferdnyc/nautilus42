@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.23.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -99,6 +99,8 @@ Patch12:        nautilus-cd-burner-move-workaround.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=530720 
 Patch13:        nautilus-copymove_inside_itself.patch
 
+# https://bugzilla.redhat.com/show_bug.cgi?id=444639
+Patch14:        nautilus-2.22-default-to-asking.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -140,6 +142,7 @@ for writing nautilus extensions.
 %patch11 -p1 -b .fix-open-folder
 %patch12 -p0 -b .cd-burner
 %patch13 -p0 -b .recurse
+%patch14 -p1 -b .default-to-asking
 
 %build
 
@@ -252,6 +255,9 @@ fi
 
 
 %changelog
+* Fri May  2 2008 David Zeuthen <davidz@redhat.com> - 2.23.1-4
+- Default to "Ask what to do" for all actions (#444639)
+
 * Fri May  2 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.1-3
 - Mask file moving to nautilus-cd-burner window as copy operation (#443944)
 - Don't allow recursive move/copy into itself (gnomebz #530720)
