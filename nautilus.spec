@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.23.1
-Release:	4%{?dist}
+Version: 	2.23.2
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -137,7 +137,7 @@ for writing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 %patch8 -p1 -b .hide-white-screen
-%patch9 -p0 -b .fix-autorun
+# %patch9 -p0 -b .fix-autorun
 %patch10 -p0 -b .gvfs-desktop-key
 %patch11 -p1 -b .fix-open-folder
 %patch12 -p0 -b .cd-burner
@@ -255,6 +255,9 @@ fi
 
 
 %changelog
+* Tue May 13 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.2-1
+- Update to 2.23.2
+
 * Fri May  2 2008 David Zeuthen <davidz@redhat.com> - 2.23.1-4
 - Default to "Ask what to do" for all actions (#444639)
 
