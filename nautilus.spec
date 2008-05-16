@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.23.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -86,8 +86,6 @@ Patch6:         nautilus-2.22.1-dynamic-search.patch
 Patch7:		rtl-fix.patch
 Patch8:		nautilus-2.22.1-hide-white-screen.patch
 
-Patch9:		nautilus-2.22-fix-autorun.patch
-
 Patch10:        nautilus-gvfs-desktop-key.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=528675
@@ -96,11 +94,11 @@ Patch11:	nautilus-fix-open-folder.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=443944 
 Patch12:        nautilus-cd-burner-move-workaround.patch
 
-# https://bugzilla.gnome.org/show_bug.cgi?id=530720 
-Patch13:        nautilus-copymove_inside_itself.patch
-
 # https://bugzilla.redhat.com/show_bug.cgi?id=444639
 Patch14:        nautilus-2.22-default-to-asking.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=171655
+Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -137,12 +135,11 @@ for writing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 %patch8 -p1 -b .hide-white-screen
-# %patch9 -p0 -b .fix-autorun
 %patch10 -p0 -b .gvfs-desktop-key
 %patch11 -p1 -b .fix-open-folder
 %patch12 -p0 -b .cd-burner
-%patch13 -p0 -b .recurse
 %patch14 -p1 -b .default-to-asking
+%patch15 -p1 -b .xds
 
 %build
 
@@ -255,6 +252,9 @@ fi
 
 
 %changelog
+* Fri May 16 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.2-2
+- Add treeview XDS drag&drop support (#446760)
+
 * Tue May 13 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.2-1
 - Update to 2.23.2
 
