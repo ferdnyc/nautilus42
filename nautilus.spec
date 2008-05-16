@@ -144,6 +144,7 @@ for writing nautilus extensions.
 %build
 
 libtoolize --force --copy
+aclocal
 autoconf
 
 CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
