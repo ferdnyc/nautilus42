@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.22.2
-Release:	7%{?dist}
+Version: 	2.22.3
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -84,17 +84,11 @@ Patch3:		background-no-delay.patch
 Patch6:         nautilus-2.22.1-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
-Patch8:		nautilus-2.22.1-hide-white-screen.patch
-
-Patch9:		nautilus-2.22-fix-autorun.patch
 
 Patch10:        nautilus-gvfs-desktop-key.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=528675
 Patch11:	nautilus-fix-open-folder.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=443944
-Patch12:	nautilus-cd-burner-move-workaround.patch
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=530720
 Patch13:	nautilus-copymove_inside_itself.patch
@@ -137,11 +131,8 @@ for writing nautilus extensions.
 #%patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
-%patch8 -p1 -b .hide-white-screen
-%patch9 -p0 -b .fix-autorun
 %patch10 -p0 -b .gvfs-desktop-key
 %patch11 -p1 -b .fix-open-folder
-%patch12 -p0 -b .cd-burner
 %patch13 -p0 -b .recurse
 %patch14 -p1 -b .default-to-asking
 
@@ -254,6 +245,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Wed May 28 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.3-1
+- Update to 2.22.3
+
 * Fri May  2 2008 David Zeuthen <davidz@redhat.com> - 2.22.2-7
 - Default to "Ask what to do" for all actions (#444639)
 
