@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.23.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -100,6 +100,12 @@ Patch14:        nautilus-2.22-default-to-asking.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=171655
 Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=377157
+Patch16:	nautilus-DnD-to-fileroller.patch
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=519743
+Patch17:	nautilus-filetype-symlink-fix.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -140,6 +146,8 @@ for writing nautilus extensions.
 %patch12 -p0 -b .cd-burner
 %patch14 -p1 -b .default-to-asking
 %patch15 -p1 -b .xds
+%patch16 -p0 -b .dnd
+%patch17 -p0 -b .symlink
 
 %build
 
@@ -253,6 +261,11 @@ fi
 
 
 %changelog
+* Fri May 30 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.2-3
+- Add DnD support to drop files onto archive files with help 
+  of file-roller (gnomebz #377157)
+- Add fix preventing crash on bad GFileInfos (gnomebz #519743)
+
 * Fri May 16 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.2-2
 - Add treeview XDS drag&drop support (#446760)
 
