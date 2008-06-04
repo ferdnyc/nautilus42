@@ -240,6 +240,10 @@ fi
 %{_sysconfdir}/gconf/schemas/*
 %{_datadir}/icons/hicolor/*/apps/nautilus.png
 %{_datadir}/icons/hicolor/scalable/apps/nautilus.svg
+%{_mandir}/man1/nautilus-connect-server.1.gz
+%{_mandir}/man1/nautilus-file-management-properties.1.gz
+%{_mandir}/man1/nautilus.1.gz
+
 
 %files extensions
 %defattr(-, root, root)
