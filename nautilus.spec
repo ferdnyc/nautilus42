@@ -2,7 +2,8 @@
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
-%define eel2_version 2.23.1
+%define libgnome_version 2.23.0
+%define eel2_version 2.23.2
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -18,8 +19,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.23.2
-Release:	3%{?dist}
+Version: 	2.23.3
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -42,6 +43,7 @@ PreReq:    scrollkeeper >= 0.1.4
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
 BuildRequires:	gtk2-devel >= %{gtk2_version}
+BuildRequires:	libgnome-devel >= %{libgnome_version}
 BuildRequires:	libgnomeui-devel >= %{libgnomeui_version}
 BuildRequires:	libxml2-devel >= %{libxml2_version}
 BuildRequires:  eel2-devel >= %{eel2_version}
@@ -78,7 +80,7 @@ Obsoletes:      nautilus-media
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch3:		background-no-delay.patch
 
-Patch5:		nautilus-2.22.2-selinux.diff
+Patch5:		nautilus-2.23.3-selinux.diff
 
 # Why is this not upstream ?
 Patch6:         nautilus-2.22.1-dynamic-search.patch
@@ -91,17 +93,11 @@ Patch10:        nautilus-gvfs-desktop-key.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=528675
 Patch11:	nautilus-fix-open-folder.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=443944 
-Patch12:        nautilus-cd-burner-move-workaround.patch
-
 # https://bugzilla.redhat.com/show_bug.cgi?id=444639
 Patch14:        nautilus-2.22-default-to-asking.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=171655
 Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=377157
-Patch16:	nautilus-DnD-to-fileroller.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
@@ -140,13 +136,11 @@ for writing nautilus extensions.
 %patch5 -p0 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
-%patch8 -p1 -b .hide-white-screen
+# %patch8 -p1 -b .hide-white-screen
 %patch10 -p0 -b .gvfs-desktop-key
 %patch11 -p1 -b .fix-open-folder
-%patch12 -p0 -b .cd-burner
 %patch14 -p1 -b .default-to-asking
 %patch15 -p1 -b .xds
-%patch16 -p0 -b .dnd
 %patch17 -p0 -b .symlink
 
 %build
@@ -262,6 +256,9 @@ fi
 
 
 %changelog
+* Wed Jun  4 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.3-1
+- Update to 2.23.3
+
 * Fri May 30 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.2-3
 - Add DnD support to drop files onto archive files with help 
   of file-roller (gnomebz #377157)

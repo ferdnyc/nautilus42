@@ -1,8 +1,8 @@
 Index: src/file-manager/fm-properties-window.c
 ===================================================================
---- src/file-manager/fm-properties-window.c	(revision 14082)
+--- src/file-manager/fm-properties-window.c	(revision 14227)
 +++ src/file-manager/fm-properties-window.c	(working copy)
-@@ -102,6 +102,10 @@
+@@ -83,6 +83,10 @@
  #define FREE_FILL_B  (0.811764706 * 65535)
  
  
@@ -13,7 +13,7 @@ Index: src/file-manager/fm-properties-window.c
  #define PREVIEW_IMAGE_WIDTH 96
  
  #define ROW_PAD 6
-@@ -143,12 +147,15 @@
+@@ -125,12 +129,15 @@
  	unsigned int  owner_change_timeout;
  
  	GList *permission_buttons;
@@ -30,7 +30,7 @@ Index: src/file-manager/fm-properties-window.c
  	GList *mime_list;
  
  	gboolean deep_count_finished;
-@@ -242,6 +249,10 @@
+@@ -217,6 +224,10 @@
  						   GtkComboBox        *combo);
  static void value_field_update                    (FMPropertiesWindow *window,
  						   GtkLabel           *field);
@@ -41,23 +41,23 @@ Index: src/file-manager/fm-properties-window.c
  static void properties_window_update              (FMPropertiesWindow *window,
  						   GList              *files);
  static void is_directory_ready_callback           (NautilusFile       *file,
-@@ -272,9 +283,36 @@
+@@ -246,10 +257,36 @@
+ 						   const char *initial_text);
  						   
  static GtkWidget* create_pie_widget 		  (FMPropertiesWindow *window);
++  
++static void attach_selinux_data_edit_field        (GtkEntry *entry, 
++                                                   char *attr_value, 
++                                                   char *def_attr_value); 
++ 
++#ifdef HAVE_SELINUX 
++static void attach_selinux_data_popup_field       (GtkComboBox *comb, 
++                                                   char *attr_val, 
++                                                   char *def_attr_val); 
++#endif 
  
 +
-+static void attach_selinux_data_edit_field        (GtkEntry *entry,
-+						   char *attr_value,
-+						   char *def_attr_value);
-+
-+#ifdef HAVE_SELINUX
-+static void attach_selinux_data_popup_field       (GtkComboBox *comb,
-+						   char *attr_val,
-+						   char *def_attr_val);
-+#endif
-+
-+
- G_DEFINE_TYPE (FMPropertiesWindow, fm_properties_window, GTK_TYPE_WINDOW);
+ G_DEFINE_TYPE (FMPropertiesWindow, fm_properties_window, GTK_TYPE_DIALOG);
  #define parent_class fm_properties_window_parent_class 
  
 +static void
@@ -78,7 +78,7 @@ Index: src/file-manager/fm-properties-window.c
  static gboolean
  is_multi_file_window (FMPropertiesWindow *window)
  {
-@@ -295,6 +333,111 @@
+@@ -270,6 +307,111 @@
  	return FALSE;
  }
  
@@ -190,7 +190,7 @@ Index: src/file-manager/fm-properties-window.c
  static int
  get_not_gone_original_file_count (FMPropertiesWindow *window)
  {
-@@ -527,7 +670,7 @@
+@@ -502,7 +644,7 @@
  		return;
  	}
  	
@@ -199,7 +199,7 @@ Index: src/file-manager/fm-properties-window.c
  	exactly_one = uris[0] != NULL && (uris[1] == NULL || uris[1][0] == '\0');
  
  
-@@ -671,11 +814,7 @@
+@@ -651,11 +793,7 @@
  			 * currently showing. This causes minimal ripples (e.g.
  			 * selection change).
  			 */
@@ -212,7 +212,7 @@ Index: src/file-manager/fm-properties-window.c
  		}
  	}
  }
-@@ -751,7 +890,6 @@
+@@ -735,7 +873,6 @@
  name_field_restore_original_name (NautilusEntry *name_field)
  {
  	const char *original_name;
@@ -220,7 +220,7 @@ Index: src/file-manager/fm-properties-window.c
  
  	original_name = (const char *) g_object_get_data (G_OBJECT (name_field),
  							  "original_name");
-@@ -760,14 +898,8 @@
+@@ -744,14 +881,8 @@
  		return;
  	}
  
@@ -236,7 +236,7 @@ Index: src/file-manager/fm-properties-window.c
  }
  
  static void
-@@ -1229,6 +1361,14 @@
+@@ -1213,6 +1344,14 @@
  		for (l = window->details->value_fields; l != NULL; l = l->next) {
  			value_field_update (window, GTK_LABEL (l->data));
  		}
@@ -251,7 +251,7 @@ Index: src/file-manager/fm-properties-window.c
  	}
  
  	mime_list = get_mime_list (window);
-@@ -1386,6 +1526,164 @@
+@@ -1383,6 +1522,164 @@
  				      window->details->target_files));
  }
  
@@ -416,7 +416,7 @@ Index: src/file-manager/fm-properties-window.c
  static GtkLabel *
  attach_label (GtkTable *table,
  	      int row,
-@@ -1440,6 +1738,47 @@
+@@ -1437,6 +1734,47 @@
  	return attach_label (table, row, column, initial_text, FALSE, FALSE, FALSE, TRUE, FALSE);
  }
  
@@ -464,7 +464,7 @@ Index: src/file-manager/fm-properties-window.c
  static GtkLabel *
  attach_ellipsizing_value_label (GtkTable *table,
  				int row,
-@@ -1498,6 +1837,649 @@
+@@ -1495,6 +1833,649 @@
  				     FALSE);
  }
  
@@ -1114,7 +1114,7 @@ Index: src/file-manager/fm-properties-window.c
  static GtkWidget*
  attach_ellipsizing_value_field (FMPropertiesWindow *window,
  				GtkTable *table,
-@@ -2451,7 +3433,38 @@
+@@ -2448,7 +3429,38 @@
  	return last_row;
  }
  
@@ -1153,7 +1153,7 @@ Index: src/file-manager/fm-properties-window.c
  append_title_and_ellipsizing_value (FMPropertiesWindow *window,
  				    GtkTable *table,
  				    const char *title,
-@@ -3415,31 +4428,6 @@
+@@ -3467,31 +4479,6 @@
  }
  
  static void
@@ -1185,7 +1185,7 @@ Index: src/file-manager/fm-properties-window.c
  permission_change_callback (NautilusFile *file,
  			    GFile *res_loc,
  			    GError *error,
-@@ -4215,40 +5203,7 @@
+@@ -4267,40 +5254,7 @@
  	gtk_table_set_row_spacing (table, table->nrows - 1, 18);
  }
  
@@ -1226,7 +1226,7 @@ Index: src/file-manager/fm-properties-window.c
  static GHashTable *
  get_initial_permissions (GList *file_list)
  {
-@@ -4587,7 +5542,9 @@
+@@ -4639,7 +5593,9 @@
  	guint32 file_permission, file_permission_mask;
  	guint32 dir_permission, dir_permission_mask;
  	guint32 vfs_mask, vfs_new_perm, p;
@@ -1237,7 +1237,7 @@ Index: src/file-manager/fm-properties-window.c
  	gboolean active, is_folder, is_special, use_original;
  	GList *l;
  	GtkTreeModel *model;
-@@ -4631,9 +5588,9 @@
+@@ -4683,9 +5639,9 @@
  	}
  	/* Simple mode, minus exec checkbox */
  	for (l = window->details->permission_combos; l != NULL; l = l->next) {
@@ -1249,7 +1249,7 @@ Index: src/file-manager/fm-properties-window.c
  			continue;
  		}
  		
-@@ -4641,7 +5598,7 @@
+@@ -4693,7 +5649,7 @@
  		is_folder = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo),
  								"is-folder"));
  		
@@ -1258,7 +1258,7 @@ Index: src/file-manager/fm-properties-window.c
  		gtk_tree_model_get (model, &iter, 1, &new_perm, 2, &use_original, -1);
  		if (use_original) {
  			continue;
-@@ -4664,12 +5621,53 @@
+@@ -4716,12 +5672,53 @@
  		}
  	}
  
@@ -1312,7 +1312,7 @@ Index: src/file-manager/fm-properties-window.c
  		if (nautilus_file_is_directory (file) &&
  		    nautilus_file_can_set_permissions (file)) {
  			uri = nautilus_file_get_uri (file);
-@@ -4680,11 +5678,13 @@
+@@ -4732,11 +5729,13 @@
  								 file_permission_mask,
  								 dir_permission,
  								 dir_permission_mask,
@@ -1326,7 +1326,7 @@ Index: src/file-manager/fm-properties-window.c
  }
  
  static void
-@@ -4733,10 +5733,16 @@
+@@ -4785,10 +5784,16 @@
  		gtk_table_set_row_spacing (page_table, page_table->nrows - 1, 18);
  	
  #ifdef HAVE_SELINUX
@@ -1349,9 +1349,9 @@ Index: src/file-manager/fm-properties-window.c
  			(window, page_table, _("Last changed:"), 
 Index: src/file-manager/fm-list-view.c
 ===================================================================
---- src/file-manager/fm-list-view.c	(revision 14082)
+--- src/file-manager/fm-list-view.c	(revision 14227)
 +++ src/file-manager/fm-list-view.c	(working copy)
-@@ -1366,13 +1366,15 @@
+@@ -1368,13 +1368,15 @@
  		char *name;
  		char *label;
  		float xalign;
@@ -1368,7 +1368,7 @@ Index: src/file-manager/fm-list-view.c
  
  		column_num = fm_list_model_add_column (view->details->model,
  						       nautilus_column);
-@@ -1418,6 +1420,8 @@
+@@ -1420,6 +1422,8 @@
  		} else {		
  			cell = gtk_cell_renderer_text_new ();
  			g_object_set (cell, "xalign", xalign, NULL);
@@ -1379,7 +1379,7 @@ Index: src/file-manager/fm-list-view.c
  			column = gtk_tree_view_column_new_with_attributes (label,
 Index: src/file-manager/fm-error-reporting.c
 ===================================================================
---- src/file-manager/fm-error-reporting.c	(revision 14082)
+--- src/file-manager/fm-error-reporting.c	(revision 14227)
 +++ src/file-manager/fm-error-reporting.c	(working copy)
 @@ -232,6 +232,31 @@
  	g_free (message);
@@ -1415,7 +1415,7 @@ Index: src/file-manager/fm-error-reporting.c
  	NautilusFileOperationCallback callback;
 Index: src/file-manager/fm-error-reporting.h
 ===================================================================
---- src/file-manager/fm-error-reporting.h	(revision 14082)
+--- src/file-manager/fm-error-reporting.h	(revision 14227)
 +++ src/file-manager/fm-error-reporting.h	(working copy)
 @@ -41,8 +41,11 @@
  					  GError         *error,
@@ -1432,7 +1432,7 @@ Index: src/file-manager/fm-error-reporting.h
  					  GtkWindow	 *parent_window);
 Index: libnautilus-private/nautilus-column-utilities.c
 ===================================================================
---- libnautilus-private/nautilus-column-utilities.c	(revision 14082)
+--- libnautilus-private/nautilus-column-utilities.c	(revision 14227)
 +++ libnautilus-private/nautilus-column-utilities.c	(working copy)
 @@ -119,6 +119,7 @@
  					       "attribute", "selinux_context",
@@ -1444,9 +1444,9 @@ Index: libnautilus-private/nautilus-column-utilities.c
  	return columns;
 Index: libnautilus-private/nautilus-file-operations.c
 ===================================================================
---- libnautilus-private/nautilus-file-operations.c	(revision 14082)
+--- libnautilus-private/nautilus-file-operations.c	(revision 14227)
 +++ libnautilus-private/nautilus-file-operations.c	(working copy)
-@@ -66,6 +66,11 @@
+@@ -64,6 +64,11 @@
  #include "nautilus-trash-monitor.h"
  #include "nautilus-file-utilities.h"
  
@@ -1458,7 +1458,7 @@ Index: libnautilus-private/nautilus-file-operations.c
  static gboolean confirm_trash_auto_value;
  
  /* TODO: TESTING!!! */
-@@ -138,6 +143,7 @@
+@@ -137,6 +142,7 @@
  	guint32 file_mask;
  	guint32 dir_permissions;
  	guint32 dir_mask;
@@ -1466,7 +1466,7 @@ Index: libnautilus-private/nautilus-file-operations.c
  } SetPermissionsJob;
  
  typedef enum {
-@@ -4458,6 +4464,10 @@
+@@ -4689,6 +4695,10 @@
  		job->done_callback (job->done_callback_data);
  	}
  	
@@ -1477,7 +1477,7 @@ Index: libnautilus-private/nautilus-file-operations.c
  	finalize_common ((CommonJob *)job);
  	return FALSE;
  }
-@@ -4513,6 +4523,14 @@
+@@ -4744,6 +4754,14 @@
  					     current, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
  					     common->cancellable, NULL);
  	}
@@ -1492,7 +1492,7 @@ Index: libnautilus-private/nautilus-file-operations.c
  	
  	if (!job_aborted (common) &&
  	    g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY) {
-@@ -4576,6 +4594,7 @@
+@@ -4807,6 +4825,7 @@
  					 guint32         file_mask,
  					 guint32         dir_permissions,
  					 guint32         dir_mask,
@@ -1500,7 +1500,7 @@ Index: libnautilus-private/nautilus-file-operations.c
  					 NautilusOpCallback  callback,
  					 gpointer  callback_data)
  {
-@@ -4589,7 +4608,24 @@
+@@ -4820,7 +4839,24 @@
  	job->dir_mask = dir_mask;
  	job->done_callback = callback;
  	job->done_callback_data = callback_data;
@@ -1528,9 +1528,9 @@ Index: libnautilus-private/nautilus-file-operations.c
  			   NULL,
 Index: libnautilus-private/nautilus-file-operations.h
 ===================================================================
---- libnautilus-private/nautilus-file-operations.h	(revision 14082)
+--- libnautilus-private/nautilus-file-operations.h	(revision 14227)
 +++ libnautilus-private/nautilus-file-operations.h	(working copy)
-@@ -84,6 +84,7 @@
+@@ -83,6 +83,7 @@
  					      guint32                         file_mask,
  					      guint32                         folder_permissions,
  					      guint32                         folder_mask,
@@ -1540,9 +1540,9 @@ Index: libnautilus-private/nautilus-file-operations.h
  
 Index: libnautilus-private/nautilus-file.c
 ===================================================================
---- libnautilus-private/nautilus-file.c	(revision 14082)
+--- libnautilus-private/nautilus-file.c	(revision 14227)
 +++ libnautilus-private/nautilus-file.c	(working copy)
-@@ -1637,7 +1637,7 @@
+@@ -1638,7 +1638,7 @@
  	file->details->is_mountpoint = is_mountpoint;
  
  	has_permissions = g_file_info_has_attribute (info, G_FILE_ATTRIBUTE_UNIX_MODE);
@@ -1551,7 +1551,7 @@ Index: libnautilus-private/nautilus-file.c
  	if (file->details->has_permissions != has_permissions ||
  	    file->details->permissions != permissions) {
  		changed = TRUE;
-@@ -1798,6 +1798,7 @@
+@@ -1799,6 +1799,7 @@
  	}
  	eel_ref_str_unref (file->details->mime_type);
  	file->details->mime_type = eel_ref_str_get_unique (mime_type);
@@ -1559,7 +1559,7 @@ Index: libnautilus-private/nautilus-file.c
  	
  	selinux_context = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_SELINUX_CONTEXT);
  	if (eel_strcmp (file->details->selinux_context, selinux_context) != 0) {
-@@ -4233,7 +4234,7 @@
+@@ -4260,7 +4261,7 @@
   * context
   * @file: NautilusFile representing the file in question.
   * 
@@ -1568,7 +1568,7 @@ Index: libnautilus-private/nautilus-file.c
   * 
   **/
  char *
-@@ -4266,6 +4267,114 @@
+@@ -4293,6 +4294,114 @@
  	return translated;
  }
  
@@ -1685,9 +1685,9 @@ Index: libnautilus-private/nautilus-file.c
  {
 Index: libnautilus-private/nautilus-file.h
 ===================================================================
---- libnautilus-private/nautilus-file.h	(revision 14082)
+--- libnautilus-private/nautilus-file.h	(revision 14227)
 +++ libnautilus-private/nautilus-file.h	(working copy)
-@@ -235,6 +235,7 @@
+@@ -237,6 +237,7 @@
  GList *                 nautilus_file_get_settable_group_names          (NautilusFile                   *file);
  gboolean                nautilus_file_can_get_selinux_context           (NautilusFile                   *file);
  char *                  nautilus_file_get_selinux_context               (NautilusFile                   *file);
@@ -1695,7 +1695,7 @@ Index: libnautilus-private/nautilus-file.h
  
  /* "Capabilities". */
  gboolean                nautilus_file_can_read                          (NautilusFile                   *file);
-@@ -269,6 +270,10 @@
+@@ -271,6 +272,10 @@
  									 guint32                         permissions,
  									 NautilusFileOperationCallback   callback,
  									 gpointer                        callback_data);
@@ -1708,7 +1708,7 @@ Index: libnautilus-private/nautilus-file.h
  									 NautilusFileOperationCallback   callback,
 Index: libnautilus-extension/nautilus-column.c
 ===================================================================
---- libnautilus-extension/nautilus-column.c	(revision 14082)
+--- libnautilus-extension/nautilus-column.c	(revision 14227)
 +++ libnautilus-extension/nautilus-column.c	(working copy)
 @@ -34,6 +34,7 @@
  	PROP_LABEL,
@@ -1771,7 +1771,7 @@ Index: libnautilus-extension/nautilus-column.c
  GType 
 Index: libnautilus-extension/nautilus-column.h
 ===================================================================
---- libnautilus-extension/nautilus-column.h	(revision 14082)
+--- libnautilus-extension/nautilus-column.h	(revision 14227)
 +++ libnautilus-extension/nautilus-column.h	(working copy)
 @@ -64,6 +64,7 @@
   *   label (string)       - the user-visible label for the column
