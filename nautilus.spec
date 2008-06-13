@@ -11,7 +11,6 @@
 %define desktop_file_utils_version 0.7
 %define gnome_desktop_version 2.9.91
 %define redhat_menus_version 0.25
-%define gnome_vfs2_version 2.19.3
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 %define gconf_version 2.14
