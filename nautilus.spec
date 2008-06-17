@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.23.3
-Release:	2%{?dist}
+Version: 	2.23.4
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -89,9 +89,6 @@ Patch8:		nautilus-2.22.1-hide-white-screen.patch
 
 Patch10:        nautilus-gvfs-desktop-key.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=528675
-Patch11:	nautilus-fix-open-folder.patch
-
 # https://bugzilla.redhat.com/show_bug.cgi?id=444639
 Patch14:        nautilus-2.22-default-to-asking.patch
 
@@ -100,9 +97,6 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=537995
-Patch18:	nautilus-2.23.3-wrong-unref.patch
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -140,11 +134,9 @@ for writing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p0 -b .gvfs-desktop-key
-%patch11 -p1 -b .fix-open-folder
 %patch14 -p1 -b .default-to-asking
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
-%patch18 -p0 -b .dnd-segv
 
 %build
 
@@ -263,6 +255,9 @@ fi
 
 
 %changelog
+* Tue Jun 17 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.4-1
+- Update to 2.23.4
+
 * Thu Jun 12 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.3-2
 - Fix DnD segfaults (#450416, #450449)
 
