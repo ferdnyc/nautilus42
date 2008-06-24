@@ -1,0 +1,11 @@
+--- branches/gnome-2-22/libnautilus-private/nautilus-file-operations.c	2008/06/16 12:55:56	14267
++++ branches/gnome-2-22/libnautilus-private/nautilus-file-operations.c	2008/06/16 12:56:12	14268
+@@ -3395,7 +3395,7 @@
+  retry:
+ 	
+ 	error = NULL;
+-	flags = G_FILE_COPY_NOFOLLOW_SYMLINKS;
++	flags = G_FILE_COPY_NOFOLLOW_SYMLINKS | G_FILE_COPY_ALL_METADATA;
+ 	if (overwrite) {
+ 		flags |= G_FILE_COPY_OVERWRITE;
+ 	}

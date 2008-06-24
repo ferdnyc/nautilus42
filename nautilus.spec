@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.22.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.22/%{name}-%{version}.tar.bz2
@@ -96,6 +96,9 @@ Patch13:	nautilus-copymove_inside_itself.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=444639
 Patch14:        nautilus-2.22-default-to-asking.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=515777
+Patch15:	nautilus-2.22.2-preserve-datetime.patch
+
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -135,6 +138,7 @@ for writing nautilus extensions.
 %patch11 -p1 -b .fix-open-folder
 %patch13 -p0 -b .recurse
 %patch14 -p1 -b .default-to-asking
+%patch15 -p2 -b .datetime
 
 %build
 
@@ -245,6 +249,9 @@ fi
 %{_libdir}/*.so
 
 %changelog
+* Tue Jun 24 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.22.3-2
+- Preserve date and time on copy
+
 * Wed May 28 2008 Matthias Clasen <mclasen@redhat.com> - 2.22.3-1
 - Update to 2.22.3
 
