@@ -96,9 +96,6 @@ Patch13:	nautilus-copymove_inside_itself.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=444639
 Patch14:        nautilus-2.22-default-to-asking.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=515777
-Patch15:	nautilus-2.22.2-preserve-datetime.patch
-
 
 %description
 Nautilus integrates access to files, applications, media,
@@ -138,7 +135,6 @@ for writing nautilus extensions.
 %patch11 -p1 -b .fix-open-folder
 %patch13 -p0 -b .recurse
 %patch14 -p1 -b .default-to-asking
-%patch15 -p2 -b .datetime
 
 %build
 
