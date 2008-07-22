@@ -18,7 +18,7 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.23.4
+Version: 	2.23.5
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -79,10 +79,10 @@ Obsoletes:      nautilus-media
 Patch1:         nautilus-2.5.7-rhconfig.patch
 Patch3:		background-no-delay.patch
 
-Patch5:		nautilus-2.23.3-selinux.diff
+Patch5:		nautilus-2.23.5-selinux.patch
 
 # Why is this not upstream ?
-Patch6:         nautilus-2.22.1-dynamic-search.patch
+Patch6:         nautilus-2.23.5-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
 Patch8:		nautilus-2.22.1-hide-white-screen.patch
@@ -129,7 +129,7 @@ for writing nautilus extensions.
 
 %patch1 -p1 -b .rhconfig
 %patch3 -p1 -b .no-delay
-%patch5 -p0 -b .selinux
+%patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
@@ -255,6 +255,9 @@ fi
 
 
 %changelog
+* Tue Jul 22 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.5-1
+- Update to 2.23.5
+
 * Tue Jun 17 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.4-1
 - Update to 2.23.4
 
