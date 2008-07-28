@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.23.5.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -98,6 +98,9 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=545062
+Patch18:	icon-names.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -137,6 +140,7 @@ for writing nautilus extensions.
 %patch14 -p1 -b .default-to-asking
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
+%patch18 -p1 -b .icon-names
 
 %build
 
@@ -255,6 +259,9 @@ fi
 
 
 %changelog
+* Sun Jul 27 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.5-2
+- Use standard icon names
+
 * Tue Jul 22 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.5.1-1
 - Update to 2.23.5.1
 

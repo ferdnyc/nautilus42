@@ -1,0 +1,12 @@
+diff -up nautilus-2.23.5/src/nautilus-file-management-properties.c.icon-names nautilus-2.23.5/src/nautilus-file-management-properties.c
+--- nautilus-2.23.5/src/nautilus-file-management-properties.c.icon-names	2008-07-27 20:29:35.000000000 -0400
++++ nautilus-2.23.5/src/nautilus-file-management-properties.c	2008-07-27 20:30:13.000000000 -0400
+@@ -801,7 +801,7 @@ nautilus_file_management_properties_dial
+ 			       (GClosureNotify)g_object_unref,
+ 			       0);
+ 
+-	gtk_window_set_icon_name (GTK_WINDOW (dialog), "file-manager");
++	gtk_window_set_icon_name (GTK_WINDOW (dialog), "system-file-manager");
+ 
+ 	if (window) {
+ 		gtk_window_set_screen (GTK_WINDOW (dialog), gtk_window_get_screen(window));
