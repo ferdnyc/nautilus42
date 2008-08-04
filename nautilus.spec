@@ -18,7 +18,7 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.23.6
+Version: 	2.23.6.1
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -89,9 +89,6 @@ Patch8:		nautilus-2.22.1-hide-white-screen.patch
 
 Patch10:        nautilus-gvfs-desktop-key.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=444639
-Patch14:        nautilus-2.22-default-to-asking.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=171655
 Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 
@@ -134,7 +131,6 @@ for writing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p0 -b .gvfs-desktop-key
-%patch14 -p1 -b .default-to-asking
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
 
@@ -255,6 +251,10 @@ fi
 
 
 %changelog
+* Mon Aug  4 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.6.1-1
+- Update to 2.23.6.1
+- Dropped upstreamed patches
+
 * Mon Aug  4 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.6-1
 - Update to 2.23.6
 
