@@ -84,8 +84,7 @@ Patch5:		nautilus-2.23.5-selinux.patch
 # Why is this not upstream ?
 Patch6:         nautilus-2.23.5-dynamic-search.patch
 
-# doesn't apply anymore - was this upstreamed ?
-#Patch7:		rtl-fix.patch
+Patch7:		rtl-fix.patch
 #Patch8:		nautilus-2.22.1-hide-white-screen.patch
 
 Patch10:        nautilus-gvfs-desktop-key.patch
@@ -129,7 +128,7 @@ for writing nautilus extensions.
 %patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
-# %patch7 -p1 -b .rtl-fix
+%patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p0 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds

@@ -1,7 +1,7 @@
-diff -up nautilus-2.23.1/libnautilus-private/nautilus-icon-container.c.rtl-fix nautilus-2.23.1/libnautilus-private/nautilus-icon-container.c
---- nautilus-2.23.1/libnautilus-private/nautilus-icon-container.c.rtl-fix	2008-04-21 22:54:48.000000000 +0200
-+++ nautilus-2.23.1/libnautilus-private/nautilus-icon-container.c	2008-04-23 17:17:37.356353323 +0200
-@@ -8445,6 +8445,25 @@ nautilus_icon_container_accessible_get_t
+diff -up nautilus-2.23.90/libnautilus-private/nautilus-icon-container.c.rtl-fix nautilus-2.23.90/libnautilus-private/nautilus-icon-container.c
+--- nautilus-2.23.90/libnautilus-private/nautilus-icon-container.c.rtl-fix	2008-08-18 19:04:40.000000000 -0400
++++ nautilus-2.23.90/libnautilus-private/nautilus-icon-container.c	2008-08-23 01:38:37.000000000 -0400
+@@ -8923,6 +8923,25 @@ nautilus_icon_container_accessible_get_t
          return type;
  }
  
@@ -27,7 +27,7 @@ diff -up nautilus-2.23.1/libnautilus-private/nautilus-icon-container.c.rtl-fix n
  #if ! defined (NAUTILUS_OMIT_SELF_CHECK)
  
  static char *
-@@ -8479,23 +8498,4 @@ nautilus_self_check_icon_container (void
+@@ -8957,24 +8976,6 @@ nautilus_self_check_icon_container (void
  	EEL_CHECK_STRING_RESULT (check_compute_stretch (100, 100, 64, 105, 105, 40, 40), "35,35:129");
  }
  
@@ -49,5 +49,6 @@ diff -up nautilus-2.23.1/libnautilus-private/nautilus-icon-container.c.rtl-fix n
 -		container->details->layout_mode == NAUTILUS_ICON_LAYOUT_T_B_R_L);
 -}
 -
--
- #endif /* ! NAUTILUS_OMIT_SELF_CHECK */
+ int
+ nautilus_icon_container_get_layout_height (NautilusIconContainer  *container)
+ {
