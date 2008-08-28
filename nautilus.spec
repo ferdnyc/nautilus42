@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.23.90
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -31,6 +31,10 @@ Requires:       filesystem >= 2.1.1-1
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       gvfs
+Requires:	gvfs-fuse
+Requires:	gvfs-smb
+Requires:	gvfs-archive
+Requires:	gvfs-gphoto2
 Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
@@ -255,6 +259,9 @@ fi
 
 
 %changelog
+* Thu Aug 28 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.90-3
+- Pull in split-off gvfs backends
+
 * Wed Aug 27 2008 - Bastien Nocera <bnocera@redhat.com> - 2.23.90-2
 - Fix typo in the schemas file
 
