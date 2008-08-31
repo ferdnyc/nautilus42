@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.23.90
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -102,6 +102,9 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=548740
 Patch18:	nautilus-2.23.90-schemas-typo.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=550009
+Patch20:	small-leaks.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -141,6 +144,7 @@ for writing nautilus extensions.
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .typo
+%patch20 -p0 -b .small-leaks
 
 %build
 
@@ -259,6 +263,9 @@ fi
 
 
 %changelog
+* Sat Aug 30 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.90-4
+- Plug a few small memory leaks
+
 * Thu Aug 28 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.90-3
 - Pull in split-off gvfs backends
 
