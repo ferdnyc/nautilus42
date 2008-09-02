@@ -1,9 +1,9 @@
-%define glib2_version 2.16.1
+%define glib2_version 2.17.5
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
 %define libgnome_version 2.23.0
-%define eel2_version 2.23.2
+%define eel2_version 2.23.91
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.23.90
-Release:	4%{?dist}
+Version: 	2.23.91
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -99,9 +99,6 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=548740
-Patch18:	nautilus-2.23.90-schemas-typo.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=550009
 Patch20:	small-leaks.patch
 
@@ -143,7 +140,6 @@ for writing nautilus extensions.
 %patch10 -p0 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
-%patch18 -p1 -b .typo
 %patch20 -p0 -b .small-leaks
 
 %build
@@ -263,6 +259,9 @@ fi
 
 
 %changelog
+* Tue Sep 02 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.23.91-1
+- Update to 2.23.91
+
 * Sat Aug 30 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.90-4
 - Plug a few small memory leaks
 
