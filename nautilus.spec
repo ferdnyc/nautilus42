@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.23.92
-Release:	1%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
@@ -99,6 +99,13 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=552310
+Patch22: 	nautilus-leaks.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=553073
+Patch23:	filesystem-id-cmp.patch
+# http://bugzilla.gnome.org/show_bug.cgi?id=553084
+Patch24: 	description-leak.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -137,6 +144,9 @@ for writing nautilus extensions.
 %patch10 -p0 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
+%patch22 -p1 -b .leaks
+%patch23 -p1 -b .filesystem-id-cmp
+%patch24 -p1 -b .description-leak
 
 %build
 
@@ -144,7 +154,8 @@ libtoolize --force --copy
 aclocal
 autoconf
 
-CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
+#CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
+CFLAGS="-O0 -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
 
 export tagname=CC
 LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
@@ -255,6 +266,12 @@ fi
 
 
 %changelog
+* Sat Sep 20 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.92-3
+- Plug some memory leaks
+
+* Fri Sep 19 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.92-2
+- Plug some memory leaks
+
 * Mon Sep  8 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.92-1
 - Update to 2.23.92
 
