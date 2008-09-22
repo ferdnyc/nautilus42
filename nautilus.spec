@@ -18,11 +18,11 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.23.92
-Release:	3%{?dist}
+Version: 	2.24.0
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.23/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
 
 URL: 		http://www.gnome.org/projects/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
@@ -99,10 +99,9 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=552310
-Patch22: 	nautilus-leaks.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=553073
 Patch23:	filesystem-id-cmp.patch
+
 # http://bugzilla.gnome.org/show_bug.cgi?id=553084
 Patch24: 	description-leak.patch
 
@@ -144,7 +143,6 @@ for writing nautilus extensions.
 %patch10 -p0 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
-%patch22 -p1 -b .leaks
 %patch23 -p1 -b .filesystem-id-cmp
 %patch24 -p1 -b .description-leak
 
@@ -266,6 +264,9 @@ fi
 
 
 %changelog
+* Sun Sep 21 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0-1
+- Update to 2.24.0
+
 * Sat Sep 20 2008 Matthias Clasen <mclasen@redhat.com> - 2.23.92-3
 - Plug some memory leaks
 
