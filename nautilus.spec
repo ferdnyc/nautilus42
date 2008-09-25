@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.24.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -158,6 +158,16 @@ CFLAGS="-O0 -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure 
 export tagname=CC
 LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
 
+# strip unneeded translations from .mo files
+cd po
+grep -v ".*[.]desktop[.]in.*\|.*[.]server[.]in$\|.*[.]schemas[.]in$" POTFILES.in > POTFILES.keep
+mv POTFILES.keep POTFILES.in
+intltool-update --pot
+for p in *.po; do
+  msgmerge $p nautilus.pot > $p.out
+  msgfmt -o `basename $p .po`.gmo $p.out
+done
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
@@ -264,6 +274,9 @@ fi
 
 
 %changelog
+* Thu Sep 25 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0-2
+- Save some space
+
 * Sun Sep 21 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0-1
 - Update to 2.24.0
 
