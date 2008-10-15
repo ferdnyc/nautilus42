@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.24.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -152,8 +152,7 @@ libtoolize --force --copy
 aclocal
 autoconf
 
-#CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
-CFLAGS="-O0 -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
+CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
 
 export tagname=CC
 LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
@@ -274,6 +273,9 @@ fi
 
 
 %changelog
+* Tue Oct 14 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0-3
+- Remove debug flags
+
 * Thu Sep 25 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0-2
 - Save some space
 
