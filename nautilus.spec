@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
-Version: 	2.24.0
-Release:	3%{?dist}
+Version: 	2.24.1
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -99,12 +99,6 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=553073
-Patch23:	filesystem-id-cmp.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=553084
-Patch24: 	description-leak.patch
-
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -143,8 +137,6 @@ for writing nautilus extensions.
 %patch10 -p0 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
-%patch23 -p1 -b .filesystem-id-cmp
-%patch24 -p1 -b .description-leak
 
 %build
 
@@ -273,6 +265,9 @@ fi
 
 
 %changelog
+* Mon Oct 20 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.24.1-1
+- Update to 2.24.1
+
 * Tue Oct 14 2008 Matthias Clasen <mclasen@redhat.com> - 2.24.0-3
 - Remove debug flags
 
