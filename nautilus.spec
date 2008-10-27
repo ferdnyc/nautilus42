@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.24.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -138,7 +138,7 @@ for writing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p0 -b .gvfs-desktop-key
-%patch15 -p1 -b .xds
+%patch15 -p0 -b .xds
 %patch17 -p0 -b .symlink
 %patch18 -p0 -b .fallback-file-icon
 
@@ -269,6 +269,9 @@ fi
 
 
 %changelog
+* Mon Oct 27 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.24.1-3
+- Updated XDS support in tree view patch (sync with gnomebz #171655)
+
 * Fri Oct 24 2008 Alexander Larsson <alexl@redhat.com> - 2.24.1-2
 - Manually check for fallback file icon since we're not
   always returning that from gio anymore (from upstream)
