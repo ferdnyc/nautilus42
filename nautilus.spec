@@ -17,14 +17,14 @@
 %define exempi_version 1.99.5
 
 Name:		nautilus
-Summary:        Nautilus is a file manager for GNOME
+Summary:        File manager for GNOME
 Version: 	2.24.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
 
-URL: 		http://www.gnome.org/projects/nautilus/
+URL: 		http://projects.gnome.org/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
 Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
@@ -103,11 +103,11 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 Patch18:	nautilus-2.24-fallback-file-icon.patch
 
 %description
-Nautilus integrates access to files, applications, media,
-Internet-based resources and the Web. Nautilus delivers a dynamic and
-rich user experience. Nautilus is an free software project developed
-under the GNU General Public License and is a core component of the
-GNOME desktop project.
+Nautilus is the file manager and graphical shell for the GNOME desktop
+that makes it easy to manage your files and the rest of your system. 
+It allows to browse directories on local and remote filesystems, preview 
+files and launch applications associated with them.
+It is also responsible for handling the icons on the GNOME desktop. 
 
 %package extensions
 Summary: Nautilus extensions library
@@ -118,15 +118,15 @@ Group: Development/Libraries
 This package provides the libraries used by nautilus extensions.
 
 %package devel
-Summary: Libraries and include files for developing nautilus extensions
+Summary: Support for developing nautilus extensions
 License: LGPLv2+
 Group: Development/Libraries
 Requires:   %{name} = %{version}-%{release}
 Requires:   pkgconfig
 
 %description devel
-This package provides the necessary development libraries and headers
-for writing nautilus extensions.
+This package provides libraries and header files needed
+for developing nautilus extensions.
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -269,6 +269,10 @@ fi
 
 
 %changelog
+* Fri Nov 21 2008 Matthias Clasen  <mclasen@redhat.com> - 2.24.1-5
+- Better URL
+- Tweak %%description
+
 * Thu Nov 13 2008 Matthias Clasen  <mclasen@redhat.com> - 2.24.1-4
 - Rebuild
 
