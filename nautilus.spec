@@ -1,4 +1,4 @@
-%define glib2_version 2.17.5
+%define glib2_version 2.18.3
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
@@ -18,8 +18,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.24.1
-Release:	5%{?dist}
+Version: 	2.24.2
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -30,7 +30,7 @@ Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
-Requires:       gvfs
+Requires:       gvfs >= 1.0.3
 Requires:	gvfs-fuse
 Requires:	gvfs-smb
 Requires:	gvfs-archive
@@ -99,9 +99,6 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# From svn
-Patch18:	nautilus-2.24-fallback-file-icon.patch
-
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system. 
@@ -140,7 +137,6 @@ for developing nautilus extensions.
 %patch10 -p0 -b .gvfs-desktop-key
 %patch15 -p0 -b .xds
 %patch17 -p0 -b .symlink
-%patch18 -p0 -b .fallback-file-icon
 
 %build
 
@@ -269,6 +265,9 @@ fi
 
 
 %changelog
+* Wed Nov 26 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.24.2-1
+- Update to 2.24.2
+
 * Fri Nov 21 2008 Matthias Clasen  <mclasen@redhat.com> - 2.24.1-5
 - Better URL
 - Tweak %%description
