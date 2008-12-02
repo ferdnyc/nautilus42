@@ -1,4 +1,4 @@
-%define glib2_version 2.18.3
+%define glib2_version 2.19.2
 %define pango_version 1.1.3
 %define gtk2_version 2.11.6
 %define libgnomeui_version 2.6.0
@@ -18,7 +18,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.24.2
+Version: 	2.25.1
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -91,7 +91,7 @@ Patch6:         nautilus-2.23.5-dynamic-search.patch
 Patch7:		rtl-fix.patch
 #Patch8:		nautilus-2.22.1-hide-white-screen.patch
 
-Patch10:        nautilus-gvfs-desktop-key.patch
+Patch10:        nautilus-gvfs-desktop-key-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=171655
 Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
@@ -134,7 +134,7 @@ for developing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
-%patch10 -p0 -b .gvfs-desktop-key
+%patch10 -p1 -b .gvfs-desktop-key
 %patch15 -p0 -b .xds
 %patch17 -p0 -b .symlink
 
@@ -265,6 +265,9 @@ fi
 
 
 %changelog
+* Tue Dec  2 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.25.1-1
+- Update to 2.25.1
+
 * Wed Nov 26 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.24.2-1
 - Update to 2.24.2
 

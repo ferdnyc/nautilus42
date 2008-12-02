@@ -1,0 +1,176 @@
+diff -up nautilus-2.25.1/nautilus-browser.desktop.in.orig nautilus-2.25.1/nautilus-browser.desktop.in
+--- nautilus-2.25.1/nautilus-browser.desktop.in.orig	2008-12-01 11:58:56.000000000 +0100
++++ nautilus-2.25.1/nautilus-browser.desktop.in	2008-12-02 16:10:49.000000000 +0100
+@@ -4,6 +4,7 @@ _Name=File Browser
+ _Comment=Browse the file system with the file manager
+ TryExec=nautilus
+ Exec=nautilus --no-desktop --browser %U
++X-Gnome-Vfs-System=gio
+ Icon=system-file-manager
+ Terminal=false
+ StartupNotify=true
+diff -up nautilus-2.25.1/src/network-scheme.desktop.in.orig nautilus-2.25.1/src/network-scheme.desktop.in
+--- nautilus-2.25.1/src/network-scheme.desktop.in.orig	2008-09-14 14:14:22.000000000 +0200
++++ nautilus-2.25.1/src/network-scheme.desktop.in	2008-12-02 16:14:43.720426420 +0100
+@@ -4,6 +4,7 @@ _Name=Network
+ _Comment=Browse bookmarked and local network locations
+ TryExec=nautilus
+ Exec=nautilus --no-desktop network:
++X-Gnome-Vfs-System=gio
+ Terminal=false
+ StartupNotify=true
+ Type=Application
+diff -up nautilus-2.25.1/nautilus-browser.desktop.in.in.orig nautilus-2.25.1/nautilus-browser.desktop.in.in
+--- nautilus-2.25.1/nautilus-browser.desktop.in.in.orig	2008-10-02 14:26:49.000000000 +0200
++++ nautilus-2.25.1/nautilus-browser.desktop.in.in	2008-12-02 16:10:54.000000000 +0100
+@@ -4,6 +4,7 @@ _Name=File Browser
+ _Comment=Browse the file system with the file manager
+ TryExec=nautilus
+ Exec=nautilus --no-desktop --browser %U
++X-Gnome-Vfs-System=gio
+ Icon=system-file-manager
+ Terminal=false
+ StartupNotify=true
+diff -up nautilus-2.25.1/nautilus-autorun-software.desktop.in.orig nautilus-2.25.1/nautilus-autorun-software.desktop.in
+--- nautilus-2.25.1/nautilus-autorun-software.desktop.in.orig	2008-12-01 11:58:56.000000000 +0100
++++ nautilus-2.25.1/nautilus-autorun-software.desktop.in	2008-12-02 16:14:43.719759795 +0100
+@@ -3,6 +3,7 @@ Encoding=UTF-8
+ _Name=Autorun Prompt
+ TryExec=nautilus-autorun-software
+ Exec=nautilus-autorun-software %u
++X-Gnome-Vfs-System=gio
+ Icon=application-x-executable
+ NoDisplay=true
+ Terminal=false
+diff -up nautilus-2.25.1/nautilus.desktop.in.in.orig nautilus-2.25.1/nautilus.desktop.in.in
+--- nautilus-2.25.1/nautilus.desktop.in.in.orig	2008-10-02 14:26:50.000000000 +0200
++++ nautilus-2.25.1/nautilus.desktop.in.in	2008-12-02 16:09:52.000000000 +0100
+@@ -2,6 +2,7 @@
+ Encoding=UTF-8
+ _Name=File Manager
+ Exec=nautilus
++X-Gnome-Vfs-System=gio
+ Icon=system-file-manager
+ Terminal=false
+ Type=Application
+diff -up nautilus-2.25.1/nautilus-folder-handler.desktop.in.in.orig nautilus-2.25.1/nautilus-folder-handler.desktop.in.in
+--- nautilus-2.25.1/nautilus-folder-handler.desktop.in.in.orig	2008-09-14 14:14:27.000000000 +0200
++++ nautilus-2.25.1/nautilus-folder-handler.desktop.in.in	2008-12-02 16:14:43.777093017 +0100
+@@ -3,6 +3,7 @@ Encoding=UTF-8
+ _Name=Open Folder
+ TryExec=nautilus
+ Exec=nautilus --no-desktop %U
++X-Gnome-Vfs-System=gio
+ NoDisplay=true
+ Terminal=false
+ Icon=folder-open
+diff -up nautilus-2.25.1/nautilus.desktop.orig nautilus-2.25.1/nautilus.desktop
+--- nautilus-2.25.1/nautilus.desktop.orig	2008-12-01 11:59:05.000000000 +0100
++++ nautilus-2.25.1/nautilus.desktop	2008-12-02 16:10:32.000000000 +0100
+@@ -92,6 +92,7 @@ Name[zh_HK]=檔案總管
+ Name[zh_TW]=檔案總管
+ Name[zu]=Mphathi Hele
+ Exec=nautilus
++X-Gnome-Vfs-System=gio
+ Icon=system-file-manager
+ Terminal=false
+ Type=Application
+diff -up nautilus-2.25.1/nautilus-autorun-software.desktop.in.in.orig nautilus-2.25.1/nautilus-autorun-software.desktop.in.in
+--- nautilus-2.25.1/nautilus-autorun-software.desktop.in.in.orig	2008-09-14 14:14:27.000000000 +0200
++++ nautilus-2.25.1/nautilus-autorun-software.desktop.in.in	2008-12-02 16:14:43.827591738 +0100
+@@ -3,6 +3,7 @@ Encoding=UTF-8
+ _Name=Autorun Prompt
+ TryExec=nautilus-autorun-software
+ Exec=nautilus-autorun-software %u
++X-Gnome-Vfs-System=gio
+ Icon=application-x-executable
+ NoDisplay=true
+ Terminal=false
+diff -up nautilus-2.25.1/nautilus.desktop.in.orig nautilus-2.25.1/nautilus.desktop.in
+--- nautilus-2.25.1/nautilus.desktop.in.orig	2008-12-01 11:58:56.000000000 +0100
++++ nautilus-2.25.1/nautilus.desktop.in	2008-12-02 16:10:17.000000000 +0100
+@@ -2,6 +2,7 @@
+ Encoding=UTF-8
+ _Name=File Manager
+ Exec=nautilus
++X-Gnome-Vfs-System=gio
+ Icon=system-file-manager
+ Terminal=false
+ Type=Application
+diff -up nautilus-2.25.1/nautilus-home.desktop.in.orig nautilus-2.25.1/nautilus-home.desktop.in
+--- nautilus-2.25.1/nautilus-home.desktop.in.orig	2008-12-01 11:58:56.000000000 +0100
++++ nautilus-2.25.1/nautilus-home.desktop.in	2008-12-02 16:14:43.911840155 +0100
+@@ -4,6 +4,7 @@ _Name=Home Folder
+ _Comment=Open your personal folder
+ TryExec=nautilus
+ Exec=nautilus --no-desktop
++X-Gnome-Vfs-System=gio
+ Icon=user-home
+ Terminal=false
+ StartupNotify=true
+diff -up nautilus-2.25.1/nautilus-computer.desktop.in.in.orig nautilus-2.25.1/nautilus-computer.desktop.in.in
+--- nautilus-2.25.1/nautilus-computer.desktop.in.in.orig	2008-09-14 14:14:27.000000000 +0200
++++ nautilus-2.25.1/nautilus-computer.desktop.in.in	2008-12-02 16:14:43.936451077 +0100
+@@ -4,6 +4,7 @@ _Name=Computer
+ _Comment=Browse all local and remote disks and folders accessible from this computer
+ TryExec=nautilus
+ Exec=nautilus --no-desktop computer:
++X-Gnome-Vfs-System=gio
+ Icon=computer
+ Terminal=false
+ StartupNotify=true
+diff -up nautilus-2.25.1/nautilus-home.desktop.in.in.orig nautilus-2.25.1/nautilus-home.desktop.in.in
+--- nautilus-2.25.1/nautilus-home.desktop.in.in.orig	2008-09-14 14:14:27.000000000 +0200
++++ nautilus-2.25.1/nautilus-home.desktop.in.in	2008-12-02 16:14:43.961667122 +0100
+@@ -4,6 +4,7 @@ _Name=Home Folder
+ _Comment=Open your personal folder
+ TryExec=nautilus
+ Exec=nautilus --no-desktop
++X-Gnome-Vfs-System=gio
+ Icon=user-home
+ Terminal=false
+ StartupNotify=true
+diff -up nautilus-2.25.1/nautilus-computer.desktop.in.orig nautilus-2.25.1/nautilus-computer.desktop.in
+--- nautilus-2.25.1/nautilus-computer.desktop.in.orig	2008-12-01 11:58:55.000000000 +0100
++++ nautilus-2.25.1/nautilus-computer.desktop.in	2008-12-02 16:14:44.028541929 +0100
+@@ -4,6 +4,7 @@ _Name=Computer
+ _Comment=Browse all local and remote disks and folders accessible from this computer
+ TryExec=nautilus
+ Exec=nautilus --no-desktop computer:
++X-Gnome-Vfs-System=gio
+ Icon=computer
+ Terminal=false
+ StartupNotify=true
+diff -up nautilus-2.25.1/nautilus-file-management-properties.desktop.in.orig nautilus-2.25.1/nautilus-file-management-properties.desktop.in
+--- nautilus-2.25.1/nautilus-file-management-properties.desktop.in.orig	2008-12-01 11:58:55.000000000 +0100
++++ nautilus-2.25.1/nautilus-file-management-properties.desktop.in	2008-12-02 16:14:44.053759916 +0100
+@@ -3,6 +3,7 @@ Encoding=UTF-8
+ _Name=File Management
+ _Comment=Change the behaviour and appearance of file manager windows
+ Exec=nautilus-file-management-properties
++X-Gnome-Vfs-System=gio
+ Icon=system-file-manager
+ Terminal=false
+ Type=Application
+diff -up nautilus-2.25.1/nautilus-folder-handler.desktop.in.orig nautilus-2.25.1/nautilus-folder-handler.desktop.in
+--- nautilus-2.25.1/nautilus-folder-handler.desktop.in.orig	2008-12-01 11:58:56.000000000 +0100
++++ nautilus-2.25.1/nautilus-folder-handler.desktop.in	2008-12-02 16:14:44.078976570 +0100
+@@ -3,6 +3,7 @@ Encoding=UTF-8
+ _Name=Open Folder
+ TryExec=nautilus
+ Exec=nautilus --no-desktop %U
++X-Gnome-Vfs-System=gio
+ NoDisplay=true
+ Terminal=false
+ Icon=folder-open
+diff -up nautilus-2.25.1/nautilus-file-management-properties.desktop.in.in.orig nautilus-2.25.1/nautilus-file-management-properties.desktop.in.in
+--- nautilus-2.25.1/nautilus-file-management-properties.desktop.in.in.orig	2008-09-14 14:14:27.000000000 +0200
++++ nautilus-2.25.1/nautilus-file-management-properties.desktop.in.in	2008-12-02 16:14:44.104262369 +0100
+@@ -3,6 +3,7 @@ Encoding=UTF-8
+ _Name=File Management
+ _Comment=Change the behaviour and appearance of file manager windows
+ Exec=nautilus-file-management-properties
++X-Gnome-Vfs-System=gio
+ Icon=system-file-manager
+ Terminal=false
+ Type=Application
