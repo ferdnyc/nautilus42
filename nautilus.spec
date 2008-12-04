@@ -1,9 +1,9 @@
 %define glib2_version 2.19.2
 %define pango_version 1.1.3
-%define gtk2_version 2.11.6
+%define gtk2_version 2.13.0
 %define libgnomeui_version 2.6.0
 %define libgnome_version 2.23.0
-%define eel2_version 2.23.91
+%define eel2_version 2.25.1
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define gail_version 0.17-2
@@ -15,11 +15,12 @@
 %define libexif_version 0.5.12
 %define gconf_version 2.14
 %define exempi_version 1.99.5
+%define unique_version 1.0.4
 
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -67,6 +68,7 @@ BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
+BuildRequires:  unique-devel >= %{unique_version}
 # For intltool:
 BuildRequires: perl(XML::Parser) >= 2.31-16
 
@@ -237,7 +239,6 @@ fi
 %defattr(-,root,root)
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB NEWS README
 %{_datadir}/nautilus
-%{_libdir}/bonobo/servers/*
 %{_datadir}/pixmaps/*
 %{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
@@ -265,6 +266,9 @@ fi
 
 
 %changelog
+* Thu Dec  4 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.25.1-3
+- Fix BuildRequires
+
 * Thu Dec  4 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.25.1-2
 - Rediff the XDS patch
 
