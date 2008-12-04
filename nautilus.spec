@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -94,7 +94,7 @@ Patch7:		rtl-fix.patch
 Patch10:        nautilus-gvfs-desktop-key-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=171655
-Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
+Patch15:	nautilus-2.22.0-treeview-xds-dnd-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
@@ -135,7 +135,7 @@ for developing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
-%patch15 -p0 -b .xds
+%patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
 
 %build
@@ -265,6 +265,9 @@ fi
 
 
 %changelog
+* Thu Dec  4 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.25.1-2
+- Rediff the XDS patch
+
 * Tue Dec  2 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.25.1-1
 - Update to 2.25.1
 

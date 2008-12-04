@@ -1,7 +1,6 @@
-Index: libnautilus-private/nautilus-tree-view-drag-dest.c
-===================================================================
---- libnautilus-private/nautilus-tree-view-drag-dest.c	(Revision 14599)
-+++ libnautilus-private/nautilus-tree-view-drag-dest.c	(Arbeitskopie)
+diff -up nautilus-2.25.1/libnautilus-private/nautilus-tree-view-drag-dest.c.orig nautilus-2.25.1/libnautilus-private/nautilus-tree-view-drag-dest.c
+--- nautilus-2.25.1/libnautilus-private/nautilus-tree-view-drag-dest.c.orig	2008-10-06 11:54:32.000000000 +0200
++++ nautilus-2.25.1/libnautilus-private/nautilus-tree-view-drag-dest.c	2008-12-04 11:35:04.174034560 +0100
 @@ -21,6 +21,7 @@
   * Boston, MA 02111-1307, USA.
   * 
@@ -10,9 +9,9 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
   */
  
  /* nautilus-tree-view-drag-dest.c: Handles drag and drop for treeviews which 
-@@ -34,9 +35,13 @@
+@@ -33,9 +34,13 @@
+ #include <eel/eel-gtk-macros.h>
  #include <gtk/gtk.h>
- #include <libgnome/gnome-macros.h>
  #include "nautilus-file-dnd.h"
 +#include "nautilus-file-changes-queue.h"
  #include "nautilus-icon-dnd.h"
@@ -24,7 +23,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  
  #define AUTO_SCROLL_MARGIN 20
  
-@@ -55,6 +60,8 @@ struct _NautilusTreeViewDragDestDetails 
+@@ -54,6 +59,8 @@ struct _NautilusTreeViewDragDestDetails 
  	guint highlight_id;
  	guint scroll_id;
  	guint expand_id;
@@ -33,7 +32,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  };
  
  enum {
-@@ -81,7 +88,8 @@ static const GtkTargetEntry drag_types [
+@@ -80,7 +87,8 @@ static const GtkTargetEntry drag_types [
  	/* prefer "_NETSCAPE_URL" over "text/uri-list" to satisfy web browsers. */
  	{ NAUTILUS_ICON_DND_NETSCAPE_URL_TYPE, 0, NAUTILUS_ICON_DND_NETSCAPE_URL },
  	{ NAUTILUS_ICON_DND_URI_LIST_TYPE, 0, NAUTILUS_ICON_DND_URI_LIST },
@@ -43,7 +42,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  };
  
  
-@@ -245,6 +253,12 @@ get_drag_data (NautilusTreeViewDragDest 
+@@ -244,6 +252,12 @@ get_drag_data (NautilusTreeViewDragDest 
  	target = gtk_drag_dest_find_target (GTK_WIDGET (dest->details->tree_view), 
  					    context, 
  					    NULL);
@@ -56,7 +55,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  
  	gtk_drag_get_data (GTK_WIDGET (dest->details->tree_view),
  			   context, target, time);
-@@ -264,6 +278,9 @@ free_drag_data (NautilusTreeViewDragDest
+@@ -263,6 +277,9 @@ free_drag_data (NautilusTreeViewDragDest
  		nautilus_drag_destroy_selection_list (dest->details->drag_list);
  		dest->details->drag_list = NULL;
  	}
@@ -66,7 +65,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  }
  
  static char *
-@@ -408,6 +425,7 @@ get_drop_action (NautilusTreeViewDragDes
+@@ -407,6 +424,7 @@ get_drop_action (NautilusTreeViewDragDes
  		return context->suggested_action;
  
  	case NAUTILUS_ICON_DND_TEXT:
@@ -74,7 +73,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  		return GDK_ACTION_COPY;
  
  	case NAUTILUS_ICON_DND_KEYWORD:
-@@ -718,6 +736,35 @@ receive_dropped_keyword (NautilusTreeVie
+@@ -717,6 +735,35 @@ receive_dropped_keyword (NautilusTreeVie
  	g_free (drop_target_uri);
  }
  
@@ -110,7 +109,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  static gboolean
  drag_data_received_callback (GtkWidget *widget,
  			     GdkDragContext *context,
-@@ -767,6 +814,10 @@ drag_data_received_callback (GtkWidget *
+@@ -766,6 +813,10 @@ drag_data_received_callback (GtkWidget *
  			receive_dropped_keyword (dest, context, x, y);
  			success = TRUE;
  			break;
@@ -121,7 +120,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  		}
  
  		dest->details->drop_occurred = FALSE;
-@@ -782,6 +833,79 @@ drag_data_received_callback (GtkWidget *
+@@ -781,6 +832,79 @@ drag_data_received_callback (GtkWidget *
  	return TRUE;
  }
  
@@ -201,7 +200,7 @@ Index: libnautilus-private/nautilus-tree-view-drag-dest.c
  static gboolean
  drag_drop_callback (GtkWidget *widget,
  		    GdkDragContext *context,
-@@ -791,8 +915,24 @@ drag_drop_callback (GtkWidget *widget,
+@@ -790,8 +914,24 @@ drag_drop_callback (GtkWidget *widget,
  		    gpointer data)
  {
  	NautilusTreeViewDragDest *dest;
