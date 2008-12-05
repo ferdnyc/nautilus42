@@ -20,7 +20,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -101,6 +101,11 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=524485
+Patch18:	nautilus_new_windows_after_mount.patch
+Patch19:	nautilus_gtk_mount_operation_signal.patch
+
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system. 
@@ -139,6 +144,8 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
+%patch18 -p0 -b .new-windows
+%patch19 -p0 -b .mountop
 
 %build
 
@@ -266,6 +273,10 @@ fi
 
 
 %changelog
+* Fri Dec  5 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.25.1-4
+- Properly open new windows after long mount operation
+- Fix callback connection to the GtkMountOperation dialog
+
 * Thu Dec  4 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.25.1-3
 - Fix BuildRequires
 
