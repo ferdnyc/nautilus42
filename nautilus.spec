@@ -20,10 +20,10 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
@@ -80,6 +80,8 @@ Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
 Obsoletes:      nautilus-mozilla < 2.0
 Obsoletes:      nautilus-media
+
+Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10      
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
@@ -273,6 +275,9 @@ fi
 
 
 %changelog
+* Fri Dec  5 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-5
+- Obsolete gnome-volume-manager
+
 * Fri Dec  5 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.25.1-4
 - Properly open new windows after long mount operation
 - Fix callback connection to the GtkMountOperation dialog
