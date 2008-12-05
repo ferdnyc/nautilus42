@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.24.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -99,6 +99,9 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=524485 
+Patch18:        nautilus_new_windows_after_mount.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -137,6 +140,7 @@ for writing nautilus extensions.
 %patch10 -p0 -b .gvfs-desktop-key
 %patch15 -p0 -b .xds
 %patch17 -p0 -b .symlink
+%patch18 -p0 -b .new-windows
 
 %build
 
@@ -265,6 +269,9 @@ fi
 
 
 %changelog
+* Fri Dec  5 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.24.2-2
+- Properly open new windows after long mount operation
+
 * Wed Nov 26 2008 Tomas Bzatek <tbzatek@redhat.com> - 2.24.2-1
 - Update to 2.24.2
 
