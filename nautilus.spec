@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -66,7 +66,8 @@ Obsoletes:      nautilus-mozilla < 2.0
 Obsoletes:      nautilus-media
 
 Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10      
-Obsoletes:	eel2 < 2.25.1-4.fc10
+# wait until 2009 to give people some time to port away
+#Obsoletes:	eel2 < 2.25.1-4.fc10
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
@@ -258,6 +259,10 @@ fi
 
 
 %changelog
+* Tue Dec 16 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-2
+- Drop the eel2 Obsoletes temporarily to give people some time
+  to port away
+
 * Tue Dec 16 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-1
 - Update to 2.25.2
 - Clean up Requires
