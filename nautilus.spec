@@ -1,12 +1,8 @@
 %define glib2_version 2.19.2
 %define pango_version 1.1.3
 %define gtk2_version 2.13.0
-%define libgnomeui_version 2.6.0
-%define libgnome_version 2.23.0
-%define eel2_version 2.25.1
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
-%define gail_version 0.17-2
 %define desktop_backgrounds_version 2.0-4
 %define desktop_file_utils_version 0.7
 %define gnome_desktop_version 2.9.91
@@ -19,8 +15,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.25.1
-Release:	5%{?dist}
+Version: 	2.25.2
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -32,11 +28,6 @@ Requires:       filesystem >= 2.1.1-1
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       gvfs >= 1.0.3
-Requires:	gvfs-fuse
-Requires:	gvfs-smb
-Requires:	gvfs-archive
-Requires:	gvfs-gphoto2
-Requires:       eel2 >= %{eel2_version}
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
 %ifnarch s390 s390x
@@ -47,15 +38,10 @@ PreReq:    scrollkeeper >= 0.1.4
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
 BuildRequires:	gtk2-devel >= %{gtk2_version}
-BuildRequires:	libgnome-devel >= %{libgnome_version}
-BuildRequires:	libgnomeui-devel >= %{libgnomeui_version}
 BuildRequires:	libxml2-devel >= %{libxml2_version}
-BuildRequires:  eel2-devel >= %{eel2_version}
-BuildRequires:  gail-devel >= %{gail_version}
 BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
 BuildRequires:	gamin-devel
 BuildRequires:	gvfs-devel
-BuildRequires:  librsvg2
 BuildRequires:  intltool
 BuildRequires:  libX11-devel
 BuildRequires:  libXt-devel
@@ -69,8 +55,6 @@ BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
 BuildRequires:  unique-devel >= %{unique_version}
-# For intltool:
-BuildRequires: perl(XML::Parser) >= 2.31-16
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
@@ -82,6 +66,7 @@ Obsoletes:      nautilus-mozilla < 2.0
 Obsoletes:      nautilus-media
 
 Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10      
+Obsoletes:	eel2 < 2.25.1-4.fc10
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
@@ -93,7 +78,7 @@ Patch5:		nautilus-2.23.5-selinux.patch
 Patch6:         nautilus-2.23.5-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
-#Patch8:		nautilus-2.22.1-hide-white-screen.patch
+#Patch8:	nautilus-2.22.1-hide-white-screen.patch
 
 Patch10:        nautilus-gvfs-desktop-key-2.patch
 
@@ -102,10 +87,6 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
-
-# http://bugzilla.gnome.org/show_bug.cgi?id=524485
-Patch18:	nautilus_new_windows_after_mount.patch
-Patch19:	nautilus_gtk_mount_operation_signal.patch
 
 
 %description
@@ -146,20 +127,19 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
-%patch18 -p0 -b .new-windows
-%patch19 -p0 -b .mountop
 
 %build
 
-libtoolize --force --copy
-aclocal
-autoconf
+autoreconf -i -f
 
 CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
 
-export tagname=CC
-LANG=en_US make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
+sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dynamic" = yes && test -n "$export_dynamic_flag_spec"; then/      func_append compile_command " -Wl,-O1,--as-needed"\n      func_append finalize_command " -Wl,-O1,--as-needed"\n\0/' libtool
 
+export tagname=CC
+LANG=en_US make %{?_smp_mflags}
+
+%if 0
 # strip unneeded translations from .mo files
 cd po
 grep -v ".*[.]desktop[.]in.*\|.*[.]server[.]in$\|.*[.]schemas[.]in$" POTFILES.in > POTFILES.keep
@@ -169,6 +149,7 @@ for p in *.po; do
   msgmerge $p nautilus.pot > $p.out
   msgfmt -o `basename $p .po`.gmo $p.out
 done
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -275,6 +256,13 @@ fi
 
 
 %changelog
+* Tue Dec 16 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-1
+- Update to 2.25.2
+- Clean up Requires
+- Obsolete eel2
+- Drop hard dependency on gvfs backends. 
+  These are pulled in by comps, anyway
+
 * Fri Dec  5 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.1-5
 - Obsolete gnome-volume-manager
 
