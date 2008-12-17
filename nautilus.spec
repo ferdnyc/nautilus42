@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -259,6 +259,9 @@ fi
 
 
 %changelog
+* Wed Dec 17 2008 - Bastien Nocera <bnocera@redhat.com> - 2.25.2-3
+- Rebuild for new libgnome-desktop
+
 * Tue Dec 16 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-2
 - Drop the eel2 Obsoletes temporarily to give people some time
   to port away
