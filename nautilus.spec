@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -89,6 +89,9 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=552859
+Patch18:	eel-2.24.0-fade.patch
+
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -128,6 +131,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
+%patch18 -p0 -b .fade
 
 %build
 
@@ -259,6 +263,9 @@ fi
 
 
 %changelog
+* Thu Dec 18 2008 - Ray Strode <rstrode@redhat.com> - 2.25.2-4
+- Add eel crossfade patch
+
 * Wed Dec 17 2008 - Bastien Nocera <bnocera@redhat.com> - 2.25.2-3
 - Rebuild for new libgnome-desktop
 
