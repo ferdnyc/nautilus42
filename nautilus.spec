@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.2
-Release:	4%{?dist}
+Release:	5%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -263,6 +263,9 @@ fi
 
 
 %changelog
+* Thu Dec 18 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-5
+- Fix spec
+
 * Thu Dec 18 2008 - Ray Strode <rstrode@redhat.com> - 2.25.2-4
 - Add eel crossfade patch
 
