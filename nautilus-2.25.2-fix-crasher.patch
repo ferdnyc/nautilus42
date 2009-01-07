@@ -1,0 +1,45 @@
+diff -up nautilus-2.25.2/src/nautilus-window-slot.c.fix-crasher nautilus-2.25.2/src/nautilus-window-slot.c
+--- nautilus-2.25.2/src/nautilus-window-slot.c.fix-crasher	2009-01-07 14:19:02.542397115 -0500
++++ nautilus-2.25.2/src/nautilus-window-slot.c	2009-01-07 14:15:25.815412326 -0500
+@@ -570,6 +570,20 @@ nautilus_window_slot_dispose (GObject *o
+ 
+ 	slot = NAUTILUS_WINDOW_SLOT (object);
+ 
++	if (slot->content_view) {
++		widget = nautilus_view_get_widget (slot->content_view);
++		gtk_widget_destroy (widget);
++		g_object_unref (slot->content_view);
++		slot->content_view = NULL;
++	}
++
++	if (slot->new_content_view) {
++		widget = nautilus_view_get_widget (slot->new_content_view);
++		gtk_widget_destroy (widget);
++		g_object_unref (slot->new_content_view);
++		slot->new_content_view = NULL;
++	}
++
+ 	nautilus_window_slot_set_viewed_file (slot, NULL);
+ 	/* TODO? why do we unref here? the file is NULL.
+ 	 * It was already here before the slot move, though */
+@@ -598,20 +612,6 @@ nautilus_window_slot_dispose (GObject *o
+ 		slot->find_mount_cancellable = NULL;
+ 	}
+ 
+-	if (slot->content_view) {
+-		widget = nautilus_view_get_widget (slot->content_view);
+-		gtk_widget_destroy (widget);
+-		g_object_unref (slot->content_view);
+-		slot->content_view = NULL;
+-	}
+-
+-	if (slot->new_content_view) {
+-		widget = nautilus_view_get_widget (slot->new_content_view);
+-		gtk_widget_destroy (widget);
+-		g_object_unref (slot->new_content_view);
+-		slot->new_content_view = NULL;
+-	}
+-
+ 	slot->window = NULL;
+ 
+ 	g_free (slot->title);

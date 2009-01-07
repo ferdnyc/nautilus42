@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.2
-Release:	5%{?dist}
+Release:	6%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -91,6 +91,7 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=552859
 Patch18:	eel-2.24.0-fade.patch
+Patch19:	nautilus-2.25.2-fix-crasher.patch
 
 
 %description
@@ -132,6 +133,7 @@ for developing nautilus extensions.
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .fade
+%patch19 -p1 -b .fix-crasher
 
 %build
 
@@ -263,6 +265,10 @@ fi
 
 
 %changelog
+* Wed Jan  7 2009 Ray Strode <rstrode@redhat.com> - 2.25.2-6
+- Don't crash when closing spatial window very quickly after
+  opening it (gnome bug 552859)
+
 * Thu Dec 18 2008 Matthias Clasen <mclasen@redhat.com> - 2.25.2-5
 - Fix spec
 
