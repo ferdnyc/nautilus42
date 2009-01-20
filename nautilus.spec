@@ -5,7 +5,7 @@
 %define libxml2_version 2.4.20
 %define desktop_backgrounds_version 2.0-4
 %define desktop_file_utils_version 0.7
-%define gnome_desktop_version 2.9.91
+%define gnome_desktop_version 2.25.2
 %define redhat_menus_version 0.25
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
