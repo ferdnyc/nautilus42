@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.2
-Release:	6%{?dist}
+Release:	7%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -265,6 +265,10 @@ fi
 
 
 %changelog
+* Mon Jan 19 2009 Ray Strode <rstrode@redhat.com> - 2.25.2-7
+- Update fade patch to work with updated gnome-desktop api
+- Fix fade start pixmap
+
 * Wed Jan  7 2009 Ray Strode <rstrode@redhat.com> - 2.25.2-6
 - Don't crash when closing spatial window very quickly after
   opening it (gnome bug 552859)
