@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -148,7 +148,6 @@ sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dyn
 export tagname=CC
 LANG=en_US make %{?_smp_mflags}
 
-%if 0
 # strip unneeded translations from .mo files
 cd po
 grep -v ".*[.]desktop[.]in.*\|.*[.]server[.]in$\|.*[.]schemas[.]in$" POTFILES.in > POTFILES.keep
@@ -158,7 +157,6 @@ for p in *.po; do
   msgmerge $p nautilus.pot > $p.out
   msgfmt -o `basename $p .po`.gmo $p.out
 done
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -265,6 +263,9 @@ fi
 
 
 %changelog
+* Tue Jan 20 2009 Matthias Clasen <mclasen@redhat.com>- 2.25.3-2
+- Reenable the translation size reduction
+
 * Tue Jan 20 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.25.3-1
 - Update to 2.25.3
 
