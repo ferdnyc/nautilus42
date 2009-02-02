@@ -15,8 +15,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.25.3
-Release:	2%{?dist}
+Version: 	2.25.4
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -89,10 +89,6 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=552859
-Patch18:	eel-2.24.0-fade.patch
-Patch19:	nautilus-2.25.2-fix-crasher.patch
-
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -132,8 +128,6 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
-%patch18 -p1 -b .fade
-%patch19 -p1 -b .fix-crasher
 
 %build
 
@@ -263,6 +257,9 @@ fi
 
 
 %changelog
+* Mon Feb  2 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.25.4-1
+- Update to 2.25.4
+
 * Tue Jan 20 2009 Matthias Clasen <mclasen@redhat.com>- 2.25.3-2
 - Reenable the translation size reduction
 
