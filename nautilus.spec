@@ -1,3 +1,4 @@
+%define glib2_version 2.19.2
 %define pango_version 1.1.3
 %define gtk2_version 2.13.0
 %define gnome_icon_theme_version 1.1.5
