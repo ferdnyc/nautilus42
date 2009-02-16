@@ -15,7 +15,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.25.4
+Version: 	2.25.91
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -257,6 +257,9 @@ fi
 
 
 %changelog
+* Mon Feb 16 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.25.91-1
+- Update to 2.25.91
+
 * Mon Feb  2 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.25.4-1
 - Update to 2.25.4
 
