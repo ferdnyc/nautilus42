@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.91
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -135,7 +135,9 @@ for developing nautilus extensions.
 gtkdocize
 autoreconf -i -f
 
-CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
+# -fno-tree-vrp is needed to avoid gcc-4.4.0 optimization failure
+# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39233
+CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK -fno-tree-vrp" %configure --disable-more-warnings --disable-update-mimedb
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
@@ -259,6 +261,9 @@ fi
 
 
 %changelog
+* Thu Feb 19 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.25.91-2
+- Workaround for broken gcc optimization (#486088)
+
 * Mon Feb 16 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.25.91-1
 - Update to 2.25.91
 
