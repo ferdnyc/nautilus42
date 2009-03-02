@@ -15,8 +15,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.25.91
-Release:	3%{?dist}
+Version: 	2.25.92
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
@@ -261,6 +261,9 @@ fi
 
 
 %changelog
+* Mon Mar  2 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.25.92-1
+- Update to 2.25.92
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.25.91-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
