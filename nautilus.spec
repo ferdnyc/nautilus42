@@ -90,8 +90,6 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=571417
-Patch18:	nautilus-condrestart.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -181,7 +179,12 @@ desktop-file-install --vendor gnome --delete-original       \
   --add-only-show-in GNOME                                  \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
 
-perl -pi -e 's/OnlyShowIn=GNOME;/OnlyShowIn=;/' $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-folder-default-handler.desktop
+perl -pi -e 's/OnlyShowIn=GNOME;/OnlyShowIn=;/' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-nautilus-folder-handler.desktop
+
+# http://bugzilla.gnome.org/show_bug.cgi?id=571417
+cat >>$RPM_BUILD_ROOT%{_datadir}/applications/gnome-nautilus.desktop <<EOF
+AutostartCondition=GNOME /apps/nautilus/preferences/show_desktop
+EOF
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
