@@ -129,7 +129,6 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
-%patch18 -p1 -b .condrestart
 
 %build
 
