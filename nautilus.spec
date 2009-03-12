@@ -16,13 +16,13 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.25.93
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)	
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
 Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
@@ -66,7 +66,7 @@ Obsoletes:      nautilus-suggested
 Obsoletes:      nautilus-mozilla < 2.0
 Obsoletes:      nautilus-media
 
-Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10      
+Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10
 # wait until 2009 to give people some time to port away
 #Obsoletes:	eel2 < 2.25.1-4.fc10
 
@@ -90,6 +90,8 @@ Patch15:	nautilus-2.22.0-treeview-xds-dnd-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=571417
+Patch18:	nautilus-condrestart.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -129,6 +131,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
+%patch18 -p1 -b .condrestart
 
 %build
 
@@ -261,6 +264,9 @@ fi
 
 
 %changelog
+* Thu Mar 12 2009 Matthias Clasen <mclasen@redhat.com> - 2.25.93-2
+- Avoid respawning in a loop when not showing the desktop (#485375)
+
 * Wed Mar 11 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.25.93-1
 - Update to 2.25.93
 
