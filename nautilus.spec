@@ -15,11 +15,11 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.25.93
-Release:	2%{?dist}
+Version: 	2.26.0
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.25/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.26/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -266,6 +266,9 @@ fi
 
 
 %changelog
+* Mon Mar 16 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.26.0-1
+- Update to 2.26.0
+
 * Thu Mar 12 2009 Matthias Clasen <mclasen@redhat.com> - 2.25.93-2
 - Avoid respawning in a loop when not showing the desktop (#485375)
 
