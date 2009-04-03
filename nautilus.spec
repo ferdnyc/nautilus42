@@ -15,7 +15,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.26.0
+Version: 	2.26.1
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -84,19 +84,16 @@ Patch7:		rtl-fix.patch
 
 Patch10:        nautilus-gvfs-desktop-key-2.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=171655
-Patch15:	nautilus-2.22.0-treeview-xds-dnd-2.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
-that makes it easy to manage your files and the rest of your system. 
-It allows to browse directories on local and remote filesystems, preview 
+that makes it easy to manage your files and the rest of your system.
+It allows to browse directories on local and remote filesystems, preview
 files and launch applications associated with them.
-It is also responsible for handling the icons on the GNOME desktop. 
+It is also responsible for handling the icons on the GNOME desktop.
 
 %package extensions
 Summary: Nautilus extensions library
@@ -127,7 +124,6 @@ for developing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
-%patch15 -p1 -b .xds
 %patch17 -p0 -b .symlink
 
 %build
@@ -266,6 +262,9 @@ fi
 
 
 %changelog
+* Thu Apr  2 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.26.1-1
+- Update to 2.26.1
+
 * Mon Mar 16 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.26.0-1
 - Update to 2.26.0
 
