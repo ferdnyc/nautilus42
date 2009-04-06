@@ -1,0 +1,30 @@
+diff -up nautilus-2.24.2/libnautilus-private/nautilus-dnd.c.dnd-recurse nautilus-2.24.2/libnautilus-private/nautilus-dnd.c
+--- nautilus-2.24.2/libnautilus-private/nautilus-dnd.c.dnd-recurse	2008-10-06 19:22:21.000000000 +0200
++++ nautilus-2.24.2/libnautilus-private/nautilus-dnd.c	2009-04-06 13:44:43.000000000 +0200
+@@ -419,7 +419,7 @@ nautilus_drag_default_drop_action_for_ic
+ 	gboolean same_fs;
+ 	gboolean target_is_source_parent;
+ 	const char *dropped_uri;
+-	GFile *target, *dropped;
++	GFile *target, *dropped, *dropped_directory;
+ 	GdkDragAction actions;
+ 	NautilusFile *dropped_file, *target_file;
+ 
+@@ -501,7 +501,16 @@ nautilus_drag_default_drop_action_for_ic
+ 	
+ 	/* Compare the first dropped uri with the target uri for same fs match. */
+ 	dropped = g_file_new_for_uri (dropped_uri);
+-	target_is_source_parent = g_file_has_prefix (dropped, target);
++	dropped_directory = g_file_get_parent (dropped);
++	target_is_source_parent = FALSE;
++	if (dropped_directory != NULL) {
++		/* If the dropped file is already in the same directory but
++		   is in another filesystem we still want to move, not copy
++		   as this is then just a move of a mountpoint to another
++		   position in the dir */
++		target_is_source_parent = g_file_equal (dropped_directory, target);
++		g_object_unref (dropped_directory);
++	}
+ 	
+ 	if (same_fs || target_is_source_parent ||
+ 	    g_file_has_uri_scheme (dropped, "trash")) {
