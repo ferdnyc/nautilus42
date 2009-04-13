@@ -79,8 +79,8 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-column-utilities.c.se
  					       "description", _("The SELinux security context of the file."),
 +					       "ellipsize", TRUE,
  					       NULL));
- 	
- 	return columns;
+ 	columns = g_list_append (columns,
+ 				 g_object_new (NAUTILUS_TYPE_COLUMN,
 diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c.selinux nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c
 --- nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c.selinux	2009-02-16 09:45:37.000000000 +0100
 +++ nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c	2009-02-16 17:20:33.000000000 +0100
