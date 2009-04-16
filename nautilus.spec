@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.26.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.26/%{name}-%{version}.tar.bz2
@@ -87,6 +87,9 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# From svn (rev 15184)
+Patch18:	nautilus-2.26.2-icon-whitespace.patch
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -124,6 +127,7 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
+%patch18 -p0 -b .whitespace
 
 %build
 
@@ -261,6 +265,10 @@ fi
 
 
 %changelog
+* Thu Apr 16 2009 Alexander Larsson <alexl@redhat.com> - 2.26.2-2
+- Fix excessive whitespace on the right in icon view when zooming
+- Fixes Gnome bug #579086
+
 * Mon Apr 13 2009 Alexander Larsson <alexl@redhat.com> - 2.26.2-1
 - Update to 2.26.2
 
