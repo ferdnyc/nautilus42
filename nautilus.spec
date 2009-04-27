@@ -42,7 +42,7 @@ BuildRequires:	libxml2-devel >= %{libxml2_version}
 BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
 BuildRequires:	gamin-devel
 BuildRequires:	gvfs-devel
-BuildRequires:  intltool
+BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libX11-devel
 BuildRequires:  libXt-devel
 BuildRequires:  fontconfig
