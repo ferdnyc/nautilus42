@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.26.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.26/%{name}-%{version}.tar.bz2
@@ -147,7 +147,7 @@ LANG=en_US make %{?_smp_mflags}
 
 # strip unneeded translations from .mo files
 cd po
-grep -v ".*[.]desktop[.]in.*\|.*[.]server[.]in$\|.*[.]schemas[.]in$" POTFILES.in > POTFILES.keep
+grep -v ".*[.]desktop[.]in.*\|.*[.]server[.]in$" POTFILES.in > POTFILES.keep
 mv POTFILES.keep POTFILES.in
 intltool-update --pot
 for p in *.po; do
@@ -167,8 +167,6 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 ## (uncomment when we patch the source to look in the right place)
 ## /bin/rm -rf $RPM_BUILD_ROOT%{_datadir}/nautilus/patterns
 
-# make sure desktop files validate by ignoring sr@Latn
-perl -pi -e 's/sr\@Latn/sp/g' $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 # desktop-file-install can't handle empty OnlyShowIn correctly
 perl -pi -e 's/OnlyShowIn=;/OnlyShowIn=GNOME;/' $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-folder-default-handler.desktop
 
@@ -265,6 +263,9 @@ fi
 
 
 %changelog
+* Mon Apr 27 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.2-3
+- Don't drop schemas translations from po files anymore
+
 * Thu Apr 16 2009 Alexander Larsson <alexl@redhat.com> - 2.26.2-2
 - Fix whitespace on the right in icon view when zooming
 
