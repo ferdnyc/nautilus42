@@ -15,8 +15,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.26.2
-Release:	3%{?dist}
+Version: 	2.27.1
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.26/%{name}-%{version}.tar.bz2
@@ -49,6 +49,7 @@ BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
 BuildRequires:  libtool >= 1.4.2-10
 BuildRequires:  autoconf
+BuildRequires:  automake
 BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
@@ -72,7 +73,6 @@ Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10
 
 # Some changes to default config
 Patch1:         nautilus-2.5.7-rhconfig.patch
-Patch3:		background-no-delay.patch
 
 Patch5:		nautilus-2.23.5-selinux.patch
 
@@ -87,8 +87,6 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# From svn (rev 15184)
-Patch18:	nautilus-2.26.2-icon-whitespace.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -120,19 +118,21 @@ for developing nautilus extensions.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .rhconfig
-%patch3 -p1 -b .no-delay
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
-%patch18 -p0 -b .whitespace
 
 %build
 
 gtkdocize
-autoreconf -i -f
+libtoolize
+aclocal -I m4
+autoconf
+autoheader
+automake
 
 # -fno-tree-vrp is needed to avoid gcc-4.4.0 optimization failure
 # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39233
@@ -263,6 +263,9 @@ fi
 
 
 %changelog
+* Tue May  5 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.27.1-1
+- Update to 2.27.1
+
 * Mon Apr 27 2009 Matthias Clasen <mclasen@redhat.com> - 2.26.2-3
 - Don't drop schemas translations from po files anymore
 
