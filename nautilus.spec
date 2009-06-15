@@ -15,7 +15,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.27.1
+Version: 	2.27.2
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -263,6 +263,9 @@ fi
 
 
 %changelog
+* Mon Jun 15 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.27.2-1
+- Update to 2.27.2
+
 * Tue May  5 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.27.1-1
 - Update to 2.27.1
 
