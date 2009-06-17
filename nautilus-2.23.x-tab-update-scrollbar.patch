@@ -1,0 +1,43 @@
+From fd4cf364ed323bdbec3cc83e34c58da01457ee45 Mon Sep 17 00:00:00 2001
+From: Alexander Larsson <alexl@redhat.com>
+Date: Tue, 13 Jan 2009 15:48:37 +0000
+Subject: When calculating bounds, don't ignore visible but unmapped items, becase
+
+2009-01-13  Alexander Larsson  <alexl@redhat.com>
+
+        * libnautilus-private/nautilus-icon-container.c:
+        (get_icon_bounds_for_canvas_bounds):
+	When calculating bounds, don't ignore visible but unmapped items, becase
+	the root item is unmapped with the canvas, but we want to report the
+	same bounds independently on the canvas mapped state.
+	This caused problems when the canvas was unmapped due to being on an
+	invisible notebook page navigation tabs case, causing the
+	scrollbars to become invisible. (#542396)
+
+
+svn path=/trunk/; revision=14857
+---
+diff --git a/libnautilus-private/nautilus-icon-container.c b/libnautilus-private/nautilus-icon-container.c
+index 99dcf3b..6597e8e 100644
+--- a/libnautilus-private/nautilus-icon-container.c
++++ b/libnautilus-private/nautilus-icon-container.c
+@@ -888,7 +888,7 @@ get_icon_bounds_for_canvas_bounds (EelCanvasGroup *group,
+ 	for (list = group->item_list; list; list = list->next) {
+ 		child = list->data;
+ 
+-		if (child->object.flags & EEL_CANVAS_ITEM_MAPPED) {
++		if (child->object.flags & EEL_CANVAS_ITEM_VISIBLE) {
+ 			set = TRUE;
+ 			if (!NAUTILUS_IS_ICON_CANVAS_ITEM (child) ||
+ 			    usage == BOUNDS_USAGE_FOR_DISPLAY) {
+@@ -920,7 +920,7 @@ get_icon_bounds_for_canvas_bounds (EelCanvasGroup *group,
+ 	for (; list; list = list->next) {
+ 		child = list->data;
+ 
+-		if (!(child->object.flags & EEL_CANVAS_ITEM_MAPPED))
++		if (!(child->object.flags & EEL_CANVAS_ITEM_VISIBLE))
+ 			continue;
+ 
+ 		if (!NAUTILUS_IS_ICON_CANVAS_ITEM (child) ||
+--
+cgit v0.8.2

@@ -19,7 +19,7 @@
 Name:		nautilus
 Summary:        Nautilus is a file manager for GNOME
 Version: 	2.24.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.24/%{name}-%{version}.tar.bz2
@@ -106,6 +106,10 @@ Patch18:        nautilus_new_windows_after_mount.patch
 # Dragging Files via NFS share moves instead of copy
 Patch19:	nautilus-2.26.1-dnd-not-recurse.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=542396
+# Clicking on a different tab doesn't update the scrollbar
+Patch20:	nautilus-2.23.x-tab-update-scrollbar.patch
+
 %description
 Nautilus integrates access to files, applications, media,
 Internet-based resources and the Web. Nautilus delivers a dynamic and
@@ -146,6 +150,7 @@ for writing nautilus extensions.
 %patch17 -p0 -b .symlink
 %patch18 -p0 -b .new-windows
 %patch19 -p1 -b .dnd-recurse
+%patch20 -p1 -b .tab-update-scrollbar
 
 %build
 
@@ -274,6 +279,9 @@ fi
 
 
 %changelog
+* Wed Jun 17 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.24.2-4
+- Fix clicking on a different tab doesn't update the scrollbar (#489386)
+
 * Mon Apr  6 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.24.2-3
 - Fix dragging files via NFS moves instead of copy (#456515)
 
