@@ -1,6 +1,6 @@
-%define glib2_version 2.19.2
+%define glib2_version 2.21.3
 %define pango_version 1.1.3
-%define gtk2_version 2.13.0
+%define gtk2_version 2.16.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_backgrounds_version 2.0-4
@@ -15,11 +15,11 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.27.2
+Version: 	2.27.4
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.26/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.27/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -263,6 +263,9 @@ fi
 
 
 %changelog
+* Tue Jul 14 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-1
+- Update to 2.27.4
+
 * Mon Jun 15 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.27.2-1
 - Update to 2.27.2
 
