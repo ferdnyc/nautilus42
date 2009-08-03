@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.26.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.26/%{name}-%{version}.tar.bz2
@@ -87,6 +87,10 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# With black background, filenames invisible after switching to compact view
+# https://bugzilla.redhat.com/show_bug.cgi?id=505919
+Patch18:	nautilus-2.27.2-dark-text-on-dark-bg.patch
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -124,6 +128,7 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
+%patch18 -p1 -b .dark-text
 
 %build
 
@@ -261,6 +266,9 @@ fi
 
 
 %changelog
+* Mon Aug  3 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.26.3-2
+- Fix incorrect text color in compact view (#505919)
+
 * Tue May 19 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.26.3-1
 - Update to 2.26.3
 

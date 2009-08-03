@@ -1,0 +1,24 @@
+From 7b86b78e2ff6a0f1b45ac8f8a9c30cf3d0c6ae96 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Thu, 28 May 2009 12:28:55 +0000
+Subject: Emit APPEARANCE_CHANGED when setting the bg color
+
+Emit the APPEARANCE_CHANGED signal when we're setting the color, as
+we're ignoring the pending changes after the backgorund is realized, and
+thus we're not getting color updates (#578136).
+---
+diff --git a/eel/eel-background.c b/eel/eel-background.c
+index 3891bab..942e94c 100644
+--- a/eel/eel-background.c
++++ b/eel/eel-background.c
+@@ -563,6 +563,8 @@ eel_background_set_color (EelBackground *background,
+ 		background->details->color = g_strdup (color);
+ 		
+ 		set_image_properties (background);
++
++		g_signal_emit (background, signals[APPEARANCE_CHANGED], 0);
+ 	}
+ }
+ 
+--
+cgit v0.8.2
