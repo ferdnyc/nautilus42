@@ -1,0 +1,78 @@
+Common subdirectories: nautilus-2.27.4.orig/src/file-manager and nautilus-2.27.4/src/file-manager
+diff -u nautilus-2.27.4.orig/src/nautilus-navigation-window-menus.c nautilus-2.27.4/src/nautilus-navigation-window-menus.c
+--- nautilus-2.27.4.orig/src/nautilus-navigation-window-menus.c	2009-06-24 16:00:12.000000000 +0200
++++ nautilus-2.27.4/src/nautilus-navigation-window-menus.c	2009-08-03 23:58:55.000000000 +0200
+@@ -339,6 +339,15 @@
+ 	gtk_label_set_max_width_chars (label, MENU_ITEM_MAX_WIDTH_CHARS);
+ }
+ 
++static const char* icon_entries[] = {
++	"/MenuBar/Other Menus/Go/Home",
++	"/MenuBar/Other Menus/Go/Computer",
++	"/MenuBar/Other Menus/Go/Go to Templates",
++	"/MenuBar/Other Menus/Go/Go to Trash",
++	"/MenuBar/Other Menus/Go/Go to Network",
++	"/MenuBar/Other Menus/Go/Go to Location"
++};
++
+ /**
+  * refresh_go_menu:
+  * 
+@@ -350,7 +359,10 @@
+ {
+ 	GtkUIManager *ui_manager;
+ 	GList *node;
++	GtkWidget *menuitem;
+ 	int index;
++	const char *ui;
++	int i;
+ 	
+ 	g_assert (NAUTILUS_IS_NAVIGATION_WINDOW (window));
+ 
+@@ -371,6 +383,15 @@
+ 					    window->details->go_menu_action_group,
+ 					    -1);
+ 	g_object_unref (window->details->go_menu_action_group);
++
++	for (i = 0; i < G_N_ELEMENTS (icon_entries); i++) {
++		menuitem = gtk_ui_manager_get_widget (
++				ui_manager,
++				icon_entries[i]);
++
++		gtk_image_menu_item_set_always_show_image (
++				GTK_IMAGE_MENU_ITEM (menuitem), TRUE);
++	}
+ 	
+ 	/* Add in a new set of history items. */
+ 	for (node = nautilus_get_history_list (), index = 0;
+diff -u nautilus-2.27.4.orig/src/nautilus-window-menus.c nautilus-2.27.4/src/nautilus-window-menus.c
+--- nautilus-2.27.4.orig/src/nautilus-window-menus.c	2009-06-24 16:00:12.000000000 +0200
++++ nautilus-2.27.4/src/nautilus-window-menus.c	2009-08-03 23:54:04.000000000 +0200
+@@ -162,8 +162,10 @@
+ 	BookmarkHolder *bookmark_holder;
+ 	char action_name[128];
+ 	char *name;
++	char *path;
+ 	GdkPixbuf *pixbuf;
+ 	GtkAction *action;
++	GtkWidget *menuitem;
+ 
+ 	g_assert (NAUTILUS_IS_WINDOW (window));
+ 	g_assert (NAUTILUS_IS_BOOKMARK (bookmark));
+@@ -203,7 +205,16 @@
+ 			       GTK_UI_MANAGER_MENUITEM,
+ 			       FALSE);
+ 
++	path = g_strdup_printf("%s/%s", parent_path, action_name);
++
++	menuitem = gtk_ui_manager_get_widget (
++			window->details->ui_manager,
++			path);
++
++	gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (menuitem), TRUE);
++
+ 	g_object_unref (pixbuf);
++	g_free (path);
+ 	g_free (name);
+ }
+ 

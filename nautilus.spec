@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.27.4
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.27/%{name}-%{version}.tar.bz2
@@ -85,6 +85,10 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# http://bugzilla.gnome.org/show_bug.cgi?id=590647
+Patch18:	nautilus_always_open_appicon.patch
+Patch19:	nautilus_menu_icons_only2.patch
+Patch20:	nautilus-menu-icons3.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -122,6 +126,9 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
+%patch18 -p1 -b .always-open-appicon
+%patch19 -p1 -b .go-icons
+%patch20 -p1 -b .spatial-icons
 
 %build
 
@@ -261,6 +268,9 @@ fi
 
 
 %changelog
+* Mon Aug  3 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-4
+- Show icons for bookmarks and similar in menus
+
 * Sun Aug  2 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-3
 - Drop desktop-backgrounds-basic dep that we've carried for 9 years
   without ever making use of it
