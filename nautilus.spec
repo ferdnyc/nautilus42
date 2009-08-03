@@ -3,7 +3,6 @@
 %define gtk2_version 2.16.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
-%define desktop_backgrounds_version 2.0-4
 %define desktop_file_utils_version 0.7
 %define gnome_desktop_version 2.25.5
 %define redhat_menus_version 0.25
@@ -16,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.27.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.27/%{name}-%{version}.tar.bz2
@@ -25,7 +24,6 @@ URL: 		http://projects.gnome.org/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
-Requires:       desktop-backgrounds-basic >= %{desktop_backgrounds_version}
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       gvfs >= 1.0.3
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
@@ -140,7 +138,7 @@ CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK -
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
-sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dynamic" = yes && test -n "$export_dynamic_flag_spec"; then/      func_append compile_command " -Wl,-O1,--as-needed"\n      func_append finalize_command " -Wl,-O1,--as-needed"\n\0/' libtool
+sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' libtool
 
 export tagname=CC
 LANG=en_US make %{?_smp_mflags}
@@ -263,6 +261,10 @@ fi
 
 
 %changelog
+* Sun Aug  2 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-3
+- Drop desktop-backgrounds-basic dep that we've carried for 9 years
+  without ever making use of it
+
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.27.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
