@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.27.4
-Release:	4%{?dist}
+Release:	5%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.27/%{name}-%{version}.tar.bz2
@@ -70,7 +70,7 @@ Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10
 #Obsoletes:	eel2 < 2.25.1-4.fc10
 
 # Some changes to default config
-Patch1:         nautilus-2.5.7-rhconfig.patch
+Patch1:         nautilus-config.patch
 
 Patch5:		nautilus-2.23.5-selinux.patch
 
@@ -119,7 +119,7 @@ for developing nautilus extensions.
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch1 -p1 -b .rhconfig
+%patch1 -p1 -b .config
 %patch5 -p1 -b .selinux
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
@@ -268,6 +268,9 @@ fi
 
 
 %changelog
+* Wed Aug 12 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-5
+- Turn off autorun for x-content/software
+
 * Mon Aug  3 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.4-4
 - Show icons for bookmarks and similar in menus
 
