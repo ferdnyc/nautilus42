@@ -243,6 +243,7 @@ fi
 %{_mandir}/man1/nautilus-connect-server.1.gz
 %{_mandir}/man1/nautilus-file-management-properties.1.gz
 %{_mandir}/man1/nautilus.1.gz
+%{_libexecdir}/nautilus-convert-metadata
 
 
 %files extensions
