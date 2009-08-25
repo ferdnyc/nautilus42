@@ -1,15 +1,6 @@
 diff -up nautilus-2.27.4/libnautilus-private/apps_nautilus_preferences.schemas.in.config nautilus-2.27.4/libnautilus-private/apps_nautilus_preferences.schemas.in
 --- nautilus-2.27.4/libnautilus-private/apps_nautilus_preferences.schemas.in.config	2009-08-12 21:07:44.331994084 -0400
 +++ nautilus-2.27.4/libnautilus-private/apps_nautilus_preferences.schemas.in	2009-08-12 21:26:31.258991695 -0400
-@@ -149,7 +149,7 @@
-     </schema>
- 
-     <schema>
--      <key>/schemas/apps/nautilus/preferences/media_autorun_never_</key>
-+      <key>/schemas/apps/nautilus/preferences/media_autorun_never</key>
-       <applyto>/apps/nautilus/preferences/media_autorun_never</applyto>
-       <owner>nautilus</owner>
-       <type>bool</type>
 @@ -169,7 +169,7 @@
        <owner>nautilus</owner>
        <type>list</type>
