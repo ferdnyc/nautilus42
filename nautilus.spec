@@ -14,8 +14,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.27.91
-Release:	3%{?dist}
+Version: 	2.27.92
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.27/%{name}-%{version}.tar.bz2
@@ -85,10 +85,6 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# from upstream
-Patch20:        nautilus-dupe-id.patch
-Patch21:	uninhibit-me-harder.patch
-
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -125,8 +121,6 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
-%patch20 -p1 -b .dupe-id
-%patch21 -p1 -b .uninhibit-me-harder
 
 %build
 
@@ -267,6 +261,9 @@ fi
 
 
 %changelog
+* Mon Sep  7 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.27.92-1
+- Update to 2.27.92
+
 * Sun Sep  6 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.91-3
 - Fix uninhibiting when long-running operations are over
 
