@@ -14,7 +14,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.27.92
+Version: 	2.27.93
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -164,15 +164,10 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 ## (uncomment when we patch the source to look in the right place)
 ## /bin/rm -rf $RPM_BUILD_ROOT%{_datadir}/nautilus/patterns
 
-# desktop-file-install can't handle empty OnlyShowIn correctly
-perl -pi -e 's/OnlyShowIn=;/OnlyShowIn=GNOME;/' $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-folder-default-handler.desktop
-
 desktop-file-install --vendor gnome --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-only-show-in GNOME                                  \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
-
-perl -pi -e 's/OnlyShowIn=GNOME;/OnlyShowIn=;/' $RPM_BUILD_ROOT%{_datadir}/applications/gnome-nautilus-folder-handler.desktop
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=571417
 cat >>$RPM_BUILD_ROOT%{_datadir}/applications/gnome-nautilus.desktop <<EOF
@@ -261,6 +256,9 @@ fi
 
 
 %changelog
+* Wed Sep  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.92-2
+- Fix desktop files to be valid
+
 * Mon Sep  7 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.27.92-1
 - Update to 2.27.92
 
