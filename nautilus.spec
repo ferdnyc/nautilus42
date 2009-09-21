@@ -14,11 +14,11 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.27.92
-Release:	2%{?dist}
+Version: 	2.28.0
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.27/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -256,6 +256,9 @@ fi
 
 
 %changelog
+* Mon Sep 21 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.0-1
+- Update to 2.28.0
+
 * Wed Sep  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.27.92-2
 - Fix desktop files to be valid
 
