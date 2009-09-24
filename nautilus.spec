@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.28.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
@@ -88,6 +88,9 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 # Need to file upstream and investigate a real fix
 Patch18:	nautilus-2.28.0-revert-bg-fade-break.patch
 
+# from upstream
+Patch19:	nautilus-2.28.0-lacks-mount-do-not-use-activation-uri.patch
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -125,6 +128,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .revert-bg-fade-break
+%patch19 -p1 -b .mount-do-not-use-activation-uri
 
 %build
 
@@ -260,6 +264,9 @@ fi
 
 
 %changelog
+* Thu Sep 24 2009 Matthias Clasen <mclasen@redhat.com> - 2.28.0-3
+- Avoid lingering menuitems (#518570)
+
 * Wed Sep 23 2009 Ray Strode <rstrode@redhat.com> 2.28.0-2
 - Fix crossfade
 
