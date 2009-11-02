@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.28.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
@@ -90,6 +90,12 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 # Need to file upstream and investigate a real fix
 Patch18:	nautilus-2.28.0-revert-bg-fade-break.patch
 
+# nautilus crashed with SIGSEGV in nautilus_file_peek_display_name()
+# https://bugzilla.gnome.org/show_bug.cgi?id=590591
+# https://bugzilla.redhat.com/show_bug.cgi?id=531826
+# TODO: push upstream once confirmed as fixed
+Patch19:	nautilus-2.28.2-infopanel-selection-crash.patch
+
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -129,6 +135,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .revert-bg-fade-break
+%patch19 -p1 -b .infopanel-crash
 
 %build
 
@@ -264,6 +271,9 @@ fi
 
 
 %changelog
+* Mon Nov  2 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.1-2
+- Don't crash in infopanel on invalid selection (#531826)
+
 * Wed Oct 21 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.1-1
 - Update to 2.28.1
 
