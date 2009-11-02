@@ -14,8 +14,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.28.0
-Release:	3%{?dist}
+Version: 	2.28.1
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
@@ -25,7 +25,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
 Requires:       redhat-menus >= %{redhat_menus_version}
-Requires:       gvfs >= 1.0.3
+Requires:       gvfs >= 1.4.0
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
 %ifnarch s390 s390x
@@ -72,10 +72,12 @@ Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10
 # Some changes to default config
 Patch1:         nautilus-config.patch
 
-Patch5:		nautilus-2.23.5-selinux.patch
+Patch4:		nautilus-2.23.5-selinux.patch
 
-# Why is this not upstream ?
-Patch6:         nautilus-2.23.5-dynamic-search.patch
+# from upstream
+Patch5:		nautilus-2.28.1-tracker-0.7-failed-connection.patch
+# https://bugzilla.gnome.org/show_bug.cgi?id=589345
+Patch6:		nautilus-2.28.1-dynamic-search.patch
 
 Patch7:		rtl-fix.patch
 #Patch8:	nautilus-2.22.1-hide-white-screen.patch
@@ -88,8 +90,12 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 # Need to file upstream and investigate a real fix
 Patch18:	nautilus-2.28.0-revert-bg-fade-break.patch
 
-# from upstream
-Patch19:	nautilus-2.28.0-lacks-mount-do-not-use-activation-uri.patch
+# nautilus crashed with SIGSEGV in nautilus_file_peek_display_name()
+# https://bugzilla.gnome.org/show_bug.cgi?id=590591
+# https://bugzilla.redhat.com/show_bug.cgi?id=531826
+# TODO: push upstream once confirmed as fixed
+Patch19:	nautilus-2.28.2-infopanel-selection-crash.patch
+
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -121,14 +127,15 @@ for developing nautilus extensions.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .config
-%patch5 -p1 -b .selinux
+%patch4 -p1 -b .selinux
+%patch5 -p1 -b .tracker-0.7
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .revert-bg-fade-break
-%patch19 -p1 -b .mount-do-not-use-activation-uri
+%patch19 -p1 -b .infopanel-crash
 
 %build
 
@@ -264,6 +271,12 @@ fi
 
 
 %changelog
+* Mon Nov  2 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.1-2
+- Don't crash in infopanel on invalid selection (#531826)
+
+* Wed Oct 21 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.1-1
+- Update to 2.28.1
+
 * Thu Sep 24 2009 Matthias Clasen <mclasen@redhat.com> - 2.28.0-3
 - Avoid lingering menuitems (#518570)
 
