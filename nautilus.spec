@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.28.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
@@ -96,6 +96,8 @@ Patch18:	nautilus-2.28.0-revert-bg-fade-break.patch
 # TODO: push upstream once confirmed as fixed
 Patch19:	nautilus-2.28.2-infopanel-selection-crash.patch
 
+# https://bugzilla.gnome.org/show_bug.cgi?id=147808
+Patch20:	nautilus-monitor-change.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -136,6 +138,7 @@ for developing nautilus extensions.
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .revert-bg-fade-break
 %patch19 -p1 -b .infopanel-crash
+%patch20 -p1 -b .nautilus-monitor-change
 
 %build
 
@@ -271,6 +274,9 @@ fi
 
 
 %changelog
+* Mon Nov  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.28.1-3
+- Handle monitor changes when drawing the background (gnome #147808)
+
 * Mon Nov  2 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.1-2
 - Don't crash in infopanel on invalid selection (#531826)
 
