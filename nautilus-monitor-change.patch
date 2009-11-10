@@ -1,0 +1,47 @@
+diff --git a/eel/eel-background.c b/eel/eel-background.c
+index 9c40629..2854a07 100644
+--- a/eel/eel-background.c
++++ b/eel/eel-background.c
+@@ -94,6 +94,8 @@ struct EelBackgroundDetails {
+ 	gboolean is_desktop;
+ 	/* Desktop screen size watcher */
+ 	gulong screen_size_handler;
++	/* Desktop monitors configuration watcher */
++	gulong screen_monitors_handler;
+ 	/* Can we use common pixmap for root window and desktop window */
+ 	gboolean use_common_pixmap;
+ 	guint change_idle_id;
+@@ -869,7 +871,6 @@ screen_size_changed (GdkScreen *screen, EelBackground *background)
+ 	g_signal_emit (background, signals[APPEARANCE_CHANGED], 0);
+ }
+ 
+-
+ static void
+ widget_realized_setup (GtkWidget *widget, gpointer data)
+ {
+@@ -891,6 +892,13 @@ widget_realized_setup (GtkWidget *widget, gpointer data)
+ 		background->details->screen_size_handler = 
+ 			g_signal_connect (screen, "size_changed",
+             				  G_CALLBACK (screen_size_changed), background);
++		if (background->details->screen_monitors_handler > 0) {
++		        g_signal_handler_disconnect (screen,
++				                     background->details->screen_monitors_handler);
++		}
++		background->details->screen_monitors_handler =
++			g_signal_connect (screen, "monitors-changed",
++					  G_CALLBACK (screen_size_changed), background);
+ 
+ 		root_window = gdk_screen_get_root_window(screen);			
+ 		
+@@ -928,6 +936,11 @@ widget_unrealize_cb (GtkWidget *widget, gpointer data)
+ 				                     background->details->screen_size_handler);
+ 			background->details->screen_size_handler = 0;
+ 	}
++	if (background->details->screen_monitors_handler > 0) {
++		        g_signal_handler_disconnect (gtk_widget_get_screen (GTK_WIDGET (widget)),
++				                     background->details->screen_monitors_handler);
++			background->details->screen_monitors_handler = 0;
++	}
+ 	background->details->use_common_pixmap = FALSE;
+ }
+ 
