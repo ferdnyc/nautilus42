@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.28.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
@@ -93,8 +93,7 @@ Patch18:	nautilus-2.28.0-revert-bg-fade-break.patch
 # nautilus crashed with SIGSEGV in nautilus_file_peek_display_name()
 # https://bugzilla.gnome.org/show_bug.cgi?id=590591
 # https://bugzilla.redhat.com/show_bug.cgi?id=531826
-# TODO: push upstream once confirmed as fixed
-Patch19:	nautilus-2.28.2-infopanel-selection-crash.patch
+Patch19:	nautilus-2.28.2-listview-unfreeze-after-rename.patch
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=147808
 Patch20:	nautilus-monitor-change.patch
@@ -137,7 +136,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .revert-bg-fade-break
-%patch19 -p1 -b .infopanel-crash
+%patch19 -p1 -b .listview-unfreeze
 %patch20 -p1 -b .nautilus-monitor-change
 
 %build
@@ -274,6 +273,9 @@ fi
 
 
 %changelog
+* Wed Nov 18 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.1-4
+- Proper fix for crash in the infopanel (#531826)
+
 * Mon Nov  9 2009 Matthias Clasen <mclasen@redhat.com> - 2.28.1-3
 - Handle monitor changes when drawing the background (gnome #147808)
 
