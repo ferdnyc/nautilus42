@@ -14,8 +14,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.28.1
-Release:	4%{?dist}
+Version: 	2.28.2
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
@@ -75,7 +75,6 @@ Patch1:         nautilus-config.patch
 Patch4:		nautilus-2.23.5-selinux.patch
 
 # from upstream
-Patch5:		nautilus-2.28.1-tracker-0.7-failed-connection.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=589345
 Patch6:		nautilus-2.28.1-dynamic-search.patch
 
@@ -89,11 +88,6 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 
 # Need to file upstream and investigate a real fix
 Patch18:	nautilus-2.28.0-revert-bg-fade-break.patch
-
-# nautilus crashed with SIGSEGV in nautilus_file_peek_display_name()
-# https://bugzilla.gnome.org/show_bug.cgi?id=590591
-# https://bugzilla.redhat.com/show_bug.cgi?id=531826
-Patch19:	nautilus-2.28.2-listview-unfreeze-after-rename.patch
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=147808
 Patch20:	nautilus-monitor-change.patch
@@ -129,14 +123,12 @@ for developing nautilus extensions.
 
 %patch1 -p1 -b .config
 %patch4 -p1 -b .selinux
-%patch5 -p1 -b .tracker-0.7
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .revert-bg-fade-break
-%patch19 -p1 -b .listview-unfreeze
 %patch20 -p1 -b .nautilus-monitor-change
 
 %build
@@ -273,6 +265,9 @@ fi
 
 
 %changelog
+* Mon Nov 30 2009 Alexander Larsson <alexl@redhat.com> - 2.28.2-1
+- Update to 2.28.2
+
 * Wed Nov 18 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.1-4
 - Proper fix for crash in the infopanel (#531826)
 
