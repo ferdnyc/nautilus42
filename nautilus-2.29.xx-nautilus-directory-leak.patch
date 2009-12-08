@@ -1,0 +1,41 @@
+From ac9f08eb1f74b32c432b0a4904fb57e982202a4c Mon Sep 17 00:00:00 2001
+From: Alexander Larsson <alexl@redhat.com>
+Date: Tue, 08 Dec 2009 15:28:13 +0000
+Subject: Don't leak NautilusDirectory
+
+---
+diff --git a/src/nautilus-navigation-window.c b/src/nautilus-navigation-window.c
+index 5175118..cd48f7e 100644
+--- a/src/nautilus-navigation-window.c
++++ b/src/nautilus-navigation-window.c
+@@ -1580,6 +1580,7 @@ real_sync_search_widgets (NautilusWindow *window)
+ 		navigation_window->details->temporary_search_bar = TRUE;
+ 		hide_temporary_bars (navigation_window);
+ 	}
++	nautilus_directory_unref (directory);
+ }
+ 
+ 
+--
+cgit v0.8.2
+From 2d61fcdf4987802441b7d9dab5364a28fb2dbd7c Mon Sep 17 00:00:00 2001
+From: Alexander Larsson <alexl@redhat.com>
+Date: Tue, 08 Dec 2009 15:28:30 +0000
+Subject: Don't leak NautilusDirectory
+
+---
+diff --git a/libnautilus-private/nautilus-file.c b/libnautilus-private/nautilus-file.c
+index df16e1f..fdb1bdc 100644
+--- a/libnautilus-private/nautilus-file.c
++++ b/libnautilus-private/nautilus-file.c
+@@ -6635,6 +6635,8 @@ nautilus_file_get_volume_free_space (NautilusFile *file)
+ 						    get_fs_free_cb,
+ 						    directory); /* Inherits ref */
+ 		g_object_unref (location);
++	} else {
++		nautilus_directory_unref (directory);
+ 	}
+ 
+ 
+--
+cgit v0.8.2
