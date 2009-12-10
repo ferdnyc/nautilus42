@@ -4,7 +4,7 @@
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
-%define gnome_desktop_version 2.25.5
+%define gnome_desktop_version 2.28.1-6
 %define redhat_menus_version 0.25
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.28.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
@@ -59,6 +59,7 @@ BuildRequires:  gtk-doc
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
 Requires(post): GConf2 >= %{gconf_version}
+Requires:	gnome-desktop >= %{gnome_desktop_version}
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -269,6 +270,9 @@ fi
 
 
 %changelog
+* Thu Dec 10 2009 Jon McCann <jmccann@redhat.com> - 2.28.2-3
+- Update the monitor changes patch (gnome #147808)
+
 * Tue Dec  8 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.2-2
 - Fix some memory leaks
 
