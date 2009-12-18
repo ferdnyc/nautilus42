@@ -4,7 +4,7 @@
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
-%define gnome_desktop_version 2.29.3-2
+%define gnome_desktop_version 2.29.4
 %define redhat_menus_version 0.25
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
@@ -14,11 +14,11 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.28.2
-Release:	3%{?dist}
+Version: 	2.29.1
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.29/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -31,7 +31,6 @@ Requires:       libexif >= %{libexif_version}
 %ifnarch s390 s390x
 Requires: 	eject
 %endif
-PreReq:    scrollkeeper >= 0.1.4
 
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
@@ -60,6 +59,9 @@ Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
 Requires(post): GConf2 >= %{gconf_version}
 Requires:	gnome-desktop >= %{gnome_desktop_version}
+Requires(pre):    scrollkeeper
+Requires(post):   scrollkeeper
+Requires(postun): scrollkeeper
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -82,19 +84,11 @@ Patch6:		nautilus-2.28.1-dynamic-search.patch
 Patch7:		rtl-fix.patch
 #Patch8:	nautilus-2.22.1-hide-white-screen.patch
 
-# from upstream
-Patch9:		nautilus-2.29.xx-nautilus-directory-leak.patch
-
 Patch10:        nautilus-gvfs-desktop-key-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-# Need to file upstream and investigate a real fix
-Patch18:	nautilus-2.28.0-revert-bg-fade-break.patch
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=147808
-Patch20:	nautilus-monitor-change.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -130,11 +124,8 @@ for developing nautilus extensions.
 %patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
-%patch9 -p1 -b .memleaks
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
-%patch18 -p1 -b .revert-bg-fade-break
-%patch20 -p1 -b .nautilus-monitor-change
 
 %build
 
@@ -270,6 +261,9 @@ fi
 
 
 %changelog
+* Fri Dec 18 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.29.1-1
+- Update to 2.29.1
+
 * Thu Dec 10 2009 Jon McCann <jmccann@redhat.com> - 2.28.2-3
 - Update the monitor changes patch (gnome #147808)
 
