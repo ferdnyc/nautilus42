@@ -15,13 +15,12 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.29.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.29/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	gamin
 Requires:       filesystem >= 2.1.1-1
 Requires:       redhat-menus >= %{redhat_menus_version}
@@ -54,14 +53,12 @@ BuildRequires:  gettext
 BuildRequires:  libselinux-devel
 BuildRequires:  unique-devel >= %{unique_version}
 BuildRequires:  gtk-doc
+BuildRequires:  scrollkeeper
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
 Requires(post): GConf2 >= %{gconf_version}
 Requires:	gnome-desktop >= %{gnome_desktop_version}
-Requires(pre):    scrollkeeper
-Requires(post):   scrollkeeper
-Requires(postun): scrollkeeper
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -196,16 +193,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
-scrollkeeper-update
 %{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
 
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null || :
 
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x /usr/bin/gtk-update-icon-cache ]; then
-  gtk-update-icon-cache -q %{_datadir}/icons/hicolor
-fi
+touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
 
 %pre
 if [ "$1" -gt 1 ]; then
@@ -221,13 +214,14 @@ fi
 
 %postun
 /sbin/ldconfig
-scrollkeeper-update
 
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x /usr/bin/gtk-update-icon-cache ]; then
-  gtk-update-icon-cache -q %{_datadir}/icons/hicolor
+if [ $1 -eq 0 ]; then
+  touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
+  gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 fi
 
+%posttrans
+gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 %files  -f %{name}.lang
 %defattr(-,root,root)
@@ -261,6 +255,9 @@ fi
 
 
 %changelog
+* Sun Jan 17 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.1-2
+- Rebuild
+
 * Fri Dec 18 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.29.1-1
 - Update to 2.29.1
 
