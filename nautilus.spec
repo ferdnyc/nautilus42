@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.29.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.29/%{name}-%{version}.tar.bz2
@@ -97,6 +97,7 @@ It is also responsible for handling the icons on the GNOME desktop.
 Summary: Nautilus extensions library
 License: LGPLv2+
 Group: Development/Libraries
+Requires:   %{name} = %{version}-%{release}
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
@@ -254,6 +255,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Thu Jan 28 2010 Jesse Keating <jkeating@redhat.com> - 2.29.2-2
+- Add a requires to keep nautilus-extensions updated if nautilus gets updated
+
 * Mon Jan 25 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.29.2-1
 - Update to 2.29.2
 
