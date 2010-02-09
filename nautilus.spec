@@ -85,6 +85,9 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking
+Patch18:	nautilus-2.29.90-DSO-linking.patch
+
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -123,6 +126,7 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
+%patch18 -p1 -b .dso
 
 %build
 
