@@ -1,0 +1,44 @@
+--- nautilus-2.29.90/eel/eel-background.h	2010-02-09 09:50:06.000000000 -0500
++++ nautilus-2.29.90.spanned/eel/eel-background.h	2010-02-18 15:06:58.298728616 -0500
+@@ -65,7 +65,8 @@
+ 	EEL_BACKGROUND_CENTERED,
+ 	EEL_BACKGROUND_SCALED,
+ 	EEL_BACKGROUND_SCALED_ASPECT,
+-	EEL_BACKGROUND_ZOOM
++	EEL_BACKGROUND_ZOOM,
++	EEL_BACKGROUND_SPANNED
+ } EelBackgroundImagePlacement;
+ 
+ GType                       eel_background_get_type                         (void);
+--- nautilus-2.29.90/eel/eel-background.c	2010-02-09 09:50:06.000000000 -0500
++++ nautilus-2.29.90.spanned/eel/eel-background.c	2010-02-18 15:07:57.962706133 -0500
+@@ -262,6 +262,8 @@
+ 		return EEL_BACKGROUND_ZOOM;
+ 	case GNOME_BG_PLACEMENT_TILED:
+ 		return EEL_BACKGROUND_TILED;
++        case GNOME_BG_PLACEMENT_SPANNED:
++                return EEL_BACKGROUND_SPANNED;
+ 	}
+ 
+ 	return EEL_BACKGROUND_TILED;
+@@ -281,6 +283,8 @@
+ 		return GNOME_BG_PLACEMENT_ZOOMED;
+ 	case EEL_BACKGROUND_TILED:
+ 		return GNOME_BG_PLACEMENT_TILED;
++	case EEL_BACKGROUND_SPANNED:
++		return GNOME_BG_PLACEMENT_SPANNED;
+ 	}
+ 
+ 	return GNOME_BG_PLACEMENT_TILED;
+--- nautilus-2.29.90/libnautilus-private/nautilus-directory-background.c	2010-02-09 09:50:06.000000000 -0500
++++ nautilus-2.29.90.spanned/libnautilus-private/nautilus-directory-background.c	2010-02-18 15:13:12.147972510 -0500
+@@ -186,6 +186,9 @@
+                 else if (strcmp (tmp, "zoom") == 0) {
+                         *placement = EEL_BACKGROUND_ZOOM;
+                 }
++                else if (strcmp (tmp, "spanned") == 0) {
++                        *placement = EEL_BACKGROUND_SPANNED;
++                }
+                 else if (strcmp (tmp, "none") == 0) {
+                         g_free (*image);
+                         

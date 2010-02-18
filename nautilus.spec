@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.28.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.28/%{name}-%{version}.tar.bz2
@@ -90,6 +90,9 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=147808
 Patch20:	nautilus-monitor-change.patch
 
+# upstream enhancement
+Patch21:        spanned-background.patch
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -127,6 +130,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch20 -p1 -b .nautilus-monitor-change
+%patch21 -p1 -b .spanned-background
 
 %build
 
@@ -262,6 +266,9 @@ fi
 
 
 %changelog
+* Thu Feb 18 2010 Matthias Clasen <mclasen@redhat.com> - 2.28.4-2
+- Add back a way to have spanned backgrounds
+
 * Wed Dec 16 2009 Tomas Bzatek <tbzatek@redhat.com> - 2.28.4-1
 - Update to 2.28.4
 
