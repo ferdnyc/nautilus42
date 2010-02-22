@@ -14,8 +14,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.29.90
-Release:	2%{?dist}
+Version: 	2.29.91
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.29/%{name}-%{version}.tar.bz2
@@ -263,6 +263,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Feb 22 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.91-1
+- Update to 2.29.91
+
 * Wed Feb 17 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.29.90-2
 - Explicitly require exact nautilus-extensions package (#565802)
 
