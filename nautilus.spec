@@ -1,10 +1,10 @@
 %define glib2_version 2.23.0
 %define pango_version 1.1.3
-%define gtk2_version 2.16.0
+%define gtk2_version 2.19.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
-%define gnome_desktop_version 2.29.4
+%define gnome_desktop_version 2.29.91
 %define redhat_menus_version 0.25
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
