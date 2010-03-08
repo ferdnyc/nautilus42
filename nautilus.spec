@@ -14,7 +14,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.29.91
+Version: 	2.29.92
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -77,10 +77,6 @@ Patch1:         nautilus-config.patch
 
 Patch4:		nautilus-2.23.5-selinux.patch
 
-# from upstream
-# https://bugzilla.gnome.org/show_bug.cgi?id=589345
-Patch6:		nautilus-2.28.1-dynamic-search.patch
-
 Patch7:		rtl-fix.patch
 #Patch8:	nautilus-2.22.1-hide-white-screen.patch
 
@@ -125,7 +121,6 @@ for developing nautilus extensions.
 
 %patch1 -p1 -b .config
 %patch4 -p1 -b .selinux
-%patch6 -p1 -b .dynamic-search
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
@@ -263,6 +258,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Mar  8 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.29.92-1
+- Update to 2.29.92
+
 * Mon Feb 22 2010 Matthias Clasen <mclasen@redhat.com> - 2.29.91-1
 - Update to 2.29.91
 
