@@ -14,7 +14,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.29.92
+Version: 	2.29.92.1
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
@@ -69,8 +69,10 @@ Obsoletes:      nautilus-suggested
 Obsoletes:      nautilus-mozilla < 2.0
 Obsoletes:      nautilus-media
 
-Obsoletes:      gnome-volume-manager < 2.24.0-2.fc10
-Obsoletes:      eel2 < 2.25.1-4.fc10
+Obsoletes:      gnome-volume-manager < 2.24.0-2
+Provides:       gnome-volume-manager = 2.24.0-2
+Obsoletes:      eel2 < eel2-2.26.0-3
+Provides:       eel2 = eel2-2.26.0-3
 
 # Some changes to default config
 Patch1:         nautilus-config.patch
@@ -84,9 +86,6 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
-
-# https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking
-Patch18:	nautilus-2.29.90-DSO-linking.patch
 
 
 %description
@@ -125,7 +124,6 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
-%patch18 -p1 -b .dso
 
 %build
 
@@ -258,6 +256,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Mar 15 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.29.92.1-1
+- Update to 2.29.92.1
+- Fix eel2 obsoletion
+
 * Mon Mar  8 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.29.92-1
 - Update to 2.29.92
 

@@ -953,7 +953,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
 +	g_assert (NAUTILUS_IS_ENTRY (entry));
 +	g_assert (FM_IS_PROPERTIES_WINDOW (cb_data));
 +
-+	if (GTK_WIDGET_SENSITIVE (entry)) {	
++	if (gtk_widget_get_state (entry)) {	
 +		char *tmp;
 +		
 +		tmp = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
@@ -1151,7 +1151,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
 +	        dattr_t = NULL;
 +	}
 +
-+	if (attr_t && GTK_WIDGET_SENSITIVE (entry)) {
++	if (attr_t && gtk_widget_get_state (entry)) {
 +	  /* highlight just the type to the end, so we can easily change it
 +	   * FIXME: we also highlight any Sensitivity/MCS but completion will
 +	   * let people put it back, and that's the only way we get completion
