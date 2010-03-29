@@ -1,6 +1,6 @@
-%define glib2_version 2.23.0
+%define glib2_version 2.24.0
 %define pango_version 1.1.3
-%define gtk2_version 2.19.0
+%define gtk2_version 2.20.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
@@ -14,11 +14,11 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.29.92.1
+Version: 	2.30.0
 Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.29/%{name}-%{version}.tar.bz2
+Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 Requires:	gamin
@@ -256,6 +256,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Mar 29 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.0-1
+- Update to 2.30.0
+
 * Mon Mar 15 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.29.92.1-1
 - Update to 2.29.92.1
 - Fix eel2 obsoletion
