@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.30.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
@@ -71,8 +71,8 @@ Obsoletes:      nautilus-media
 
 Obsoletes:      gnome-volume-manager < 2.24.0-2
 Provides:       gnome-volume-manager = 2.24.0-2
-Obsoletes:      eel2 < eel2-2.26.0-3
-Provides:       eel2 = eel2-2.26.0-3
+Obsoletes:      eel2 < 2.26.0-3
+Provides:       eel2 = 2.26.0-3
 
 # Some changes to default config
 Patch1:         nautilus-config.patch
@@ -256,6 +256,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Apr 13 2010 Seth Vidal <skvidal at fedoraproject.org> - 2.30.0-2
+- fix obsoletes/provides for eel2 to not include pkg name in ver/rel 
+
 * Mon Mar 29 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.0-1
 - Update to 2.30.0
 
