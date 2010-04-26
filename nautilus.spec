@@ -14,8 +14,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.30.0
-Release:	3%{?dist}
+Version: 	2.30.1
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
@@ -258,6 +258,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Apr 26 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-1
+- Update to 2.30.1
+
 * Sat Apr 24 2010 Matthias Clasen <mclasen@redhat.com> - 2.30.0-3
 - Also obsolete eel2-devel (#583722)
 
