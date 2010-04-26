@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.30.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
@@ -87,6 +87,8 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
+# from upstream
+Patch18:	nautilus-2.30.1-hide-unmount-when-eject.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -126,6 +128,7 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
+%patch18 -p1 -b .hide-unmount
 
 %build
 
@@ -258,6 +261,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Apr 26 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-2
+- Do not show Unmount when showing Eject/Safe removal
+
 * Mon Apr 26 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-1
 - Update to 2.30.1
 
