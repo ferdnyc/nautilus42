@@ -14,8 +14,8 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.30.1
-Release:	2%{?dist}
+Version: 	2.31.1
+Release:	1%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
@@ -77,7 +77,7 @@ Provides:       eel2 = 2.26.0-3
 # Some changes to default config
 Patch1:         nautilus-config.patch
 
-Patch4:		nautilus-2.23.5-selinux.patch
+Patch4:		nautilus-2.31.1-selinux.patch
 
 Patch7:		rtl-fix.patch
 #Patch8:	nautilus-2.22.1-hide-white-screen.patch
@@ -86,9 +86,6 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
-
-# from upstream
-Patch18:	nautilus-2.30.1-hide-unmount-when-eject.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -128,7 +125,6 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
-%patch18 -p1 -b .hide-unmount
 
 %build
 
@@ -171,6 +167,10 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 ## these are in desktop-backgrounds-basic
 ## (uncomment when we patch the source to look in the right place)
 ## /bin/rm -rf $RPM_BUILD_ROOT%{_datadir}/nautilus/patterns
+
+# remove .desktop entry in applications > system tools
+# https://bugzilla.redhat.com/show_bug.cgi?id=583790
+rm $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-browser.desktop
 
 desktop-file-install --vendor gnome --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
@@ -261,6 +261,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue May  4 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.31.1-1
+- Update to 2.31.1
+
+* Tue May  4 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-3
+- Remove .desktop entry in applications > system tools (#583790)
+
 * Mon Apr 26 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-2
 - Do not show Unmount when showing Eject/Safe removal
 
