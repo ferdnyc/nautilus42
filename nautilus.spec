@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.30.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
@@ -172,6 +172,10 @@ unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 ## (uncomment when we patch the source to look in the right place)
 ## /bin/rm -rf $RPM_BUILD_ROOT%{_datadir}/nautilus/patterns
 
+# remove .desktop entry in applications > system tools
+# https://bugzilla.redhat.com/show_bug.cgi?id=583790
+rm $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-browser.desktop
+
 desktop-file-install --vendor gnome --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-only-show-in GNOME                                  \
@@ -261,6 +265,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue May  4 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-3
+- Remove .desktop entry in applications > system tools (#583790)
+
 * Mon Apr 26 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-2
 - Do not show Unmount when showing Eject/Safe removal
 
