@@ -14,11 +14,11 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version: 	2.31.1
+Version:	2.31.2
 Release:	1%{?dist}
-License: 	GPLv2+
+License:	GPLv2+
 Group:          User Interface/Desktops
-Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
+Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 Requires:	gamin
@@ -261,6 +261,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon May 24 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.31.2-1
+- Update to 2.31.2
+
 * Tue May  4 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.31.1-1
 - Update to 2.31.1
 
