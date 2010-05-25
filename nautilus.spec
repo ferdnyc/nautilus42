@@ -11,6 +11,7 @@
 %define gconf_version 2.14
 %define exempi_version 1.99.5
 %define unique_version 1.0.4
+%define gobject_introspection_version 0.6.4
 
 Name:		nautilus
 Summary:        File manager for GNOME
@@ -54,6 +55,8 @@ BuildRequires:  libselinux-devel
 BuildRequires:  unique-devel >= %{unique_version}
 BuildRequires:  gtk-doc
 BuildRequires:  scrollkeeper
+BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
+BuildRequires:  gir-repository-devel
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
@@ -249,6 +252,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %files extensions
 %defattr(-, root, root)
 %{_libdir}/libnautilus-extension.so.*
+%{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
 %dir %{_libdir}/nautilus/extensions-2.0
 
@@ -257,6 +261,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_includedir}/nautilus
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
+%{_datadir}/gir-1.0/*.gir
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 
