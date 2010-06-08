@@ -15,7 +15,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version:	2.31.2
+Version:	2.31.3
 Release:	1%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
@@ -266,6 +266,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Tue Jun  8 2010 Matthias Clasen <mclasen@redhat.com> - 2.31.3-1
+- Update to 2.31.3
+
 * Mon May 24 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.31.2-1
 - Update to 2.31.2
 
