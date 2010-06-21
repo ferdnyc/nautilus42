@@ -89,6 +89,7 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 Patch17:	nautilus-filetype-symlink-fix.patch
 
 Patch18:        0001-build-link-against-gail-3.0-GNOME-bug-622155.patch
+Patch19:        nautilus-gir-deps.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -129,6 +130,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .gail
+%patch19 -p1 -b .gir-deps
 
 %build
 

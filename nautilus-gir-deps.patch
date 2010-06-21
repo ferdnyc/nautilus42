@@ -1,0 +1,12 @@
+diff -up nautilus-2.31.3/libnautilus-extension/Makefile.am.gir-deps nautilus-2.31.3/libnautilus-extension/Makefile.am
+--- nautilus-2.31.3/libnautilus-extension/Makefile.am.gir-deps	2010-06-21 12:57:24.581805248 -0400
++++ nautilus-2.31.3/libnautilus-extension/Makefile.am	2010-06-21 12:57:32.287827597 -0400
+@@ -69,7 +69,7 @@ introspection_files =					\
+ 	$(libnautilus_extension_include_HEADERS)	\
+ 	$(libnautilus_extension_la_SOURCES)
+ Nautilus-2.0.gir: libnautilus-extension.la Makefile
+-Nautilus_2_0_gir_INCLUDES = Gtk-2.0 Gio-2.0 GLib-2.0
++Nautilus_2_0_gir_INCLUDES = Gtk-3.0 Gio-2.0 GLib-2.0
+ Nautilus_2_0_gir_CFLAGS = \
+ 	-I$(top_srcdir) \
+ 	-I$(top_builddir) \
