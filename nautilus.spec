@@ -4,13 +4,11 @@
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
-%define gnome_desktop_version 2.29.91
 %define redhat_menus_version 0.25
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 %define gconf_version 2.14
 %define exempi_version 1.99.5
-%define unique_version 1.0.4
 %define gobject_introspection_version 0.6.4
 
 %define alphatag 20100618git
@@ -37,7 +35,7 @@ BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
 BuildRequires:	gtk3-devel >= %{gtk3_version}
 BuildRequires:	libxml2-devel >= %{libxml2_version}
-BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
+BuildRequires:  gnome-desktop3-devel
 BuildRequires:	gamin-devel
 BuildRequires:	gvfs-devel
 BuildRequires:  intltool >= 0.40.6-2
