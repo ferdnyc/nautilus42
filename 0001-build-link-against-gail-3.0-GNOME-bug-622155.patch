@@ -1,0 +1,42 @@
+From 8f77b22b6091f87986abbd42d7637edf17e473a6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9ters?= <fpeters@0d.be>
+Date: Sun, 20 Jun 2010 09:45:08 +0200
+Subject: [PATCH] [build] link against gail-3.0 (GNOME bug 622155)
+
+---
+ configure.in |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/configure.in b/configure.in
+index 4fb6849..60b8038 100644
+--- a/configure.in
++++ b/configure.in
+@@ -10,7 +10,6 @@ m4_define(xml_minver,                  2.4.7)
+ m4_define(exif_minver,                 0.5.12)
+ m4_define(exempi_minver,               1.99.2)
+ m4_define(exempi_minver_newapi,        1.99.5)
+-m4_define(gail_minver,                 0.16)
+ 
+ 
+ dnl 1. If the library code has changed at all since last release, then increment revision.
+@@ -67,7 +66,7 @@ PKG_CHECK_MODULES(ALL, [
+ 	pango			>= pango_minver
+ 	gtk+-3.0		>= gtk_minver
+ 	libxml-2.0		>= xml_minver
+-	gail			>= gail_minver
++	gail-3.0		>= gtk_minver
+ ])
+ dnl ==========================================================================
+ 
+@@ -335,7 +334,7 @@ LIBNAUTILUS_EXTENSION_LIBS="`$PKG_CONFIG --libs $LIBNAUTILUS_EXTENSION_MODULES`"
+ AC_SUBST(LIBNAUTILUS_EXTENSION_LIBS)
+ 
+ dnl core nautilus
+-CORE_MODULES="glib-2.0 gnome-desktop-3.0 gthread-2.0 gio-2.0 gio-unix-2.0 gail gconf-2.0 libxml-2.0 $EXTRA_CORE_MODULES"
++CORE_MODULES="glib-2.0 gnome-desktop-3.0 gthread-2.0 gio-2.0 gio-unix-2.0 gail-3.0 gconf-2.0 libxml-2.0 $EXTRA_CORE_MODULES"
+ CORE_CFLAGS="`$PKG_CONFIG --cflags $CORE_MODULES` $x_cflags"
+ AC_SUBST(CORE_CFLAGS)
+ CORE_LIBS="`$PKG_CONFIG --libs $CORE_MODULES` $x_libs"
+-- 
+1.7.1
+
