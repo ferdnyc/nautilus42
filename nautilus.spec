@@ -1,6 +1,6 @@
-%define glib2_version 2.24.0
+%define glib2_version 2.25.9
 %define pango_version 1.1.3
-%define gtk2_version 2.20.0
+%define gtk3_version 2.90.3
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
@@ -13,13 +13,15 @@
 %define unique_version 1.0.4
 %define gobject_introspection_version 0.6.4
 
+%define alphatag 20100618git
+
 Name:		nautilus
 Summary:        File manager for GNOME
 Version:	2.31.3
-Release:	1%{?dist}
+Release:	2.%{alphatag}%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
-Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}.tar.bz2
+Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}.tar.gz
 
 URL: 		http://projects.gnome.org/nautilus/
 Requires:	gamin
@@ -27,14 +29,13 @@ Requires:       filesystem >= 2.1.1-1
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       gvfs >= 1.4.0
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
-Requires:       libexif >= %{libexif_version}
 %ifnarch s390 s390x
 Requires: 	eject
 %endif
 
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
-BuildRequires:	gtk2-devel >= %{gtk2_version}
+BuildRequires:	gtk3-devel >= %{gtk3_version}
 BuildRequires:	libxml2-devel >= %{libxml2_version}
 BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
 BuildRequires:	gamin-devel
@@ -52,11 +53,9 @@ BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
-BuildRequires:  unique-devel >= %{unique_version}
 BuildRequires:  gtk-doc
 BuildRequires:  scrollkeeper
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
-BuildRequires:  gir-repository-devel
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
@@ -123,7 +122,7 @@ for developing nautilus extensions.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1 -b .config
-%patch4 -p1 -b .selinux
+# %patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
@@ -266,6 +265,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Fri Jun 18 2010 Matthias Clasen <mclasen@redhat.com> - 2.31.3-2.20100618git
+- git snapshot that builds against GLib 2.25.9 and GTK+ 2.90.3
+
 * Tue Jun  8 2010 Matthias Clasen <mclasen@redhat.com> - 2.31.3-1
 - Update to 2.31.3
 
