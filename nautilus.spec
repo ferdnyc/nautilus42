@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version:	2.31.3
-Release:	2.%{alphatag}%{?dist}
+Release:	3.%{alphatag}%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
 Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}-%{alphatag}.tar.gz
@@ -269,6 +269,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jun 23 2010 Matthias Clasen <mclasen@redhat.com> - 2.31.3-3.20100618git
+- Rebuild to get rid of mixed gtk deps
+
 * Fri Jun 18 2010 Matthias Clasen <mclasen@redhat.com> - 2.31.3-2.20100618git
 - git snapshot that builds against GLib 2.25.9 and GTK+ 2.90.3
 
