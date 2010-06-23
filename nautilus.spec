@@ -16,7 +16,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version:	2.31.3
-Release:	3.%{alphatag}%{?dist}
+Release:	4.%{alphatag}%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
 Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}-%{alphatag}.tar.gz
@@ -90,6 +90,7 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 
 Patch18:        0001-build-link-against-gail-3.0-GNOME-bug-622155.patch
 Patch19:        nautilus-gir-deps.patch
+Patch20:        0001-Update-pkg-config-files-for-GTK-3.x.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -131,6 +132,7 @@ for developing nautilus extensions.
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .gail
 %patch19 -p1 -b .gir-deps
+%patch20 -p1 -b .pkg-config
 
 %build
 
@@ -269,6 +271,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jun 23 2010 Bastien Nocera <bnocera@redhat.com> 2.31.3-4.20100618git
+- Fix libnautilus-extensions pkg-config files
+
 * Wed Jun 23 2010 Matthias Clasen <mclasen@redhat.com> - 2.31.3-3.20100618git
 - Rebuild to get rid of mixed gtk deps
 
