@@ -11,15 +11,13 @@
 %define exempi_version 1.99.5
 %define gobject_introspection_version 0.6.4
 
-%define alphatag 20100618git
-
 Name:		nautilus
 Summary:        File manager for GNOME
-Version:	2.31.3
-Release:	4.%{alphatag}%{?dist}
+Version:	2.31.4
+Release:	1%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
-Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}-%{alphatag}.tar.gz
+Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}.tar.gz
 
 URL: 		http://projects.gnome.org/nautilus/
 Requires:	gamin
@@ -88,10 +86,6 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
 
-Patch18:        0001-build-link-against-gail-3.0-GNOME-bug-622155.patch
-Patch19:        nautilus-gir-deps.patch
-Patch20:        0001-Update-pkg-config-files-for-GTK-3.x.patch
-
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -130,9 +124,6 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
-%patch18 -p1 -b .gail
-%patch19 -p1 -b .gir-deps
-%patch20 -p1 -b .pkg-config
 
 %build
 
@@ -165,8 +156,6 @@ for p in *.po; do
 done
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 export tagname=CC
 LANG=en_US %makeinstall LIBTOOL=/usr/bin/libtool
@@ -201,9 +190,6 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/.icon-theme.cache
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0
 
 %find_lang %name
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
@@ -271,6 +257,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Jun 28 2010 Matthias Clasen <mclasen@redhat.com> 2.31.4-1
+- Update to 2.31.4
+
 * Wed Jun 23 2010 Bastien Nocera <bnocera@redhat.com> 2.31.3-4.20100618git
 - Fix libnautilus-extensions pkg-config files
 
