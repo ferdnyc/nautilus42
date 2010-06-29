@@ -17,7 +17,7 @@ Version:	2.31.4
 Release:	1%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
-Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}.tar.gz
+Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 Requires:	gamin
