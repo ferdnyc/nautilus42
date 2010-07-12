@@ -1,6 +1,6 @@
 %define glib2_version 2.25.9
 %define pango_version 1.1.3
-%define gtk3_version 2.90.3
+%define gtk3_version 2.90.5
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
@@ -13,7 +13,7 @@
 
 Name:		nautilus
 Summary:        File manager for GNOME
-Version:	2.31.4
+Version:	2.31.5
 Release:	1%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
@@ -257,6 +257,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Mon Jul 12 2010 Matthias Clasen <mclasen@redhat.com> 2.31.5-1
+- Update to 2.31.5
+
 * Mon Jun 28 2010 Matthias Clasen <mclasen@redhat.com> 2.31.4-1
 - Update to 2.31.4
 
