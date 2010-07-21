@@ -1,0 +1,22 @@
+From f2e87dbcdb5535724a59ab9c69afe038b124b2bf Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Sat, 19 Jun 2010 04:01:18 +0000
+Subject: Use the right datatype in the schema
+
+GConf calls it a bool, not a boolean.
+---
+diff --git a/libnautilus-private/apps_nautilus_preferences.schemas.in b/libnautilus-private/apps_nautilus_preferences.schemas.in
+index 8c5a910..fbc65fb 100644
+--- a/libnautilus-private/apps_nautilus_preferences.schemas.in
++++ b/libnautilus-private/apps_nautilus_preferences.schemas.in
+@@ -220,7 +220,7 @@
+       <key>/schemas/apps/nautilus/preferences/navigation_window_saved_maximized</key>
+       <applyto>/apps/nautilus/preferences/navigation_window_saved_maximized</applyto>
+       <owner>nautilus</owner>
+-      <type>boolean</type>
++      <type>bool</type>
+       <default></default>
+       <locale name="C">
+          <short>Whether the navigation window should be maximized.</short>
+--
+cgit v0.8.3.1
