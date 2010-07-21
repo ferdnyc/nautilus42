@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.30.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
@@ -89,6 +89,8 @@ Patch17:	nautilus-filetype-symlink-fix.patch
 
 # from upstream
 Patch18:	nautilus-2.30.1-hide-unmount-when-eject.patch
+Patch19:	nautilus-gconf-navigation_window_saved_geometry.patch
+Patch20:	nautilus-gconf-navigation_window_saved_maximized.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -129,6 +131,8 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch18 -p1 -b .hide-unmount
+%patch19 -p1 -b .saved-geometry
+%patch20 -p1 -b .saved-maximized
 
 %build
 
@@ -265,6 +269,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Jul 21 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-4
+- Add missing gconf keys for saving window geometry (#508112)
+
 * Tue May  4 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-3
 - Remove .desktop entry in applications > system tools (#583790)
 
