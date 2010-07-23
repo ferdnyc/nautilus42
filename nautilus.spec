@@ -15,7 +15,7 @@
 Name:		nautilus
 Summary:        File manager for GNOME
 Version: 	2.30.1
-Release:	5%{?dist}
+Release:	6%{?dist}
 License: 	GPLv2+
 Group:          User Interface/Desktops
 Source: 	http://download.gnome.org/sources/%{name}/2.30/%{name}-%{version}.tar.bz2
@@ -94,6 +94,11 @@ Patch20:	nautilus-gconf-navigation_window_saved_maximized.patch
 Patch21:	nautilus-gconf-correct-type.patch
 Patch22:	nautilus-gconf-default-value.patch
 
+# [bn_IN, gu_IN][nautilus] - Its crashing, when drag any file
+# https://bugzilla.redhat.com/show_bug.cgi?id=583559
+Patch23:	nautilus-578086-po.patch
+
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -137,6 +142,7 @@ for developing nautilus extensions.
 %patch20 -p1 -b .saved-maximized
 %patch21 -p1 -b .gconf-type
 %patch22 -p1 -b .gconf-default
+%patch23 -p1 -b .gu_IN-crash
 
 %build
 
@@ -273,6 +279,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Fri Jul 23 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-6
+- Fix crash caused by wrong translations (bn_IN, gu_IN) (#583559)
+
 * Wed Jul 21 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.30.1-5
 - Set default value in order to avoid gconf warnings (#614715)
 
