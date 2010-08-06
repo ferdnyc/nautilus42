@@ -1,23 +1,26 @@
-%define glib2_version 2.25.9
+%define glib2_version 2.24.0
 %define pango_version 1.1.3
-%define gtk3_version 2.90.5
+%define gtk2_version 2.20.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
+%define gnome_desktop_version 2.29.91
 %define redhat_menus_version 0.25
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 %define gconf_version 2.14
 %define exempi_version 1.99.5
-%define gobject_introspection_version 0.6.4
+%define unique_version 1.0.4
+
+%define fake_version 2.30.1
 
 Name:		nautilus
 Summary:        File manager for GNOME
 Version:	2.31.5
-Release:	2%{?dist}
+Release:	3.really.2.30.1%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
-Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}.tar.bz2
+Source:		http://download.gnome.org/sources/%{name}/2.30/%{name}-%{fake_version}.tar.bz2
 
 URL: 		http://projects.gnome.org/nautilus/
 Requires:	gamin
@@ -25,15 +28,16 @@ Requires:       filesystem >= 2.1.1-1
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       gvfs >= 1.4.0
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
+Requires:       libexif >= %{libexif_version}
 %ifnarch s390 s390x
 Requires: 	eject
 %endif
 
 BuildRequires:	glib2-devel >= %{glib2_version}
 BuildRequires:	pango-devel >= %{pango_version}
-BuildRequires:	gtk3-devel >= %{gtk3_version}
+BuildRequires:	gtk2-devel >= %{gtk2_version}
 BuildRequires:	libxml2-devel >= %{libxml2_version}
-BuildRequires:  gnome-desktop3-devel
+BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
 BuildRequires:	gamin-devel
 BuildRequires:	gvfs-devel
 BuildRequires:  intltool >= 0.40.6-2
@@ -49,10 +53,9 @@ BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
+BuildRequires:  unique-devel >= %{unique_version}
 BuildRequires:  gtk-doc
 BuildRequires:  scrollkeeper
-BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
-BuildRequires:  GConf2-devel
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
@@ -61,7 +64,7 @@ Requires:	gnome-desktop >= %{gnome_desktop_version}
 
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
-Requires:	nautilus-extensions = %{version}-%{release}
+Requires:	nautilus-extensions = %{fake_version}-%{release}
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -76,7 +79,7 @@ Provides:       eel2 = 2.26.0-3
 # Some changes to default config
 Patch1:         nautilus-config.patch
 
-Patch4:		nautilus-2.31.1-selinux.patch
+Patch4:		nautilus-2.23.5-selinux.patch
 
 Patch7:		rtl-fix.patch
 #Patch8:	nautilus-2.22.1-hide-white-screen.patch
@@ -85,6 +88,86 @@ Patch10:        nautilus-gvfs-desktop-key-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:	nautilus-filetype-symlink-fix.patch
+
+# from upstream
+Patch18:	nautilus-2.30.1-hide-unmount-when-eject.patch
+Patch19:	nautilus-gconf-navigation_window_saved_geometry.patch
+Patch20:	nautilus-gconf-navigation_window_saved_maximized.patch
+Patch21:	nautilus-gconf-correct-type.patch
+Patch22:	nautilus-gconf-default-value.patch
+
+# [bn_IN, gu_IN][nautilus] - Its crashing, when drag any file
+# https://bugzilla.redhat.com/show_bug.cgi?id=583559
+Patch23:	nautilus-578086-po.patch
+
+
+
+Patch98:	nautilus-2.31.x-seal-GtkBoxChild.patch
+Patch99:	nautilus-2.31.x-seal1.patch
+
+Patch100:	0013-eel-GSEAL-eel-accessibility.patch
+Patch101:	0014-eel-GSEAL-eel-alert-dialog.patch
+Patch102:	0015-eel-GSEAL-eel-art-gtk-extensions.patch
+Patch103:	0016-eel-GSEAL-eel-background-box.patch
+Patch104:	0017-eel-GSEAL-eel-background-box.patch
+Patch105:	0018-eel-GSEAL-eel-canvas-rect-ellipse.patch
+Patch106:	0019-eel-GSEAL-eel-canvas.patch
+Patch107:	0020-eel-GSEAL-eel-debug-drawing.patch
+Patch108:	0021-eel-GSEAL-eel-editable-label.patch
+Patch109:	0022-eel-GSEAL-eel-gtk-container.patch
+Patch110:	0023-eel-GSEAL-eel-gtk-extensions.patch
+Patch111:	0024-eel-GSEAL-eel-image-table.patch
+Patch112:	0025-eel-GSEAL-eel-labeled-image.patch
+Patch113:	0026-eel-GSEAL-eel-wrap-table.patch
+Patch114:	0027-ln-p-GSEAL-nautilus-autorun.patch
+Patch115:	0028-ln-p-GSEAL-nautilus-bookmark.patch
+Patch116:	0029-ln-p-GSEAL-nautilus-cell-renderer-pixbuf-emblem.patch
+Patch117:	0030-ln-p-GSEAL-nautilus-clipboard-monitor.patch
+Patch118:	0031-ln-p-GSEAL-nautilus-clipboard.patch
+Patch119:	0032-ln-p-GSEAL-nautilus-dnd.patch
+Patch120:	0033-ln-p-GSEAL-nautilus-entry.patch
+Patch121:	0034-ln-p-GSEAL-nautilus-file-conflict-dialog.patch
+Patch122:	0035-ln-p-GSEAL-nautilus-file-operations.patch
+Patch123:	0036-ln-p-GSEAL-nautilus-horizontal-splitter.patch
+Patch124:	0037-ln-p-GSEAL-nautilus-icon-canvas-item.patch
+Patch125:	0038-ln-p-GSEAL-nautilus-icon-container.patch
+Patch126:	0039-ln-p-GSEAL-nautilus-icon-dnd.patch
+Patch127:	0040-ln-p-GSEAL-nautilus-keep-last-vertical-box.patch
+Patch128:	0041-ln-p-GSEAL-nautilus-open-with-dialog.patch
+Patch129:	0042-ln-p-GSEAL-nautilus-progress-info.patch
+Patch130:	0043-ln-p-GSEAL-nautilus-tree-view-drag-dest.patch
+Patch131:	0044-ln-p-GSEAL-nautilus-undo.patch
+Patch132:	0045-file-manager-GSEAL-fm-desktop-icon-view.patch
+Patch133:	0046-file-manager-GSEAL-fm-directory-view.patch
+Patch134:	0047-file-manager-GSEAL-fm-ditem-page.patch
+Patch135:	0048-file-manager-GSEAL-fm-icon-view.patch
+Patch136:	0049-file-manager-GSEAL-fm-list-model.patch
+Patch137:	0050-file-manager-GSEAL-fm-list-view.patch
+Patch138:	0051-file-manager-GSEAL-fm-properties-window.patch
+Patch139:	0052-file-manager-GSEAL-fm-tree-view.patch
+Patch140:	0053-src-GSEAL-nautilus-application.patch
+Patch141:	0054-src-GSEAL-nautilus-connect-server-dialog.patch
+Patch142:	0055-src-GSEAL-nautilus-desktop-window.patch
+Patch143:	0056-src-GSEAL-nautilus-emblem-sidebar.patch
+Patch144:	0057-src-GSEAL-nautilus-information-panel.patch
+Patch145:	0058-src-GSEAL-nautilus-location-bar.patch
+Patch146:	0059-src-GSEAL-nautilus-location-dialog.patch
+Patch147:	0060-src-GSEAL-nautilus-navigation-window-menus.patch
+Patch148:	0061-src-GSEAL-nautilus-navigation-window.patch
+Patch149:	0062-src-GSEAL-nautilus-notebook.patch
+Patch150:	0063-src-GSEAL-nautilus-pathbar.patch
+Patch151:	0064-src-GSEAL-nautilus-places-sidebar.patch
+Patch152:	0065-src-GSEAL-nautilus-property-browser.patch
+Patch153:	0066-src-GSEAL-nautilus-query-editor.patch
+Patch154:	0067-src-GSEAL-nautilus-side-pane.patch
+Patch155:	0068-src-GSEAL-nautilus-sidebar-title.patch
+Patch156:	0069-src-GSEAL-nautilus-spatial-window.patch
+Patch157:	0070-src-GSEAL-nautilus-window-bookmarks.patch
+Patch158:	0071-src-GSEAL-nautilus-window-manage-views.patch
+Patch159:	0072-src-GSEAL-nautilus-window.patch
+Patch160:	0073-src-GSEAL-nautilus-zoom-control.patch
+Patch161:	0074-test-GSEAL-test-eel-image-table.patch
+
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -97,7 +180,7 @@ It is also responsible for handling the icons on the GNOME desktop.
 Summary: Nautilus extensions library
 License: LGPLv2+
 Group: Development/Libraries
-Requires:   %{name} = %{version}-%{release}
+Requires:   %{name} = %{fake_version}-%{release}
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
@@ -106,7 +189,7 @@ This package provides the libraries used by nautilus extensions.
 Summary: Support for developing nautilus extensions
 License: LGPLv2+
 Group: Development/Libraries
-Requires:   %{name} = %{version}-%{release}
+Requires:   %{name} = %{fake_version}-%{release}
 Requires:   pkgconfig
 Obsoletes:      eel2-devel < 2.26.0-3
 Provides:       eel2-devel = 2.26.0-3
@@ -116,14 +199,88 @@ This package provides libraries and header files needed
 for developing nautilus extensions.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{fake_version}
 
 %patch1 -p1 -b .config
-# %patch4 -p1 -b .selinux
+%patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
+%patch18 -p1 -b .hide-unmount
+%patch19 -p1 -b .saved-geometry
+%patch20 -p1 -b .saved-maximized
+%patch21 -p1 -b .gconf-type
+%patch22 -p1 -b .gconf-default
+%patch23 -p1 -b .gu_IN-crash
+
+# seal
+%patch98 -p1 -b .seal-GtkBoxChild
+%patch99 -p1 -b .seal1
+%patch100 -p1 -b .0013-eel-GSEAL-eel-accessibility
+%patch101 -p1 -b .0014-eel-GSEAL-eel-alert-dialog
+%patch102 -p1 -b .0015-eel-GSEAL-eel-art-gtk-extensions
+%patch103 -p1 -b .0016-eel-GSEAL-eel-background-box
+%patch104 -p1 -b .0017-eel-GSEAL-eel-background-box
+%patch105 -p1 -b .0018-eel-GSEAL-eel-canvas-rect-ellipse
+%patch106 -p1 -b .0019-eel-GSEAL-eel-canvas
+%patch107 -p1 -b .0020-eel-GSEAL-eel-debug-drawing
+%patch108 -p1 -b .0021-eel-GSEAL-eel-editable-label
+%patch109 -p1 -b .0022-eel-GSEAL-eel-gtk-container
+%patch110 -p1 -b .0023-eel-GSEAL-eel-gtk-extensions
+%patch111 -p1 -b .0024-eel-GSEAL-eel-image-table
+%patch112 -p1 -b .0025-eel-GSEAL-eel-labeled-image
+%patch113 -p1 -b .0026-eel-GSEAL-eel-wrap-table
+%patch114 -p1 -b .0027-ln-p-GSEAL-nautilus-autorun
+%patch115 -p1 -b .0028-ln-p-GSEAL-nautilus-bookmark
+%patch116 -p1 -b .0029-ln-p-GSEAL-nautilus-cell-renderer-pixbuf-emblem
+# %patch117 -p1 -b .0030-ln-p-GSEAL-nautilus-clipboard-monitor
+%patch118 -p1 -b .0031-ln-p-GSEAL-nautilus-clipboard
+%patch119 -p1 -b .0032-ln-p-GSEAL-nautilus-dnd
+%patch120 -p1 -b .0033-ln-p-GSEAL-nautilus-entry
+# %patch121 -p1 -b .0034-ln-p-GSEAL-nautilus-file-conflict-dialog
+%patch122 -p1 -b .0035-ln-p-GSEAL-nautilus-file-operations
+%patch123 -p1 -b .0036-ln-p-GSEAL-nautilus-horizontal-splitter
+%patch124 -p1 -b .0037-ln-p-GSEAL-nautilus-icon-canvas-item
+%patch125 -p1 -b .0038-ln-p-GSEAL-nautilus-icon-container
+%patch126 -p1 -b .0039-ln-p-GSEAL-nautilus-icon-dnd
+%patch127 -p1 -b .0040-ln-p-GSEAL-nautilus-keep-last-vertical-box
+%patch128 -p1 -b .0041-ln-p-GSEAL-nautilus-open-with-dialog
+%patch129 -p1 -b .0042-ln-p-GSEAL-nautilus-progress-info
+%patch130 -p1 -b .0043-ln-p-GSEAL-nautilus-tree-view-drag-dest
+%patch131 -p1 -b .0044-ln-p-GSEAL-nautilus-undo
+%patch132 -p1 -b .0045-file-manager-GSEAL-fm-desktop-icon-view
+# %patch133 -p1 -b .0046-file-manager-GSEAL-fm-directory-view
+%patch134 -p1 -b .0047-file-manager-GSEAL-fm-ditem-page
+%patch135 -p1 -b .0048-file-manager-GSEAL-fm-icon-view
+%patch136 -p1 -b .0049-file-manager-GSEAL-fm-list-model
+%patch137 -p1 -b .0050-file-manager-GSEAL-fm-list-view
+# %patch138 -p1 -b .0051-file-manager-GSEAL-fm-properties-window
+%patch139 -p1 -b .0052-file-manager-GSEAL-fm-tree-view
+%patch140 -p1 -b .0053-src-GSEAL-nautilus-application
+%patch141 -p1 -b .0054-src-GSEAL-nautilus-connect-server-dialog
+%patch142 -p1 -b .0055-src-GSEAL-nautilus-desktop-window
+%patch143 -p1 -b .0056-src-GSEAL-nautilus-emblem-sidebar
+# %patch144 -p1 -b .0057-src-GSEAL-nautilus-information-panel
+%patch145 -p1 -b .0058-src-GSEAL-nautilus-location-bar
+%patch146 -p1 -b .0059-src-GSEAL-nautilus-location-dialog
+%patch147 -p1 -b .0060-src-GSEAL-nautilus-navigation-window-menus
+%patch148 -p1 -b .0061-src-GSEAL-nautilus-navigation-window
+%patch149 -p1 -b .0062-src-GSEAL-nautilus-notebook
+%patch150 -p1 -b .0063-src-GSEAL-nautilus-pathbar
+%patch151 -p1 -b .0064-src-GSEAL-nautilus-places-sidebar
+%patch152 -p1 -b .0065-src-GSEAL-nautilus-property-browser
+%patch153 -p1 -b .0066-src-GSEAL-nautilus-query-editor
+%patch154 -p1 -b .0067-src-GSEAL-nautilus-side-pane
+%patch155 -p1 -b .0068-src-GSEAL-nautilus-sidebar-title
+%patch156 -p1 -b .0069-src-GSEAL-nautilus-spatial-window
+%patch157 -p1 -b .0070-src-GSEAL-nautilus-window-bookmarks
+%patch158 -p1 -b .0071-src-GSEAL-nautilus-window-manage-views
+%patch159 -p1 -b .0072-src-GSEAL-nautilus-window
+%patch160 -p1 -b .0073-src-GSEAL-nautilus-zoom-control
+%patch161 -p1 -b .0074-test-GSEAL-test-eel-image-table
+
+
 
 %build
 
@@ -243,7 +400,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %files extensions
 %defattr(-, root, root)
 %{_libdir}/libnautilus-extension.so.*
-%{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
 %dir %{_libdir}/nautilus/extensions-2.0
 
@@ -252,11 +408,13 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_includedir}/nautilus
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
-%{_datadir}/gir-1.0/*.gir
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 
 %changelog
+* Fri Aug  6 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.31.5-3.really.2.30.1
+- Revert back (temporarily) to 2.30.1 and mask it as 2.31.5 due to recent gnome3 changes
+
 * Thu Jul 15 2010 Colin Walters <walters@verbum.org> - 2.31.5-2
 - Rebuild with new gobject-introspection
 

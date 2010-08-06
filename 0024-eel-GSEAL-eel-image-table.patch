@@ -1,0 +1,25 @@
+From 963d2dbd1cca1b92bc35f6421ae8789d1b3f4f9d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 11 Jun 2010 13:11:21 +0200
+Subject: [PATCH 024/249] [eel] GSEAL eel-image-table.
+
+---
+ eel/eel-image-table.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/eel/eel-image-table.c b/eel/eel-image-table.c
+index e781652..f6a3cb9 100644
+--- a/eel/eel-image-table.c
++++ b/eel/eel-image-table.c
+@@ -181,7 +181,7 @@ eel_image_table_class_init (EelImageTableClass *image_table_class)
+ static void
+ eel_image_table_init (EelImageTable *image_table)
+ {
+-	GTK_WIDGET_SET_FLAGS (image_table, GTK_NO_WINDOW);
++	gtk_widget_set_has_window (GTK_WIDGET (image_table), FALSE);
+ 
+ 	image_table->details = g_new0 (EelImageTableDetails, 1);
+ }
+-- 
+1.7.2
+

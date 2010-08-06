@@ -1,0 +1,69 @@
+diff --git a/po/bn.po b/po/bn.po
+index 353931f..d7c5618 100644
+--- a/po/bn.po
++++ b/po/bn.po
+@@ -2306,14 +2306,14 @@ msgstr "\"%B\"-এর অনুলিপি তৈরি করা হচ্ছ
+ #: ../libnautilus-private/nautilus-file-operations.c:2864
+ msgid "Moving %'d file (in \"%B\") to \"%B\""
+ msgid_plural "Moving %'d files (in \"%B\") to \"%B\""
+-msgstr[0] " \"%1$B\"-এ উপস্থিত %2$d ফাইল \"%3$B\"-এ স্থানান্তর করা হচ্ছে"
+-msgstr[1] " \"%B\"-এ উপস্থিত %'d ফাইল \"%B\"-এ স্থানান্তর করা হচ্ছে"
++msgstr[0] " \"%2$B\"-এ উপস্থিত %1$'d ফাইল \"%3$B\"-এ স্থানান্তর করা হচ্ছে"
++msgstr[1] " \"%2$B\"-এ উপস্থিত %1$'d ফাইল \"%3$B\"-এ স্থানান্তর করা হচ্ছে"
+ 
+ #: ../libnautilus-private/nautilus-file-operations.c:2868
+ msgid "Copying %'d file (in \"%B\") to \"%B\""
+ msgid_plural "Copying %'d files (in \"%B\") to \"%B\""
+-msgstr[0] " \"%1$B\"-এ উপস্থিত %2$'d ফাইল \"%3$B\"-এ অনুলিপি হচ্ছে"
+-msgstr[1] " \"%B\"-এ উপস্থিত %'d ফাইল \"%B\"-এ কপি হচ্ছে"
++msgstr[0] " \"%2$B\"-এ উপস্থিত %1$'d ফাইল \"%3$B\"-এ অনুলিপি হচ্ছে"
++msgstr[1] " \"%2$B\"-এ উপস্থিত %1$'d ফাইল \"%3$B\"-এ কপি হচ্ছে"
+ 
+ #: ../libnautilus-private/nautilus-file-operations.c:2876
+ msgid "Duplicating %'d file (in \"%B\")"
+diff --git a/po/bn_IN.po b/po/bn_IN.po
+index 51bb767..a7a330c 100644
+--- a/po/bn_IN.po
++++ b/po/bn_IN.po
+@@ -2286,14 +2286,14 @@ msgstr "\"%B\"-র প্রতিলিপি তৈরি করা হচ্
+ #: ../libnautilus-private/nautilus-file-operations.c:2890
+ msgid "Moving %'d file (in \"%B\") to \"%B\""
+ msgid_plural "Moving %'d files (in \"%B\") to \"%B\""
+-msgstr[0] " \"%B\"-এ উপস্থিত %'d ফাইল \"%B\"-এ স্থানান্তর করা হচ্ছে"
+-msgstr[1] " \"%B\"-এ উপস্থিত %'d ফাইল \"%B\"-এ স্থানান্তর করা হচ্ছে"
++msgstr[0] " \"%2$B\"-এ উপস্থিত %1$'d ফাইল \"%3$B\"-এ স্থানান্তর করা হচ্ছে"
++msgstr[1] " \"%2$B\"-এ উপস্থিত %1$'d ফাইল \"%3$B\"-এ স্থানান্তর করা হচ্ছে"
+ 
+ #: ../libnautilus-private/nautilus-file-operations.c:2894
+ msgid "Copying %'d file (in \"%B\") to \"%B\""
+ msgid_plural "Copying %'d files (in \"%B\") to \"%B\""
+-msgstr[0] " \"%B\"-এ উপস্থিত %'d ফাইল \"%B\"-এ কপি হচ্ছে"
+-msgstr[1] " \"%B\"-এ উপস্থিত %'d ফাইল \"%B\"-এ কপি হচ্ছে"
++msgstr[0] " \"%2$B\"-এ উপস্থিত %1$'d ফাইল \"%3$B\"-এ কপি হচ্ছে"
++msgstr[1] " \"%2$B\"-এ উপস্থিত %1$'d ফাইল \"%3$B\"-এ কপি হচ্ছে"
+ 
+ #: ../libnautilus-private/nautilus-file-operations.c:2902
+ msgid "Duplicating %'d file (in \"%B\")"
+diff --git a/po/gu.po b/po/gu.po
+index 0dd7313..24d916a 100644
+--- a/po/gu.po
++++ b/po/gu.po
+@@ -2240,14 +2240,14 @@ msgstr "\"%B\" ની નકલ કરી રહ્યા છીએ"
+ #: ../libnautilus-private/nautilus-file-operations.c:2890
+ msgid "Moving %'d file (in \"%B\") to \"%B\""
+ msgid_plural "Moving %'d files (in \"%B\") to \"%B\""
+-msgstr[0] "\"%B\" માં %'d ફાઇલોને ખસેડી રહ્યા છે (\"%B\" માં)"
+-msgstr[1] "\"%B\" માં %'d ને ખસેડી રહ્યા છે (\"%B\" માં)"
++msgstr[0] "\"%3$B\" માં %1$'d ફાઇલોને ખસેડી રહ્યા છે (\"%2$B\" માં)"
++msgstr[1] "\"%3$B\" માં %1$'d ને ખસેડી રહ્યા છે (\"%2$B\" માં)"
+ 
+ #: ../libnautilus-private/nautilus-file-operations.c:2894
+ msgid "Copying %'d file (in \"%B\") to \"%B\""
+ msgid_plural "Copying %'d files (in \"%B\") to \"%B\""
+-msgstr[0] "\"%B\" માં %'d ફાઇલની નકલ કરી રહ્યા છે"
+-msgstr[1] "\"%B\" માં %'d ફાઇલોની નકલ કરી રહ્યા છે"
++msgstr[0] "\"%3$B\" માં %1$'d ફાઇલની નકલ કરી રહ્યા છે (\"%2$B\")"
++msgstr[1] "\"%3$B\" માં %1$'d ફાઇલોની નકલ કરી રહ્યા છે (\"%2$B\")"
+ 
+ #: ../libnautilus-private/nautilus-file-operations.c:2902
+ msgid "Duplicating %'d file (in \"%B\")"

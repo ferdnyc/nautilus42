@@ -1,0 +1,28 @@
+From 2b200c5bcaee4018a9fcf82a7b1e0076f2568588 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Fri, 11 Jun 2010 13:22:07 +0200
+Subject: [PATCH 061/249] [src] GSEAL nautilus-navigation-window.
+
+---
+ src/nautilus-navigation-window.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/nautilus-navigation-window.c b/src/nautilus-navigation-window.c
+index 35ad221..59d0e9e 100644
+--- a/src/nautilus-navigation-window.c
++++ b/src/nautilus-navigation-window.c
+@@ -1101,9 +1101,9 @@ nautilus_navigation_window_save_geometry (NautilusNavigationWindow *window)
+ 
+ 	g_assert (NAUTILUS_IS_WINDOW (window));
+ 
+-	if (GTK_WIDGET(window)->window) {
++	if (gtk_widget_get_window (GTK_WIDGET (window))) {
+ 		geometry_string = eel_gtk_window_get_geometry_string (GTK_WINDOW (window));
+-		is_maximized = gdk_window_get_state (GTK_WIDGET (window)->window)
++		is_maximized = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window)))
+ 				& GDK_WINDOW_STATE_MAXIMIZED;
+ 		
+ 		if (eel_preferences_key_is_writable (NAUTILUS_PREFERENCES_NAVIGATION_WINDOW_SAVED_GEOMETRY) &&
+-- 
+1.7.2
+

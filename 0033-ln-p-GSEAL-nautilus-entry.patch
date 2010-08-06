@@ -1,0 +1,34 @@
+From 0ea1e03d74713bcac0ad90a03092d8ed6d7d2528 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 11 Jun 2010 13:14:56 +0200
+Subject: [PATCH 033/249] [ln-p] GSEAL nautilus-entry.
+
+---
+ libnautilus-private/nautilus-entry.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libnautilus-private/nautilus-entry.c b/libnautilus-private/nautilus-entry.c
+index 737044e..9c484f9 100644
+--- a/libnautilus-private/nautilus-entry.c
++++ b/libnautilus-private/nautilus-entry.c
+@@ -83,7 +83,7 @@ nautilus_entry_new_with_max_length (guint16 max)
+ 	GtkWidget *widget;
+ 
+ 	widget = gtk_widget_new (NAUTILUS_TYPE_ENTRY, NULL);
+-	GTK_ENTRY (widget)->text_max_length = max;
++	gtk_entry_set_max_length (GTK_ENTRY (widget), max);
+ 
+ 	return widget;
+ }
+@@ -352,7 +352,7 @@ nautilus_entry_selection_clear (GtkWidget *widget,
+ {
+ 	g_assert (NAUTILUS_IS_ENTRY (widget));
+ 	
+-	if (gdk_selection_owner_get (event->selection) == widget->window) {
++	if (gdk_selection_owner_get (event->selection) == gtk_widget_get_window (widget)) {
+ 		return FALSE;
+ 	}
+ 	
+-- 
+1.7.2
+

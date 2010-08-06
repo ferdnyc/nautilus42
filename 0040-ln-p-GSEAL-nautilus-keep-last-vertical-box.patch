@@ -1,0 +1,33 @@
+From 44f222288b33de74464567a1578fbf7ea69725d7 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Fri, 11 Jun 2010 13:16:57 +0200
+Subject: [PATCH 040/249] [ln-p] GSEAL nautilus-keep-last-vertical-box.
+
+---
+ .../nautilus-keep-last-vertical-box.c              |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libnautilus-private/nautilus-keep-last-vertical-box.c b/libnautilus-private/nautilus-keep-last-vertical-box.c
+index 5e350e1..2e0c0d5 100644
+--- a/libnautilus-private/nautilus-keep-last-vertical-box.c
++++ b/libnautilus-private/nautilus-keep-last-vertical-box.c
+@@ -72,14 +72,14 @@ nautilus_keep_last_vertical_box_new (gint spacing)
+ 
+ 	box = NAUTILUS_KEEP_LAST_VERTICAL_BOX (gtk_widget_new (nautilus_keep_last_vertical_box_get_type (), NULL));
+ 
+-	GTK_BOX (box)->spacing = spacing;
++	gtk_box_set_spacing (GTK_BOX (box), spacing);
+ 
+ 	/* If homogeneous is TRUE and there are too many items to fit
+ 	 * naturally, they will be squashed together to fit in the space.
+ 	 * We want the ones that don't fit to be not shown at all, so
+ 	 * we set homogeneous to FALSE.
+ 	 */
+-	GTK_BOX (box)->homogeneous = FALSE;
++	gtk_box_set_homogeneous (GTK_BOX (box), FALSE);
+ 
+ 	return GTK_WIDGET (box);
+ }
+-- 
+1.7.2
+

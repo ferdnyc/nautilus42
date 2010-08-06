@@ -1,0 +1,34 @@
+From 4309418a12b43e87a4de1f44d0641a6c902a64ce Mon Sep 17 00:00:00 2001
+From: Gregory J. Horvath <hgj@sch.bme.hu>
+Date: Wed, 19 May 2010 12:34:46 +0000
+Subject: Add a missing GConf schema.
+
+---
+diff --git a/libnautilus-private/apps_nautilus_preferences.schemas.in b/libnautilus-private/apps_nautilus_preferences.schemas.in
+index 20e4137..2a2501d 100644
+--- a/libnautilus-private/apps_nautilus_preferences.schemas.in
++++ b/libnautilus-private/apps_nautilus_preferences.schemas.in
+@@ -202,6 +202,21 @@
+     </schema>
+     
+     <schema>
++      <key>/schemas/apps/nautilus/preferences/navigation_window_saved_geometry</key>
++      <applyto>/apps/nautilus/preferences/navigation_window_saved_geometry</applyto>
++      <owner>nautilus</owner>
++      <type>string</type>
++      <default></default>
++      <locale name="C">
++         <short>The geometry string for a navigation window.</short>
++         <long>
++           A string containing the saved geometry and coordinates string for
++           navigation windows.
++         </long>
++      </locale>
++    </schema>
++
++    <schema>
+       <key>/schemas/apps/nautilus/preferences/confirm_trash</key>
+       <applyto>/apps/nautilus/preferences/confirm_trash</applyto>
+       <owner>nautilus</owner>
+--
+cgit v0.8.3.1

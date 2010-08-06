@@ -1,0 +1,34 @@
+From 0405cc8c808247eff6672a1ae69fd35c6bda841b Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Fri, 11 Jun 2010 13:17:54 +0200
+Subject: [PATCH 044/249] [ln-p] GSEAL nautilus-undo.
+
+---
+ libnautilus-private/nautilus-undo.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libnautilus-private/nautilus-undo.c b/libnautilus-private/nautilus-undo.c
+index 2dac0d4..ea8952d 100644
+--- a/libnautilus-private/nautilus-undo.c
++++ b/libnautilus-private/nautilus-undo.c
+@@ -153,7 +153,7 @@ nautilus_undo_get_undo_manager (GObject *start_object)
+ 
+ 	/* Check for undo manager up the parent chain. */
+ 	if (GTK_IS_WIDGET (start_object)) {
+-		parent = GTK_WIDGET (start_object)->parent;
++		parent = gtk_widget_get_parent (GTK_WIDGET (start_object));
+ 		if (parent != NULL) {
+ 			manager = nautilus_undo_get_undo_manager (G_OBJECT (parent));
+ 			if (manager != NULL) {
+@@ -163,7 +163,7 @@ nautilus_undo_get_undo_manager (GObject *start_object)
+ 
+ 		/* Check for undo manager in our window's parent. */
+ 		if (GTK_IS_WINDOW (start_object)) {
+-			transient_parent = GTK_WINDOW (start_object)->transient_parent;
++			transient_parent = gtk_window_get_transient_for (GTK_WINDOW (start_object));
+ 			if (transient_parent != NULL) {
+ 				manager = nautilus_undo_get_undo_manager (G_OBJECT (transient_parent));
+ 				if (manager != NULL) {
+-- 
+1.7.2
+

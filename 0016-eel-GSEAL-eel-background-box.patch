@@ -1,0 +1,25 @@
+From 24cff3dc16b71105d1c096451357e6df6347b9d1 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 11 Jun 2010 13:07:01 +0200
+Subject: [PATCH 016/249] [eel] GSEAL eel-background-box.
+
+---
+ eel/eel-background-box.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/eel/eel-background-box.c b/eel/eel-background-box.c
+index a577beb..09fbe37 100644
+--- a/eel/eel-background-box.c
++++ b/eel/eel-background-box.c
+@@ -40,7 +40,7 @@ eel_background_box_expose_event (GtkWidget *widget,
+ 	eel_background_expose (widget, event);
+ 	
+ 	gtk_container_propagate_expose (GTK_CONTAINER (widget), 
+-					GTK_BIN (widget)->child,
++					gtk_bin_get_child (GTK_BIN (widget)),
+ 					event);
+ 	
+ 	return TRUE;
+-- 
+1.7.2
+

@@ -1,0 +1,52 @@
+From 239c62774c44ef6e192301379db19ad53c382742 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 11 Jun 2010 13:10:49 +0200
+Subject: [PATCH 022/249] [eel] GSEAL eel-gtk-container.
+
+---
+ eel/eel-gtk-container.c |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/eel/eel-gtk-container.c b/eel/eel-gtk-container.c
+index 08056d9..8d25aea 100644
+--- a/eel/eel-gtk-container.c
++++ b/eel/eel-gtk-container.c
+@@ -75,7 +75,7 @@ eel_gtk_container_child_map (GtkContainer *container,
+ 		return;
+ 	}
+ 
+-	g_return_if_fail (child->parent == GTK_WIDGET (container));
++	g_return_if_fail (gtk_widget_get_parent (child) == GTK_WIDGET (container));
+ 
+ 	if (gtk_widget_get_visible (child) && !gtk_widget_get_mapped (child)) {
+ 		gtk_widget_map (child);
+@@ -101,7 +101,7 @@ eel_gtk_container_child_unmap (GtkContainer *container,
+ 		return;
+ 	}
+ 
+-	g_return_if_fail (child->parent == GTK_WIDGET (container));
++	g_return_if_fail (gtk_widget_get_parent (child) == GTK_WIDGET (container));
+ 	
+ 	if (gtk_widget_get_visible (child) && gtk_widget_get_mapped (child)) {
+ 		gtk_widget_unmap (child);
+@@ -163,7 +163,7 @@ eel_gtk_container_child_remove (GtkContainer *container,
+ 
+ 	g_return_if_fail (GTK_IS_CONTAINER (container));
+ 	g_return_if_fail (GTK_IS_WIDGET (child));
+-	g_return_if_fail (child->parent == GTK_WIDGET (container));
++	g_return_if_fail (gtk_widget_get_parent (child) == GTK_WIDGET (container));
+ 	
+ 	child_was_visible = gtk_widget_get_visible (child);
+ 	
+@@ -199,7 +199,7 @@ eel_gtk_container_child_size_allocate (GtkContainer *container,
+ 	}
+ 
+ 	g_return_if_fail (GTK_IS_WIDGET (child));
+-	g_return_if_fail (child->parent == GTK_WIDGET (container));
++	g_return_if_fail (gtk_widget_get_parent (child) == GTK_WIDGET (container));
+ 
+  	if (eel_irect_is_empty (&child_geometry)) {
+ 		return;
+-- 
+1.7.2
+

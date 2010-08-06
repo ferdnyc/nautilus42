@@ -1,0 +1,53 @@
+From c357d232dd5cbfd7fdb3014dfff4034d01f8e66e Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 11 Jun 2010 13:06:45 +0200
+Subject: [PATCH 015/249] [eel] GSEAL eel-art-gtk-extensions.
+
+---
+ eel/eel-art-gtk-extensions.c |   20 ++++++++++++--------
+ 1 files changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/eel/eel-art-gtk-extensions.c b/eel/eel-art-gtk-extensions.c
+index 73d9207..32a7c82 100644
+--- a/eel/eel-art-gtk-extensions.c
++++ b/eel/eel-art-gtk-extensions.c
+@@ -139,12 +139,14 @@ eel_gdk_window_get_screen_relative_bounds (GdkWindow *gdk_window)
+ EelIRect
+ eel_gtk_widget_get_bounds (GtkWidget *gtk_widget)
+ {
++	GtkAllocation allocation;
+ 	g_return_val_if_fail (GTK_IS_WIDGET (gtk_widget), eel_irect_empty);
+-	
+-	return eel_irect_assign (gtk_widget->allocation.x,
+-				     gtk_widget->allocation.y,
+-				     (int) gtk_widget->allocation.width,
+-				     (int) gtk_widget->allocation.height);
++
++	gtk_widget_get_allocation (gtk_widget, &allocation);
++	return eel_irect_assign (allocation.x,
++				     allocation.y,
++				     (int) allocation.width,
++				     (int) allocation.height);
+ }
+ 
+ /**
+@@ -158,11 +160,13 @@ EelDimensions
+ eel_gtk_widget_get_dimensions (GtkWidget *gtk_widget)
+ {
+ 	EelDimensions dimensions;
++	GtkAllocation allocation;
+ 	
+ 	g_return_val_if_fail (GTK_IS_WIDGET (gtk_widget), eel_dimensions_empty);
+-	
+-	dimensions.width = (int) gtk_widget->allocation.width;
+-	dimensions.height = (int) gtk_widget->allocation.height;
++
++	gtk_widget_get_allocation (gtk_widget, &allocation);
++	dimensions.width = (int) allocation.width;
++	dimensions.height = (int) allocation.height;
+ 	
+ 	return dimensions;
+ }
+-- 
+1.7.2
+

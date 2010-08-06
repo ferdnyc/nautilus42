@@ -1,0 +1,25 @@
+From 8ad542cf15a6a7749c672def06a5198f93a40e12 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Fri, 11 Jun 2010 13:17:24 +0200
+Subject: [PATCH 042/249] [ln-p] GSEAL nautilus-progress-info.
+
+---
+ libnautilus-private/nautilus-progress-info.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/libnautilus-private/nautilus-progress-info.c b/libnautilus-private/nautilus-progress-info.c
+index ecde2a9..3b8d54c 100644
+--- a/libnautilus-private/nautilus-progress-info.c
++++ b/libnautilus-private/nautilus-progress-info.c
+@@ -428,7 +428,7 @@ handle_new_progress_info (NautilusProgressInfo *info)
+ 	window = get_progress_window ();
+ 	
+ 	progress = progress_widget_new (info);
+-	gtk_box_pack_start (GTK_BOX (GTK_BIN (window)->child),
++	gtk_box_pack_start (GTK_BOX (gtk_bin_get_child (GTK_BIN (window))),
+ 			    progress,
+ 			    FALSE, FALSE, 6);
+ 
+-- 
+1.7.2
+

@@ -1,0 +1,25 @@
+From 2aa9bed8a98cbf68fec53b88e7d05f86f158bd07 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Fri, 11 Jun 2010 13:22:57 +0200
+Subject: [PATCH 066/249] [src] GSEAL nautilus-query-editor.
+
+---
+ src/nautilus-query-editor.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/src/nautilus-query-editor.c b/src/nautilus-query-editor.c
+index 3ab8697..52f583f 100644
+--- a/src/nautilus-query-editor.c
++++ b/src/nautilus-query-editor.c
+@@ -560,7 +560,7 @@ type_combo_changed (GtkComboBox *combo_box, NautilusQueryEditorRow *row)
+ 						     GTK_SHADOW_IN);
+ 		
+ 		gtk_widget_show (scrolled);
+-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled, TRUE, TRUE, 6);
++		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), scrolled, TRUE, TRUE, 6);
+ 
+ 		treeview = gtk_tree_view_new ();
+ 		gtk_tree_view_set_model (GTK_TREE_VIEW (treeview),
+-- 
+1.7.2
+

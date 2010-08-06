@@ -1,0 +1,25 @@
+From 3709f641bde70d96fb1feb0288521ced6dba7719 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 11 Jun 2010 13:13:16 +0200
+Subject: [PATCH 028/249] [ln-p] GSEAL nautilus-bookmark.
+
+---
+ libnautilus-private/nautilus-bookmark.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/libnautilus-private/nautilus-bookmark.c b/libnautilus-private/nautilus-bookmark.c
+index 7f63324..94009ca 100644
+--- a/libnautilus-private/nautilus-bookmark.c
++++ b/libnautilus-private/nautilus-bookmark.c
+@@ -579,7 +579,7 @@ nautilus_bookmark_menu_item_new (NautilusBookmark *bookmark)
+ 	GtkLabel *label;
+ 	
+ 	menu_item = gtk_image_menu_item_new_with_label (bookmark->details->name);
+-	label = GTK_LABEL (GTK_BIN (menu_item)->child);
++	label = GTK_LABEL (gtk_bin_get_child (GTK_BIN (menu_item)));
+ 	gtk_label_set_use_underline (label, FALSE);
+ 	gtk_label_set_ellipsize (label, PANGO_ELLIPSIZE_END);
+ 	gtk_label_set_max_width_chars (label, ELLIPSISED_MENU_ITEM_MIN_CHARS);
+-- 
+1.7.2
+

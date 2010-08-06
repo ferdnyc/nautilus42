@@ -1,0 +1,34 @@
+From eea532e7f0cf729c6e9e78744add5c8cde304ba4 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Fri, 11 Jun 2010 13:18:59 +0200
+Subject: [PATCH 047/249] [file-manager] GSEAL fm-ditem-page.
+
+---
+ src/file-manager/fm-ditem-page.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/file-manager/fm-ditem-page.c b/src/file-manager/fm-ditem-page.c
+index b8d8071..02542de 100644
+--- a/src/file-manager/fm-ditem-page.c
++++ b/src/file-manager/fm-ditem-page.c
+@@ -165,7 +165,7 @@ fm_ditem_page_url_drag_data_received (GtkWidget *widget, GdkDragContext *context
+ 	gboolean exactly_one;
+ 	char *path;
+ 	
+-	uris = g_strsplit (selection_data->data, "\r\n", 0);
++	uris = g_strsplit (gtk_selection_data_get_data (selection_data), "\r\n", 0);
+         exactly_one = uris[0] != NULL && (uris[1] == NULL || uris[1][0] == '\0');
+ 
+ 	if (!exactly_one) {
+@@ -197,7 +197,7 @@ fm_ditem_page_exec_drag_data_received (GtkWidget *widget, GdkDragContext *contex
+ 	GKeyFile *key_file;
+ 	char *uri, *type, *exec;
+ 	
+-	uris = g_strsplit (selection_data->data, "\r\n", 0);
++	uris = g_strsplit (gtk_selection_data_get_data (selection_data), "\r\n", 0);
+         exactly_one = uris[0] != NULL && (uris[1] == NULL || uris[1][0] == '\0');
+ 
+ 	if (!exactly_one) {
+-- 
+1.7.2
+

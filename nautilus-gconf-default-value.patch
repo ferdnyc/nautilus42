@@ -1,0 +1,27 @@
+From ac038a0d90a4d59b564803be2698bc883672ab84 Mon Sep 17 00:00:00 2001
+From: Tomas Bzatek <tbzatek@redhat.com>
+Date: Wed, 21 Jul 2010 15:43:06 +0200
+Subject: [PATCH] Set default value for the navigation_window_saved_maximized gconf key
+
+And avoid gconftool messages like
+WARNING: Failed to parse default value `' for schema (/schemas/apps/nautilus/preferences/navigation_window_saved_maximized)
+---
+ .../apps_nautilus_preferences.schemas.in           |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/libnautilus-private/apps_nautilus_preferences.schemas.in b/libnautilus-private/apps_nautilus_preferences.schemas.in
+index fbc65fb..c83ee1b 100644
+--- a/libnautilus-private/apps_nautilus_preferences.schemas.in
++++ b/libnautilus-private/apps_nautilus_preferences.schemas.in
+@@ -221,7 +221,7 @@
+       <applyto>/apps/nautilus/preferences/navigation_window_saved_maximized</applyto>
+       <owner>nautilus</owner>
+       <type>bool</type>
+-      <default></default>
++      <default>false</default>
+       <locale name="C">
+          <short>Whether the navigation window should be maximized.</short>
+          <long>
+-- 
+1.7.1.1
+

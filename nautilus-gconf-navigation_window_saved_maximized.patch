@@ -1,0 +1,33 @@
+From 97d736a0861a81f825698451249564e42d002d4b Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Wed, 19 May 2010 15:42:34 +0000
+Subject: Add another missing GConf schema.
+
+---
+diff --git a/libnautilus-private/apps_nautilus_preferences.schemas.in b/libnautilus-private/apps_nautilus_preferences.schemas.in
+index 2a2501d..fd25f1a 100644
+--- a/libnautilus-private/apps_nautilus_preferences.schemas.in
++++ b/libnautilus-private/apps_nautilus_preferences.schemas.in
+@@ -215,6 +215,20 @@
+          </long>
+       </locale>
+     </schema>
++    
++    <schema>
++      <key>/schemas/apps/nautilus/preferences/navigation_window_saved_maximized</key>
++      <applyto>/apps/nautilus/preferences/navigation_window_saved_maximized</applyto>
++      <owner>nautilus</owner>
++      <type>boolean</type>
++      <default></default>
++      <locale name="C">
++         <short>Whether the navigation window should be maximized.</short>
++         <long>
++           Whether the navigation window should be maximized by default.
++         </long>
++      </locale>
++    </schema>
+ 
+     <schema>
+       <key>/schemas/apps/nautilus/preferences/confirm_trash</key>
+--
+cgit v0.8.3.1
