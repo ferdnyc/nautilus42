@@ -64,7 +64,7 @@ Requires:	gnome-desktop >= %{gnome_desktop_version}
 
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
-Requires:	nautilus-extensions = %{fake_version}-%{release}
+Requires:	nautilus-extensions = %{version}-%{release}
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -180,7 +180,7 @@ It is also responsible for handling the icons on the GNOME desktop.
 Summary: Nautilus extensions library
 License: LGPLv2+
 Group: Development/Libraries
-Requires:   %{name} = %{fake_version}-%{release}
+Requires:   %{name} = %{version}-%{release}
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
@@ -189,7 +189,7 @@ This package provides the libraries used by nautilus extensions.
 Summary: Support for developing nautilus extensions
 License: LGPLv2+
 Group: Development/Libraries
-Requires:   %{name} = %{fake_version}-%{release}
+Requires:   %{name} = %{version}-%{release}
 Requires:   pkgconfig
 Obsoletes:      eel2-devel < 2.26.0-3
 Provides:       eel2-devel = 2.26.0-3
