@@ -1,6 +1,6 @@
-diff -up nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.c.selinux nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.c
---- nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.c.selinux	2009-02-10 18:49:53.000000000 +0100
-+++ nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.c	2009-02-16 17:20:33.000000000 +0100
+diff -up nautilus-2.31.6/libnautilus-extension/nautilus-column.c.bak nautilus-2.31.6/libnautilus-extension/nautilus-column.c
+--- nautilus-2.31.6/libnautilus-extension/nautilus-column.c.bak	2009-04-17 15:12:30.000000000 +0200
++++ nautilus-2.31.6/libnautilus-extension/nautilus-column.c	2010-08-12 15:38:31.000000000 +0200
 @@ -34,6 +34,7 @@ enum {
  	PROP_LABEL,
  	PROP_DESCRIPTION,
@@ -59,9 +59,9 @@ diff -up nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.c.selinux na
 +							       G_PARAM_READWRITE));
  }
  
-diff -up nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.h.selinux nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.h
---- nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.h.selinux	2008-09-14 14:14:27.000000000 +0200
-+++ nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.h	2009-02-16 17:20:33.000000000 +0100
+diff -up nautilus-2.31.6/libnautilus-extension/nautilus-column.h.bak nautilus-2.31.6/libnautilus-extension/nautilus-column.h
+--- nautilus-2.31.6/libnautilus-extension/nautilus-column.h.bak	2009-04-17 15:12:30.000000000 +0200
++++ nautilus-2.31.6/libnautilus-extension/nautilus-column.h	2010-08-12 15:38:31.000000000 +0200
 @@ -64,6 +64,7 @@ NautilusColumn *  nautilus_column_new   
   *   label (string)       - the user-visible label for the column
   *   description (string) - a user-visible description of the column
@@ -70,9 +70,9 @@ diff -up nautilus-2.25.91-wrk/libnautilus-extension/nautilus-column.h.selinux na
   */
  
  G_END_DECLS
-diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-column-utilities.c.selinux nautilus-2.25.91-wrk/libnautilus-private/nautilus-column-utilities.c
---- nautilus-2.25.91-wrk/libnautilus-private/nautilus-column-utilities.c.selinux	2008-09-14 14:14:27.000000000 +0200
-+++ nautilus-2.25.91-wrk/libnautilus-private/nautilus-column-utilities.c	2009-02-16 17:20:33.000000000 +0100
+diff -up nautilus-2.31.6/libnautilus-private/nautilus-column-utilities.c.bak nautilus-2.31.6/libnautilus-private/nautilus-column-utilities.c
+--- nautilus-2.31.6/libnautilus-private/nautilus-column-utilities.c.bak	2010-08-12 12:20:55.000000000 +0200
++++ nautilus-2.31.6/libnautilus-private/nautilus-column-utilities.c	2010-08-12 15:38:31.000000000 +0200
 @@ -119,6 +119,7 @@ get_builtin_columns (void)
  					       "attribute", "selinux_context",
  					       "label", _("SELinux Context"),
@@ -81,10 +81,10 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-column-utilities.c.se
  					       NULL));
  	columns = g_list_append (columns,
  				 g_object_new (NAUTILUS_TYPE_COLUMN,
-diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c.selinux nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c
---- nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c.selinux	2009-02-16 09:45:37.000000000 +0100
-+++ nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c	2009-02-16 17:20:33.000000000 +0100
-@@ -1634,7 +1634,7 @@ update_info_internal (NautilusFile *file
+diff -up nautilus-2.31.6/libnautilus-private/nautilus-file.c.bak nautilus-2.31.6/libnautilus-private/nautilus-file.c
+--- nautilus-2.31.6/libnautilus-private/nautilus-file.c.bak	2010-08-12 15:38:25.000000000 +0200
++++ nautilus-2.31.6/libnautilus-private/nautilus-file.c	2010-08-12 15:38:31.000000000 +0200
+@@ -2181,7 +2181,7 @@ update_info_internal (NautilusFile *file
  	file->details->is_mountpoint = is_mountpoint;
  
  	has_permissions = g_file_info_has_attribute (info, G_FILE_ATTRIBUTE_UNIX_MODE);
@@ -93,7 +93,7 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c.selinux nautil
  	if (file->details->has_permissions != has_permissions ||
  	    file->details->permissions != permissions) {
  		changed = TRUE;
-@@ -4393,7 +4393,7 @@ nautilus_file_can_get_selinux_context (N
+@@ -5187,7 +5187,7 @@ nautilus_file_can_get_selinux_context (N
   * context
   * @file: NautilusFile representing the file in question.
   * 
@@ -102,7 +102,7 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c.selinux nautil
   * 
   **/
  char *
-@@ -4426,6 +4426,114 @@ nautilus_file_get_selinux_context (Nauti
+@@ -5220,6 +5220,114 @@ nautilus_file_get_selinux_context (Nauti
  	return translated;
  }
  
@@ -217,10 +217,10 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.c.selinux nautil
  static char *
  get_real_name (const char *name, const char *gecos)
  {
-diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.h.selinux nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.h
---- nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.h.selinux	2009-02-02 13:28:32.000000000 +0100
-+++ nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.h	2009-02-16 17:20:33.000000000 +0100
-@@ -244,6 +244,7 @@ GList *                 nautilus_get_all
+diff -up nautilus-2.31.6/libnautilus-private/nautilus-file.h.bak nautilus-2.31.6/libnautilus-private/nautilus-file.h
+--- nautilus-2.31.6/libnautilus-private/nautilus-file.h.bak	2010-08-12 12:20:55.000000000 +0200
++++ nautilus-2.31.6/libnautilus-private/nautilus-file.h	2010-08-12 15:38:31.000000000 +0200
+@@ -250,6 +250,7 @@ GList *                 nautilus_get_all
  GList *                 nautilus_file_get_settable_group_names          (NautilusFile                   *file);
  gboolean                nautilus_file_can_get_selinux_context           (NautilusFile                   *file);
  char *                  nautilus_file_get_selinux_context               (NautilusFile                   *file);
@@ -228,7 +228,7 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.h.selinux nautil
  
  /* "Capabilities". */
  gboolean                nautilus_file_can_read                          (NautilusFile                   *file);
-@@ -278,6 +279,10 @@ void                    nautilus_file_se
+@@ -310,6 +311,10 @@ void                    nautilus_file_se
  									 guint32                         permissions,
  									 NautilusFileOperationCallback   callback,
  									 gpointer                        callback_data);
@@ -239,12 +239,12 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file.h.selinux nautil
  void                    nautilus_file_rename                            (NautilusFile                   *file,
  									 const char                     *new_name,
  									 NautilusFileOperationCallback   callback,
-diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c.selinux nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c
---- nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c.selinux	2009-02-02 13:28:32.000000000 +0100
-+++ nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c	2009-02-16 17:20:33.000000000 +0100
-@@ -67,6 +67,11 @@
- #include "nautilus-trash-monitor.h"
+diff -up nautilus-2.31.6/libnautilus-private/nautilus-file-operations.c.bak nautilus-2.31.6/libnautilus-private/nautilus-file-operations.c
+--- nautilus-2.31.6/libnautilus-private/nautilus-file-operations.c.bak	2010-08-12 12:52:30.000000000 +0200
++++ nautilus-2.31.6/libnautilus-private/nautilus-file-operations.c	2010-08-12 15:38:31.000000000 +0200
+@@ -68,6 +68,11 @@
  #include "nautilus-file-utilities.h"
+ #include "nautilus-file-conflict-dialog.h"
  
 +#ifdef HAVE_SELINUX 
 +    #include <selinux/selinux.h> 
@@ -254,7 +254,7 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c.sel
  static gboolean confirm_trash_auto_value;
  
  /* TODO: TESTING!!! */
-@@ -140,6 +145,7 @@ typedef struct {
+@@ -152,6 +157,7 @@ typedef struct {
  	guint32 file_mask;
  	guint32 dir_permissions;
  	guint32 dir_mask;
@@ -262,7 +262,7 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c.sel
  } SetPermissionsJob;
  
  typedef enum {
-@@ -5141,6 +5147,10 @@ set_permissions_job_done (gpointer user_
+@@ -5408,6 +5414,10 @@ set_permissions_job_done (gpointer user_
  		job->done_callback (job->done_callback_data);
  	}
  	
@@ -273,7 +273,7 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c.sel
  	finalize_common ((CommonJob *)job);
  	return FALSE;
  }
-@@ -5196,6 +5206,14 @@ set_permissions_file (SetPermissionsJob 
+@@ -5463,6 +5473,14 @@ set_permissions_file (SetPermissionsJob 
  					     current, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
  					     common->cancellable, NULL);
  	}
@@ -288,7 +288,7 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c.sel
  	
  	if (!job_aborted (common) &&
  	    g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY) {
-@@ -5259,6 +5277,7 @@ nautilus_file_set_permissions_recursive 
+@@ -5526,6 +5544,7 @@ nautilus_file_set_permissions_recursive 
  					 guint32         file_mask,
  					 guint32         dir_permissions,
  					 guint32         dir_mask,
@@ -296,7 +296,7 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c.sel
  					 NautilusOpCallback  callback,
  					 gpointer  callback_data)
  {
-@@ -5272,7 +5291,24 @@ nautilus_file_set_permissions_recursive 
+@@ -5539,7 +5558,24 @@ nautilus_file_set_permissions_recursive 
  	job->dir_mask = dir_mask;
  	job->done_callback = callback;
  	job->done_callback_data = callback_data;
@@ -322,10 +322,10 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.c.sel
  	g_io_scheduler_push_job (set_permissions_job,
  			   job,
  			   NULL,
-diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.h.selinux nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.h
---- nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.h.selinux	2008-09-14 14:14:27.000000000 +0200
-+++ nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.h	2009-02-16 17:20:33.000000000 +0100
-@@ -85,6 +85,7 @@ void nautilus_file_set_permissions_recur
+diff -up nautilus-2.31.6/libnautilus-private/nautilus-file-operations.h.bak nautilus-2.31.6/libnautilus-private/nautilus-file-operations.h
+--- nautilus-2.31.6/libnautilus-private/nautilus-file-operations.h.bak	2010-08-03 01:35:56.000000000 +0200
++++ nautilus-2.31.6/libnautilus-private/nautilus-file-operations.h	2010-08-12 15:38:31.000000000 +0200
+@@ -87,6 +87,7 @@ void nautilus_file_set_permissions_recur
  					      guint32                         file_mask,
  					      guint32                         folder_permissions,
  					      guint32                         folder_mask,
@@ -333,10 +333,10 @@ diff -up nautilus-2.25.91-wrk/libnautilus-private/nautilus-file-operations.h.sel
  					      NautilusOpCallback              callback,
  					      gpointer                        callback_data);
  
-diff -up nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.c.selinux nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.c
---- nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.c.selinux	2008-09-14 14:14:22.000000000 +0200
-+++ nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.c	2009-02-16 17:20:33.000000000 +0100
-@@ -232,6 +232,31 @@ fm_report_error_setting_permissions (Nau
+diff -up nautilus-2.31.6/src/file-manager/fm-error-reporting.c.bak nautilus-2.31.6/src/file-manager/fm-error-reporting.c
+--- nautilus-2.31.6/src/file-manager/fm-error-reporting.c.bak	2009-04-17 15:12:31.000000000 +0200
++++ nautilus-2.31.6/src/file-manager/fm-error-reporting.c	2010-08-12 15:38:31.000000000 +0200
+@@ -238,6 +238,31 @@ fm_report_error_setting_permissions (Nau
  	g_free (message);
  }		
  
@@ -368,9 +368,9 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.c.selinux naut
  typedef struct _FMRenameData {
  	char *name;
  	NautilusFileOperationCallback callback;
-diff -up nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.h.selinux nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.h
---- nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.h.selinux	2008-10-06 12:49:08.000000000 +0200
-+++ nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.h	2009-02-16 17:20:33.000000000 +0100
+diff -up nautilus-2.31.6/src/file-manager/fm-error-reporting.h.bak nautilus-2.31.6/src/file-manager/fm-error-reporting.h
+--- nautilus-2.31.6/src/file-manager/fm-error-reporting.h.bak	2009-04-17 15:12:31.000000000 +0200
++++ nautilus-2.31.6/src/file-manager/fm-error-reporting.h	2010-08-12 15:38:31.000000000 +0200
 @@ -40,8 +40,11 @@ void fm_report_error_setting_permissions
  					  GError         *error,
  					  GtkWindow	 *parent_window);
@@ -384,10 +384,10 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-error-reporting.h.selinux naut
  void fm_report_error_setting_group       (NautilusFile   *file,
  					  GError         *error,
  					  GtkWindow	 *parent_window);
-diff -up nautilus-2.25.91-wrk/src/file-manager/fm-list-view.c.selinux nautilus-2.25.91-wrk/src/file-manager/fm-list-view.c
---- nautilus-2.25.91-wrk/src/file-manager/fm-list-view.c.selinux	2008-12-09 09:45:47.000000000 +0100
-+++ nautilus-2.25.91-wrk/src/file-manager/fm-list-view.c	2009-02-16 17:20:33.000000000 +0100
-@@ -1420,13 +1420,15 @@ create_and_set_up_tree_view (FMListView 
+diff -up nautilus-2.31.6/src/file-manager/fm-list-view.c.bak nautilus-2.31.6/src/file-manager/fm-list-view.c
+--- nautilus-2.31.6/src/file-manager/fm-list-view.c.bak	2010-08-12 12:20:55.000000000 +0200
++++ nautilus-2.31.6/src/file-manager/fm-list-view.c	2010-08-12 15:38:31.000000000 +0200
+@@ -1545,13 +1545,15 @@ create_and_set_up_tree_view (FMListView 
  		char *name;
  		char *label;
  		float xalign;
@@ -404,7 +404,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-list-view.c.selinux nautilus-2
  
  		column_num = fm_list_model_add_column (view->details->model,
  						       nautilus_column);
-@@ -1472,6 +1474,8 @@ create_and_set_up_tree_view (FMListView 
+@@ -1596,6 +1598,8 @@ create_and_set_up_tree_view (FMListView 
  		} else {		
  			cell = gtk_cell_renderer_text_new ();
  			g_object_set (cell, "xalign", xalign, NULL);
@@ -413,10 +413,10 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-list-view.c.selinux nautilus-2
  			view->details->cells = g_list_append (view->details->cells,
  							      cell);
  			column = gtk_tree_view_column_new_with_attributes (label,
-diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c
---- nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux	2009-02-16 09:45:36.000000000 +0100
-+++ nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c	2009-02-16 17:20:33.000000000 +0100
-@@ -83,6 +83,10 @@
+diff -up nautilus-2.31.6/src/file-manager/fm-properties-window.c.bak nautilus-2.31.6/src/file-manager/fm-properties-window.c
+--- nautilus-2.31.6/src/file-manager/fm-properties-window.c.bak	2010-08-12 12:20:55.000000000 +0200
++++ nautilus-2.31.6/src/file-manager/fm-properties-window.c	2010-08-12 15:39:25.000000000 +0200
+@@ -80,6 +80,10 @@
  #define FREE_FILL_B  (0.811764706 * 65535)
  
  
@@ -427,7 +427,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  #define PREVIEW_IMAGE_WIDTH 96
  
  #define ROW_PAD 6
-@@ -125,12 +129,15 @@ struct FMPropertiesWindowDetails {	
+@@ -122,12 +126,15 @@ struct FMPropertiesWindowDetails {	
  	unsigned int  owner_change_timeout;
  
  	GList *permission_buttons;
@@ -444,7 +444,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  	GList *mime_list;
  
  	gboolean deep_count_finished;
-@@ -217,6 +224,10 @@ static void permission_combo_update     
+@@ -214,6 +221,10 @@ static void permission_combo_update     
  						   GtkComboBox        *combo);
  static void value_field_update                    (FMPropertiesWindow *window,
  						   GtkLabel           *field);
@@ -455,7 +455,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  static void properties_window_update              (FMPropertiesWindow *window,
  						   GList              *files);
  static void is_directory_ready_callback           (NautilusFile       *file,
-@@ -246,10 +257,36 @@ static GtkLabel *attach_ellipsizing_valu
+@@ -243,10 +254,36 @@ static GtkLabel *attach_ellipsizing_valu
  						   const char *initial_text);
  						   
  static GtkWidget* create_pie_widget 		  (FMPropertiesWindow *window);
@@ -492,7 +492,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  static gboolean
  is_multi_file_window (FMPropertiesWindow *window)
  {
-@@ -270,6 +307,111 @@ is_multi_file_window (FMPropertiesWindow
+@@ -267,6 +304,111 @@ is_multi_file_window (FMPropertiesWindow
  	return FALSE;
  }
  
@@ -604,16 +604,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  static int
  get_not_gone_original_file_count (FMPropertiesWindow *window)
  {
-@@ -502,7 +644,7 @@ fm_properties_window_drag_data_received 
- 		return;
- 	}
- 	
--	uris = g_strsplit (selection_data->data, "\r\n", 0);
-+	uris = g_strsplit ((char *) selection_data->data, "\r\n", 0);
- 	exactly_one = uris[0] != NULL && (uris[1] == NULL || uris[1][0] == '\0');
- 
- 
-@@ -651,11 +793,7 @@ set_name_field (FMPropertiesWindow *wind
+@@ -648,11 +790,7 @@ set_name_field (FMPropertiesWindow *wind
  			 * currently showing. This causes minimal ripples (e.g.
  			 * selection change).
  			 */
@@ -626,7 +617,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  		}
  	}
  }
-@@ -735,7 +873,6 @@ static void
+@@ -732,7 +870,6 @@ static void
  name_field_restore_original_name (NautilusEntry *name_field)
  {
  	const char *original_name;
@@ -634,7 +625,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  
  	original_name = (const char *) g_object_get_data (G_OBJECT (name_field),
  							  "original_name");
-@@ -744,14 +881,8 @@ name_field_restore_original_name (Nautil
+@@ -741,14 +878,8 @@ name_field_restore_original_name (Nautil
  		return;
  	}
  
@@ -650,7 +641,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  }
  
  static void
-@@ -1213,6 +1344,14 @@ properties_window_update (FMPropertiesWi
+@@ -1210,6 +1341,14 @@ properties_window_update (FMPropertiesWi
  		for (l = window->details->value_fields; l != NULL; l = l->next) {
  			value_field_update (window, GTK_LABEL (l->data));
  		}
@@ -665,7 +656,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  	}
  
  	mime_list = get_mime_list (window);
-@@ -1383,6 +1522,164 @@ value_field_update (FMPropertiesWindow *
+@@ -1380,6 +1519,164 @@ value_field_update (FMPropertiesWindow *
  				      window->details->target_files));
  }
  
@@ -830,7 +821,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  static GtkLabel *
  attach_label (GtkTable *table,
  	      int row,
-@@ -1437,6 +1734,47 @@ attach_value_label (GtkTable *table,
+@@ -1434,6 +1731,47 @@ attach_value_label (GtkTable *table,
  	return attach_label (table, row, column, initial_text, FALSE, FALSE, FALSE, TRUE, FALSE);
  }
  
@@ -878,7 +869,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  static GtkLabel *
  attach_ellipsizing_value_label (GtkTable *table,
  				int row,
-@@ -1495,6 +1833,649 @@ attach_value_field (FMPropertiesWindow *
+@@ -1492,6 +1830,647 @@ attach_value_field (FMPropertiesWindow *
  				     FALSE);
  }
  
@@ -890,9 +881,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
 +		GdkCursor * cursor;
 +		
 +		cursor = gdk_cursor_new (GDK_WATCH);
-+		if (GDK_IS_WINDOW (GTK_WIDGET (window)->window)) {
-+			gdk_window_set_cursor (GTK_WIDGET (window)->window, cursor);
-+		}
++		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), cursor);
 +		gdk_cursor_unref (cursor);
 +	}
 +	window->details->long_operation_underway ++;
@@ -901,10 +890,10 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
 +static void
 +end_long_operation (FMPropertiesWindow *window)
 +{
-+	if (GTK_WIDGET (window)->window != NULL &&
++	if (gtk_widget_get_window (GTK_WIDGET (window)) != NULL &&
 +	    window->details->long_operation_underway == 1) {
 +		/* finished !! */
-+		gdk_window_set_cursor (GTK_WIDGET (window)->window, NULL);
++		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), NULL);
 +	}
 +	window->details->long_operation_underway--;
 +}
@@ -1528,7 +1517,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  static GtkWidget*
  attach_ellipsizing_value_field (FMPropertiesWindow *window,
  				GtkTable *table,
-@@ -2485,6 +3466,37 @@ append_title_value_pair (FMPropertiesWin
+@@ -2485,6 +3464,37 @@ append_title_value_pair (FMPropertiesWin
  	return last_row;
  }
  
@@ -1566,7 +1555,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  static guint
  append_title_and_ellipsizing_value (FMPropertiesWindow *window,
  				    GtkTable *table,
-@@ -3504,31 +4516,6 @@ create_emblems_page (FMPropertiesWindow 
+@@ -3511,31 +4521,6 @@ create_emblems_page (FMPropertiesWindow 
  }
  
  static void
@@ -1577,7 +1566,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
 -		GdkCursor * cursor;
 -		
 -		cursor = gdk_cursor_new (GDK_WATCH);
--		gdk_window_set_cursor (GTK_WIDGET (window)->window, cursor);
+-		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), cursor);
 -		gdk_cursor_unref (cursor);
 -	}
 -	window->details->long_operation_underway ++;
@@ -1586,10 +1575,10 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
 -static void
 -end_long_operation (FMPropertiesWindow *window)
 -{
--	if (GTK_WIDGET (window)->window != NULL &&
+-	if (gtk_widget_get_window (GTK_WIDGET (window)) != NULL &&
 -	    window->details->long_operation_underway == 1) {
 -		/* finished !! */
--		gdk_window_set_cursor (GTK_WIDGET (window)->window, NULL);
+-		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), NULL);
 -	}
 -	window->details->long_operation_underway--;
 -}
@@ -1598,8 +1587,8 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  permission_change_callback (NautilusFile *file,
  			    GFile *res_loc,
  			    GError *error,
-@@ -4304,39 +5291,6 @@ append_special_execution_flags (FMProper
- 	gtk_table_set_row_spacing (table, table->nrows - 1, 18);
+@@ -4318,39 +5303,6 @@ append_special_execution_flags (FMProper
+ 	gtk_table_set_row_spacing (table, nrows - 1, 18);
  }
  
 -static gboolean
@@ -1638,7 +1627,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  
  static GHashTable *
  get_initial_permissions (GList *file_list)
-@@ -4676,7 +5630,9 @@ apply_recursive_clicked (GtkWidget *recu
+@@ -4698,7 +5650,9 @@ apply_recursive_clicked (GtkWidget *recu
  	guint32 file_permission, file_permission_mask;
  	guint32 dir_permission, dir_permission_mask;
  	guint32 vfs_mask, vfs_new_perm, p;
@@ -1649,7 +1638,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  	gboolean active, is_folder, is_special, use_original;
  	GList *l;
  	GtkTreeModel *model;
-@@ -4720,9 +5676,9 @@ apply_recursive_clicked (GtkWidget *recu
+@@ -4742,9 +5696,9 @@ apply_recursive_clicked (GtkWidget *recu
  	}
  	/* Simple mode, minus exec checkbox */
  	for (l = window->details->permission_combos; l != NULL; l = l->next) {
@@ -1661,7 +1650,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  			continue;
  		}
  		
-@@ -4730,7 +5686,7 @@ apply_recursive_clicked (GtkWidget *recu
+@@ -4752,7 +5706,7 @@ apply_recursive_clicked (GtkWidget *recu
  		is_folder = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo),
  								"is-folder"));
  		
@@ -1670,7 +1659,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  		gtk_tree_model_get (model, &iter, 1, &new_perm, 2, &use_original, -1);
  		if (use_original) {
  			continue;
-@@ -4753,12 +5709,53 @@ apply_recursive_clicked (GtkWidget *recu
+@@ -4775,12 +5729,53 @@ apply_recursive_clicked (GtkWidget *recu
  		}
  	}
  
@@ -1724,7 +1713,7 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  		if (nautilus_file_is_directory (file) &&
  		    nautilus_file_can_set_permissions (file)) {
  			uri = nautilus_file_get_uri (file);
-@@ -4769,11 +5766,13 @@ apply_recursive_clicked (GtkWidget *recu
+@@ -4791,11 +5786,13 @@ apply_recursive_clicked (GtkWidget *recu
  								 file_permission_mask,
  								 dir_permission,
  								 dir_permission_mask,
@@ -1738,8 +1727,8 @@ diff -up nautilus-2.25.91-wrk/src/file-manager/fm-properties-window.c.selinux na
  }
  
  static void
-@@ -4822,10 +5821,16 @@ create_permissions_page (FMPropertiesWin
- 		gtk_table_set_row_spacing (page_table, page_table->nrows - 1, 18);
+@@ -4846,10 +5843,16 @@ create_permissions_page (FMPropertiesWin
+ 		gtk_table_set_row_spacing (page_table, nrows - 1, 18);
  	
  #ifdef HAVE_SELINUX
 -		append_title_value_pair
