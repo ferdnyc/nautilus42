@@ -10,12 +10,11 @@
 %define libexif_version 0.5.12
 %define gconf_version 2.14
 %define exempi_version 1.99.5
-%define unique_version 1.0.4
 %define gobject_introspection_version 0.6.4
 
 Name:		nautilus
 Summary:	File manager for GNOME
-Version:	2.31.6
+Version:	2.31.90
 Release:	1%{?dist}
 License:	GPLv2+
 Group:          User Interface/Desktops
@@ -52,7 +51,6 @@ BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
-BuildRequires:  unique-devel >= %{unique_version}
 BuildRequires:  gtk-doc
 BuildRequires:  scrollkeeper
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
@@ -267,6 +265,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 
 
 %changelog
+* Wed Aug 18 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.31.90-1
+- Update to 2.31.90
+
 * Thu Aug 12 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.31.6-1
 - Update to 2.31.6
 
