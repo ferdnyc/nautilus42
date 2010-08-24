@@ -152,16 +152,6 @@ sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' libtool
 export tagname=CC
 LANG=en_US make %{?_smp_mflags}
 
-# strip unneeded translations from .mo files
-cd po
-grep -v ".*[.]desktop[.]in.*\|.*[.]server[.]in$" POTFILES.in > POTFILES.keep
-mv POTFILES.keep POTFILES.in
-intltool-update --pot
-for p in *.po; do
-  msgmerge $p nautilus.pot > $p.out
-  msgfmt -o `basename $p .po`.gmo $p.out
-done
-
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 export tagname=CC
