@@ -1,10 +1,10 @@
-%define glib2_version 2.25.9
+%define glib2_version 2.25.12
 %define pango_version 1.1.3
-%define gtk2_version 2.21.2
+%define gtk3_version 2.90.5
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
-%define gnome_desktop_version 2.29.91
+%define gnome_desktop3_version 2.29.91
 %define redhat_menus_version 0.25
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
@@ -12,32 +12,30 @@
 %define exempi_version 1.99.5
 %define gobject_introspection_version 0.6.4
 
-Name:		nautilus
-Summary:	File manager for GNOME
-Version:	2.31.90
-Release:	1%{?dist}
-License:	GPLv2+
+Name:           nautilus
+Summary:        File manager for GNOME
+Version:        2.90.1
+Release:        1%{?dist}
+License:        GPLv2+
 Group:          User Interface/Desktops
-Source:		http://download.gnome.org/sources/%{name}/2.31/%{name}-%{version}.tar.bz2
+Source:         http://download.gnome.org/sources/%{name}/2.90/%{name}-%{version}.tar.bz2
 
-URL: 		http://projects.gnome.org/nautilus/
-Requires:	gamin
+URL:            http://projects.gnome.org/nautilus/
 Requires:       filesystem >= 2.1.1-1
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       gvfs >= 1.4.0
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
 %ifnarch s390 s390x
-Requires: 	eject
+Requires:       eject
 %endif
 
-BuildRequires:	glib2-devel >= %{glib2_version}
-BuildRequires:	pango-devel >= %{pango_version}
-BuildRequires:	gtk2-devel >= %{gtk2_version}
-BuildRequires:	libxml2-devel >= %{libxml2_version}
-BuildRequires:  gnome-desktop-devel >= %{gnome_desktop_version}
-BuildRequires:	gamin-devel
-BuildRequires:	gvfs-devel
+BuildRequires:  glib2-devel >= %{glib2_version}
+BuildRequires:  pango-devel >= %{pango_version}
+BuildRequires:  gtk3-devel >= %{gtk3_version}
+BuildRequires:  libxml2-devel >= %{libxml2_version}
+BuildRequires:  gnome-desktop3-devel >= %{gnome_desktop3_version}
+BuildRequires:  gvfs-devel
 BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libX11-devel
 BuildRequires:  libXt-devel
@@ -54,15 +52,16 @@ BuildRequires:  libselinux-devel
 BuildRequires:  gtk-doc
 BuildRequires:  scrollkeeper
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
+BuildRequires:  gsettings-desktop-schemas-devel
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
 Requires(post): GConf2 >= %{gconf_version}
-Requires:	gnome-desktop >= %{gnome_desktop_version}
+Requires:       gnome-desktop >= %{gnome_desktop_version}
 
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
-Requires:	nautilus-extensions = %{version}-%{release}
+Requires:       nautilus-extensions = %{version}-%{release}
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -77,19 +76,19 @@ Provides:       eel2 = 2.26.0-3
 # Some changes to default config
 Patch1:         nautilus-config.patch
 
-Patch4:		nautilus-2.31.6-selinux.patch
+Patch4:         nautilus-selinux.patch
 
-Patch7:		rtl-fix.patch
-#Patch8:	nautilus-2.22.1-hide-white-screen.patch
+Patch7:         rtl-fix.patch
+#Patch8:        nautilus-2.22.1-hide-white-screen.patch
 
 Patch10:        nautilus-gvfs-desktop-key-2.patch
 
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
-Patch17:	nautilus-filetype-symlink-fix.patch
+Patch17:        nautilus-filetype-symlink-fix.patch
 
 # [bn_IN, gu_IN][nautilus] - Its crashing, when drag any file
 # https://bugzilla.redhat.com/show_bug.cgi?id=583559
-Patch23:	nautilus-578086-po.patch
+Patch23:        nautilus-578086-po.patch
 
 
 %description
@@ -113,7 +112,6 @@ Summary: Support for developing nautilus extensions
 License: LGPLv2+
 Group: Development/Libraries
 Requires:   %{name} = %{version}-%{release}
-Requires:   pkgconfig
 Obsoletes:      eel2-devel < 2.26.0-3
 Provides:       eel2-devel = 2.26.0-3
 
@@ -166,7 +164,7 @@ done
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 export tagname=CC
-LANG=en_US %makeinstall LIBTOOL=/usr/bin/libtool
+LANG=en_US make install DESTDIR=$RPM_BUILD_ROOT LIBTOOL=/usr/bin/libtool
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
 
 ## these are in desktop-backgrounds-basic
@@ -203,22 +201,8 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0
 /sbin/ldconfig
 %{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
 
-export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null || :
-
-touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
-
 %pre
-if [ "$1" -gt 1 ]; then
-    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null || :
-fi
-
-%preun
-if [ "$1" -eq 0 ]; then
-    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/apps_nautilus_preferences.schemas > /dev/null || :
-fi
+%gconf_schema_obsolete apps_nautilus_preferences
 
 %postun
 /sbin/ldconfig
@@ -226,10 +210,12 @@ fi
 if [ $1 -eq 0 ]; then
   touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
   gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
+  glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 fi
 
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
+glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 
 %files  -f %{name}.lang
 %defattr(-,root,root)
@@ -239,13 +225,15 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
 %{_bindir}/*
-%{_sysconfdir}/gconf/schemas/*
 %{_datadir}/icons/hicolor/*/apps/nautilus.png
 %{_datadir}/icons/hicolor/scalable/apps/nautilus.svg
 %{_mandir}/man1/nautilus-connect-server.1.gz
 %{_mandir}/man1/nautilus-file-management-properties.1.gz
 %{_mandir}/man1/nautilus.1.gz
 %{_libexecdir}/nautilus-convert-metadata
+%{_datadir}/GConf/gsettings/nautilus.convert
+%{_datadir}/glib-2.0/schemas/org.gnome.media-handling.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
 
 
 %files extensions
@@ -263,8 +251,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 %{_datadir}/gir-1.0/*.gir
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
-
 %changelog
+* Tue Aug 24 2010 Matthias Clasen <mclasen@redhat.com> - 2.90.1-1
+- Update to 2.31.91
+
 * Wed Aug 18 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.31.90-1
 - Update to 2.31.90
 

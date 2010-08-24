@@ -1,21 +1,18 @@
-diff -up nautilus-2.27.4/libnautilus-private/apps_nautilus_preferences.schemas.in.config nautilus-2.27.4/libnautilus-private/apps_nautilus_preferences.schemas.in
---- nautilus-2.27.4/libnautilus-private/apps_nautilus_preferences.schemas.in.config	2009-08-12 21:07:44.331994084 -0400
-+++ nautilus-2.27.4/libnautilus-private/apps_nautilus_preferences.schemas.in	2009-08-12 21:26:31.258991695 -0400
-@@ -169,7 +169,7 @@
-       <owner>nautilus</owner>
-       <type>list</type>
-       <list_type>string</list_type>
--      <default>[x-content/software]</default>
+diff -up nautilus-2.90.1/libnautilus-private/org.gnome.media-handling.gschema.xml.in.automount nautilus-2.90.1/libnautilus-private/org.gnome.media-handling.gschema.xml.in
+--- nautilus-2.90.1/libnautilus-private/org.gnome.media-handling.gschema.xml.in.automount	2010-08-24 11:16:21.010547004 -0400
++++ nautilus-2.90.1/libnautilus-private/org.gnome.media-handling.gschema.xml.in	2010-08-24 11:17:06.145547004 -0400
+@@ -16,12 +16,12 @@
+       <_description>If set to true, then Nautilus will never prompt nor autorun/autostart programs when a medium is inserted.</_description>
+     </key>
+     <key name="autorun-x-content-start-app" type="as">
+-      <default>[ 'x-content/software' ]</default>
 +      <default>[]</default>
-       <locale name="C">
-          <short>List of x-content/* types where the preferred application will be launched</short>
-          <long>
-@@ -187,7 +187,7 @@
-       <owner>nautilus</owner>
-       <type>list</type>
-       <list_type>string</list_type>
+       <_summary>List of x-content/* types where the preferred application will be launched</_summary>
+       <_description>List of x-content/* types for which the user have chosen to start an application in the preference capplet. The preferred application for the given type will be started on insertion on media matching these types.</_description>
+     </key>
+     <key name="autorun-x-content-ignore" type="as">
 -      <default>[]</default>
-+      <default>[x-content/software]</default>
-       <locale name="C">
-          <short>List of x-content/* types set to "Do Nothing"</short>
-          <long>
++      <default>[ 'x-content/software' ]</default>
+       <_summary>List of x-content/* types set to "Do Nothing"</_summary>
+       <_description>List of x-content/* types for which the user have chosen "Do Nothing" in the preference capplet. No prompt will be shown nor will any matching application be started on insertion of media matching these types.</_description>
+     </key>
