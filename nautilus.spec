@@ -36,6 +36,7 @@ BuildRequires:  gtk3-devel >= %{gtk3_version}
 BuildRequires:  libxml2-devel >= %{libxml2_version}
 BuildRequires:  gnome-desktop3-devel >= %{gnome_desktop3_version}
 BuildRequires:  gvfs-devel
+BuildRequires:  GConf2-devel
 BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libX11-devel
 BuildRequires:  libXt-devel
