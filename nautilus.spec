@@ -15,7 +15,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        2.90.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.90/%{name}-%{version}.tar.bz2
@@ -54,6 +54,7 @@ BuildRequires:  gtk-doc
 BuildRequires:  scrollkeeper
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
 BuildRequires:  gsettings-desktop-schemas-devel
+Requires:       gsettings-desktop-schemas
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
@@ -243,6 +244,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Mon Aug 30 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.90.1-2
+- Require gsettings-desktop-schemas (#628273)
+
 * Tue Aug 24 2010 Matthias Clasen <mclasen@redhat.com> - 2.90.1-1
 - Update to 2.31.91
 
