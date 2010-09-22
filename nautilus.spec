@@ -11,14 +11,15 @@
 %define gconf_version 2.14
 %define exempi_version 1.99.5
 %define gobject_introspection_version 0.6.4
+%define alphatag gitf3bbee7
 
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        2.90.1
-Release:        3%{?dist}
+Release:        4.%{alphatag}%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/2.90/%{name}-%{version}.tar.bz2
+Source:         http://download.gnome.org/sources/%{name}/2.90/%{name}-%{version}-%{alphatag}.tar.gz
 
 URL:            http://projects.gnome.org/nautilus/
 Requires:       filesystem >= 2.1.1-1
@@ -244,7 +245,8 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
-* Tue Sep 21 2010 Matthias Clasen <mclasen@redhat.com> - 2.90.1-3
+* Tue Sep 21 2010 Matthias Clasen <mclasen@redhat.com> - 2.90.1-4.gitf3bbee7
+- git snapshot
 - Rebuild against newer gobject-introspection
 
 * Mon Aug 30 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.90.1-2
