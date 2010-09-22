@@ -19,6 +19,18 @@ diff -up nautilus-2.90.1/eel/eel-editable-label.c.editable-iface nautilus-2.90.1
  {
    iface->do_insert_text = editable_insert_text_emit;
    iface->do_delete_text = editable_delete_text_emit;
+diff -up nautilus-2.90.1/libnautilus-private/nautilus-autorun.c.editable-iface nautilus-2.90.1/libnautilus-private/nautilus-autorun.c
+--- nautilus-2.90.1/libnautilus-private/nautilus-autorun.c.editable-iface	2010-09-22 08:32:15.318998004 -0400
++++ nautilus-2.90.1/libnautilus-private/nautilus-autorun.c	2010-09-22 08:32:29.945998006 -0400
+@@ -695,7 +695,7 @@ is_shift_pressed (void)
+         gdk_error_trap_push ();
+ 	status = XkbGetState (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
+ 			      XkbUseCoreKbd, &state);
+-        gdk_error_trap_pop_ignored ();
++        gdk_error_trap_pop ();
+ 
+ 	if (status == Success) {
+ 		ret = state.mods & ShiftMask;
 diff -up nautilus-2.90.1/libnautilus-private/nautilus-entry.c.editable-iface nautilus-2.90.1/libnautilus-private/nautilus-entry.c
 --- nautilus-2.90.1/libnautilus-private/nautilus-entry.c.editable-iface	2010-09-22 08:03:06.833998015 -0400
 +++ nautilus-2.90.1/libnautilus-private/nautilus-entry.c	2010-09-22 08:03:46.708997998 -0400
