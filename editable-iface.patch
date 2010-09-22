@@ -19,3 +19,31 @@ diff -up nautilus-2.90.1/eel/eel-editable-label.c.editable-iface nautilus-2.90.1
  {
    iface->do_insert_text = editable_insert_text_emit;
    iface->do_delete_text = editable_delete_text_emit;
+diff -up nautilus-2.90.1/libnautilus-private/nautilus-entry.c.editable-iface nautilus-2.90.1/libnautilus-private/nautilus-entry.c
+--- nautilus-2.90.1/libnautilus-private/nautilus-entry.c.editable-iface	2010-09-22 08:03:06.833998015 -0400
++++ nautilus-2.90.1/libnautilus-private/nautilus-entry.c	2010-09-22 08:03:46.708997998 -0400
+@@ -50,13 +50,13 @@ enum {
+ };
+ static guint signals[LAST_SIGNAL];
+ 
+-static void nautilus_entry_editable_init (GtkEditableInterface *iface);
++static void nautilus_entry_editable_init (GtkEditableClass *iface);
+ 
+ G_DEFINE_TYPE_WITH_CODE (NautilusEntry, nautilus_entry, GTK_TYPE_ENTRY,
+ 			 G_IMPLEMENT_INTERFACE (GTK_TYPE_EDITABLE,
+ 						nautilus_entry_editable_init));
+ 
+-static GtkEditableInterface *parent_editable_interface = NULL;
++static GtkEditableClass *parent_editable_interface = NULL;
+ 
+ static void
+ nautilus_entry_init (NautilusEntry *entry)
+@@ -360,7 +360,7 @@ nautilus_entry_selection_clear (GtkWidge
+ }
+ 
+ static void
+-nautilus_entry_editable_init (GtkEditableInterface *iface)
++nautilus_entry_editable_init (GtkEditableClass *iface)
+ {
+ 	parent_editable_interface = g_type_interface_peek_parent (iface);
+ 
