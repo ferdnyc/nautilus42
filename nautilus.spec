@@ -93,6 +93,7 @@ Patch17:        nautilus-filetype-symlink-fix.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=583559
 Patch23:        nautilus-578086-po.patch
 
+Patch29:        editable-iface.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -132,7 +133,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch23 -p1 -b .gu_IN-crash
-
+%patch29 -p1 -b .editable-iface
 
 %build
 

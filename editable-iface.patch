@@ -1,0 +1,12 @@
+diff -up nautilus-2.90.1/eel/eel-editable-label.c.iface nautilus-2.90.1/eel/eel-editable-label.c
+--- nautilus-2.90.1/eel/eel-editable-label.c.iface	2010-09-21 22:47:04.828997997 -0400
++++ nautilus-2.90.1/eel/eel-editable-label.c	2010-09-21 22:47:13.561998010 -0400
+@@ -59,7 +59,7 @@ enum {
+ 
+ static guint signals[LAST_SIGNAL] = { 0 };
+ 
+-static void     eel_editable_label_editable_init           (GtkEditableInterface  *iface);
++static void     eel_editable_label_editable_init           (GtkEditableIface  *iface);
+ static void     eel_editable_label_class_init              (EelEditableLabelClass *klass);
+ static void     eel_editable_label_init                    (EelEditableLabel      *label);
+ static void     eel_editable_label_set_property            (GObject               *object,
