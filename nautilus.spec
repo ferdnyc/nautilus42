@@ -16,7 +16,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        2.90.1
-Release:        4.%{alphatag}%{?dist}
+Release:        5.%{alphatag}%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.90/%{name}-%{version}-%{alphatag}.tar.gz
@@ -246,6 +246,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Sat Sep 25 2010 Owen Taylor <otaylor@redhat.com> - 2.90.1-5.gitf3bbee7
+- Bump and rebuild for gtk3 ABI changes
+
 * Tue Sep 21 2010 Matthias Clasen <mclasen@redhat.com> - 2.90.1-4.gitf3bbee7
 - git snapshot
 - Rebuild against newer gobject-introspection
