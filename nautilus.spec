@@ -1,25 +1,24 @@
-%define glib2_version 2.25.12
-%define pango_version 1.1.3
-%define gtk3_version 2.90.5
+%define glib2_version 2.27
+%define pango_version 1.28
+%define gtk3_version 2.91
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
-%define gnome_desktop3_version 2.29.91
+%define gnome_desktop3_version 2.91
 %define redhat_menus_version 0.25
 %define startup_notification_version 0.5
 %define libexif_version 0.5.12
 %define gconf_version 2.14
 %define exempi_version 1.99.5
-%define gobject_introspection_version 0.6.4
-%define alphatag gitf3bbee7
+%define gobject_introspection_version 0.9.5
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        2.90.1
-Release:        6.%{alphatag}%{?dist}
+Version:        2.91.0.1
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/2.90/%{name}-%{version}-%{alphatag}.tar.gz
+Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.gz
 
 URL:            http://projects.gnome.org/nautilus/
 Requires:       filesystem >= 2.1.1-1
@@ -246,6 +245,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Wed Oct  6 2010 Matthias Clasen <mclasen@redhat.com> - 2.91.0-1
+- Update to 2.91.0
+
 * Wed Sep 29 2010 jkeating - 2.90.1-6.gitf3bbee7
 - Rebuilt for gcc bug 634757
 
