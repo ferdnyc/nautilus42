@@ -1,6 +1,6 @@
-%define glib2_version 2.27
+%define glib2_version 2.27.2
 %define pango_version 1.28
-%define gtk3_version 2.91
+%define gtk3_version 2.91.3
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
@@ -14,7 +14,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        2.91.0.1
+Version:        2.91.1
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -242,6 +242,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Mon Nov  1 2010 Matthias Clasen <mclasen@redhat.com> - 2.91.1-1
+- Update to 2.91.1
+
 * Wed Oct  6 2010 Matthias Clasen <mclasen@redhat.com> - 2.91.0-1
 - Update to 2.91.0
 
