@@ -149,7 +149,7 @@ CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK -
 sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' libtool
 
 export tagname=CC
-LANG=en_US make %{?_smp_mflags}
+LANG=en_US make %{?_smp_mflags} V=1
 
 %install
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
