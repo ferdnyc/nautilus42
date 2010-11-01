@@ -5,7 +5,7 @@ diff -up nautilus-2.91.1/eel/Makefile.am.eel-x nautilus-2.91.1/eel/Makefile.am
  	$(COMMON_LIBS)				\
  	$(RENDER_LIBS)				\
  	$(X_LIBS)				\
-+	$(X11_LIBS)				\
++	-lX11   				\
  	$(NULL)
  
  eel_headers =					\
