@@ -180,13 +180,12 @@ EOF
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0/*.la
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/icon-theme.cache
 rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/.icon-theme.cache
-
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0
 
 %find_lang %name
 
@@ -227,6 +226,8 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %{_datadir}/GConf/gsettings/nautilus.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.media-handling.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
+%dir %{_libdir}/nautilus/extensions-2.0
+%{_libdir}/nautilus/extensions-2.0/libnautilus-sendto.so
 
 
 %files extensions
@@ -234,7 +235,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %{_libdir}/libnautilus-extension.so.*
 %{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
-%dir %{_libdir}/nautilus/extensions-2.0
 
 %files devel
 %defattr(-, root, root)
