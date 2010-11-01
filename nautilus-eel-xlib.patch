@@ -1,0 +1,11 @@
+diff -up nautilus-2.91.1/eel/Makefile.am.eel-x nautilus-2.91.1/eel/Makefile.am
+--- nautilus-2.91.1/eel/Makefile.am.eel-x	2010-11-01 16:41:50.513410006 -0400
++++ nautilus-2.91.1/eel/Makefile.am	2010-11-01 16:57:38.905410004 -0400
+@@ -29,6 +29,7 @@ libeel_2_la_LIBADD = 				\
+ 	$(COMMON_LIBS)				\
+ 	$(RENDER_LIBS)				\
+ 	$(X_LIBS)				\
++	$(X11_LIBS)				\
+ 	$(NULL)
+ 
+ eel_headers =					\

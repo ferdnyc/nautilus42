@@ -92,6 +92,8 @@ Patch17:        nautilus-filetype-symlink-fix.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=583559
 Patch23:        nautilus-578086-po.patch
 
+Patch24:        nautilus-eel-xlib.patch
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -130,6 +132,7 @@ for developing nautilus extensions.
 %patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch23 -p1 -b .gu_IN-crash
+%patch24 -p1 -b .eel-xlib
 
 %build
 
