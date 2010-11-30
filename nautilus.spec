@@ -4,9 +4,8 @@
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
-%define gnome_desktop3_version 2.91.1
+%define gnome_desktop3_version 2.91.2
 %define redhat_menus_version 0.25
-%define startup_notification_version 0.5
 %define libexif_version 0.5.12
 %define gconf_version 2.14
 %define exempi_version 1.99.5
@@ -21,31 +20,28 @@ Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
 
 URL:            http://projects.gnome.org/nautilus/
-Requires:       filesystem >= 2.1.1-1
 Requires:       redhat-menus >= %{redhat_menus_version}
 Requires:       gvfs >= 1.4.0
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
-%ifnarch s390 s390x
-Requires:       eject
-%endif
+Requires:       gsettings-desktop-schemas
+
+Requires(pre): GConf2 >= %{gconf_version}
+Requires(preun): GConf2 >= %{gconf_version}
+Requires(post): GConf2 >= %{gconf_version}
+Requires:       gnome-desktop >= %{gnome_desktop_version}
 
 BuildRequires:  glib2-devel >= %{glib2_version}
 BuildRequires:  pango-devel >= %{pango_version}
 BuildRequires:  gtk3-devel >= %{gtk3_version}
 BuildRequires:  libxml2-devel >= %{libxml2_version}
 BuildRequires:  gnome-desktop3-devel >= %{gnome_desktop3_version}
-BuildRequires:  gvfs-devel
 BuildRequires:  GConf2-devel
 BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libX11-devel
-BuildRequires:  libXt-devel
-BuildRequires:  fontconfig
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
+BuildRequires:  libSM-devel
 BuildRequires:  libtool >= 1.4.2-10
-BuildRequires:  autoconf
-BuildRequires:  automake
-BuildRequires:  startup-notification-devel >= %{startup_notification_version}
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
@@ -54,12 +50,6 @@ BuildRequires:  gtk-doc
 BuildRequires:  scrollkeeper
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
 BuildRequires:  gsettings-desktop-schemas-devel
-Requires:       gsettings-desktop-schemas
-
-Requires(pre): GConf2 >= %{gconf_version}
-Requires(preun): GConf2 >= %{gconf_version}
-Requires(post): GConf2 >= %{gconf_version}
-Requires:       gnome-desktop >= %{gnome_desktop_version}
 
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
@@ -87,8 +77,6 @@ Patch17:        nautilus-filetype-symlink-fix.patch
 # [bn_IN, gu_IN][nautilus] - Its crashing, when drag any file
 # https://bugzilla.redhat.com/show_bug.cgi?id=583559
 Patch23:        nautilus-578086-po.patch
-
-Patch24:        nautilus-eel-xlib.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -126,7 +114,6 @@ for developing nautilus extensions.
 # %patch8 -p1 -b .hide-white-screen
 %patch17 -p0 -b .symlink
 %patch23 -p1 -b .gu_IN-crash
-%patch24 -p1 -b .eel-xlib
 
 %build
 
@@ -137,9 +124,7 @@ autoconf
 autoheader
 automake
 
-# -fno-tree-vrp is needed to avoid gcc-4.4.0 optimization failure
-# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39233
-CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK -fno-tree-vrp" %configure --disable-more-warnings --disable-update-mimedb
+CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
@@ -168,11 +153,9 @@ cat >>$RPM_BUILD_ROOT%{_datadir}/applications/gnome-nautilus.desktop <<EOF
 AutostartCondition=GNOME /apps/nautilus/preferences/show_desktop
 EOF
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0/*.la
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/bonobo/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/icon-theme.cache
 rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/.icon-theme.cache
