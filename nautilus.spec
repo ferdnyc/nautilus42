@@ -214,7 +214,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %{_mandir}/man1/nautilus.1.gz
 %{_libexecdir}/nautilus-convert-metadata
 %{_datadir}/GConf/gsettings/nautilus.convert
-%{_datadir}/glib-2.0/schemas/org.gnome.media-handling.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
 %dir %{_libdir}/nautilus/extensions-2.0
 %{_libdir}/nautilus/extensions-2.0/libnautilus-sendto.so
