@@ -237,6 +237,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %changelog
 * Mon Nov 29 2010 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.3-1
 - Update to 2.91.3
+- Drop unnecessary patches
 
 * Wed Nov 10 2010 Tomas Bzatek <tbzatek@redhat.com> - 2.91.2-1
 - Update to 2.91.2
