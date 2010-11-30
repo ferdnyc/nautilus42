@@ -76,8 +76,6 @@ Obsoletes:      eel2 < 2.26.0-3
 Provides:       eel2 = 2.26.0-3
 
 # Some changes to default config
-Patch1:         nautilus-config.patch
-
 Patch4:         nautilus-selinux.patch
 
 Patch7:         rtl-fix.patch
@@ -125,7 +123,6 @@ for developing nautilus extensions.
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch1 -p1 -b .config
 %patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
