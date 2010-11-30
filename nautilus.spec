@@ -81,8 +81,6 @@ Patch4:         nautilus-selinux.patch
 Patch7:         rtl-fix.patch
 #Patch8:        nautilus-2.22.1-hide-white-screen.patch
 
-Patch10:        nautilus-gvfs-desktop-key-2.patch
-
 # http://bugzilla.gnome.org/show_bug.cgi?id=519743
 Patch17:        nautilus-filetype-symlink-fix.patch
 
@@ -126,7 +124,6 @@ for developing nautilus extensions.
 %patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
-%patch10 -p1 -b .gvfs-desktop-key
 %patch17 -p0 -b .symlink
 %patch23 -p1 -b .gu_IN-crash
 %patch24 -p1 -b .eel-xlib
@@ -142,7 +139,7 @@ automake
 
 # -fno-tree-vrp is needed to avoid gcc-4.4.0 optimization failure
 # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39233
-CFLAGS="$RPM_OPT_FLAGS -g -DUGLY_HACK_TO_DETECT_KDE -DNAUTILUS_OMIT_SELF_CHECK -fno-tree-vrp" %configure --disable-more-warnings --disable-update-mimedb
+CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK -fno-tree-vrp" %configure --disable-more-warnings --disable-update-mimedb
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
@@ -156,10 +153,6 @@ export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 export tagname=CC
 LANG=en_US make install DESTDIR=$RPM_BUILD_ROOT LIBTOOL=/usr/bin/libtool
 unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
-
-## these are in desktop-backgrounds-basic
-## (uncomment when we patch the source to look in the right place)
-## /bin/rm -rf $RPM_BUILD_ROOT%{_datadir}/nautilus/patterns
 
 # remove .desktop entry in applications > system tools
 # https://bugzilla.redhat.com/show_bug.cgi?id=583790
