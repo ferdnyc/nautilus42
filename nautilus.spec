@@ -1,6 +1,6 @@
 %define glib2_version 2.27.2
 %define pango_version 1.28
-%define gtk3_version 2.99.09.0
+%define gtk3_version 2.99.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
