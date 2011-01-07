@@ -1,6 +1,6 @@
 %define glib2_version 2.27.2
 %define pango_version 1.28
-%define gtk3_version 2.91.4
+%define gtk3_version 2.99.09.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
@@ -13,8 +13,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        2.91.3
-Release:        2%{?dist}
+Version:        2.91.6
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
@@ -25,11 +25,13 @@ Requires:       gvfs >= 1.4.0
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
 Requires:       gsettings-desktop-schemas
+Requires:       gnome-desktop >= %{gnome_desktop_version}
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
 Requires(post): GConf2 >= %{gconf_version}
-Requires:       gnome-desktop >= %{gnome_desktop_version}
+Requires(post): /usr/bin/gtk-update-icon-cache
+Requires(postun): /usr/bin/gtk-update-icon-cache
 
 BuildRequires:  glib2-devel >= %{glib2_version}
 BuildRequires:  pango-devel >= %{pango_version}
@@ -217,6 +219,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Fri Jan  7 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.6-1
+- Update to 2.91.6
+
 * Fri Dec  3 2010 Matthias Clasen <mclasen@redhat.com> - 2.91.3-2
 - Rebuild against new gtk
 
