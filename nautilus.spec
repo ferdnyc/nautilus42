@@ -73,9 +73,6 @@ Patch4:         nautilus-selinux.patch
 Patch7:         rtl-fix.patch
 #Patch8:        nautilus-2.22.1-hide-white-screen.patch
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=519743
-Patch17:        nautilus-filetype-symlink-fix.patch
-
 # [bn_IN, gu_IN][nautilus] - Its crashing, when drag any file
 # https://bugzilla.redhat.com/show_bug.cgi?id=583559
 Patch23:        nautilus-578086-po.patch
@@ -114,7 +111,6 @@ for developing nautilus extensions.
 %patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
-%patch17 -p0 -b .symlink
 %patch23 -p1 -b .gu_IN-crash
 
 %build
