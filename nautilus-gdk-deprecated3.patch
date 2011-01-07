@@ -1,0 +1,60 @@
+From 70df8fad8b1ddf470e8600f6e8e9bc953853b419 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sun, 26 Dec 2010 15:20:23 +0000
+Subject: desktop-icon-view: don't use deprecated GDK grab API
+
+---
+diff --git a/src/file-manager/fm-desktop-icon-view.c b/src/file-manager/fm-desktop-icon-view.c
+index 20e9750..8d96f3a 100644
+--- a/src/file-manager/fm-desktop-icon-view.c
++++ b/src/file-manager/fm-desktop-icon-view.c
+@@ -332,13 +332,44 @@ fm_desktop_icon_view_handle_middle_click (NautilusIconContainer *icon_container,
+ 					  FMDesktopIconView *desktop_icon_view)
+ {
+ 	XButtonEvent x_event;
+-	
++	GdkDevice *keyboard = NULL, *pointer = NULL, *cur;
++	GdkDeviceManager *manager;
++	GList *list, *l;
++
++	manager = gdk_display_get_device_manager (gtk_widget_get_display (GTK_WIDGET (icon_container)));
++	list = gdk_device_manager_list_devices (manager, GDK_DEVICE_TYPE_MASTER);
++
++	for (l = list; l != NULL; l = l->next) {
++		cur = l->data;
++
++		if (pointer == NULL && (gdk_device_get_source (cur) == GDK_SOURCE_MOUSE)) {
++			pointer = cur;
++		}
++
++		if (keyboard == NULL && (gdk_device_get_source (cur) == GDK_SOURCE_KEYBOARD)) {
++			keyboard = cur;
++		}
++
++		if (pointer != NULL && keyboard != NULL) {
++			break;
++		}
++	}
++
++	g_list_free (list);
++
+ 	/* During a mouse click we have the pointer and keyboard grab.
+ 	 * We will send a fake event to the root window which will cause it
+ 	 * to try to get the grab so we need to let go ourselves.
+ 	 */
+-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+-	gdk_keyboard_ungrab (GDK_CURRENT_TIME);
++
++	if (pointer != NULL) {
++		gdk_device_ungrab (pointer, GDK_CURRENT_TIME);
++	}
++
++	
++	if (keyboard != NULL) {
++		gdk_device_ungrab (keyboard, GDK_CURRENT_TIME);
++	}
+ 
+ 	/* Stop the event because we don't want anyone else dealing with it. */	
+ 	gdk_flush ();
+--
+cgit v0.8.3.1

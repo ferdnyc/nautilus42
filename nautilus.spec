@@ -77,6 +77,10 @@ Patch7:         rtl-fix.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=583559
 Patch23:        nautilus-578086-po.patch
 
+Patch31: nautilus-gdk-deprecated1.patch
+Patch32: nautilus-gdk-deprecated2.patch
+Patch33: nautilus-gdk-deprecated3.patch
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -112,6 +116,10 @@ for developing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch23 -p1 -b .gu_IN-crash
+
+%patch31 -p1 -b .deprecated-gdk1
+%patch32 -p1 -b .deprecated-gdk2
+%patch33 -p1 -b .deprecated-gdk3
 
 %build
 
