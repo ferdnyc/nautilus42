@@ -199,13 +199,10 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %{_datadir}/icons/hicolor/*/apps/nautilus.png
 %{_datadir}/icons/hicolor/scalable/apps/nautilus.svg
 %{_mandir}/man1/nautilus-connect-server.1.gz
-%{_mandir}/man1/nautilus-file-management-properties.1.gz
 %{_mandir}/man1/nautilus.1.gz
 %{_libexecdir}/nautilus-convert-metadata
 %{_datadir}/GConf/gsettings/nautilus.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
-%dir %{_libdir}/nautilus/extensions-2.0
-%{_libdir}/nautilus/extensions-2.0/libnautilus-sendto.so
 
 
 %files extensions
