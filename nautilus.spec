@@ -160,7 +160,7 @@ AutostartCondition=GNOME /apps/nautilus/preferences/show_desktop
 EOF
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-2.0/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/icon-theme.cache
@@ -203,7 +203,8 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %{_libexecdir}/nautilus-convert-metadata
 %{_datadir}/GConf/gsettings/nautilus.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
-
+%dir %{_libdir}/nautilus/extensions-3.0
+%{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
 
 %files extensions
 %defattr(-, root, root)
