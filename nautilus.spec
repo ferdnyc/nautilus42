@@ -213,7 +213,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
-* Tue Jan 11 2001 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.7-1
+* Tue Jan 11 2011 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.7-1
 - Update to 2.91.7
 
 * Fri Jan  7 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.6-1
