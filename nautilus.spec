@@ -13,7 +13,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        2.91.6
+Version:        2.91.7
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -77,10 +77,6 @@ Patch7:         rtl-fix.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=583559
 Patch23:        nautilus-578086-po.patch
 
-Patch31: nautilus-gdk-deprecated1.patch
-Patch32: nautilus-gdk-deprecated2.patch
-Patch33: nautilus-gdk-deprecated3.patch
-
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -116,10 +112,6 @@ for developing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
 %patch23 -p1 -b .gu_IN-crash
-
-%patch31 -p1 -b .deprecated-gdk1
-%patch32 -p1 -b .deprecated-gdk2
-%patch33 -p1 -b .deprecated-gdk3
 
 %build
 
@@ -221,6 +213,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Tue Jan 11 2001 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.7-1
+- Update to 2.91.7
+
 * Fri Jan  7 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.6-1
 - Update to 2.91.6
 
