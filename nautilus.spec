@@ -14,7 +14,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        2.91.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
