@@ -25,13 +25,10 @@ Requires:       gvfs >= 1.4.0
 Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
 Requires:       gsettings-desktop-schemas
-Requires:       gnome-desktop >= %{gnome_desktop_version}
 
 Requires(pre): GConf2 >= %{gconf_version}
 Requires(preun): GConf2 >= %{gconf_version}
 Requires(post): GConf2 >= %{gconf_version}
-Requires(post): /usr/bin/gtk-update-icon-cache
-Requires(postun): /usr/bin/gtk-update-icon-cache
 
 BuildRequires:  glib2-devel >= %{glib2_version}
 BuildRequires:  pango-devel >= %{pango_version}
@@ -132,24 +129,14 @@ export tagname=CC
 LANG=en_US make %{?_smp_mflags} V=1
 
 %install
-export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 export tagname=CC
 LANG=en_US make install DESTDIR=$RPM_BUILD_ROOT LIBTOOL=/usr/bin/libtool
-unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
-
-# remove .desktop entry in applications > system tools
-# https://bugzilla.redhat.com/show_bug.cgi?id=583790
-rm $RPM_BUILD_ROOT%{_datadir}/applications/nautilus-browser.desktop
 
 desktop-file-install --vendor gnome --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-only-show-in GNOME                                  \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
 
-# http://bugzilla.gnome.org/show_bug.cgi?id=571417
-cat >>$RPM_BUILD_ROOT%{_datadir}/applications/gnome-nautilus.desktop <<EOF
-AutostartCondition=GNOME /apps/nautilus/preferences/show_desktop
-EOF
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
@@ -213,6 +200,10 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Wed Jan 12 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.7-2
+- Drop explicit gnome-desktop dependency
+- Drop some no-longer-required tweaks
+
 * Tue Jan 11 2011 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.7-1
 - Update to 2.91.7
 
