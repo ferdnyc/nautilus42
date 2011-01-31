@@ -7,14 +7,13 @@
 %define gnome_desktop3_version 2.91.4
 %define redhat_menus_version 0.25
 %define libexif_version 0.5.12
-%define gconf_version 2.14
 %define exempi_version 1.99.5
 %define gobject_introspection_version 0.9.5
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        2.91.7
-Release:        2%{?dist}
+Version:        2.91.8
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
@@ -26,16 +25,11 @@ Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
 Requires:       libexif >= %{libexif_version}
 Requires:       gsettings-desktop-schemas
 
-Requires(pre): GConf2 >= %{gconf_version}
-Requires(preun): GConf2 >= %{gconf_version}
-Requires(post): GConf2 >= %{gconf_version}
-
 BuildRequires:  glib2-devel >= %{glib2_version}
 BuildRequires:  pango-devel >= %{pango_version}
 BuildRequires:  gtk3-devel >= %{gtk3_version}
 BuildRequires:  libxml2-devel >= %{libxml2_version}
 BuildRequires:  gnome-desktop3-devel >= %{gnome_desktop3_version}
-BuildRequires:  GConf2-devel
 BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libX11-devel
 BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
@@ -200,6 +194,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Mon Jan 31 2011 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.8-1
+- Update to 2.91.8
+
 * Wed Jan 12 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.7-2
 - Drop explicit gnome-desktop dependency
 - Drop some no-longer-required tweaks
