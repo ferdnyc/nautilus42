@@ -13,7 +13,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        2.91.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
@@ -145,9 +145,6 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/.icon-theme.cache
 /sbin/ldconfig
 %{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
 
-%pre
-%gconf_schema_obsolete apps_nautilus_preferences
-
 %postun
 /sbin/ldconfig
 
@@ -194,6 +191,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Tue Feb  1 2011 Tomas Bzatek <tbzatek@redhat.com> - 2.91.8-3
+- Remove last traces of gconf (#674359)
+
 * Mon Jan 31 2011 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.8-2
 - Update selinux patch
 
