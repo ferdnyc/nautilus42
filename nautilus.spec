@@ -43,6 +43,7 @@ BuildRequires:  gtk-doc
 BuildRequires:  scrollkeeper
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
 BuildRequires:  gsettings-desktop-schemas-devel
+BuildRequires:  libnotify-devel
 
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
