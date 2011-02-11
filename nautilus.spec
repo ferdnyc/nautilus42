@@ -13,7 +13,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        2.91.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
@@ -194,6 +194,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Thu Feb 10 2011 Matthias Clasen <mclasne@redhat.com> 2.91.9-4
+- Rebuild against newer gtk
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.91.9-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
