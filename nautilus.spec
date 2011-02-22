@@ -1,6 +1,6 @@
-%define glib2_version 2.27.2
+%define glib2_version 2.28.0
 %define pango_version 1.28
-%define gtk3_version 2.99.0
+%define gtk3_version 3.0.0
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
@@ -12,8 +12,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        2.91.9
-Release:        4%{?dist}
+Version:        2.91.90
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
@@ -60,7 +60,6 @@ Obsoletes:      eel2 < 2.26.0-3
 Provides:       eel2 = 2.26.0-3
 
 # Some changes to default config
-Patch1:         nautilus-2.91.9-bookmark.patch
 Patch4:         nautilus-2.91.8-selinux.patch
 
 Patch7:         rtl-fix.patch
@@ -101,7 +100,6 @@ for developing nautilus extensions.
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch1 -p1 -b .bookmark
 %patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
 # %patch8 -p1 -b .hide-white-screen
@@ -194,6 +192,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Mon Feb 21 2011 Cosimo Cecchi <cosimoc@redhat.com> 2.91.90-1
+- Update to 2.91.90
+
 * Thu Feb 10 2011 Matthias Clasen <mclasne@redhat.com> 2.91.9-4
 - Rebuild against newer gtk
 
