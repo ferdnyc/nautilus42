@@ -169,6 +169,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %{_bindir}/*
 %{_datadir}/icons/hicolor/*/apps/nautilus.png
 %{_datadir}/icons/hicolor/scalable/apps/nautilus.svg
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_mandir}/man1/nautilus-connect-server.1.gz
 %{_mandir}/man1/nautilus.1.gz
 %{_libexecdir}/nautilus-convert-metadata
