@@ -13,7 +13,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        2.91.93
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
@@ -121,7 +121,7 @@ LANG=en_US make %{?_smp_mflags} V=1
 export tagname=CC
 LANG=en_US make install DESTDIR=$RPM_BUILD_ROOT LIBTOOL=/usr/bin/libtool
 
-desktop-file-install --vendor gnome --delete-original       \
+desktop-file-install --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-only-show-in GNOME                                  \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
@@ -187,6 +187,13 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Sun Mar 27 2011 Colin Walters <walters@verbum.org> - 2.91.93-2
+- Drop --vendor from nautilus.desktop
+  Vendor prefixes are pointless, and in this case breaks upstream
+  components trying to reference each other via .desktop file, such
+  as GNOME Shell having nautilus.desktop in its default favorite
+  list.
+
 * Fri Mar 25 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.93-1
 - Update to 2.91.93
 
