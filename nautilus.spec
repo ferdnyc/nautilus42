@@ -12,8 +12,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        2.91.93
-Release:        2%{?dist}
+Version:        2.91.94
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/2.91/%{name}-%{version}.tar.bz2
@@ -187,6 +187,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Wed Mar 30 2011 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.94-1
+- Update to 2.91.94
+
 * Sun Mar 27 2011 Colin Walters <walters@verbum.org> - 2.91.93-2
 - Drop --vendor from nautilus.desktop
   Vendor prefixes are pointless, and in this case breaks upstream
