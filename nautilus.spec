@@ -1,6 +1,6 @@
 %define glib2_version 2.28.0
 %define pango_version 1.28
-%define gtk3_version 3.0.0
+%define gtk3_version 3.0.2
 %define gnome_icon_theme_version 1.1.5
 %define libxml2_version 2.4.20
 %define desktop_file_utils_version 0.7
@@ -12,7 +12,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        2.91.90
+Version:        3.0.0
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -65,10 +65,6 @@ Patch4:         nautilus-2.91.8-selinux.patch
 Patch7:         rtl-fix.patch
 #Patch8:        nautilus-2.22.1-hide-white-screen.patch
 
-# [bn_IN, gu_IN][nautilus] - Its crashing, when drag any file
-# https://bugzilla.redhat.com/show_bug.cgi?id=583559
-Patch23:        nautilus-578086-po.patch
-
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -102,8 +98,6 @@ for developing nautilus extensions.
 
 %patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
-# %patch8 -p1 -b .hide-white-screen
-%patch23 -p1 -b .gu_IN-crash
 
 %build
 
@@ -127,7 +121,7 @@ LANG=en_US make %{?_smp_mflags} V=1
 export tagname=CC
 LANG=en_US make install DESTDIR=$RPM_BUILD_ROOT LIBTOOL=/usr/bin/libtool
 
-desktop-file-install --vendor gnome --delete-original       \
+desktop-file-install --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-only-show-in GNOME                                  \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
@@ -169,6 +163,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %{_bindir}/*
 %{_datadir}/icons/hicolor/*/apps/nautilus.png
 %{_datadir}/icons/hicolor/scalable/apps/nautilus.svg
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_mandir}/man1/nautilus-connect-server.1.gz
 %{_mandir}/man1/nautilus.1.gz
 %{_libexecdir}/nautilus-convert-metadata
@@ -192,6 +187,31 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Mon Apr 04 2011 Cosimo Cecchi <cosimoc@redhat.com> - 3.0.0-1
+- Update to 3.0.0
+
+* Wed Mar 30 2011 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.94-1
+- Update to 2.91.94
+
+* Sun Mar 27 2011 Colin Walters <walters@verbum.org> - 2.91.93-2
+- Drop --vendor from nautilus.desktop
+  Vendor prefixes are pointless, and in this case breaks upstream
+  components trying to reference each other via .desktop file, such
+  as GNOME Shell having nautilus.desktop in its default favorite
+  list.
+
+* Fri Mar 25 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.93-1
+- Update to 2.91.93
+
+* Mon Mar 21 2011 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.92-1
+- Update to 2.91.92
+
+* Mon Mar 07 2011 Cosimo Cecchi <cosimoc@redhat.com> 2.91.91-1
+- Update to 2.91.91
+
+* Tue Feb 22 2011 Cosimo Cecchi <cosimoc@redhat.com> 2.91.90.1-1
+- Update to 2.91.90.1
+
 * Mon Feb 21 2011 Cosimo Cecchi <cosimoc@redhat.com> 2.91.90-1
 - Update to 2.91.90
 
