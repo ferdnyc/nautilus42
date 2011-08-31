@@ -12,7 +12,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.1.4
+Version:        3.1.90
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -154,7 +154,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 
 %files  -f %{name}.lang
-%defattr(-,root,root)
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB NEWS README
 %{_datadir}/nautilus
 %{_datadir}/pixmaps/*
@@ -174,13 +173,11 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %{_sysconfdir}/xdg/autostart/nautilus-autostart.desktop
 
 %files extensions
-%defattr(-, root, root)
 %{_libdir}/libnautilus-extension.so.*
 %{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
 
 %files devel
-%defattr(-, root, root)
 %{_includedir}/nautilus
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
@@ -188,6 +185,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Wed Aug 31 2011 Matthias Clasen <mclasen@redhat.com> 3.1.90-1
+- Update to 3.1.90
+
 * Mon Jul 25 2011 Matthias Clasen <mclasen@redhat.com> 3.1.4-1
 - Update to 3.1.4
 
