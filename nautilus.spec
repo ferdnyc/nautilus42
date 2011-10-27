@@ -13,7 +13,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.2/%{name}-%{version}.tar.xz
@@ -185,6 +185,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.1-2
+- Rebuilt for glibc bug#747377
+
 * Tue Oct 18 2011 Cosimo Cecchi <cosimoc@redhat.com> - 3.2.1-1
 - Update to 3.2.1
 
