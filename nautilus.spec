@@ -174,6 +174,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %dir %{_libdir}/nautilus/extensions-3.0
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
 %{_sysconfdir}/xdg/autostart/nautilus-autostart.desktop
+%{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
 
 %files extensions
 %{_libdir}/libnautilus-extension.so.*
