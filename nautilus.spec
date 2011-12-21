@@ -59,8 +59,8 @@ Provides:       gnome-volume-manager = 2.24.0-2
 Obsoletes:      eel2 < 2.26.0-3
 Provides:       eel2 = 2.26.0-3
 
-# Some changes to default config
-Patch4:         nautilus-2.91.8-selinux.patch
+# Why is this still not upstream ?!
+#Patch4:         nautilus-2.91.8-selinux.patch
 
 Patch7:         rtl-fix.patch
 #Patch8:        nautilus-2.22.1-hide-white-screen.patch
@@ -96,7 +96,7 @@ for developing nautilus extensions.
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch4 -p1 -b .selinux
+#%patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
 
 %build
