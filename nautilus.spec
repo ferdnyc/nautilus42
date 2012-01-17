@@ -156,7 +156,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %files  -f %{name}.lang
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB NEWS README
 %{_datadir}/nautilus
-%{_datadir}/pixmaps/*
 %{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
 %{_bindir}/*
