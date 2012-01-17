@@ -65,8 +65,6 @@ Provides:       eel2 = 2.26.0-3
 Patch7:         rtl-fix.patch
 #Patch8:        nautilus-2.22.1-hide-white-screen.patch
 
-Patch10:        nautilus-gmodule.patch
-
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -100,7 +98,6 @@ for developing nautilus extensions.
 
 #%patch4 -p1 -b .selinux
 %patch7 -p1 -b .rtl-fix
-%patch10 -p1
 
 %build
 
