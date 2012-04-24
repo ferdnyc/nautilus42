@@ -13,7 +13,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.3/%{name}-%{version}.tar.xz
@@ -146,12 +146,12 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/.icon-theme.cache
 if [ $1 -eq 0 ]; then
   touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
   gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
-  glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
+  glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 fi
 
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
-glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
+glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 
 %files  -f %{name}.lang
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB NEWS README
@@ -185,6 +185,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Tue Apr 24 2012 Kalev Lember <kalevlember@gmail.com> - 3.4.1-2
+- Silence rpm scriptlet output
+
 * Mon Apr 16 2012 Richard Hughes <hughsient@gmail.com> - 3.4.1-1
 - Update to 3.4.1
 
