@@ -36,8 +36,6 @@ BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
-BuildRequires:  gtk-doc
-BuildRequires:  scrollkeeper
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
 BuildRequires:  gsettings-desktop-schemas-devel
 BuildRequires:  libnotify-devel
@@ -97,14 +95,6 @@ for developing nautilus extensions.
 %patch7 -p1 -b .rtl-fix
 
 %build
-
-gtkdocize
-libtoolize
-aclocal -I m4
-autoconf
-autoheader
-automake
-
 CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
 
 # drop unneeded direct library deps with --as-needed
@@ -123,13 +113,8 @@ desktop-file-install --delete-original       \
   --add-only-show-in GNOME                                  \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
 
-
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
-
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
-rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/icon-theme.cache
-rm -f $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/.icon-theme.cache
 
 %find_lang %name
 
