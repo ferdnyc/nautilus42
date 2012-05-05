@@ -1,27 +1,24 @@
-%define glib2_version 2.28.0
-%define pango_version 1.28
-%define gtk3_version 3.0.2
-%define gnome_icon_theme_version 1.1.5
-%define libxml2_version 2.4.20
-%define desktop_file_utils_version 0.7
-%define gnome_desktop3_version 2.91.4
-%define redhat_menus_version 0.25
-%define libexif_version 0.5.12
-%define exempi_version 1.99.5
+%define glib2_version 2.31.9
+%define gnome_desktop3_version 3.0.0
+%define pango_version 1.28.3
+%define gtk3_version 3.3.17
+%define libxml2_version 2.7.8
+%define libexif_version 0.6.20
+%define exempi_version 2.1.0
 %define gobject_introspection_version 0.9.5
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.4.1
-Release:        2%{?dist}
+Version:        3.5.1
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/3.3/%{name}-%{version}.tar.xz
+Source:         http://download.gnome.org/sources/%{name}/3.5/%{name}-%{version}.tar.xz
 
 URL:            http://projects.gnome.org/nautilus/
-Requires:       redhat-menus >= %{redhat_menus_version}
-Requires:       gvfs >= 1.4.0
-Requires:       gnome-icon-theme >= %{gnome_icon_theme_version}
+Requires:       redhat-menus
+Requires:       gvfs
+Requires:       gnome-icon-theme
 Requires:       libexif >= %{libexif_version}
 Requires:       gsettings-desktop-schemas
 
@@ -32,9 +29,9 @@ BuildRequires:  libxml2-devel >= %{libxml2_version}
 BuildRequires:  gnome-desktop3-devel >= %{gnome_desktop3_version}
 BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libX11-devel
-BuildRequires:  desktop-file-utils >= %{desktop_file_utils_version}
+BuildRequires:  desktop-file-utils
 BuildRequires:  libSM-devel
-BuildRequires:  libtool >= 1.4.2-10
+BuildRequires:  libtool
 BuildRequires:  libexif-devel >= %{libexif_version}
 BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
@@ -185,6 +182,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Sat May 05 2012 Kalev Lember <kalevlember@gmail.com> - 3.5.1-1
+- Update to 3.5.1
+
 * Tue Apr 24 2012 Kalev Lember <kalevlember@gmail.com> - 3.4.1-2
 - Silence rpm scriptlet output
 
