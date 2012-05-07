@@ -54,11 +54,12 @@ Provides:       gnome-volume-manager = 2.24.0-2
 Obsoletes:      eel2 < 2.26.0-3
 Provides:       eel2 = 2.26.0-3
 
-# Why is this still not upstream ?!
+# The selinux patch is here to not lose it, should go upstream and needs
+# cleaning up to work with current nautilus git.
 #Patch4:         nautilus-2.91.8-selinux.patch
 
+# Fixed in upstream commit db0b28fd
 Patch7:         rtl-fix.patch
-#Patch8:        nautilus-2.22.1-hide-white-screen.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
