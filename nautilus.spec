@@ -9,7 +9,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.5.1
+Version:        3.5.2
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -58,9 +58,6 @@ Provides:       eel2 = 2.26.0-3
 # cleaning up to work with current nautilus git.
 #Patch4:         nautilus-2.91.8-selinux.patch
 
-# Fixed in upstream commit db0b28fd
-Patch7:         rtl-fix.patch
-
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -93,7 +90,6 @@ for developing nautilus extensions.
 %setup -q -n %{name}-%{version}
 
 #%patch4 -p1 -b .selinux
-%patch7 -p1 -b .rtl-fix
 
 %build
 CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
@@ -168,6 +164,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Thu Jun 07 2012 Richard Hughes <hughsient@gmail.com> - 3.5.2-1
+- Update to 3.5.2
+
 * Sat May 05 2012 Kalev Lember <kalevlember@gmail.com> - 3.5.1-1
 - Update to 3.5.1
 
