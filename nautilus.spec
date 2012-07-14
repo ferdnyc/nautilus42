@@ -10,7 +10,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.5.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.5/%{name}-%{version}.tar.xz
@@ -116,12 +116,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
 %find_lang %name
 
 %post
-/sbin/ldconfig
 %{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
 
 %postun
-/sbin/ldconfig
-
 if [ $1 -eq 0 ]; then
   touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
   gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
@@ -131,6 +128,10 @@ fi
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
+
+%post extensions -p /sbin/ldconfig
+
+%postun extensions -p /sbin/ldconfig
 
 %files  -f %{name}.lang
 %doc AUTHORS COPYING COPYING-DOCS COPYING.LIB NEWS README
@@ -164,6 +165,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Sat Jul 14 2012 Ville Skyttä <ville.skytta@iki.fi> - 3.5.3-2
+- Move ldconfig calls from main package to -extensions.
+
 * Tue Jun 26 2012 Richard Hughes <hughsient@gmail.com> - 3.5.3-1
 - Update to 3.5.3
 
@@ -1644,7 +1648,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 * Tue Apr 17 2001 Gregory Leblanc <gleblanc@grego1.cu-portland.edu>
 - Added BuildRequires lines
 - Changed Source to point to ftp.gnome.org instead of just the tarball name
-- Moved %%description sections closer to their %package sections
+- Moved %%description sections closer to their %%package sections
 - Moved %%changelog to the end, where so that it's not in the way
 - Changed configure and make install options to allow moving of
   libraries, includes, binaries more easily
