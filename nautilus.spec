@@ -9,8 +9,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.5.3
-Release:        2%{?dist}
+Version:        3.5.4
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.5/%{name}-%{version}.tar.xz
@@ -165,6 +165,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Tue Jul 17 2012 Richard Hughes <hughsient@gmail.com> - 3.5.4-1
+- Update to 3.5.4
+
 * Sat Jul 14 2012 Ville Skyttä <ville.skytta@iki.fi> - 3.5.3-2
 - Move ldconfig calls from main package to -extensions.
 
