@@ -10,7 +10,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.5.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.5/%{name}-%{version}.tar.xz
@@ -39,6 +39,7 @@ BuildRequires:  libselinux-devel
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
 BuildRequires:  gsettings-desktop-schemas-devel
 BuildRequires:  libnotify-devel
+BuildRequires:  tracker-devel
 
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
@@ -165,6 +166,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Tue Jul 17 2012 Cosimo Cecchi <cosimoc@redhat.com> - 3.5.4-2
+- Enable tracker support
+
 * Tue Jul 17 2012 Richard Hughes <hughsient@gmail.com> - 3.5.4-1
 - Update to 3.5.4
 
