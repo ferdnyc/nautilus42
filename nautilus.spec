@@ -10,7 +10,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.5.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.5/%{name}-%{version}.tar.xz
@@ -166,6 +166,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Tue Jul 17 2012 Cosimo Cecchi <cosimoc@redhat.com> - 3.5.4-2
 - Enable tracker support
 
