@@ -9,7 +9,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.5.91
+Version:        3.5.92
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -143,15 +143,18 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_datadir}/icons/hicolor/*/apps/nautilus.png
 %{_datadir}/icons/hicolor/scalable/apps/nautilus.svg
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
+%{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
+%{_datadir}/gnome-shell/search-providers/nautilus-search-provider.ini
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.SearchProvider.service
 %{_mandir}/man1/nautilus-connect-server.1.gz
 %{_mandir}/man1/nautilus.1.gz
 %{_libexecdir}/nautilus-convert-metadata
+%{_libexecdir}/nautilus-shell-search-provider
 %{_datadir}/GConf/gsettings/nautilus.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
 %dir %{_libdir}/nautilus/extensions-3.0
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
 %{_sysconfdir}/xdg/autostart/nautilus-autostart.desktop
-%{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
 
 %files extensions
 %{_libdir}/libnautilus-extension.so.*
@@ -166,6 +169,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Tue Sep 18 2012 Cosimo Cecchi <cosimoc@redhat.com> - 3.5.92-1
+- Update to 3.5.92
+
 * Tue Sep 04 2012 Cosimo Cecchi <cosimoc@redhat.com> - 3.5.91-1
 - Update to 3.5.91
 
