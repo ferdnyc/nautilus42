@@ -18,7 +18,6 @@ Source:         http://download.gnome.org/sources/%{name}/3.5/%{name}-%{version}
 URL:            http://projects.gnome.org/nautilus/
 Requires:       redhat-menus
 Requires:       gvfs
-Requires:       gnome-icon-theme
 Requires:       libexif >= %{libexif_version}
 Requires:       gsettings-desktop-schemas
 
@@ -121,13 +120,10 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
 
 %postun
 if [ $1 -eq 0 ]; then
-  touch --no-create %{_datadir}/icons/hicolor >&/dev/null || :
-  gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
   glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 fi
 
 %posttrans
-gtk-update-icon-cache %{_datadir}/icons/hicolor >&/dev/null || :
 glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 
 %post extensions -p /sbin/ldconfig
@@ -140,8 +136,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
 %{_bindir}/*
-%{_datadir}/icons/hicolor/*/apps/nautilus.png
-%{_datadir}/icons/hicolor/scalable/apps/nautilus.svg
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
 %{_datadir}/gnome-shell/search-providers/nautilus-search-provider.ini
