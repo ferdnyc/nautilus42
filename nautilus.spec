@@ -13,7 +13,7 @@ Version:        3.6.0
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/3.5/%{name}-%{version}.tar.xz
+Source:         http://download.gnome.org/sources/%{name}/3.6/%{name}-%{version}.tar.xz
 
 URL:            http://projects.gnome.org/nautilus/
 Requires:       redhat-menus
