@@ -1,7 +1,7 @@
-%define glib2_version 2.31.9
+%define glib2_version 2.34.0
 %define gnome_desktop3_version 3.0.0
 %define pango_version 1.28.3
-%define gtk3_version 3.3.17
+%define gtk3_version 3.5.12
 %define libxml2_version 2.7.8
 %define libexif_version 0.6.20
 %define exempi_version 2.1.0
@@ -9,11 +9,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.6.1
+Version:        3.7.1
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/3.6/%{name}-%{version}.tar.xz
+Source:         http://download.gnome.org/sources/%{name}/3.7/%{name}-%{version}.tar.xz
 
 URL:            http://projects.gnome.org/nautilus/
 Requires:       redhat-menus
@@ -163,6 +163,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
 
 %changelog
+* Fri Nov 09 2012 Kalev Lember <kalevlember@gmail.com> - 3.7.1-1
+- Update to 3.7.1
+
 * Mon Oct 15 2012 Cosimo Cecchi <cosimoc@redhat.com> - 3.6.1-1
 - Update to 3.6.1
 
