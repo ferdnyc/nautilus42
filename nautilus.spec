@@ -160,11 +160,14 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
 %{_datadir}/gir-1.0/*.gir
-%doc %{_datadir}/gtk-doc/html/libnautilus-extension/*
+%dir %{_datadir}/gtk-doc/
+%dir %{_datadir}/gtk-doc/html/
+%doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
 * Fri Nov 09 2012 Kalev Lember <kalevlember@gmail.com> - 3.7.1-1
 - Update to 3.7.1
+- Own the gtk-doc directories
 
 * Mon Oct 15 2012 Cosimo Cecchi <cosimoc@redhat.com> - 3.6.1-1
 - Update to 3.6.1
