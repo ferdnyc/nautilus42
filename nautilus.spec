@@ -10,7 +10,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.7.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.7/%{name}-%{version}.tar.xz
@@ -79,6 +79,7 @@ Summary: Support for developing nautilus extensions
 License: LGPLv2+
 Group: Development/Libraries
 Requires:   %{name} = %{version}-%{release}
+Requires:   nautilus-extensions = %{version}-%{release}
 Obsoletes:      eel2-devel < 2.26.0-3
 Provides:       eel2-devel = 2.26.0-3
 
@@ -165,6 +166,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Dec  6 2012 Tomas Bzatek <tbzatek@redhat.com> - 3.7.2-2
+- nautilus-devel should require nautilus-extensions
+
 * Tue Nov 20 2012 Richard Hughes <hughsient@gmail.com> - 3.7.2-1
 - Update to 3.7.2
 
