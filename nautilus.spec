@@ -1,4 +1,4 @@
-%define glib2_version 2.34.0
+%define glib2_version 2.35.3
 %define gnome_desktop3_version 3.0.0
 %define pango_version 1.28.3
 %define gtk3_version 3.5.12
@@ -9,8 +9,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.7.2
-Release:        2%{?dist}
+Version:        3.7.3
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.7/%{name}-%{version}.tar.xz
@@ -144,7 +144,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_mandir}/man1/nautilus-connect-server.1.gz
 %{_mandir}/man1/nautilus.1.gz
 %{_libexecdir}/nautilus-convert-metadata
-%{_libexecdir}/nautilus-shell-search-provider
 %{_datadir}/GConf/gsettings/nautilus.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
 %dir %{_libdir}/nautilus/extensions-3.0
@@ -166,6 +165,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Fri Dec 21 2012 Kalev Lember <kalevlember@gmail.com> - 3.7.3-1
+- Update to 3.7.3
+
 * Thu Dec  6 2012 Tomas Bzatek <tbzatek@redhat.com> - 3.7.2-2
 - nautilus-devel should require nautilus-extensions
 
