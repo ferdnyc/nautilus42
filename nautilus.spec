@@ -9,8 +9,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.7.5
-Release:        2%{?dist}
+Version:        3.7.90
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.7/%{name}-%{version}.tar.xz
@@ -166,6 +166,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Feb 19 2013 Richard Hughes <rhughes@redhat.com> - 3.7.90-1
+- Update to 3.7.90
+
 * Fri Feb  8 2013 Tomas Bzatek <tbzatek@redhat.com> - 3.7.5-2
 - Disable smp build to fix intltool issues
 
