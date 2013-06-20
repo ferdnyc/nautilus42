@@ -17,9 +17,9 @@ Source:         http://download.gnome.org/sources/%{name}/3.9/%{name}-%{version}
 
 URL:            http://projects.gnome.org/nautilus/
 Requires:       redhat-menus
-Requires:       gvfs
-Requires:       libexif >= %{libexif_version}
-Requires:       gsettings-desktop-schemas
+Requires:       gvfs%{_isa}
+Requires:       libexif%{_isa} >= %{libexif_version}
+Requires:       gsettings-desktop-schemas%{_isa}
 
 BuildRequires:  glib2-devel >= %{glib2_version}
 BuildRequires:  pango-devel >= %{pango_version}
@@ -69,7 +69,7 @@ It is also responsible for handling the icons on the GNOME desktop.
 Summary: Nautilus extensions library
 License: LGPLv2+
 Group: Development/Libraries
-Requires:   %{name} = %{version}-%{release}
+Requires:       %{name}%{_isa} = %{version}-%{release}
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
@@ -78,8 +78,8 @@ This package provides the libraries used by nautilus extensions.
 Summary: Support for developing nautilus extensions
 License: LGPLv2+
 Group: Development/Libraries
-Requires:   %{name} = %{version}-%{release}
-Requires:   nautilus-extensions = %{version}-%{release}
+Requires:       %{name}%{_isa} = %{version}-%{release}
+Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 Obsoletes:      eel2-devel < 2.26.0-3
 Provides:       eel2-devel = 2.26.0-3
 
@@ -168,6 +168,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %changelog
 * Fri Jun 21 2013 Kalev Lember <kalevlember@gmail.com> - 3.9.3-1
 - Update to 3.9.3
+- Use arch-specific deps
 
 * Sun Jun 16 2013 Matthias Clasen <mclasen@redhat.com> - 3.8.2-1
 - Update to 3.8.2
