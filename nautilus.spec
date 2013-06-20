@@ -66,18 +66,18 @@ files and launch applications associated with them.
 It is also responsible for handling the icons on the GNOME desktop.
 
 %package extensions
-Summary: Nautilus extensions library
-License: LGPLv2+
-Group: Development/Libraries
+Summary:        Nautilus extensions library
+License:        LGPLv2+
+Group:          Development/Libraries
 Requires:       %{name}%{_isa} = %{version}-%{release}
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
 
 %package devel
-Summary: Support for developing nautilus extensions
-License: LGPLv2+
-Group: Development/Libraries
+Summary:        Support for developing nautilus extensions
+License:        LGPLv2+
+Group:          Development/Libraries
 Requires:       %{name}%{_isa} = %{version}-%{release}
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 Obsoletes:      eel2-devel < 2.26.0-3
