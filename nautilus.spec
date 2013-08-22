@@ -9,8 +9,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.9.3
-Release:        2%{?dist}
+Version:        3.9.90
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.9/%{name}-%{version}.tar.xz
@@ -166,6 +166,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Aug 22 2013 Kalev Lember <kalevlember@gmail.com> - 3.9.90-1
+- Update to 3.9.90
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.9.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
