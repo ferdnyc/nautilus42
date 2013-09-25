@@ -9,11 +9,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.9.92
+Version:        3.10.0
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/3.9/%{name}-%{version}.tar.xz
+Source:         http://download.gnome.org/sources/%{name}/3.10/%{name}-%{version}.tar.xz
 
 URL:            http://projects.gnome.org/nautilus/
 Requires:       redhat-menus
@@ -166,6 +166,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Sep 25 2013 Kalev Lember <kalevlember@gmail.com> - 3.10.0-1
+- Update to 3.10.0
+
 * Wed Sep 18 2013 Kalev Lember <kalevlember@gmail.com> - 3.9.92-1
 - Update to 3.9.92
 
