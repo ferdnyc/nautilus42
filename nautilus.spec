@@ -9,13 +9,13 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.11.2
+Version:        3.11.3
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.11/%{name}-%{version}.tar.xz
 
-URL:            http://projects.gnome.org/nautilus/
+URL:            https://wiki.gnome.org/Apps/Nautilus
 Requires:       redhat-menus
 Requires:       gvfs%{_isa}
 Requires:       libexif%{_isa} >= %{libexif_version}
@@ -90,7 +90,7 @@ for developing nautilus extensions.
 %prep
 %setup -q -n %{name}-%{version}
 
-#%patch4 -p1 -b .selinux
+#%%patch4 -p1 -b .selinux
 
 %build
 CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
@@ -166,6 +166,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Dec 19 2013 Debarshi Ray <rishi@fedoraproject.org> - 3.11.3-1
+- Update to 3.11.3
+
 * Tue Nov 19 2013 Richard Hughes <rhughes@redhat.com> - 3.11.2-1
 - Update to 3.11.2
 
@@ -379,7 +382,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 * Fri Feb  4 2011 Cosimo Cecchi <cosimoc@redhat.com> - 2.91.9-1
 - Update to 2.91.9
 
-* Tue Feb  2 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.8-4
+* Wed Feb  2 2011 Matthias Clasen <mclasen@redhat.com> - 2.91.8-4
 - Rebuild against new gtk
 
 * Tue Feb  1 2011 Tomas Bzatek <tbzatek@redhat.com> - 2.91.8-3
@@ -1081,7 +1084,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 * Tue Nov  1 2005 Alexander Larsson <alexl@redhat.com> - 2.12.1-6
 - Switch XFree86-devel buildrequirement to libX11-devel
 
-* Sat Oct 28 2005 Matthias Clasen <mclasen@redhat.com> 2.12.1-5
+* Fri Oct 28 2005 Matthias Clasen <mclasen@redhat.com> 2.12.1-5
 - Implement icon stretching keynav
 - Support formatting non-floppy devices
 
