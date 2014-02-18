@@ -133,8 +133,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %postun extensions -p /sbin/ldconfig
 
 %files  -f %{name}.lang
-%doc AUTHORS COPYING COPYING-DOCS COPYING.LIB NEWS README
+%doc AUTHORS COPYING COPYING.LIB NEWS README
 %{_datadir}/nautilus
+%{_datadir}/appdata/
 %{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
 %{_bindir}/*
