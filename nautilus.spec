@@ -16,10 +16,6 @@ Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.12/%{name}-%{version}.tar.xz
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Requires:       redhat-menus
-Requires:       gvfs%{_isa}
-Requires:       libexif%{_isa} >= %{libexif_version}
-Requires:       gsettings-desktop-schemas%{_isa}
 
 BuildRequires:  glib2-devel >= %{glib2_version}
 BuildRequires:  pango-devel >= %{pango_version}
@@ -40,9 +36,13 @@ BuildRequires:  gsettings-desktop-schemas-devel
 BuildRequires:  libnotify-devel
 BuildRequires:  tracker-devel
 
+Requires:       gsettings-desktop-schemas%{_isa}
+Requires:       gvfs%{_isa}
+Requires:       libexif%{_isa} >= %{libexif_version}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
 Requires:       nautilus-extensions = %{version}-%{release}
+Requires:       redhat-menus
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
