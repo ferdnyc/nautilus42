@@ -1,16 +1,17 @@
 %define glib2_version 2.35.3
 %define gnome_desktop3_version 3.0.0
 %define pango_version 1.28.3
-%define gtk3_version 3.9.11
+%define gtk3_version 3.11.6
 %define libxml2_version 2.7.8
 %define libexif_version 0.6.20
 %define exempi_version 2.1.0
 %define gobject_introspection_version 0.9.5
+%define gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.12.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.12/%{name}-%{version}.tar.xz
@@ -32,11 +33,13 @@ BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
 BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
-BuildRequires:  gsettings-desktop-schemas-devel
+BuildRequires:  gsettings-desktop-schemas-devel >= %{gsettings_desktop_schemas_version}
 BuildRequires:  libnotify-devel
 BuildRequires:  tracker-devel
 
-Requires:       gsettings-desktop-schemas%{_isa}
+Requires:       glib2%{_isa} >= %{glib2_version}
+Requires:       gsettings-desktop-schemas%{_isa} >= %{gsettings_desktop_schemas_version}
+Requires:       gtk3%{_isa} >= %{gtk3_version}
 Requires:       gvfs%{_isa}
 Requires:       libexif%{_isa} >= %{libexif_version}
 # the main binary links against libnautilus-extension.so
@@ -167,6 +170,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sat Apr 05 2014 Kalev Lember <kalevlember@gmail.com> - 3.12.0-2
+- Update dep versions
+
 * Tue Mar 25 2014 Kalev Lember <kalevlember@gmail.com> - 3.12.0-1
 - Update to 3.12.0
 
