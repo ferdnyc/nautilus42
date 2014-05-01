@@ -10,11 +10,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.12.0
-Release:        2%{?dist}
+Version:        3.13.1
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/3.12/%{name}-%{version}.tar.xz
+Source:         http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
 
@@ -145,7 +145,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
 %{_datadir}/gnome-shell/search-providers/nautilus-search-provider.ini
-%{_datadir}/dbus-1/services/org.gnome.Nautilus.SearchProvider.service
 %{_mandir}/man1/nautilus-connect-server.1.gz
 %{_mandir}/man1/nautilus.1.gz
 %{_libexecdir}/nautilus-convert-metadata
@@ -170,6 +169,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu May 01 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.1-1
+- Update to 3.13.1
+
 * Sat Apr 05 2014 Kalev Lember <kalevlember@gmail.com> - 3.12.0-2
 - Update dep versions
 
