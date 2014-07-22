@@ -137,7 +137,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 
 %files  -f %{name}.lang
 %doc AUTHORS COPYING COPYING.LIB NEWS README
-%{_datadir}/appdata/
+%{_datadir}/appdata/nautilus.appdata.xml
 %{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
 %{_bindir}/*
