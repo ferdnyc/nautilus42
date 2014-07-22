@@ -1,7 +1,7 @@
 %define glib2_version 2.35.3
 %define gnome_desktop3_version 3.0.0
 %define pango_version 1.28.3
-%define gtk3_version 3.11.6
+%define gtk3_version 3.13.2
 %define libxml2_version 2.7.8
 %define libexif_version 0.6.20
 %define exempi_version 2.1.0
@@ -10,8 +10,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.13.1
-Release:        2%{?dist}
+Version:        3.13.2
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
@@ -137,7 +137,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 
 %files  -f %{name}.lang
 %doc AUTHORS COPYING COPYING.LIB NEWS README
-%{_datadir}/nautilus
 %{_datadir}/appdata/
 %{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
@@ -169,6 +168,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Jul 22 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.2-1
+- Update to 3.13.2
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.13.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
