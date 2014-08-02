@@ -11,7 +11,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.13.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
@@ -110,6 +110,9 @@ LANG=en_US make -j1 V=1
 export tagname=CC
 LANG=en_US make install DESTDIR=$RPM_BUILD_ROOT LIBTOOL=/usr/bin/libtool
 
+mv $RPM_BUILD_ROOT%{_datadir}/appdata/nautilus.appdata.xml \
+   $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
+
 desktop-file-install --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
   --add-only-show-in GNOME                                  \
@@ -137,7 +140,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 
 %files  -f %{name}.lang
 %doc AUTHORS COPYING COPYING.LIB NEWS README
-%{_datadir}/appdata/nautilus.appdata.xml
+%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 %{_datadir}/applications/*
 %{_datadir}/mime/packages/nautilus.xml
 %{_bindir}/*
@@ -168,6 +171,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sat Aug 02 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.2-5
+- Fix appdata file name
+
 * Mon Jul 28 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.2-4
 - Rebuilt once more for tracker
 
