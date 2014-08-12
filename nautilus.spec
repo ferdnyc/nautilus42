@@ -11,7 +11,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.13.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
@@ -124,15 +124,18 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
 %find_lang %name
 
 %post
-%{_bindir}/update-mime-database %{_datadir}/mime &> /dev/null
+touch --no-create %{_datadir}/mime/packages &> /dev/null || :
 
 %postun
 if [ $1 -eq 0 ]; then
   glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
+  touch --no-create %{_datadir}/mime/packages &> /dev/null || :
+  update-mime-database -n %{_datadir}/mime &> /dev/null || :
 fi
 
 %posttrans
 glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
+update-mime-database -n %{_datadir}/mime &> /dev/null || :
 
 %post extensions -p /sbin/ldconfig
 
@@ -171,6 +174,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Aug 12 2014 Rex Dieter <rdieter@fedoraproject.org> 3.13.2-6
+- update mime scriptlet
+
 * Sat Aug 02 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.2-5
 - Fix appdata file name
 
