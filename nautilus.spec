@@ -11,7 +11,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.13.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
@@ -174,6 +174,9 @@ update-mime-database -n %{_datadir}/mime &> /dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.13.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Tue Aug 12 2014 Rex Dieter <rdieter@fedoraproject.org> 3.13.2-6
 - update mime scriptlet
 
