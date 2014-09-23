@@ -10,11 +10,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.13.92
+Version:        3.14.0
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
+Source:         http://download.gnome.org/sources/%{name}/3.14/%{name}-%{version}.tar.xz
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
 
@@ -171,6 +171,9 @@ update-mime-database -n %{_datadir}/mime &> /dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Sep 23 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.0-1
+- Update to 3.14.0
+
 * Tue Sep 16 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.92-1
 - Update to 3.13.92
 
