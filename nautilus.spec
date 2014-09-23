@@ -11,7 +11,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         http://download.gnome.org/sources/%{name}/3.14/%{name}-%{version}.tar.xz
@@ -45,7 +45,6 @@ Requires:       libexif%{_isa} >= %{libexif_version}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
 Requires:       nautilus-extensions = %{version}-%{release}
-Requires:       redhat-menus
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -171,6 +170,9 @@ update-mime-database -n %{_datadir}/mime &> /dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Sep 23 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.0-2
+- Drop redhat-menus dependency
+
 * Tue Sep 23 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.0-1
 - Update to 3.14.0
 
