@@ -1,12 +1,11 @@
-%define glib2_version 2.35.3
-%define gnome_desktop3_version 3.0.0
-%define pango_version 1.28.3
-%define gtk3_version 3.13.2
-%define libxml2_version 2.7.8
-%define libexif_version 0.6.20
-%define exempi_version 2.1.0
-%define gobject_introspection_version 0.9.5
-%define gsettings_desktop_schemas_version 3.8.0
+%global glib2_version 2.35.3
+%global gnome_desktop3_version 3.0.0
+%global gtk3_version 3.13.2
+%global libxml2_version 2.7.8
+%global libexif_version 0.6.20
+%global exempi_version 2.1.0
+%global gobject_introspection_version 0.9.5
+%global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
 Summary:        File manager for GNOME
@@ -18,24 +17,21 @@ Source:         https://download.gnome.org/sources/%{name}/3.15/%{name}-%{versio
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
 
-BuildRequires:  glib2-devel >= %{glib2_version}
-BuildRequires:  pango-devel >= %{pango_version}
-BuildRequires:  gtk3-devel >= %{gtk3_version}
-BuildRequires:  libxml2-devel >= %{libxml2_version}
-BuildRequires:  gnome-desktop3-devel >= %{gnome_desktop3_version}
-BuildRequires:  intltool >= 0.40.6-2
-BuildRequires:  libX11-devel
+BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
+BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
+BuildRequires:  pkgconfig(gnome-desktop-3.0) >= %{gnome_desktop3_version}
+BuildRequires:  pkgconfig(gobject-introspection-1.0) >= %{gobject_introspection_version}
+BuildRequires:  pkgconfig(gsettings-desktop-schemas) >= %{gsettings_desktop_schemas_version}
+BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
+BuildRequires:  pkgconfig(libexif) >= %{libexif_version}
+BuildRequires:  pkgconfig(libxml-2.0) >= %{libxml2_version}
+BuildRequires:  pkgconfig(tracker-sparql-1.0)
+BuildRequires:  pkgconfig(x11)
 BuildRequires:  desktop-file-utils
-BuildRequires:  libSM-devel
-BuildRequires:  libtool
-BuildRequires:  libexif-devel >= %{libexif_version}
-BuildRequires:  exempi-devel >= %{exempi_version}
 BuildRequires:  gettext
+BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libselinux-devel
-BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
-BuildRequires:  gsettings-desktop-schemas-devel >= %{gsettings_desktop_schemas_version}
-BuildRequires:  libnotify-devel
-BuildRequires:  tracker-devel
+BuildRequires:  libtool
 
 Requires:       glib2%{_isa} >= %{glib2_version}
 Requires:       gsettings-desktop-schemas%{_isa} >= %{gsettings_desktop_schemas_version}
@@ -165,6 +161,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %changelog
 * Sun Jan 25 2015 David King <amigadave@amigadave.com> - 3.15.4-1
 - Update to 3.15.4
+- Use pkgconfig for BuildRequires
 
 * Tue Nov 25 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.2-1
 - Update to 3.14.2
