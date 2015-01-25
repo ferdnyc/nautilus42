@@ -10,11 +10,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.14.2
+Version:        3.15.4
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         http://download.gnome.org/sources/%{name}/3.14/%{name}-%{version}.tar.xz
+Source:         https://download.gnome.org/sources/%{name}/3.15/%{name}-%{version}.tar.xz
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
 
@@ -95,7 +95,7 @@ for developing nautilus extensions.
 #%%patch4 -p1 -b .selinux
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings --disable-update-mimedb
+CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
@@ -119,19 +119,13 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
 
 %find_lang %name
 
-%post
-touch --no-create %{_datadir}/mime/packages &> /dev/null || :
-
 %postun
 if [ $1 -eq 0 ]; then
   glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
-  touch --no-create %{_datadir}/mime/packages &> /dev/null || :
-  update-mime-database -n %{_datadir}/mime &> /dev/null || :
 fi
 
 %posttrans
 glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
-update-mime-database -n %{_datadir}/mime &> /dev/null || :
 
 %post extensions -p /sbin/ldconfig
 
@@ -141,7 +135,6 @@ update-mime-database -n %{_datadir}/mime &> /dev/null || :
 %doc AUTHORS COPYING COPYING.LIB NEWS README
 %{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 %{_datadir}/applications/*
-%{_datadir}/mime/packages/nautilus.xml
 %{_bindir}/*
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
@@ -170,6 +163,9 @@ update-mime-database -n %{_datadir}/mime &> /dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sun Jan 25 2015 David King <amigadave@amigadave.com> - 3.15.4-1
+- Update to 3.15.4
+
 * Tue Nov 25 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.2-1
 - Update to 3.14.2
 
