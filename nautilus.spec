@@ -128,7 +128,8 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %postun extensions -p /sbin/ldconfig
 
 %files  -f %{name}.lang
-%doc AUTHORS COPYING COPYING.LIB NEWS README
+%doc AUTHORS NEWS README
+%license COPYING
 %{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 %{_datadir}/applications/*
 %{_bindir}/*
@@ -145,6 +146,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_sysconfdir}/xdg/autostart/nautilus-autostart.desktop
 
 %files extensions
+%license COPYING.EXTENSIONS COPYING.LIB
 %{_libdir}/libnautilus-extension.so.*
 %{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
@@ -163,6 +165,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 - Update to 3.15.4
 - Use pkgconfig for BuildRequires
 - Update man page globs in files section
+- Use license macro for license texts
 
 * Tue Nov 25 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.2-1
 - Update to 3.14.2
