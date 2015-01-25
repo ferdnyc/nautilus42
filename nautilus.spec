@@ -135,8 +135,8 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
 %{_datadir}/gnome-shell/search-providers/nautilus-search-provider.ini
-%{_mandir}/man1/nautilus-connect-server.1.gz
-%{_mandir}/man1/nautilus.1.gz
+%{_mandir}/man1/nautilus-connect-server.1*
+%{_mandir}/man1/nautilus.1*
 %{_libexecdir}/nautilus-convert-metadata
 %{_datadir}/GConf/gsettings/nautilus.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
@@ -162,6 +162,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 * Sun Jan 25 2015 David King <amigadave@amigadave.com> - 3.15.4-1
 - Update to 3.15.4
 - Use pkgconfig for BuildRequires
+- Update man page globs in files section
 
 * Tue Nov 25 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.2-1
 - Update to 3.14.2
