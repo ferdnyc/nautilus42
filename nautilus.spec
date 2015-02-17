@@ -9,7 +9,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.15.4
+Version:        3.15.90
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -161,6 +161,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Feb 17 2015 Richard Hughes <rhughes@redhat.com> - 3.15.90-1
+- Update to 3.15.90
+
 * Sun Jan 25 2015 David King <amigadave@amigadave.com> - 3.15.4-1
 - Update to 3.15.4
 - Use pkgconfig for BuildRequires
