@@ -27,6 +27,7 @@ BuildRequires:  pkgconfig(libexif) >= %{libexif_version}
 BuildRequires:  pkgconfig(libxml-2.0) >= %{libxml2_version}
 BuildRequires:  pkgconfig(tracker-sparql-1.0)
 BuildRequires:  pkgconfig(x11)
+BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  intltool >= 0.40.6-2
@@ -115,6 +116,11 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
 
 %find_lang %name
 
+
+%check
+appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
+
+
 %postun
 if [ $1 -eq 0 ]; then
   glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
@@ -163,6 +169,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %changelog
 * Thu Mar 12 2015 David King <amigadave@amigadave.com> - 3.15.91-1
 - Update to 3.15.91
+- Validate AppData in check
 
 * Tue Feb 17 2015 Richard Hughes <rhughes@redhat.com> - 3.15.90-1
 - Update to 3.15.90
