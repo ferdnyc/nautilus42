@@ -10,7 +10,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.16.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         https://download.gnome.org/sources/%{name}/3.16/%{name}-%{version}.tar.xz
@@ -33,6 +33,7 @@ BuildRequires:  gettext
 BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libselinux-devel
 BuildRequires:  libtool
+BuildRequires:  libappstream-glib
 
 Requires:       glib2%{_isa} >= %{glib2_version}
 Requires:       gsettings-desktop-schemas%{_isa} >= %{gsettings_desktop_schemas_version}
@@ -114,6 +115,17 @@ desktop-file-install --delete-original       \
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
 
+# Update the screenshot shown in the software center
+#
+# NOTE: It would be *awesome* if this file was pushed upstream.
+#
+# See http://people.freedesktop.org/~hughsient/appdata/#screenshots for more details.
+#
+appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml \
+  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/a.png \
+  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/b.png \
+  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/c.png 
+
 %find_lang %name
 
 
@@ -167,6 +179,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Mar 30 2015 Richard Hughes <rhughes@redhat.com> - 3.16.0-2
+- Use better AppData screenshots
+
 * Tue Mar 24 2015 Kalev Lember <kalevlember@gmail.com> - 3.16.0-1
 - Update to 3.16.0
 
