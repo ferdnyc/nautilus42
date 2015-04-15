@@ -9,8 +9,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.16.0
-Release:        2%{?dist}
+Version:        3.16.1
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         https://download.gnome.org/sources/%{name}/3.16/%{name}-%{version}.tar.xz
@@ -179,6 +179,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Apr 15 2015 Kalev Lember <kalevlember@gmail.com> - 3.16.1-1
+- Update to 3.16.1
+
 * Mon Mar 30 2015 Richard Hughes <rhughes@redhat.com> - 3.16.0-2
 - Use better AppData screenshots
 
