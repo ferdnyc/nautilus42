@@ -9,12 +9,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.16.1
-Release:        2%{?dist}
+Version:        3.16.2
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         https://download.gnome.org/sources/%{name}/3.16/%{name}-%{version}.tar.xz
-Patch0:         nautilus-3.16.1-fix-style-element.patch
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
 
@@ -90,7 +89,7 @@ for developing nautilus extensions.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p1 -b .style
+
 #%%patch4 -p1 -b .selinux
 
 %build
@@ -180,6 +179,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed May 13 2015 Kalev Lember <kalevlember@gmail.com> - 3.16.2-1
+- Update to 3.16.2
+
 * Mon May 04 2015 David King <amigadave@amigadave.com> - 3.16.1-2
 - Add patch to fix misplaced style element
 
