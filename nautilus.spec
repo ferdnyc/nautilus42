@@ -9,11 +9,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.16.2
+Version:        3.17.2
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         https://download.gnome.org/sources/%{name}/3.16/%{name}-%{version}.tar.xz
+Source:         https://download.gnome.org/sources/%{name}/3.17/%{name}-%{version}.tar.xz
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
 
@@ -33,7 +33,6 @@ BuildRequires:  gettext
 BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libselinux-devel
 BuildRequires:  libtool
-BuildRequires:  libappstream-glib
 
 Requires:       glib2%{_isa} >= %{glib2_version}
 Requires:       gsettings-desktop-schemas%{_isa} >= %{gsettings_desktop_schemas_version}
@@ -179,6 +178,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Fri May 29 2015 David King <amigadave@amigadave.com> - 3.17.2-1
+- Update to 3.17.2
+
 * Wed May 13 2015 Kalev Lember <kalevlember@gmail.com> - 3.16.2-1
 - Update to 3.16.2
 
