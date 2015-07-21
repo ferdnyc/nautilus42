@@ -10,7 +10,7 @@
 Name:           nautilus
 Summary:        File manager for GNOME
 Version:        3.17.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         https://download.gnome.org/sources/%{name}/3.17/%{name}-%{version}.tar.xz
@@ -178,6 +178,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Jul 21 2015 David King <amigadave@amigadave.com> - 3.17.2-3
+- Bump for new gnome-desktop3
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.17.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
