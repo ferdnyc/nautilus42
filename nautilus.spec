@@ -9,8 +9,8 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.17.2
-Release:        3%{?dist}
+Version:        3.17.3
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         https://download.gnome.org/sources/%{name}/3.17/%{name}-%{version}.tar.xz
@@ -178,6 +178,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Jul 27 2015 David King <amigadave@amigadave.com> - 3.17.3-1
+- Update to 3.17.3
+
 * Tue Jul 21 2015 David King <amigadave@amigadave.com> - 3.17.2-3
 - Bump for new gnome-desktop3
 
