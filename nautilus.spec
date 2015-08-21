@@ -1,6 +1,6 @@
 %global glib2_version 2.43.4
 %global gnome_desktop3_version 3.0.0
-%global gtk3_version 3.15.2
+%global gtk3_version 3.17.5
 %global libxml2_version 2.7.8
 %global libexif_version 0.6.20
 %global exempi_version 2.1.0
@@ -9,7 +9,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.17.3
+Version:        3.17.90
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -153,7 +153,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
 %{_datadir}/gnome-shell/search-providers/nautilus-search-provider.ini
-%{_mandir}/man1/nautilus-connect-server.1*
 %{_mandir}/man1/nautilus.1*
 %{_libexecdir}/nautilus-convert-metadata
 %{_datadir}/GConf/gsettings/nautilus.convert
@@ -178,6 +177,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Fri Aug 21 2015 Kalev Lember <klember@redhat.com> - 3.17.90-1
+- Update to 3.17.90
+
 * Mon Jul 27 2015 David King <amigadave@amigadave.com> - 3.17.3-1
 - Update to 3.17.3
 
