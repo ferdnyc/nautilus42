@@ -104,7 +104,7 @@ LANG=en_US make -j1 V=1
 
 %install
 export tagname=CC
-LANG=en_US make install DESTDIR=$RPM_BUILD_ROOT LIBTOOL=/usr/bin/libtool
+%make_install
 
 desktop-file-install --delete-original       \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
@@ -179,6 +179,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %changelog
 * Fri Aug 21 2015 Kalev Lember <klember@redhat.com> - 3.17.90-1
 - Update to 3.17.90
+- Use make_install macro
 
 * Mon Jul 27 2015 David King <amigadave@amigadave.com> - 3.17.3-1
 - Update to 3.17.3
