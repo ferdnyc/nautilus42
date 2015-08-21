@@ -87,7 +87,7 @@ This package provides libraries and header files needed
 for developing nautilus extensions.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
 #%%patch4 -p1 -b .selinux
 
@@ -98,12 +98,9 @@ CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-
 # libtool doesn't make this easy, so we do it the hard way
 sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' libtool
 
-export tagname=CC
-# disabled %{?_smp_mflags} due to racy intltool-merge
-LANG=en_US make -j1 V=1
+make %{?_smp_mflags} V=1
 
 %install
-export tagname=CC
 %make_install
 
 desktop-file-install --delete-original       \
