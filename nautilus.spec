@@ -41,7 +41,7 @@ Requires:       gvfs%{_isa}
 Requires:       libexif%{_isa} >= %{libexif_version}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
-Requires:       nautilus-extensions = %{version}-%{release}
+Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 
 Obsoletes:      nautilus-extras
 Obsoletes:      nautilus-suggested
@@ -176,6 +176,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 * Tue Sep 22 2015 Kalev Lember <klember@redhat.com> - 3.18.0-1
 - Update to 3.18.0
 - Don't pull in all of nautilus for the -extensions subpackage
+- Tighten a dep with the _isa macro
 
 * Fri Sep 04 2015 Kalev Lember <klember@redhat.com> - 3.17.91-1
 - Update to 3.17.91
