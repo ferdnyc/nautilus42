@@ -68,7 +68,6 @@ It is also responsible for handling the icons on the GNOME desktop.
 Summary:        Nautilus extensions library
 License:        LGPLv2+
 Group:          Development/Libraries
-Requires:       %{name}%{_isa} = %{version}-%{release}
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
@@ -176,6 +175,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %changelog
 * Tue Sep 22 2015 Kalev Lember <klember@redhat.com> - 3.18.0-1
 - Update to 3.18.0
+- Don't pull in all of nautilus for the -extensions subpackage
 
 * Fri Sep 04 2015 Kalev Lember <klember@redhat.com> - 3.17.91-1
 - Update to 3.17.91
