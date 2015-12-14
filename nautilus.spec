@@ -1,6 +1,6 @@
 %global glib2_version 2.45.7
 %global gnome_desktop3_version 3.0.0
-%global gtk3_version 3.18.5
+%global gtk3_version 3.19.1
 %global libxml2_version 2.7.8
 %global libexif_version 0.6.20
 %global exempi_version 2.1.0
@@ -9,11 +9,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.18.2
-Release:        2%{?dist}
+Version:        3.19.2
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         https://download.gnome.org/sources/%{name}/3.18/%{name}-%{version}.tar.xz
+Source:         https://download.gnome.org/sources/%{name}/3.19/%{name}-%{version}.tar.xz
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
 
@@ -161,6 +161,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Dec 14 2015 Kalev Lember <klember@redhat.com> - 3.19.2-1
+- Update to 3.19.2
+
 * Wed Nov 18 2015 Kalev Lember <klember@redhat.com> - 3.18.2-2
 - Bump gtk3 dep to 3.18.5 (#1283246)
 
