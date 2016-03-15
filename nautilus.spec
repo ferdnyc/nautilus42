@@ -1,6 +1,6 @@
 %global glib2_version 2.45.7
 %global gnome_desktop3_version 3.0.0
-%global gtk3_version 3.19.1
+%global gtk3_version 3.19.12
 %global libxml2_version 2.7.8
 %global libexif_version 0.6.20
 %global exempi_version 2.1.0
