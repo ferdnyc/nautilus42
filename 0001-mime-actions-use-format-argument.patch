@@ -1,0 +1,32 @@
+From 6a05bf635594359baf45ef4ac3db1f9745b73d5d Mon Sep 17 00:00:00 2001
+From: Ernestas Kulik <ernestask@src.gnome.org>
+Date: Tue, 3 May 2016 19:03:24 +0300
+Subject: [PATCH] mime-actions: use format argument
+
+The call to gtk_message_dialog_format_secondary_text() in
+show_unhandled_type_error() is missing a format argument, which causes
+build failures with -Werror=format-security.
+
+This commit adds the missing argument.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=765918
+---
+ src/nautilus-mime-actions.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/nautilus-mime-actions.c b/src/nautilus-mime-actions.c
+index 21f6246..b5e77a1 100644
+--- a/src/nautilus-mime-actions.c
++++ b/src/nautilus-mime-actions.c
+@@ -1143,7 +1143,7 @@ show_unhandled_type_error (ActivateParametersInstall *parameters)
+ 						 0,
+ 						 "%s", error_message);
+ 		gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+-							  text);
++							  "%s", text);
+ 
+ 		g_free (text);
+ 	}
+-- 
+2.5.5
+
