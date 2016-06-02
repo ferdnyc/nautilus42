@@ -9,7 +9,7 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.20.0
+Version:        3.20.1
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
@@ -159,6 +159,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Jun 02 2016 Kalev Lember <klember@redhat.com> - 3.20.1-1
+- Update to 3.20.1
+
 * Wed Mar 23 2016 Kalev Lember <klember@redhat.com> - 3.20.0-1
 - Update to 3.20.0
 
