@@ -9,13 +9,11 @@
 
 Name:           nautilus
 Summary:        File manager for GNOME
-Version:        3.20.1
+Version:        3.20.2
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          User Interface/Desktops
 Source:         https://download.gnome.org/sources/%{name}/3.20/%{name}-%{version}.tar.xz
-# Backported from upstream
-Patch0:         0001-mime-actions-use-format-argument.patch
 
 URL:            https://wiki.gnome.org/Apps/Nautilus
 
@@ -77,7 +75,6 @@ for developing nautilus extensions.
 
 %prep
 %setup -q
-%patch0 -p1
 
 #%%patch4 -p1 -b .selinux
 
@@ -162,6 +159,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Aug 01 2016 Kalev Lember <klember@redhat.com> - 3.20.2-1
+- Update to 3.20.2
+
 * Thu Jun 02 2016 Kalev Lember <klember@redhat.com> - 3.20.1-1
 - Update to 3.20.1
 
