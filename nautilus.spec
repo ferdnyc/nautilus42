@@ -13,7 +13,6 @@ Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv2+
-Group:          User Interface/Desktops
 URL:            https://wiki.gnome.org/Apps/Nautilus
 Source0:        https://download.gnome.org/sources/%{name}/3.20/%{name}-%{version}.tar.xz
 
@@ -57,7 +56,6 @@ It is also responsible for handling the icons on the GNOME desktop.
 %package extensions
 Summary:        Nautilus extensions library
 License:        LGPLv2+
-Group:          Development/Libraries
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
@@ -65,7 +63,6 @@ This package provides the libraries used by nautilus extensions.
 %package devel
 Summary:        Support for developing nautilus extensions
 License:        LGPLv2+
-Group:          Development/Libraries
 Requires:       %{name}%{_isa} = %{version}-%{release}
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 
@@ -161,6 +158,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %changelog
 * Tue Aug 30 2016 Kalev Lember <klember@redhat.com> - 3.20.3-1
 - Update to 3.20.3
+- Don't set group tags
 
 * Mon Aug 01 2016 Kalev Lember <klember@redhat.com> - 3.20.2-1
 - Update to 3.20.2
