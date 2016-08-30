@@ -8,14 +8,14 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Summary:        File manager for GNOME
 Version:        3.20.3
 Release:        1%{?dist}
+Summary:        File manager for GNOME
+
 License:        GPLv2+
 Group:          User Interface/Desktops
-Source:         https://download.gnome.org/sources/%{name}/3.20/%{name}-%{version}.tar.xz
-
 URL:            https://wiki.gnome.org/Apps/Nautilus
+Source0:        https://download.gnome.org/sources/%{name}/3.20/%{name}-%{version}.tar.xz
 
 BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
