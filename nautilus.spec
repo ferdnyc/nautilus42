@@ -85,11 +85,6 @@ make %{?_smp_mflags} V=1
 %install
 %make_install
 
-desktop-file-install --delete-original       \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications             \
-  --add-only-show-in GNOME                                  \
-  $RPM_BUILD_ROOT%{_datadir}/applications/*
-
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
@@ -107,10 +102,9 @@ appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.
 
 %find_lang %name
 
-
 %check
 appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
-
+desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 %postun
 if [ $1 -eq 0 ]; then
@@ -162,6 +156,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 * Sat Sep 03 2016 Kalev Lember <klember@redhat.com> - 3.21.91.1-1
 - Update to 3.21.91.1
 - Filter private libgd from provides and requires
+- Use upstream defaults for OnlyShowIn
 
 * Tue Aug 30 2016 Kalev Lember <klember@redhat.com> - 3.20.3-1
 - Update to 3.20.3
