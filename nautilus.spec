@@ -42,10 +42,6 @@ Requires:       libexif%{_isa} >= %{libexif_version}
 # don't depend on soname, rather on exact version
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 
-# The selinux patch is here to not lose it, should go upstream and needs
-# cleaning up to work with current nautilus git.
-#Patch4:         nautilus-2.91.8-selinux.patch
-
 # Filter private libgd from provides and requires
 %global __provides_exclude ^libgd\\.so.*$
 %global __requires_exclude ^libgd\\.so.*$
@@ -76,8 +72,6 @@ for developing nautilus extensions.
 
 %prep
 %setup -q
-
-#%%patch4 -p1 -b .selinux
 
 %build
 %configure
