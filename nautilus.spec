@@ -1,25 +1,25 @@
-%global glib2_version 2.45.7
+%global glib2_version 2.49.1
 %global gnome_desktop3_version 3.0.0
 %global gtk3_version 3.19.12
 %global libxml2_version 2.7.8
 %global libexif_version 0.6.20
 %global exempi_version 2.1.0
-%global gobject_introspection_version 0.9.5
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.20.3
+Version:        3.21.91.1
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.20/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.21/%{name}-%{version}.tar.xz
 
 BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
+BuildRequires:  pkgconfig(gnome-autoar-0)
 BuildRequires:  pkgconfig(gnome-desktop-3.0) >= %{gnome_desktop3_version}
-BuildRequires:  pkgconfig(gobject-introspection-1.0) >= %{gobject_introspection_version}
+BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gsettings-desktop-schemas) >= %{gsettings_desktop_schemas_version}
 BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
 BuildRequires:  pkgconfig(libexif) >= %{libexif_version}
@@ -76,7 +76,7 @@ for developing nautilus extensions.
 #%%patch4 -p1 -b .selinux
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -g -DNAUTILUS_OMIT_SELF_CHECK" %configure --disable-more-warnings
+%configure
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
@@ -93,6 +93,7 @@ desktop-file-install --delete-original       \
   $RPM_BUILD_ROOT%{_datadir}/applications/*
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
 
 # Update the screenshot shown in the software center
@@ -134,10 +135,14 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
 %{_datadir}/gnome-shell/search-providers/nautilus-search-provider.ini
+%{_datadir}/icons/hicolor/*/apps/org.gnome.Nautilus.png
+%{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Nautilus-symbolic.svg
 %{_mandir}/man1/nautilus.1*
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
+%dir %{_libdir}/nautilus
 %dir %{_libdir}/nautilus/extensions-3.0
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
+%{_libdir}/nautilus/libgd.so
 %{_sysconfdir}/xdg/autostart/nautilus-autostart.desktop
 
 %files extensions
@@ -156,6 +161,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sat Sep 03 2016 Kalev Lember <klember@redhat.com> - 3.21.91.1-1
+- Update to 3.21.91.1
+
 * Tue Aug 30 2016 Kalev Lember <klember@redhat.com> - 3.20.3-1
 - Update to 3.20.3
 - Don't set group tags
