@@ -109,7 +109,7 @@ appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
+appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 
 
 %postun
