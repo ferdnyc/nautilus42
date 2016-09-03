@@ -85,9 +85,7 @@ make %{?_smp_mflags} V=1
 %install
 %make_install
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
+find $RPM_BUILD_ROOT -name '*.la' -delete
 
 # Update the screenshot shown in the software center
 #
