@@ -46,6 +46,10 @@ Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 # cleaning up to work with current nautilus git.
 #Patch4:         nautilus-2.91.8-selinux.patch
 
+# Filter private libgd from provides and requires
+%global __provides_exclude ^libgd\\.so.*$
+%global __requires_exclude ^libgd\\.so.*$
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -163,6 +167,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %changelog
 * Sat Sep 03 2016 Kalev Lember <klember@redhat.com> - 3.21.91.1-1
 - Update to 3.21.91.1
+- Filter private libgd from provides and requires
 
 * Tue Aug 30 2016 Kalev Lember <klember@redhat.com> - 3.20.3-1
 - Update to 3.20.3
