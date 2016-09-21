@@ -1,19 +1,19 @@
 %global glib2_version 2.49.1
 %global gnome_desktop3_version 3.0.0
-%global gtk3_version 3.21.5
+%global gtk3_version 3.21.6
 %global libxml2_version 2.7.8
 %global libexif_version 0.6.20
 %global exempi_version 2.1.0
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.21.92
+Version:        3.22.0
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.21/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.22/%{name}-%{version}.tar.xz
 
 BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
@@ -146,6 +146,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Sep 21 2016 Kalev Lember <klember@redhat.com> - 3.22.0-1
+- Update to 3.22.0
+
 * Fri Sep 16 2016 Kalev Lember <klember@redhat.com> - 3.21.92-1
 - Update to 3.21.92
 
