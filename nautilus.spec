@@ -7,7 +7,7 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.22.1
+Version:        3.22.2
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -146,6 +146,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Dec 12 2016 David King <amigadave@amigadave.com> - 3.22.2-1
+- Update to 3.22.2
+
 * Fri Oct 14 2016 Kalev Lember <klember@redhat.com> - 3.22.1-1
 - Update to 3.22.1
 
