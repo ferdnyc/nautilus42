@@ -42,6 +42,9 @@ Requires:       libexif%{_isa} >= %{libexif_version}
 # don't depend on soname, rather on exact version
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 
+# Explicitly conflict with older gedit for "enable-delete" setting removal
+Conflicts:      gedit < 2:3.16.0
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
