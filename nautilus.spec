@@ -30,7 +30,11 @@ BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
-BuildRequires:  libtool
+# For autogen.sh
+BuildRequires:  autoconf automake libtool
+BuildRequires:  autoconf-archive
+BuildRequires:  gettext-devel
+BuildRequires:  gtk-doc
 
 Requires:       glib2%{_isa} >= %{glib2_version}
 Requires:       gsettings-desktop-schemas%{_isa} >= %{gsettings_desktop_schemas_version}
@@ -72,7 +76,8 @@ for developing nautilus extensions.
 %setup -q
 
 %build
-%configure
+NOCONFIGURE=1 ./autogen.sh
+%configure --enable-gtk-doc
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
