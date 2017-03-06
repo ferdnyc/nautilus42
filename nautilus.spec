@@ -7,7 +7,7 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.23.90
+Version:        3.23.91
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -29,7 +29,6 @@ BuildRequires:  pkgconfig(x11)
 BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
-BuildRequires:  intltool >= 0.40.6-2
 BuildRequires:  libselinux-devel
 BuildRequires:  libtool
 
@@ -149,6 +148,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Mar 06 2017 Kalev Lember <klember@redhat.com> - 3.23.91-1
+- Update to 3.23.91
+
 * Wed Feb 15 2017 Richard Hughes <rhughes@redhat.com> - 3.23.90-1
 - Update to 3.23.90
 
