@@ -7,7 +7,7 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.23.91
+Version:        3.23.92
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -30,11 +30,6 @@ BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  libselinux-devel
-# For autogen.sh
-BuildRequires:  autoconf automake libtool
-BuildRequires:  autoconf-archive
-BuildRequires:  gettext-devel
-BuildRequires:  gtk-doc
 
 Requires:       glib2%{_isa} >= %{glib2_version}
 Requires:       gsettings-desktop-schemas%{_isa} >= %{gsettings_desktop_schemas_version}
@@ -76,8 +71,7 @@ for developing nautilus extensions.
 %setup -q
 
 %build
-NOCONFIGURE=1 ./autogen.sh
-%configure --enable-gtk-doc
+%configure
 
 # drop unneeded direct library deps with --as-needed
 # libtool doesn't make this easy, so we do it the hard way
@@ -153,6 +147,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Fri Mar 17 2017 Kalev Lember <klember@redhat.com> - 3.23.92-1
+- Update to 3.23.92
+
 * Mon Mar 06 2017 Kalev Lember <klember@redhat.com> - 3.23.91-1
 - Update to 3.23.91
 
