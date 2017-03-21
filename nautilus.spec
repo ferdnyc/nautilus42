@@ -7,13 +7,13 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.23.92
+Version:        3.24.0
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.23/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.24/%{name}-%{version}.tar.xz
 
 BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
@@ -147,6 +147,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Mar 21 2017 Kalev Lember <klember@redhat.com> - 3.24.0-1
+- Update to 3.24.0
+
 * Fri Mar 17 2017 Kalev Lember <klember@redhat.com> - 3.23.92-1
 - Update to 3.23.92
 
