@@ -8,7 +8,7 @@
 
 Name:           nautilus
 Version:        3.24.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv2+
@@ -24,7 +24,7 @@ BuildRequires:  pkgconfig(gsettings-desktop-schemas) >= %{gsettings_desktop_sche
 BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
 BuildRequires:  pkgconfig(libexif) >= %{libexif_version}
 BuildRequires:  pkgconfig(libxml-2.0) >= %{libxml2_version}
-BuildRequires:  pkgconfig(tracker-sparql-1.0)
+BuildRequires:  pkgconfig(tracker-sparql-2.0)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  desktop-file-utils
@@ -147,6 +147,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Jul 27 2017 Debarshi Ray <rishi@fedoraproject.org> - 3.24.2.1-3
+- Rebuild against tracker-2.0
+
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
