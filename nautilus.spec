@@ -11,10 +11,15 @@ Version:        3.25.1
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
-License:        GPLv2+
+License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
 Source0:        https://download.gnome.org/sources/%{name}/3.25/%{name}-%{version}.tar.xz
 
+# Backported from upstream
+Patch0:         0001-build-Bump-optional-tracker-dependency-to-2.0.patch
+
+BuildRequires:  gtk-doc
+BuildRequires:  meson
 BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0)
@@ -68,21 +73,14 @@ This package provides libraries and header files needed
 for developing nautilus extensions.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
-%configure
-
-# drop unneeded direct library deps with --as-needed
-# libtool doesn't make this easy, so we do it the hard way
-sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' libtool
-
-make %{?_smp_mflags} V=1
+%meson -Denable-gtk-doc=true
+%meson_build
 
 %install
-%make_install
-
-find $RPM_BUILD_ROOT -name '*.la' -delete
+%meson_install
 
 # Update the screenshot shown in the software center
 #
@@ -114,8 +112,8 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %postun extensions -p /sbin/ldconfig
 
 %files  -f %{name}.lang
-%doc AUTHORS NEWS README
-%license COPYING
+%doc NEWS README
+%license LICENSE*
 %{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 %{_datadir}/applications/*
 %{_bindir}/*
@@ -132,7 +130,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_sysconfdir}/xdg/autostart/nautilus-autostart.desktop
 
 %files extensions
-%license COPYING.EXTENSIONS COPYING.LIB
 %{_libdir}/libnautilus-extension.so.*
 %{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
@@ -149,6 +146,8 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %changelog
 * Tue Aug 01 2017 Kalev Lember <klember@redhat.com> - 3.25.1-1
 - Update to 3.25.1
+- Switch to the meson build system
+- Reflect upstream license change to GPLv3+
 
 * Thu Jul 27 2017 Debarshi Ray <rishi@fedoraproject.org> - 3.24.2.1-3
 - Rebuild against tracker-2.0
