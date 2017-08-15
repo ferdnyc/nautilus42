@@ -7,16 +7,13 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.25.1
+Version:        3.25.90
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
 Source0:        https://download.gnome.org/sources/%{name}/3.25/%{name}-%{version}.tar.xz
-
-# Backported from upstream
-Patch0:         0001-build-Bump-optional-tracker-dependency-to-2.0.patch
 
 BuildRequires:  gtk-doc
 BuildRequires:  meson
@@ -113,7 +110,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 
 %files  -f %{name}.lang
 %doc NEWS README
-%license LICENSE*
+%license LICENSE
 %{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 %{_datadir}/applications/*
 %{_bindir}/*
@@ -130,6 +127,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %{_sysconfdir}/xdg/autostart/nautilus-autostart.desktop
 
 %files extensions
+%license libnautilus-extension/LICENSE
 %{_libdir}/libnautilus-extension.so.*
 %{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
@@ -144,6 +142,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Aug 15 2017 Kalev Lember <klember@redhat.com> - 3.25.90-1
+- Update to 3.25.90
+
 * Tue Aug 01 2017 Kalev Lember <klember@redhat.com> - 3.25.1-1
 - Update to 3.25.1
 - Switch to the meson build system
