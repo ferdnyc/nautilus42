@@ -1,13 +1,13 @@
 %global glib2_version 2.51.2
 %global gnome_desktop3_version 3.0.0
-%global gtk3_version 3.21.6
+%global gtk3_version 3.22.6
 %global libxml2_version 2.7.8
 %global libexif_version 0.6.20
 %global exempi_version 2.1.0
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.25.90
+Version:        3.25.92
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -142,6 +142,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Sep 05 2017 Kalev Lember <klember@redhat.com> - 3.25.92-1
+- Update to 3.25.92
+
 * Tue Aug 15 2017 Kalev Lember <klember@redhat.com> - 3.25.90-1
 - Update to 3.25.90
 
