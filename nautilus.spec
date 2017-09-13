@@ -7,13 +7,13 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.25.92
+Version:        3.26.0
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.25/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.26/%{name}-%{version}.tar.xz
 
 BuildRequires:  gtk-doc
 BuildRequires:  meson
@@ -109,7 +109,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %postun extensions -p /sbin/ldconfig
 
 %files  -f %{name}.lang
-%doc NEWS README
+%doc NEWS README.md
 %license LICENSE
 %{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 %{_datadir}/applications/*
@@ -142,6 +142,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Sep 13 2017 Kalev Lember <klember@redhat.com> - 3.26.0-1
+- Update to 3.26.0
+
 * Tue Sep 05 2017 Kalev Lember <klember@redhat.com> - 3.25.92-1
 - Update to 3.25.92
 
