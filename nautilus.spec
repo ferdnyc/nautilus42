@@ -8,7 +8,7 @@
 
 Name:           nautilus
 Version:        3.26.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -135,7 +135,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
-* Wed Nov 08 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org>
+* Wed Nov 08 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.26.0-2
 - Remove obsolete scriptlets
 - Add BuildRequires: gcc
 
