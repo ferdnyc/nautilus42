@@ -17,6 +17,7 @@ Source0:        https://download.gnome.org/sources/%{name}/3.26/%{name}-%{versio
 
 BuildRequires:  gtk-doc
 BuildRequires:  meson
+BuildRequires:  gcc
 BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0)
@@ -96,14 +97,6 @@ appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.
 appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
-%postun
-if [ $1 -eq 0 ]; then
-  glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
-fi
-
-%posttrans
-glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
-
 %post extensions -p /sbin/ldconfig
 
 %postun extensions -p /sbin/ldconfig
@@ -142,6 +135,10 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas >&/dev/null || :
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Nov 08 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org>
+- Remove obsolete scriptlets
+- Add BuildRequires: gcc
+
 * Wed Sep 13 2017 Kalev Lember <klember@redhat.com> - 3.26.0-1
 - Update to 3.26.0
 
