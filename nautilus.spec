@@ -7,8 +7,8 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.26.0
-Release:        2%{?dist}
+Version:        3.26.2
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -135,6 +135,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Nov 21 2017 Kalev Lember <klember@redhat.com> - 3.26.2-1
+- Update to 3.26.2
+
 * Wed Nov 08 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.26.0-2
 - Remove obsolete scriptlets
 - Add BuildRequires: gcc
