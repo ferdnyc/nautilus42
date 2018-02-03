@@ -8,7 +8,7 @@
 
 Name:           nautilus
 Version:        3.26.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -97,9 +97,7 @@ appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.
 appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
-%post extensions -p /sbin/ldconfig
-
-%postun extensions -p /sbin/ldconfig
+%ldconfig_scriptlets extensions
 
 %files  -f %{name}.lang
 %doc NEWS README.md
@@ -135,6 +133,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sat Feb 03 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.26.2-2
+- Switch to %%ldconfig_scriptlets
+
 * Tue Nov 21 2017 Kalev Lember <klember@redhat.com> - 3.26.2-1
 - Update to 3.26.2
 
