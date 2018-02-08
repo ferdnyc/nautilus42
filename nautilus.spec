@@ -8,7 +8,7 @@
 
 Name:           nautilus
 Version:        3.26.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -133,6 +133,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.26.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Sat Feb 03 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.26.2-2
 - Switch to %%ldconfig_scriptlets
 
