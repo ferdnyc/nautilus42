@@ -1,24 +1,25 @@
-%global glib2_version 2.51.2
+%global glib2_version 2.55.1
 %global gnome_desktop3_version 3.0.0
-%global gtk3_version 3.22.6
+%global gtk3_version 3.22.26
 %global libxml2_version 2.7.8
 %global libexif_version 0.6.20
 %global exempi_version 2.1.0
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.26.2
-Release:        4%{?dist}
+Version:        3.27.92.1
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.26/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.27/%{name}-%{version}.tar.xz
 
 BuildRequires:  gtk-doc
 BuildRequires:  meson
 BuildRequires:  gcc
 BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
+BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0)
 BuildRequires:  pkgconfig(gnome-desktop-3.0) >= %{gnome_desktop3_version}
@@ -74,7 +75,7 @@ for developing nautilus extensions.
 %autosetup -p1
 
 %build
-%meson -Denable-gtk-doc=true
+%meson -Ddocs=true
 %meson_build
 
 %install
@@ -86,7 +87,7 @@ for developing nautilus extensions.
 #
 # See http://people.freedesktop.org/~hughsient/appdata/#screenshots for more details.
 #
-appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml \
+appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml \
   https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/a.png \
   https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/b.png \
   https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/c.png 
@@ -94,7 +95,7 @@ appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.
 %find_lang %name
 
 %check
-appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
+appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 %ldconfig_scriptlets extensions
@@ -102,7 +103,6 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %files  -f %{name}.lang
 %doc NEWS README.md
 %license LICENSE
-%{_datadir}/appdata/org.gnome.Nautilus.appdata.xml
 %{_datadir}/applications/*
 %{_bindir}/*
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
@@ -112,10 +112,11 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Nautilus-symbolic.svg
 %{_mandir}/man1/nautilus.1*
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
+%{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
 %dir %{_libdir}/nautilus
 %dir %{_libdir}/nautilus/extensions-3.0
+%{_libdir}/nautilus/extensions-3.0/libnautilus-image-properties.so
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
-%{_sysconfdir}/xdg/autostart/nautilus-autostart.desktop
 
 %files extensions
 %license libnautilus-extension/LICENSE
@@ -133,6 +134,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Mar 05 2018 Kalev Lember <klember@redhat.com> - 3.27.92.1-1
+- Update to 3.27.92.1
+
 * Tue Feb 13 2018 Björn Esser <besser82@fedoraproject.org> - 3.26.2-4
 - Rebuild against newer gnome-desktop3 package
 
