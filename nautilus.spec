@@ -74,6 +74,9 @@ for developing nautilus extensions.
 %prep
 %autosetup -p1
 
+# Remove -Werror from compiler flags
+sed -i '/-Werror/d' meson.build
+
 %build
 %meson -Ddocs=true
 %meson_build
@@ -136,6 +139,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %changelog
 * Mon Mar 05 2018 Kalev Lember <klember@redhat.com> - 3.27.92.1-1
 - Update to 3.27.92.1
+- Remove -Werror from compiler flags
 
 * Tue Feb 13 2018 Björn Esser <besser82@fedoraproject.org> - 3.26.2-4
 - Rebuild against newer gnome-desktop3 package
