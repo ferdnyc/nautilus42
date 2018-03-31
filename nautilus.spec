@@ -8,7 +8,7 @@
 
 Name:           nautilus
 Version:        3.28.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -78,22 +78,11 @@ for developing nautilus extensions.
 sed -i '/-Werror/d' meson.build
 
 %build
-%meson -Ddocs=true
+%meson -Ddocs=true -Dselinux=true
 %meson_build
 
 %install
 %meson_install
-
-# Update the screenshot shown in the software center
-#
-# NOTE: It would be *awesome* if this file was pushed upstream.
-#
-# See http://people.freedesktop.org/~hughsient/appdata/#screenshots for more details.
-#
-appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml \
-  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/a.png \
-  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/b.png \
-  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/org.gnome.Nautilus/c.png 
 
 %find_lang %name
 
@@ -137,6 +126,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sat Mar 31 2018 Michael Catanzaro <mcatanzaro@gnome.org> - 3.28.0.1-2
+- Build with -Dselinux=true to turn it on explicitly, and remove downstream screenshots
+
 * Thu Mar 15 2018 Kalev Lember <klember@redhat.com> - 3.28.0.1-1
 - Update to 3.28.0.1
 
