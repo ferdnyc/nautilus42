@@ -99,6 +99,8 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_bindir}/*
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
+%dir %{_datadir}/gnome-shell
+%dir %{_datadir}/gnome-shell/search-providers
 %{_datadir}/gnome-shell/search-providers/org.gnome.Nautilus.search-provider.ini
 %{_datadir}/icons/hicolor/*/apps/org.gnome.Nautilus.png
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Nautilus-symbolic.svg
@@ -128,6 +130,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %changelog
 * Mon Apr 09 2018 Kalev Lember <klember@redhat.com> - 3.28.1-1
 - Update to 3.28.1
+- Fix /usr/share/gnome-shell directory ownership
 
 * Sat Mar 31 2018 Michael Catanzaro <mcatanzaro@gnome.org> - 3.28.0.1-2
 - Build with -Dselinux=true to turn it on explicitly, and remove downstream screenshots
