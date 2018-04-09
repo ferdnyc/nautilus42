@@ -7,8 +7,8 @@
 %global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.28.0.1
-Release:        2%{?dist}
+Version:        3.28.1
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -99,7 +99,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_bindir}/*
 %{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
-%{_datadir}/gnome-shell/search-providers/nautilus-search-provider.ini
+%{_datadir}/gnome-shell/search-providers/org.gnome.Nautilus.search-provider.ini
 %{_datadir}/icons/hicolor/*/apps/org.gnome.Nautilus.png
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Nautilus-symbolic.svg
 %{_mandir}/man1/nautilus.1*
@@ -126,6 +126,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Apr 09 2018 Kalev Lember <klember@redhat.com> - 3.28.1-1
+- Update to 3.28.1
+
 * Sat Mar 31 2018 Michael Catanzaro <mcatanzaro@gnome.org> - 3.28.0.1-2
 - Build with -Dselinux=true to turn it on explicitly, and remove downstream screenshots
 
