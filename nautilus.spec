@@ -1,45 +1,37 @@
 %global glib2_version 2.55.1
-%global gnome_desktop3_version 3.0.0
-%global gtk3_version 3.22.26
-%global libxml2_version 2.7.8
-%global libexif_version 0.6.20
-%global exempi_version 2.1.0
-%global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
-Version:        3.29.90.1
+Version:        3.30.0
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.29/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.30/%{name}-%{version}.tar.xz
 
-BuildRequires:  gtk-doc
-BuildRequires:  meson
+BuildRequires:  meson >= 0.46.0
 BuildRequires:  gcc
-BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
-BuildRequires:  pkgconfig(gexiv2)
+BuildRequires:  gtk-doc
+BuildRequires:  pkgconfig(gexiv2) >= 0.10.0
+BuildRequires:  pkgconfig(gio-2.0) >= %{glib2_version}
+BuildRequires:  pkgconfig(gio-unix-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
-BuildRequires:  pkgconfig(gnome-autoar-0)
-BuildRequires:  pkgconfig(gnome-desktop-3.0) >= %{gnome_desktop3_version}
+BuildRequires:  pkgconfig(gmodule-no-export-2.0) >= %{glib2_version}
+BuildRequires:  pkgconfig(gnome-autoar-0) >= 0.2.1
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
-BuildRequires:  pkgconfig(gsettings-desktop-schemas) >= %{gsettings_desktop_schemas_version}
-BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
-BuildRequires:  pkgconfig(libexif) >= %{libexif_version}
-BuildRequires:  pkgconfig(libxml-2.0) >= %{libxml2_version}
+BuildRequires:  pkgconfig(gsettings-desktop-schemas)
+BuildRequires:  pkgconfig(gtk+-3.0) >= 3.22.27
+BuildRequires:  pkgconfig(libseccomp)
+BuildRequires:  pkgconfig(libselinux) >= 2.0
+BuildRequires:  pkgconfig(libxml-2.0) >= 2.7.8
 BuildRequires:  pkgconfig(tracker-sparql-2.0)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
-BuildRequires:  libselinux-devel
 
 Requires:       glib2%{_isa} >= %{glib2_version}
-Requires:       gsettings-desktop-schemas%{_isa} >= %{gsettings_desktop_schemas_version}
-Requires:       gtk3%{_isa} >= %{gtk3_version}
 Requires:       gvfs%{_isa}
-Requires:       libexif%{_isa} >= %{libexif_version}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
@@ -78,7 +70,12 @@ for developing nautilus extensions.
 sed -i '/-Werror/d' meson.build
 
 %build
-%meson -Ddocs=true -Dselinux=true
+%meson \
+  -Ddocs=true \
+  -Dextensions=true \
+  -Dintrospection=true \
+  -Dselinux=true \
+  %{nil}
 %meson_build
 
 %install
@@ -128,6 +125,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Sep 05 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.30.0-1
+- Update to 3.30.0
+
 * Mon Aug 13 2018 Kalev Lember <klember@redhat.com> - 3.29.90.1-1
 - Update to 3.29.90.1
 
