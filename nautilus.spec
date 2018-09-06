@@ -70,7 +70,12 @@ for developing nautilus extensions.
 sed -i '/-Werror/d' meson.build
 
 %build
-%meson -Ddocs=true -Dselinux=true
+%meson \
+  -Ddocs=true \
+  -Dextensions=true \
+  -Dintrospection=true \
+  -Dselinux=true \
+  %{nil}
 %meson_build
 
 %install
