@@ -1,10 +1,5 @@
 %global glib2_version 2.55.1
-%global gnome_desktop3_version 3.0.0
 %global gtk3_version 3.22.27
-%global libxml2_version 2.7.8
-%global libexif_version 0.6.20
-%global exempi_version 2.1.0
-%global gsettings_desktop_schemas_version 3.8.0
 
 Name:           nautilus
 Version:        3.30.0
@@ -15,31 +10,28 @@ License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
 Source0:        https://download.gnome.org/sources/%{name}/3.30/%{name}-%{version}.tar.xz
 
+BuildRequires:  desktop-file-utils
+BuildRequires:  gcc
+BuildRequires:  gettext
 BuildRequires:  gtk-doc
 BuildRequires:  meson
-BuildRequires:  gcc
-BuildRequires:  pkgconfig(exempi-2.0) >= %{exempi_version}
 BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0)
-BuildRequires:  pkgconfig(gnome-desktop-3.0) >= %{gnome_desktop3_version}
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
-BuildRequires:  pkgconfig(gsettings-desktop-schemas) >= %{gsettings_desktop_schemas_version}
+BuildRequires:  pkgconfig(gsettings-desktop-schemas)
 BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
-BuildRequires:  pkgconfig(libexif) >= %{libexif_version}
-BuildRequires:  pkgconfig(libxml-2.0) >= %{libxml2_version}
+BuildRequires:  pkgconfig(libseccomp)
+BuildRequires:  pkgconfig(libselinux)
+BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(tracker-sparql-2.0)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  /usr/bin/appstream-util
-BuildRequires:  desktop-file-utils
-BuildRequires:  gettext
-BuildRequires:  libselinux-devel
 
 Requires:       glib2%{_isa} >= %{glib2_version}
-Requires:       gsettings-desktop-schemas%{_isa} >= %{gsettings_desktop_schemas_version}
+Requires:       gsettings-desktop-schemas%{_isa}
 Requires:       gtk3%{_isa} >= %{gtk3_version}
 Requires:       gvfs%{_isa}
-Requires:       libexif%{_isa} >= %{libexif_version}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
