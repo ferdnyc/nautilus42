@@ -2,13 +2,13 @@
 %global gtk3_version 3.22.27
 
 Name:           nautilus
-Version:        3.30.5
-Release:        2%{?dist}
+Version:        3.31.90
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.30/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.31/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -99,7 +99,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %dir %{_datadir}/gnome-shell
 %dir %{_datadir}/gnome-shell/search-providers
 %{_datadir}/gnome-shell/search-providers/org.gnome.Nautilus.search-provider.ini
-%{_datadir}/icons/hicolor/*/apps/org.gnome.Nautilus.png
+%{_datadir}/icons/hicolor/scalable/apps/org.gnome.Nautilus.svg
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Nautilus-symbolic.svg
 %{_mandir}/man1/nautilus.1*
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
@@ -125,6 +125,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Feb 06 2019 Kalev Lember <klember@redhat.com> - 3.31.90-1
+- Update to 3.31.90
+
 * Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.30.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
