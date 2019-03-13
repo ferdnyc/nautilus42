@@ -1,14 +1,14 @@
-%global glib2_version 2.55.1
+%global glib2_version 2.58.1
 %global gtk3_version 3.22.27
 
 Name:           nautilus
-Version:        3.31.90
+Version:        3.32.0
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.31/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.32/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -20,6 +20,8 @@ BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0)
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gsettings-desktop-schemas)
+BuildRequires:  pkgconfig(gstreamer-pbutils-1.0)
+BuildRequires:  pkgconfig(gstreamer-tag-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
 BuildRequires:  pkgconfig(libseccomp)
 BuildRequires:  pkgconfig(libselinux)
@@ -38,6 +40,8 @@ Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 
 # Explicitly conflict with older gedit for "enable-delete" setting removal
 Conflicts:      gedit < 2:3.16.0
+# libtotem-properties-page.so was shipped in totem-nautilus before
+Conflicts:      totem-nautilus < 1:3.31.91
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -108,6 +112,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %dir %{_libdir}/nautilus/extensions-3.0
 %{_libdir}/nautilus/extensions-3.0/libnautilus-image-properties.so
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
+%{_libdir}/nautilus/extensions-3.0/libtotem-properties-page.so
 
 %files extensions
 %license libnautilus-extension/LICENSE
@@ -125,6 +130,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Mar 13 2019 Kalev Lember <klember@redhat.com> - 3.32.0-1
+- Update to 3.32.0
+- Move libtotem-properties-page.so extension here from totem-nautilus
+
 * Wed Feb 06 2019 Kalev Lember <klember@redhat.com> - 3.31.90-1
 - Update to 3.31.90
 
