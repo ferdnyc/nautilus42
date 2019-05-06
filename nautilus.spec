@@ -2,7 +2,7 @@
 %global gtk3_version 3.22.27
 
 Name:           nautilus
-Version:        3.32.0
+Version:        3.32.1
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -130,6 +130,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon May 06 2019 Kalev Lember <klember@redhat.com> - 3.32.1-1
+- Update to 3.32.1
+
 * Wed Mar 13 2019 Kalev Lember <klember@redhat.com> - 3.32.0-1
 - Update to 3.32.0
 - Move libtotem-properties-page.so extension here from totem-nautilus
