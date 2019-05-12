@@ -3,7 +3,7 @@
 
 Name:           nautilus
 Version:        3.32.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -37,6 +37,8 @@ Requires:       gvfs%{_isa}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
+# For the org.freedesktop.Tracker.Miner.Files GSettings schema.
+Requires:       tracker-miners
 
 # Explicitly conflict with older gedit for "enable-delete" setting removal
 Conflicts:      gedit < 2:3.16.0
@@ -130,6 +132,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sun May 12 2019 Ernestas Kulik <ekulik@redhat.com> - 3.32.1-2
+- Add tracker-miners dependency (rhbz#1695400)
+
 * Mon May 06 2019 Kalev Lember <klember@redhat.com> - 3.32.1-1
 - Update to 3.32.1
 
