@@ -3,7 +3,7 @@
 
 Name:           nautilus
 Version:        3.32.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -132,6 +132,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Sun May 12 2019 Ernestas Kulik <ekulik@redhat.com> - 3.32.1-2
 - Add tracker-miners dependency (rhbz#1695400)
 
