@@ -41,8 +41,6 @@ Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 # For the org.freedesktop.Tracker.Miner.Files GSettings schema.
 Requires:       tracker-miners
 
-# Explicitly conflict with older gedit for "enable-delete" setting removal
-Conflicts:      gedit < 2:3.16.0
 # libtotem-properties-page.so was shipped in totem-nautilus before
 Conflicts:      totem-nautilus < 1:3.31.91
 
