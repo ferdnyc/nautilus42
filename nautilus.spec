@@ -3,7 +3,7 @@
 
 Name:           nautilus
 Version:        3.35.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -132,6 +132,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Jan 16 2020 Kalev Lember <klember@redhat.com> - 3.35.2-2
+- Rebuilt for libgnome-desktop soname bump
+
 * Mon Dec 02 2019 Kalev Lember <klember@redhat.com> - 3.35.2-1
 - Update to 3.35.2
 
