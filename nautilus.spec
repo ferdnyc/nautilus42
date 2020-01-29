@@ -3,7 +3,7 @@
 
 Name:           nautilus
 Version:        3.35.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -132,6 +132,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.35.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Thu Jan 16 2020 Kalev Lember <klember@redhat.com> - 3.35.2-2
 - Rebuilt for libgnome-desktop soname bump
 
