@@ -1,10 +1,31 @@
-From 759cbb3a7b6d633b55f367a913c1f7b5abb380bd Mon Sep 17 00:00:00 2001
+From a1f80ac9b4fa2cf8f27e53badeed473b913b0aa0 Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Thu, 6 Feb 2020 15:04:31 +0100
-Subject: [PATCH] Revert "mime-actions: launch default uri handlers when
- activating files"
+Subject: [PATCH] mime-actions: Group files depending on the opening app
+
+Reinstate the old behaviour which used to look at the files to open,
+group them by handling application, and pass a single call to each
+application with all the files it could handle.
+
+For the common case where it's a single application handling all the
+files, as is usual for handling media files (images, videos, music,
+etc.), it changes the launching behaviour from:
+application.bin foo.mp3
+application.bin foo2.mp3
+application.bin foo3.mp3
+to:
+application.bin foo.mp3 foo2.mp3 foo3.mp3
+
+This however impacts the behaviour of nautilus launching applications
+when inside a Flatpak sandbox, as it cannot enumerate and launch
+applications itself. As the Flatpak sandbox is a development tool, and
+for the sake of expediency, we reverted to the old code path.
+
+Revert "mime-actions: launch default uri handlers when activating files"
 
 This reverts commit f5206a6daf0991d91e885a28bb66795a8ae12a41.
+
+Closes: #117
 ---
  src/nautilus-mime-actions.c     | 268 +++++++++++++++++++++++---------
  src/nautilus-program-choosing.c | 190 +++-------------------

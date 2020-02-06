@@ -46,7 +46,8 @@ Requires:       tracker-miners
 Conflicts:      totem-nautilus < 1:3.31.91
 
 # https://gitlab.gnome.org/GNOME/nautilus/issues/117#note_496825
-Patch0: 0001-Revert-mime-actions-launch-default-uri-handlers-when.patch
+# https://gitlab.gnome.org/GNOME/nautilus/merge_requests/518
+Patch0: 0001-mime-actions-Group-files-depending-on-the-opening-ap.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
