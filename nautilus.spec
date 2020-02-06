@@ -3,7 +3,7 @@
 
 Name:           nautilus
 Version:        3.35.90
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -15,6 +15,7 @@ BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  gtk-doc
 BuildRequires:  meson
+BuildRequires:  git
 BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0)
@@ -44,6 +45,9 @@ Requires:       tracker-miners
 # libtotem-properties-page.so was shipped in totem-nautilus before
 Conflicts:      totem-nautilus < 1:3.31.91
 
+# https://gitlab.gnome.org/GNOME/nautilus/issues/117#note_496825
+Patch0: 0001-Revert-mime-actions-launch-default-uri-handlers-when.patch
+
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
 that makes it easy to manage your files and the rest of your system.
@@ -69,7 +73,7 @@ This package provides libraries and header files needed
 for developing nautilus extensions.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -S git
 
 # Remove -Werror from compiler flags
 sed -i '/-Werror/d' meson.build
@@ -132,6 +136,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Feb 06 2020 Bastien Nocera <bnocera@redhat.com> - 3.35.90-2
++ nautilus-3.35.90-2
+- Fix launching multiple files at once
+
 * Sun Feb 02 2020 Kalev Lember <klember@redhat.com> - 3.35.90-1
 - Update to 3.35.90
 
