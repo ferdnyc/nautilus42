@@ -2,8 +2,8 @@
 %global gtk3_version 3.22.27
 
 Name:           nautilus
-Version:        3.35.90
-Release:        2%{?dist}
+Version:        3.35.91.1
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -137,6 +137,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Feb 17 2020 Kalev Lember <klember@redhat.com> - 3.35.91.1-1
+- Update to 3.35.91.1
+
 * Thu Feb 06 2020 Bastien Nocera <bnocera@redhat.com> - 3.35.90-2
 + nautilus-3.35.90-2
 - Fix launching multiple files at once
