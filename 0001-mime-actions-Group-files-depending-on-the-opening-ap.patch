@@ -1,4 +1,4 @@
-From a1f80ac9b4fa2cf8f27e53badeed473b913b0aa0 Mon Sep 17 00:00:00 2001
+From 873939e8222a778e8f9855944483cb1ee1cb984b Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Thu, 6 Feb 2020 15:04:31 +0100
 Subject: [PATCH] mime-actions: Group files depending on the opening app
@@ -28,15 +28,15 @@ This reverts commit f5206a6daf0991d91e885a28bb66795a8ae12a41.
 Closes: #117
 ---
  src/nautilus-mime-actions.c     | 268 +++++++++++++++++++++++---------
- src/nautilus-program-choosing.c | 190 +++-------------------
+ src/nautilus-program-choosing.c | 188 +++-------------------
  src/nautilus-program-choosing.h |   7 -
- 3 files changed, 211 insertions(+), 254 deletions(-)
+ 3 files changed, 211 insertions(+), 252 deletions(-)
 
 diff --git a/src/nautilus-mime-actions.c b/src/nautilus-mime-actions.c
-index 316066d4c..e629e60ee 100644
+index 26468c597..4a49828a8 100644
 --- a/src/nautilus-mime-actions.c
 +++ b/src/nautilus-mime-actions.c
-@@ -64,6 +64,12 @@ typedef struct
+@@ -61,6 +61,12 @@ typedef struct
      char *uri;
  } LaunchLocation;
  
@@ -49,7 +49,7 @@ index 316066d4c..e629e60ee 100644
  typedef struct
  {
      NautilusWindowSlot *slot;
-@@ -83,13 +89,6 @@ typedef struct
+@@ -80,13 +86,6 @@ typedef struct
      gboolean user_confirmation;
  } ActivateParameters;
  
@@ -63,7 +63,7 @@ index 316066d4c..e629e60ee 100644
  /* Microsoft mime types at https://blogs.msdn.microsoft.com/vsofficedeveloper/2008/05/08/office-2007-file-format-mime-types-for-http-content-streaming-2/ */
  struct
  {
-@@ -348,19 +347,27 @@ launch_locations_from_file_list (GList *list)
+@@ -345,19 +344,27 @@ launch_locations_from_file_list (GList *list)
  }
  
  static ApplicationLaunchParameters *
@@ -96,7 +96,7 @@ index 316066d4c..e629e60ee 100644
  static gboolean
  nautilus_mime_actions_check_if_required_attributes_ready (NautilusFile *file)
  {
-@@ -794,6 +801,114 @@ nautilus_mime_file_opens_in_external_app (NautilusFile *file)
+@@ -792,6 +799,114 @@ nautilus_mime_file_opens_in_external_app (NautilusFile *file)
      return (activation_action == ACTIVATION_ACTION_OPEN_IN_APPLICATION);
  }
  
@@ -211,7 +211,7 @@ index 316066d4c..e629e60ee 100644
  static gboolean
  file_was_cancelled (NautilusFile *file)
  {
-@@ -845,16 +960,6 @@ activation_parameters_free (ActivateParameters *parameters)
+@@ -843,16 +958,6 @@ activation_parameters_free (ActivateParameters *parameters)
      g_free (parameters);
  }
  
@@ -228,7 +228,7 @@ index 316066d4c..e629e60ee 100644
  static void
  cancel_activate_callback (gpointer callback_data)
  {
-@@ -1384,55 +1489,22 @@ out:
+@@ -1369,55 +1474,22 @@ out:
      show_unhandled_type_error (parameters_install);
  }
  
@@ -292,7 +292,7 @@ index 316066d4c..e629e60ee 100644
      g_autoptr (GQueue) launch_files = NULL;
      g_autoptr (GQueue) launch_in_terminal_files = NULL;
      g_autoptr (GQueue) open_in_app_uris = NULL;
-@@ -1627,26 +1699,68 @@ activate_files (ActivateParameters *parameters)
+@@ -1612,26 +1684,68 @@ activate_files (ActivateParameters *parameters)
          }
      }
  
@@ -376,7 +376,7 @@ index 316066d4c..e629e60ee 100644
  
  static void
 diff --git a/src/nautilus-program-choosing.c b/src/nautilus-program-choosing.c
-index 047a78c2b..0b56c71bf 100644
+index 47362a3f7..35a4ab73f 100644
 --- a/src/nautilus-program-choosing.c
 +++ b/src/nautilus-program-choosing.c
 @@ -126,32 +126,6 @@ nautilus_launch_application (GAppInfo  *application,
@@ -455,11 +455,10 @@ index 047a78c2b..0b56c71bf 100644
      if (result)
      {
          for (l = uris; l != NULL; l = l->next)
-@@ -479,145 +471,3 @@ nautilus_launch_desktop_file (GdkScreen   *screen,
-     g_object_unref (context);
+@@ -480,144 +472,4 @@ nautilus_launch_desktop_file (GdkScreen   *screen,
      g_object_unref (app_info);
  }
--
+ 
 -/* HAX
 - *
 - * TODO: remove everything below once it’s doable from GTK+.
@@ -506,10 +505,10 @@ index 047a78c2b..0b56c71bf 100644
 -}
 -
 -static void
--on_window_handle_export (NautilusWindow  *window,
--                         const char *handle_str,
--                         guint       xid,
--                         gpointer    user_data)
+-on_window_handle_export (NautilusWindow *window,
+-                         const char     *handle_str,
+-                         guint           xid,
+-                         gpointer        user_data)
 -{
 -    GTask *task = user_data;
 -    GAppLaunchContext *context = g_task_get_task_data (task);
@@ -600,7 +599,7 @@ index 047a78c2b..0b56c71bf 100644
 -    return g_task_propagate_boolean (G_TASK (result), error);
 -}
 -
--/* END OF HAX */
+ /* END OF HAX */
 diff --git a/src/nautilus-program-choosing.h b/src/nautilus-program-choosing.h
 index 51881ff17..a402b79a2 100644
 --- a/src/nautilus-program-choosing.h
@@ -618,5 +617,5 @@ index 51881ff17..a402b79a2 100644
 -                                                     GError                           **error);
 \ No newline at end of file
 -- 
-2.24.1
+GitLab
 
