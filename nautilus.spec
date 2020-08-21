@@ -15,7 +15,6 @@ BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  gtk-doc
 BuildRequires:  meson
-BuildRequires:  git
 BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0)
@@ -74,7 +73,7 @@ This package provides libraries and header files needed
 for developing nautilus extensions.
 
 %prep
-%autosetup -p1 -S git
+%autosetup -p1
 
 # Remove -Werror from compiler flags
 sed -i '/-Werror/d' meson.build
