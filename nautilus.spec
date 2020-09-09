@@ -41,9 +41,6 @@ Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 # For the org.freedesktop.Tracker3.Miner.Files GSettings schema.
 Requires:       tracker3-miners
 
-# libtotem-properties-page.so was shipped in totem-nautilus before
-Conflicts:      totem-nautilus < 1:3.31.91
-
 # https://gitlab.gnome.org/GNOME/nautilus/issues/117#note_496825
 # https://gitlab.gnome.org/GNOME/nautilus/merge_requests/518
 Patch0: 0001-mime-actions-Group-files-depending-on-the-opening-ap.patch
@@ -90,13 +87,11 @@ sed -i '/-Werror/d' meson.build
 %install
 %meson_install
 
-%find_lang %name
+%find_lang %{name}
 
 %check
 appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
-
-%ldconfig_scriptlets extensions
 
 %files  -f %{name}.lang
 %doc NEWS README.md
