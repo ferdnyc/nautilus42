@@ -121,7 +121,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 %files extensions
 %license libnautilus-extension/LICENSE
-%{_libdir}/libnautilus-extension.so.*
+%{_libdir}/libnautilus-extension.so.1*
 %{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
 
@@ -138,6 +138,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 * Tue Sep 08 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
 - Update to 3.37.92
 - Switch to tracker3
+- Tighten nautilus-extensions soname glob
 
 * Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
 - Update to 3.37.91
