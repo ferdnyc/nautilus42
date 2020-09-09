@@ -2,7 +2,7 @@
 %global gtk3_version 3.22.27
 
 Name:           nautilus
-Version:        3.37.91
+Version:        3.37.92
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -27,7 +27,7 @@ BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
 BuildRequires:  pkgconfig(libseccomp)
 BuildRequires:  pkgconfig(libselinux)
 BuildRequires:  pkgconfig(libxml-2.0)
-BuildRequires:  pkgconfig(tracker-sparql-2.0)
+BuildRequires:  pkgconfig(tracker-sparql-3.0)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  /usr/bin/appstream-util
 
@@ -38,8 +38,8 @@ Requires:       gvfs%{_isa}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
-# For the org.freedesktop.Tracker.Miner.Files GSettings schema.
-Requires:       tracker-miners
+# For the org.freedesktop.Tracker3.Miner.Files GSettings schema.
+Requires:       tracker3-miners
 
 # libtotem-properties-page.so was shipped in totem-nautilus before
 Conflicts:      totem-nautilus < 1:3.31.91
@@ -103,8 +103,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %license LICENSE
 %{_datadir}/applications/*
 %{_bindir}/*
-%{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.service
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.Tracker3.Miner.Extract.service
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.Tracker3.Miner.Files.service
 %dir %{_datadir}/gnome-shell
 %dir %{_datadir}/gnome-shell/search-providers
 %{_datadir}/gnome-shell/search-providers/org.gnome.Nautilus.search-provider.ini
@@ -114,6 +116,8 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_mandir}/man1/nautilus-autorun-software.1*
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
 %{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
+%{_datadir}/nautilus/
+%{_datadir}/tracker3/domain-ontologies/org.gnome.Nautilus.domain.rule
 %dir %{_libdir}/nautilus
 %dir %{_libdir}/nautilus/extensions-3.0
 %{_libdir}/nautilus/extensions-3.0/libnautilus-image-properties.so
@@ -136,6 +140,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Sep 08 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+- Switch to tracker3
+
 * Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
 - Update to 3.37.91
 
