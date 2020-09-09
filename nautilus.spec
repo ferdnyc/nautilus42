@@ -113,8 +113,6 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
 %{_datadir}/nautilus/
 %{_datadir}/tracker3/domain-ontologies/org.gnome.Nautilus.domain.rule
-%dir %{_libdir}/nautilus
-%dir %{_libdir}/nautilus/extensions-3.0
 %{_libdir}/nautilus/extensions-3.0/libnautilus-image-properties.so
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
 %{_libdir}/nautilus/extensions-3.0/libtotem-properties-page.so
@@ -124,6 +122,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_libdir}/libnautilus-extension.so.1*
 %{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
+%dir %{_libdir}/nautilus/extensions-3.0
 
 %files devel
 %{_includedir}/nautilus
@@ -139,6 +138,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 - Update to 3.37.92
 - Switch to tracker3
 - Tighten nautilus-extensions soname glob
+- Fix directory ownership for /usr/lib/nautilus/extensions-3.0 directory
 
 * Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
 - Update to 3.37.91
