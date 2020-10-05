@@ -2,7 +2,7 @@
 %global gtk3_version 3.22.27
 
 Name:           nautilus
-Version:        3.38.0
+Version:        3.38.1
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -134,6 +134,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
 * Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
 - Update to 3.38.0
 
