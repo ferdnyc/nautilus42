@@ -6,7 +6,7 @@
 
 Name:           nautilus
 Version:        40~beta
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -28,7 +28,9 @@ BuildRequires:  pkgconfig(gstreamer-pbutils-1.0)
 BuildRequires:  pkgconfig(gstreamer-tag-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
 BuildRequires:  pkgconfig(libhandy-1)
+%if 0%{?flatpak}
 BuildRequires:  pkgconfig(libportal)
+%endif
 BuildRequires:  pkgconfig(libseccomp)
 BuildRequires:  pkgconfig(libselinux)
 BuildRequires:  pkgconfig(libxml-2.0)
@@ -87,6 +89,9 @@ sed -i '/-Werror/d' meson.build
   -Dextensions=true \
   -Dintrospection=true \
   -Dselinux=true \
+%if ! 0%{?flatpak}
+  -Dlibportal=false \
+%endif
   %{nil}
 %meson_build
 
@@ -140,6 +145,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Feb 18 2021 Kalev Lember <klember@redhat.com> - 40~beta-2
+- Only require libportal for Flatpak builds
+
 * Thu Feb 18 2021 Kalev Lember <klember@redhat.com> - 40~beta-1
 - Update to 40.beta
 
