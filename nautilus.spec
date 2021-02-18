@@ -1,14 +1,17 @@
-%global glib2_version 2.62.0
+%global glib2_version 2.67.1
+%global gnome_autoar_version 0.3.0
 %global gtk3_version 3.22.27
 
+%global tarball_version %%(echo %{version} | tr '~' '.')
+
 Name:           nautilus
-Version:        3.38.2
-Release:        2%{?dist}
+Version:        40~beta
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/40/%{name}-%{tarball_version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -17,13 +20,15 @@ BuildRequires:  gtk-doc
 BuildRequires:  meson
 BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
-BuildRequires:  pkgconfig(gnome-autoar-0)
+BuildRequires:  pkgconfig(gnome-autoar-0) >= %{gnome_autoar_version}
 BuildRequires:  pkgconfig(gnome-desktop-3.0)
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gsettings-desktop-schemas)
 BuildRequires:  pkgconfig(gstreamer-pbutils-1.0)
 BuildRequires:  pkgconfig(gstreamer-tag-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
+BuildRequires:  pkgconfig(libhandy-1)
+BuildRequires:  pkgconfig(libportal)
 BuildRequires:  pkgconfig(libseccomp)
 BuildRequires:  pkgconfig(libselinux)
 BuildRequires:  pkgconfig(libxml-2.0)
@@ -32,6 +37,7 @@ BuildRequires:  pkgconfig(x11)
 BuildRequires:  /usr/bin/appstream-util
 
 Requires:       glib2%{_isa} >= %{glib2_version}
+Requires:       gnome-autoar%{_isa} >= %{gnome_autoar_version}
 Requires:       gsettings-desktop-schemas%{_isa}
 Requires:       gtk3%{_isa} >= %{gtk3_version}
 Requires:       gvfs%{_isa}
@@ -70,7 +76,7 @@ This package provides libraries and header files needed
 for developing nautilus extensions.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{tarball_version}
 
 # Remove -Werror from compiler flags
 sed -i '/-Werror/d' meson.build
@@ -134,6 +140,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Feb 18 2021 Kalev Lember <klember@redhat.com> - 40~beta-1
+- Update to 40.beta
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 3.38.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
