@@ -5,8 +5,8 @@
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           nautilus
-Version:        40~beta
-Release:        2%{?dist}
+Version:        40~rc
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -48,10 +48,6 @@ Requires:       gvfs%{_isa}
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 # For the org.freedesktop.Tracker3.Miner.Files GSettings schema.
 Requires:       tracker3-miners
-
-# https://gitlab.gnome.org/GNOME/nautilus/issues/117#note_496825
-# https://gitlab.gnome.org/GNOME/nautilus/merge_requests/518
-Patch0: 0001-mime-actions-Group-files-depending-on-the-opening-ap.patch
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -145,6 +141,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Mar 15 2021 Kalev Lember <klember@redhat.com> - 40~rc-1
+- Update to 40.rc
+
 * Thu Feb 18 2021 Kalev Lember <klember@redhat.com> - 40~beta-2
 - Only require libportal for Flatpak builds
 
