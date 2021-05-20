@@ -6,7 +6,7 @@
 
 Name:           nautilus
 Version:        40.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -52,6 +52,8 @@ Requires:       gvfs%{_isa}
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 # For the org.freedesktop.Tracker3.Miner.Files GSettings schema.
 Requires:       tracker3-miners
+
+Provides:       bundled(libgd)
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -145,6 +147,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu May 20 2021 Ondrej Holy <oholy@redhat.com> - 40.1-3
+- Add missing bundled(libgd) provides statement
+
 * Thu May 06 2021 Kalev Lember <klember@redhat.com> - 40.1-2
 - Backport upstream fix to keep working directory when executing programs
 
