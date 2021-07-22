@@ -6,7 +6,7 @@
 
 Name:           nautilus
 Version:        40.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -147,6 +147,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 40.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Thu May 20 2021 Ondrej Holy <oholy@redhat.com> - 40.1-3
 - Add missing bundled(libgd) provides statement
 
