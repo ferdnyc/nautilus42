@@ -5,17 +5,13 @@
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           nautilus
-Version:        40.1
-Release:        4%{?dist}
+Version:        41~alpha
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/40/%{name}-%{tarball_version}.tar.xz
-
-# Backported from upstream
-# https://gitlab.gnome.org/GNOME/nautilus/-/merge_requests/664
-Patch0:         664.patch
+Source0:        https://download.gnome.org/sources/%{name}/41.alpha/%{name}-%{tarball_version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -147,6 +143,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Aug 03 2021 Kalev Lember <klember@redhat.com> - 41~alpha-1
+- Update to 41.alpha
+
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 40.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
