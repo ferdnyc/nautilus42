@@ -5,7 +5,7 @@
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           nautilus
-Version:        41~rc
+Version:        41.0
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -143,6 +143,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Fri Sep 17 2021 Kalev Lember <klember@redhat.com> - 41.0-1
+- Update to 41.0
+
 * Wed Sep 08 2021 Kalev Lember <klember@redhat.com> - 41~rc-1
 - Update to 41.rc
 
