@@ -6,12 +6,15 @@
 
 Name:           nautilus
 Version:        41.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
 Source0:        https://download.gnome.org/sources/%{name}/41/%{name}-%{tarball_version}.tar.xz
+
+# https://gitlab.gnome.org/GNOME/nautilus/-/issues/2018
+Patch0:         compress-dialog-controller-Fit-popover-fit-on-X11.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -143,6 +146,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Dec 07 2021 Ondrej Holy <oholy@redhat.com> - 41.1-2
+- Fix cropped popover for compress formats on X11
+
 * Mon Nov 01 2021 Kalev Lember <klember@redhat.com> - 41.1-1
 - Update to 41.1
 

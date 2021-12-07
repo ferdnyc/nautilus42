@@ -1,0 +1,52 @@
+From 203d24f1e57991340b2870b0b956922144f0152a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ant=C3=B3nio=20Fernandes?= <antoniojpfernandes@gmail.com>
+Date: Mon, 8 Nov 2021 18:48:47 +0000
+Subject: [PATCH] compress-dialog-controller: Fit popover fit on X11
+
+Under X11, GTK3 cannot draw a GtkPopover outside of the main window area.
+
+This means the popover for compress formats is clipped under X11.
+
+As a workaround, make the window twice as tal when the popover is shown.
+
+Fixes https://gitlab.gnome.org/GNOME/nautilus/-/issues/2018
+---
+ src/nautilus-compress-dialog-controller.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/src/nautilus-compress-dialog-controller.c b/src/nautilus-compress-dialog-controller.c
+index 3f7711ccb..de83b3717 100644
+--- a/src/nautilus-compress-dialog-controller.c
++++ b/src/nautilus-compress-dialog-controller.c
+@@ -21,6 +21,10 @@
+ #include <gnome-autoar/gnome-autoar.h>
+ #include <libhandy-1/handy.h>
+ 
++#ifdef GDK_WINDOWING_X11
++#include <gdk/gdkx.h>
++#endif
++
+ #include <eel/eel-vfs-extensions.h>
+ 
+ #include "nautilus-compress-dialog-controller.h"
+@@ -394,6 +398,17 @@ popover_on_show (GtkWidget *widget,
+         }
+         break;
+     }
++
++#ifdef GDK_WINDOWING_X11
++    if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
++    {
++        int w, h;
++
++        /* Workaround for https://gitlab.gnome.org/GNOME/nautilus/-/issues/2018 */
++        gtk_window_get_default_size (GTK_WINDOW (self->compress_dialog), &w, &h);
++        gtk_window_resize (GTK_WINDOW (self->compress_dialog), w, h * 2);
++    }
++#endif
+ }
+ 
+ NautilusCompressDialogController *
+-- 
+2.33.1
+
