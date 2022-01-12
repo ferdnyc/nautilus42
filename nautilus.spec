@@ -6,7 +6,7 @@
 
 Name:           nautilus
 Version:        42~alpha
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -143,6 +143,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Wed Jan 12 2022 David King <amigadave@amigadave.com> - 42~alpha-2
+- Rebuild against gnome-desktop4
+
 * Sun Jan 09 2022 David King <amigadave@amigadave.com> - 42~alpha-1
 - Update to 42.alpha
 
