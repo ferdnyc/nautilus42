@@ -1,20 +1,17 @@
 %global glib2_version 2.67.1
 %global gnome_autoar_version 0.3.0
-%global gtk3_version 3.22.27
+%global gtk4_version 4.6
 
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           nautilus
-Version:        41.1
-Release:        2%{?dist}
+Version:        42~alpha
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/41/%{name}-%{tarball_version}.tar.xz
-
-# https://gitlab.gnome.org/GNOME/nautilus/-/issues/2018
-Patch0:         compress-dialog-controller-Fit-popover-fit-on-X11.patch
+Source0:        https://download.gnome.org/sources/%{name}/42/%{name}-%{tarball_version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -24,15 +21,16 @@ BuildRequires:  meson
 BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0) >= %{gnome_autoar_version}
-BuildRequires:  pkgconfig(gnome-desktop-3.0)
+BuildRequires:  pkgconfig(gnome-desktop-4)
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gsettings-desktop-schemas)
 BuildRequires:  pkgconfig(gstreamer-pbutils-1.0)
 BuildRequires:  pkgconfig(gstreamer-tag-1.0)
-BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
-BuildRequires:  pkgconfig(libhandy-1)
+BuildRequires:  pkgconfig(gtk4) >= %{gtk4_version}
+BuildRequires:  pkgconfig(libadwaita-1)
 %if 0%{?flatpak}
 BuildRequires:  pkgconfig(libportal)
+BuildRequires:  pkgconfig(libportal-gtk4)
 %endif
 BuildRequires:  pkgconfig(libseccomp)
 BuildRequires:  pkgconfig(libselinux)
@@ -44,7 +42,7 @@ BuildRequires:  /usr/bin/appstream-util
 Requires:       glib2%{_isa} >= %{glib2_version}
 Requires:       gnome-autoar%{_isa} >= %{gnome_autoar_version}
 Requires:       gsettings-desktop-schemas%{_isa}
-Requires:       gtk3%{_isa} >= %{gtk3_version}
+Requires:       gtk4%{_isa} >= %{gtk4_version}
 Requires:       gvfs%{_isa}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
@@ -127,7 +125,6 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_datadir}/tracker3/domain-ontologies/org.gnome.Nautilus.domain.rule
 %{_libdir}/nautilus/extensions-3.0/libnautilus-image-properties.so
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
-%{_libdir}/nautilus/extensions-3.0/libtotem-properties-page.so
 
 %files extensions
 %license libnautilus-extension/LICENSE
@@ -146,6 +143,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sun Jan 09 2022 David King <amigadave@amigadave.com> - 42~alpha-1
+- Update to 42.alpha
+
 * Tue Dec 07 2021 Ondrej Holy <oholy@redhat.com> - 41.1-2
 - Fix cropped popover for compress formats on X11
 
