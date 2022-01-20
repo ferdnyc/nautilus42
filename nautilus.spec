@@ -6,7 +6,7 @@
 
 Name:           nautilus
 Version:        42~alpha
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -143,6 +143,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 42~alpha-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Wed Jan 12 2022 David King <amigadave@amigadave.com> - 42~alpha-2
 - Rebuild against gnome-desktop4
 
