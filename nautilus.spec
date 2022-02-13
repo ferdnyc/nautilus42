@@ -1,12 +1,12 @@
 %global glib2_version 2.67.1
 %global gnome_autoar_version 0.3.0
-%global gtk4_version 4.6
+%global gtk3_version 3.22.27
 
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           nautilus
-Version:        42~alpha
-Release:        3%{?dist}
+Version:        42~beta
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -21,16 +21,16 @@ BuildRequires:  meson
 BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0) >= %{gnome_autoar_version}
-BuildRequires:  pkgconfig(gnome-desktop-4)
+BuildRequires:  pkgconfig(gnome-desktop-3.0)
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gsettings-desktop-schemas)
 BuildRequires:  pkgconfig(gstreamer-pbutils-1.0)
 BuildRequires:  pkgconfig(gstreamer-tag-1.0)
-BuildRequires:  pkgconfig(gtk4) >= %{gtk4_version}
-BuildRequires:  pkgconfig(libadwaita-1)
+BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
+BuildRequires:  pkgconfig(libhandy-1)
 %if 0%{?flatpak}
 BuildRequires:  pkgconfig(libportal)
-BuildRequires:  pkgconfig(libportal-gtk4)
+BuildRequires:  pkgconfig(libportal-gtk3)
 %endif
 BuildRequires:  pkgconfig(libseccomp)
 BuildRequires:  pkgconfig(libselinux)
@@ -42,7 +42,7 @@ BuildRequires:  /usr/bin/appstream-util
 Requires:       glib2%{_isa} >= %{glib2_version}
 Requires:       gnome-autoar%{_isa} >= %{gnome_autoar_version}
 Requires:       gsettings-desktop-schemas%{_isa}
-Requires:       gtk4%{_isa} >= %{gtk4_version}
+Requires:       gtk3%{_isa} >= %{gtk3_version}
 Requires:       gvfs%{_isa}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
@@ -125,6 +125,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_datadir}/tracker3/domain-ontologies/org.gnome.Nautilus.domain.rule
 %{_libdir}/nautilus/extensions-3.0/libnautilus-image-properties.so
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
+%{_libdir}/nautilus/extensions-3.0/libtotem-properties-page.so
 
 %files extensions
 %license libnautilus-extension/LICENSE
@@ -143,6 +144,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sun Feb 13 2022 David King <amigadave@amigadave.com> - 42~beta-1
+- Update to 42.beta
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 42~alpha-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
