@@ -6,12 +6,14 @@
 
 Name:           nautilus
 Version:        42~beta
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
 Source0:        https://download.gnome.org/sources/%{name}/42/%{name}-%{tarball_version}.tar.xz
+# https://gitlab.gnome.org/GNOME/nautilus/-/issues/2169
+Patch0:         nautilus-42.beta-dropshadow.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -144,6 +146,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Feb 28 2022 David King <amigadave@amigadave.com> - 42~beta-2
+- Fix thumbnail drop shadow refresh bug
+
 * Sun Feb 13 2022 David King <amigadave@amigadave.com> - 42~beta-1
 - Update to 42.beta
 
