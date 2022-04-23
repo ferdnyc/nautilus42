@@ -1,11 +1,11 @@
 %global glib2_version 2.67.1
-%global gnome_autoar_version 0.3.0
+%global gnome_autoar_version 0.4.0
 %global gtk3_version 3.22.27
 
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           nautilus
-Version:        42.0
+Version:        42.1.1
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -100,7 +100,7 @@ sed -i '/-Werror/d' meson.build
 %find_lang %{name}
 
 %check
-appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
+appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/org.gnome.Nautilus.appdata.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 %files  -f %{name}.lang
@@ -120,30 +120,33 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_mandir}/man1/nautilus.1*
 %{_mandir}/man1/nautilus-autorun-software.1*
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
-%{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
 %{_datadir}/nautilus/
 %{_datadir}/tracker3/domain-ontologies/org.gnome.Nautilus.domain.rule
 %{_libdir}/nautilus/extensions-3.0/libnautilus-image-properties.so
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
 %{_libdir}/nautilus/extensions-3.0/libtotem-properties-page.so
+%{_metainfodir}/org.gnome.Nautilus.appdata.xml
 
 %files extensions
 %license libnautilus-extension/LICENSE
 %{_libdir}/libnautilus-extension.so.1*
-%{_libdir}/girepository-1.0/*.typelib
+%{_libdir}/girepository-1.0/Nautilus-3.0.typelib
 %dir %{_libdir}/nautilus
 %dir %{_libdir}/nautilus/extensions-3.0
 
 %files devel
 %{_includedir}/nautilus
-%{_libdir}/pkgconfig/*
-%{_libdir}/*.so
-%{_datadir}/gir-1.0/*.gir
+%{_libdir}/pkgconfig/libnautilus-extension.pc
+%{_libdir}/libnautilus-extension.so
+%{_datadir}/gir-1.0/Nautilus-3.0.gir
 %dir %{_datadir}/gtk-doc/
 %dir %{_datadir}/gtk-doc/html/
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sun Apr 24 2022 David King <amigadave@amigadave.com> - 42.1-1
+- Update to 42.1.1
+
 * Sat Mar 19 2022 David King <amigadave@amigadave.com> - 42.0-1
 - Update to 42.0
 
