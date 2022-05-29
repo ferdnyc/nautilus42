@@ -5,7 +5,7 @@
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           nautilus
-Version:        42.1.1
+Version:        42.2
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
@@ -144,6 +144,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Sun May 29 2022 David King <amigadave@amigadave.com> - 42.2-1
+- Update to 42.2
+
 * Sun Apr 24 2022 David King <amigadave@amigadave.com> - 42.1-1
 - Update to 42.1.1
 
