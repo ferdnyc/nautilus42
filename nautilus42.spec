@@ -1,17 +1,21 @@
 %global glib2_version 2.67.1
 %global gnome_autoar_version 0.4.0
 %global gtk3_version 3.22.27
+%global gnome_desktop_version 43
 
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
-Name:           nautilus
+Name:           nautilus42
 Version:        42.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/42/%{name}-%{tarball_version}.tar.xz
+Source0:        https://download.gnome.org/sources/nautilus/42/nautilus-%{tarball_version}.tar.xz
+
+# Backport of upstream 4420025e7ff25b1a6d0da5e3a87fa5ea5dd94a91
+Patch0:         nautilus-thumbnail43.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -21,7 +25,7 @@ BuildRequires:  meson
 BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0) >= %{gnome_autoar_version}
-BuildRequires:  pkgconfig(gnome-desktop-3.0)
+BuildRequires:  pkgconfig(gnome-desktop-3.0) >= %{gnome_desktop_version}
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gsettings-desktop-schemas)
 BuildRequires:  pkgconfig(gstreamer-pbutils-1.0)
@@ -51,6 +55,9 @@ Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 Requires:       tracker3-miners
 
 Provides:       bundled(libgd)
+Provides:       nautilus = %{version}-%{release}
+Obsoletes:      nautilus >= 43
+Conflicts:      nautilus%{?_isa}
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -62,6 +69,8 @@ It is also responsible for handling the icons on the GNOME desktop.
 %package extensions
 Summary:        Nautilus extensions library
 License:        LGPLv2+
+Provides:       nautilus-extensions = %{version}-%{release}
+Conflicts:      nautilus-extensions%{?_isa} >= 43
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
@@ -71,13 +80,15 @@ Summary:        Support for developing nautilus extensions
 License:        LGPLv2+
 Requires:       %{name}%{_isa} = %{version}-%{release}
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
+Provides:       nautilus-devel = %{version}-%{release}
+Conflicts:      nautilus-devel%{?_isa} >= 43
 
 %description devel
 This package provides libraries and header files needed
 for developing nautilus extensions.
 
 %prep
-%autosetup -p1 -n %{name}-%{tarball_version}
+%autosetup -p1 -n nautilus-%{tarball_version}
 
 # Remove -Werror from compiler flags
 sed -i '/-Werror/d' meson.build
@@ -97,13 +108,13 @@ sed -i '/-Werror/d' meson.build
 %install
 %meson_install
 
-%find_lang %{name}
+%find_lang nautilus
 
 %check
 appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/org.gnome.Nautilus.appdata.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
-%files  -f %{name}.lang
+%files  -f nautilus.lang
 %doc NEWS README.md
 %license LICENSE
 %{_datadir}/applications/*
@@ -144,6 +155,11 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Tue Nov 15 2022 FeRD (Frank Dana) <ferdnyc@gmail.com> - 42.2-2
+- Build Nautilus 42 for F37, as alternative to Gtk 4/Nautilus 43
+  version (with new views that lack feature parity).
+- Backport fix for thumbnail API changes.
+
 * Sun May 29 2022 David King <amigadave@amigadave.com> - 42.2-1
 - Update to 42.2
 
