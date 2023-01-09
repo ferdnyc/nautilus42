@@ -7,7 +7,7 @@
 
 Name:           nautilus42
 Version:        42.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -56,8 +56,8 @@ Requires:       tracker3-miners
 
 Provides:       bundled(libgd)
 Provides:       nautilus = %{version}-%{release}
-Obsoletes:      nautilus >= 43
-Conflicts:      nautilus%{?_isa}
+Provides:       nautilus%{_isa} = %{version}-%{release}
+Conflicts:      nautilus <= 44
 
 %description
 Nautilus is the file manager and graphical shell for the GNOME desktop
@@ -70,7 +70,8 @@ It is also responsible for handling the icons on the GNOME desktop.
 Summary:        Nautilus extensions library
 License:        LGPLv2+
 Provides:       nautilus-extensions = %{version}-%{release}
-Conflicts:      nautilus-extensions%{?_isa} >= 43
+Provides:       nautilus-extensions%{_isa} = %{version}-%{release}
+Conflicts:      nautilus-extensions <= 44
 
 %description extensions
 This package provides the libraries used by nautilus extensions.
@@ -81,7 +82,8 @@ License:        LGPLv2+
 Requires:       %{name}%{_isa} = %{version}-%{release}
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
 Provides:       nautilus-devel = %{version}-%{release}
-Conflicts:      nautilus-devel%{?_isa} >= 43
+Provides:       nautilus-devel%{_isa} = %{version}-%{release}
+Conflicts:      nautilus-devel <= 44
 
 %description devel
 This package provides libraries and header files needed
@@ -155,6 +157,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Jan 09 2023 FeRD (Frank Dana) <ferdnyc@gmail.com> - 42.6-2
+- Revert provides/conflicts setup, accidentally replaced with
+  older specfile source.
+
 * Mon Jan 9 2023 FeRD (Frank Dana) <ferdnyc@gmail.com> - 42.6-1
 - Merge "Update to 42.6" change from f36 branch
 
