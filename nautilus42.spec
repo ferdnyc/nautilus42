@@ -6,8 +6,8 @@
 %global tarball_version %%(echo %{version} | tr '~' '.')
 
 Name:           nautilus42
-Version:        42.2
-Release:        2%{?dist}
+Version:        42.6
+Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
@@ -155,6 +155,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Jan 9 2023 FeRD (Frank Dana) <ferdnyc@gmail.com> - 42.6-1
+- Merge "Update to 42.6" change from f36 branch
+
 * Tue Nov 15 2022 FeRD (Frank Dana) <ferdnyc@gmail.com> - 42.2-2
 - Build Nautilus 42 for F37, as alternative to Gtk 4/Nautilus 43
   version (with new views that lack feature parity).
