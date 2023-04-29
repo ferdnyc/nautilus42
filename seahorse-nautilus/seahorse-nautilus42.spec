@@ -5,7 +5,7 @@
 Name:           seahorse-nautilus42
 Version:        3.11.92
 %global         release_version %(echo %{version} | awk -F. '{print $1"."$2}')
-Release:        22%{?gitdate:.%{gitdate}git%{shortcommit0}}%{?dist}
+Release:        23%{?gitdate:.%{gitdate}git%{shortcommit0}}%{?dist}
 Summary:        PGP encryption and signing for nautilus
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Seahorse
@@ -14,6 +14,8 @@ Source0:        https://gitlab.gnome.org/GNOME/seahorse-nautilus/-/archive/%{com
 %else
 Source0:        https://download.gnome.org/sources/seahorse-nautilus/%{release_version}/seahorse-nautilus-%{version}.tar.xz
 %endif
+
+Patch0:		seahorse-nautilus-gnupg_2.4.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -62,6 +64,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/seahorse-pgp-signatur
 
 
 %changelog
+* Sat Apr 29 2023 FeRD (Frank Dana) <ferdnyc@gmail.com> - 3.11.92-23.20220906git2cc2a06
+- Patch to accept GnuPG 2.4.0 as compatible
+
 * Wed Sep 14 2022 Kalev Lember <klember@redhat.com> - 3.11.92-22.20220906git2cc2a06
 - Update to git snapshot for nautilus 43 support
 - Drop old seahorse-plugins obsoletes
