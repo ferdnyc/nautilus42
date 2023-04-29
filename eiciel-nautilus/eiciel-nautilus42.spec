@@ -1,10 +1,13 @@
+%global git_ref 1685bbd
+
 Name: eiciel-nautilus42
 Version: 0.9.13.1
 Release: 1%{?dist}
 Summary: Graphical editor for ACLs and xattr
 License: GPLv2+
 URL: http://rofi.roger-ferrer.org/eiciel
-Source0: http://rofi.roger-ferrer.org/eiciel/files/eiciel-%{version}.tar.bz2
+#Source0: http://rofi.roger-ferrer.org/eiciel/files/eiciel-%{version}.tar.bz2
+Source0: https://github.com/rofirrim/eiciel/archive/refs/heads/gtk3.zip#/eiciel-gtk3.zip
 
 BuildRequires: meson
 BuildRequires: gcc-c++
@@ -35,7 +38,7 @@ utility.
 
 
 %prep
-%autosetup -p1 -n eiciel-%{version}
+%autosetup -p1 -n eiciel-gtk3
 
 
 %build
