@@ -1,0 +1,88 @@
+From 100c9b559ccc4d9f8c982d56b7ac38d8860b9763 Mon Sep 17 00:00:00 2001
+From: FeRD <ferdnyc@gmail.com>
+Date: Tue, 15 Nov 2022 04:06:19 -0500
+Subject: [PATCH] Revert "nautilus: Port to Nautilus 43"
+
+This reverts commit 5cfaa00f04130084e42548abb2226c1c2e378e48.
+---
+ default.nix                    | 3 +--
+ meson.build                    | 5 +++--
+ nautilus/meson.build           | 5 +++--
+ nautilus/nautilus-fileroller.c | 1 +
+ 4 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/default.nix b/default.nix
+index 79cb8cac..655416a7 100644
+--- a/default.nix
++++ b/default.nix
+@@ -109,6 +109,7 @@ makeDerivation rec {
+     file
+     glib
+     gnome.adwaita-icon-theme
++    gnome.nautilus
+     gtk3
+     json-glib
+     libarchive
+@@ -119,8 +120,6 @@ makeDerivation rec {
+   mesonFlags = [
+     "-Dintrospection=enabled"
+     "-Dapi_docs=enabled"
+-    # TODO: Re-enable once we have Nautilus 43.
+-    "-Dnautilus-actions=disabled"
+   ];
+ 
+   inherit doCheck;
+diff --git a/meson.build b/meson.build
+index 4774b2d1..866a9072 100644
+--- a/meson.build
++++ b/meson.build
+@@ -9,7 +9,7 @@ project(
+ glib_version = '>=2.38'
+ gtk_version = '>=3.22.0'
+ hdy_version = '>=1.5.0'
+-nautilus_version = '>=43.beta'
++nautilus_version = '>=3.28.0'
+ json_glib_version = '>=0.14.0'
+ libarchive_version = '>=3.1.900a'
+ 
+@@ -39,7 +39,8 @@ libportal_gtk3_dep = dependency('libportal-gtk3', version: '>= 0.5', required: u
+ # Optional dependencies
+ gobject_introspection_dep = dependency('gobject-introspection-1.0', required: get_option('introspection'))
+ 
+-libnautilus_extension_dep = dependency('libnautilus-extension-4', version: nautilus_version, required: get_option('nautilus-actions'))
++libnautilus_extension_dep = dependency('libnautilus-extension', version : nautilus_version, required : get_option('nautilus-actions'))
++gtk4_dep = dependency('gtk4', required: libnautilus_extension_dep.found() and libnautilus_extension_dep.version().version_compare('>=43'))
+ build_nautilus_actions = libnautilus_extension_dep.found()
+ 
+ libjson_glib_dep = dependency('json-glib-1.0', version: json_glib_version, required: false)
+diff --git a/nautilus/meson.build b/nautilus/meson.build
+index fe14555b..4cb2bac3 100644
+--- a/nautilus/meson.build
++++ b/nautilus/meson.build
+@@ -7,8 +7,9 @@ shared_module(
+   dependencies: [
+     libm_dep,
+     thread_dep,
+-    glib_dep,
+-    gthread_dep,
++    glib_dep, 
++    gthread_dep, 
++    libnautilus_extension_dep.version().version_compare('>=43') ? gtk_dep : gtk4_dep,
+     libnautilus_extension_dep,
+     use_json_glib ? libjson_glib_dep : [],
+   ],
+diff --git a/nautilus/nautilus-fileroller.c b/nautilus/nautilus-fileroller.c
+index 4aa5276d..3d41d686 100644
+--- a/nautilus/nautilus-fileroller.c
++++ b/nautilus/nautilus-fileroller.c
+@@ -207,6 +207,7 @@ unsupported_scheme (NautilusFileInfo *file)
+ 
+ static GList *
+ nautilus_fr_get_file_items (NautilusMenuProvider *provider,
++			    GtkWidget            *window,
+ 			    GList                *files)
+ {
+ 	GList    *items = NULL;
+-- 
+2.38.1
+
