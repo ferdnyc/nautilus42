@@ -1,0 +1,94 @@
+From ef1a4498abc574265d02d2087c58e044c288bb67 Mon Sep 17 00:00:00 2001
+From: "FeRD (Frank Dana)" <ferdnyc@gmail.com>
+Date: Wed, 26 Apr 2023 13:41:53 -0400
+Subject: [PATCH] Backport to nautilus42
+
+---
+ meson.build              |  6 +++---
+ src/terminal-nautilus.cc | 11 +++++++++--
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index f2c5228..83d996b 100644
+--- a/meson.build
++++ b/meson.build
+@@ -55,7 +55,7 @@ gtk_req_version              = '3.22.27'
+ gtk_min_req_version          = '3.18'
+ gtk_max_allowed_version      = '3.24'
+ 
+-libnautilus_ext_req_version  = '43'
++libnautilus_ext_req_version  = '42'
+ pcre2_req_version            = '10.00'
+ schemas_req_version          = '0.1.0'
+ 
+@@ -86,7 +86,7 @@ gt_schemadir = gt_datadir / 'glib-2.0' / 'schemas'
+ 
+ gt_searchproviderdir = gt_datadir / 'gnome-shell' / 'search-providers'
+ 
+-gt_nautilusextensiondir = gt_libdir / 'nautilus' / 'extensions-4'
++gt_nautilusextensiondir = gt_libdir / 'nautilus' / 'extensions-3.0'
+ 
+ gt_dbusinterfacedir = gt_datadir / 'dbus-1' / 'interfaces'
+ gt_dbusservicedir   = gt_datadir / 'dbus-1' / 'services'
+@@ -359,7 +359,7 @@ schemas_dep   = dependency('gsettings-desktop-schemas',
+ uuid_dep      = dependency('uuid')
+ 
+ if get_option('nautilus_extension')
+-  libnautilus_extension_dep = dependency('libnautilus-extension-4', version: '>=' + libnautilus_ext_req_version,)
++  libnautilus_extension_dep = dependency('libnautilus-extension', version: '>=' + libnautilus_ext_req_version,)
+ else
+   libnautilus_extension_dep = dependency('', required: false,)
+ endif
+diff --git a/src/terminal-nautilus.cc b/src/terminal-nautilus.cc
+index 34968e5..fcff47e 100644
+--- a/src/terminal-nautilus.cc
++++ b/src/terminal-nautilus.cc
+@@ -22,6 +22,7 @@
+ #include <glib.h>
+ #include <glib/gi18n-lib.h>
+ #include <gio/gio.h>
++#include <gtk/gtk.h>
+ 
+ /* Work around https://gitlab.gnome.org/GNOME/nautilus/-/issues/1884 */
+ extern "C" {
+@@ -330,7 +331,7 @@ create_terminal (ExecData *data /* transfer full */)
+   g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
+ 
+   terminal_client_append_create_instance_options (&builder,
+-                                                  nullptr, // display name. FIXMEgtk4?
++                                                  gdk_display_get_name (gdk_display_get_default ()),
+                                                   startup_id,
+                                                   nullptr, /* activation_token */
+                                                   nullptr /* geometry */,
+@@ -467,7 +468,11 @@ terminal_nautilus_menu_item_activate (NautilusMenuItem *item)
+ 
+   data = g_new (ExecData, 1);
+   data->nautilus = (TerminalNautilus*)g_object_ref (nautilus);
+-  data->timestamp = 0; // GDK_CURRENT_TIME
++#if GTK_CHECK_VERSION (4, 0, 0)
++  data->timestamp = GDK_CURRENT_TIME; /* FIXMEgtk4 */
++#else
++  data->timestamp = gtk_get_current_event_time ();
++#endif
+   data->path = path;
+   data->uri = uri;
+   data->info = info;
+@@ -589,6 +594,7 @@ terminal_nautilus_menu_item_new (TerminalNautilus *nautilus,
+ 
+ static GList *
+ terminal_nautilus_get_background_items (NautilusMenuProvider *provider,
++                                        GtkWidget            *window,
+                                         NautilusFileInfo     *file_info)
+ {
+   TerminalNautilus *nautilus = TERMINAL_NAUTILUS (provider);
+@@ -637,6 +643,7 @@ terminal_nautilus_get_background_items (NautilusMenuProvider *provider,
+ 
+ static GList *
+ terminal_nautilus_get_file_items (NautilusMenuProvider *provider,
++                                  GtkWidget            *window,
+                                   GList                *files)
+ {
+   TerminalNautilus *nautilus = TERMINAL_NAUTILUS (provider);
+-- 
+2.39.2
+
