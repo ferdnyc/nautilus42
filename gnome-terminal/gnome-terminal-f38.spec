@@ -16,7 +16,7 @@ URL:     https://wiki.gnome.org/Apps/Terminal
 Source0: https://gitlab.gnome.org/GNOME/%{name}/-/archive/%{version}/%{name}-%{version}.tar.bz2
 Source1: org.gnome.Terminal.gschema.override
 
-Patch0:  gnome-terminal-cntr-ntfy-autottl-ts.patch
+Patch0:  gnome-terminal-3.48-cntr-ntfy-autottl-ts.patch
 
 Patch100: gnome-terminal-3.46-nautilus42-backport.patch
 
