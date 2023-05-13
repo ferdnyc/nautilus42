@@ -7,7 +7,7 @@
 %define desktop_file_utils_version 0.2.90
 
 Name:    gnome-terminal
-Version: 3.48.0
+Version: 3.48.1
 Release: 1%{?dist}
 Summary: Terminal emulator for GNOME
 
@@ -16,7 +16,7 @@ URL:     https://wiki.gnome.org/Apps/Terminal
 Source0: https://gitlab.gnome.org/GNOME/%{name}/-/archive/%{version}/%{name}-%{version}.tar.bz2
 Source1: org.gnome.Terminal.gschema.override
 
-Patch0:  gnome-terminal-3.48-cntr-ntfy-autottl-ts.patch
+Patch0:  gnome-terminal-cntr-ntfy-autottl-ts.patch
 
 Patch100: gnome-terminal-3.46-nautilus42-backport.patch
 
@@ -118,8 +118,11 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Terminal.de
 %{_metainfodir}/org.gnome.Terminal.Nautilus.metainfo.xml
 
 %changelog
-* Wed Apr 26 2023 FeRD (Frank Dana) <ferdnyc@gmail.com> - 3.48.0-1
+* Fri May 12 2023 FeRD (Frank Dana) <ferdnyc@gmail.com> - 3.48.1-1
 - Build with nautilus42 version of extension library
+
+* Tue May 09 2023 David King <amigadave@amigadave.com> - 3.48.1-1
+- Update to 3.48.1
 
 * Mon Mar 20 2023 David King <amigadave@amigadave.com> - 3.48.0-1
 - Update to 3.48.0
@@ -132,6 +135,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Terminal.de
 
 * Mon Jan 23 2023 David King <amigadave@amigadave.com> - 3.46.7-1
 - Update to 3.46.7 (#2155523)
+
+* Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 3.45.90-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
 
 * Wed Aug 17 2022 David King <amigadave@amigadave.com> - 3.45.90-1
 - Update to 3.45.90

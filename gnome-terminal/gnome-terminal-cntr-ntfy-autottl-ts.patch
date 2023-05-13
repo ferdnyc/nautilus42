@@ -1,4 +1,4 @@
-From 7eee0d5eec6135d80ef57dd8708e3f1d315b11d8 Mon Sep 17 00:00:00 2001
+From 83c3321d9df4c571ff1a8a7aea3d61190e2a342a Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Mon, 12 May 2014 14:57:18 +0200
 Subject: [PATCH 01/16] Restore transparency
@@ -234,10 +234,10 @@ index 36eb7ce7..a41d2de2 100644
    uuid_unparse (u, uuidstr);
    priv->uuid = g_strdup (uuidstr);
 -- 
-2.40.0
+2.40.1
 
 
-From 212f0ed4a860aa9a348a7ec2499f0c178c2b5688 Mon Sep 17 00:00:00 2001
+From 29759ac03fe09c82d65aac2d28d174ed75df7637 Mon Sep 17 00:00:00 2001
 From: Lars Uebernickel <lars.uebernickel@canonical.com>
 Date: Wed, 28 May 2014 14:11:02 +0200
 Subject: [PATCH 02/16] window: Make the drawing robust across all themes
@@ -296,10 +296,10 @@ index a41d2de2..11d93419 100644
    widget_class->screen_changed = terminal_window_screen_changed;
    widget_class->style_updated = terminal_window_style_updated;
 -- 
-2.40.0
+2.40.1
 
 
-From 9e0de768d56f985e674f0079b9691875af2664d7 Mon Sep 17 00:00:00 2001
+From b86eb377db75fa04417f46dc037eaaa45e8dcdec Mon Sep 17 00:00:00 2001
 From: "Owen W. Taylor" <otaylor@fishsoup.net>
 Date: Fri, 13 Nov 2015 15:16:42 +0100
 Subject: [PATCH 03/16] screen, window: Extra padding around transparent
@@ -431,10 +431,10 @@ index 11d93419..61857bfe 100644
  
    return GTK_WIDGET_CLASS (terminal_window_parent_class)->draw (widget, cr);
 -- 
-2.40.0
+2.40.1
 
 
-From 53a8459fa2a4f9ebf76cbc8b93d919d84a8d1962 Mon Sep 17 00:00:00 2001
+From 8e92d96543a2f8b343bde1d7060064bc8da1dfee Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Fri, 18 May 2018 20:15:34 +0200
 Subject: [PATCH 04/16] screen: Try harder to find a foreground process group
@@ -501,10 +501,10 @@ index 51fdc20b..82c607a2 100644
  #endif
  
 -- 
-2.40.0
+2.40.1
 
 
-From 042556027e4f58e3ca532a0413a992154cf67f17 Mon Sep 17 00:00:00 2001
+From 0a6a5448ca292032f3b5daf9a9e772a6fe64f811 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Thu, 3 May 2018 16:49:28 +0200
 Subject: [PATCH 05/16] screen: Track the current foreground process
@@ -754,10 +754,10 @@ index 82c607a2..5de5ce91 100644
      return FALSE;
  
 -- 
-2.40.0
+2.40.1
 
 
-From 92643324bc2dabeccccad621f6b294b6e928f717 Mon Sep 17 00:00:00 2001
+From af10b8861e565ee92ae42ee3e894440989189951 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Thu, 10 May 2018 19:23:16 +0200
 Subject: [PATCH 06/16] Notify when a long-running foreground process group
@@ -1070,10 +1070,10 @@ index 91b7e617..37e808a7 100644
  
  G_END_DECLS
 -- 
-2.40.0
+2.40.1
 
 
-From 523dcde65b666c2396213f3efa7ef3373b81ed6f Mon Sep 17 00:00:00 2001
+From 8fe4f430026f28ac0067b22983beb69ff903fd86 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Tue, 10 Apr 2018 15:39:35 +0200
 Subject: [PATCH 07/16] profile: Split the Command tab into two nested GtkGrids
@@ -1345,10 +1345,10 @@ index f3979307..285a3c61 100644
                            </object>
                            <packing>
 -- 
-2.40.0
+2.40.1
 
 
-From 3c4e18214f919a352c11b9737101cbe270ac6f75 Mon Sep 17 00:00:00 2001
+From 434a35e941965b363fce6f1205aece9a28e93434 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Tue, 10 Apr 2018 16:01:51 +0200
 Subject: [PATCH 08/16] Revert "profile: Remove the "Command" sub-heading"
@@ -1638,10 +1638,10 @@ index 285a3c61..5422de71 100644
                            </object>
                            <packing>
 -- 
-2.40.0
+2.40.1
 
 
-From 5141342c1f31f1a7a677b3befebab65a7310816c Mon Sep 17 00:00:00 2001
+From 774c4e3f0ae5da786a2792a27ac5244d2f310d30 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Thu, 30 Jun 2016 16:02:13 +0200
 Subject: [PATCH 09/16] Revert "screen: Remove unused description and
@@ -1818,10 +1818,10 @@ index ded6b8ca..f4ec9047 100644
  char *terminal_screen_get_current_dir (TerminalScreen *screen);
  
 -- 
-2.40.0
+2.40.1
 
 
-From 3414c88a27d0125ee7b37a6dce2fd4590df261f0 Mon Sep 17 00:00:00 2001
+From 4c0ac030a8667debd3175de0f57579e6c672eb9e Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Thu, 30 Jun 2016 17:39:48 +0200
 Subject: [PATCH 10/16] Revert "Remove the static title setting from profile
@@ -1998,10 +1998,10 @@ index 8b37de55..506ab66e 100644
        (!prop_name ||
         prop_name == I_(TERMINAL_PROFILE_USE_SYSTEM_FONT_KEY) ||
 -- 
-2.40.0
+2.40.1
 
 
-From ff089312a574191b11dec38be4532a48d7bdd5b5 Mon Sep 17 00:00:00 2001
+From 210b3de7896fe3a03f9fa14ce60d436f3c09aa3b Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Tue, 17 Feb 2015 17:06:17 +0100
 Subject: [PATCH 11/16] Restore translations for setting a title and
@@ -2023,7 +2023,7 @@ Subject: [PATCH 11/16] Restore translations for setting a title and
  po/bs.po          |  10 +
  po/ca.po          |  12 +
  po/ca@valencia.po |  12 +
- po/cs.po          |  12 +
+ po/cs.po          |  14 +-
  po/cy.po          |   8 +-
  po/da.po          |  12 +
  po/de.po          |  12 +
@@ -2100,7 +2100,7 @@ Subject: [PATCH 11/16] Restore translations for setting a title and
  po/zh_CN.po       |  15 +-
  po/zh_HK.po       |  15 +-
  po/zh_TW.po       |  15 +-
- 92 files changed, 736 insertions(+), 883 deletions(-)
+ 92 files changed, 734 insertions(+), 887 deletions(-)
 
 diff --git a/po/am.po b/po/am.po
 index 3445d96d..ee992f07 100644
@@ -2339,7 +2339,7 @@ index 82ef0664..27e9877f 100644
  #: ../src/profile-preferences.glade.h:74
  msgid "_Update login records when command is launched"
 diff --git a/po/bg.po b/po/bg.po
-index 24e4aa3c..8b30af1e 100644
+index b2c4e9d5..83ad8e14 100644
 --- a/po/bg.po
 +++ b/po/bg.po
 @@ -2480,3 +2480,12 @@ msgstr "_Затваряне на този прозорец"
@@ -2497,17 +2497,20 @@ index a6e8fb42..c9ed8508 100644
 +msgid "Set Title"
 +msgstr "Estableix el títol"
 diff --git a/po/cs.po b/po/cs.po
-index 1beaf216..f27be077 100644
+index 723fd2c4..39d9bdfd 100644
 --- a/po/cs.po
 +++ b/po/cs.po
-@@ -2452,3 +2452,15 @@ msgstr "_Zavřít okno"
- #, c-format
+@@ -2473,8 +2473,14 @@ msgstr "_Zavřít okno"
  msgid "Failed to parse arguments: %s\n"
  msgstr "Selhala analýza argumentů: %s\n"
-+
+ 
+-#~ msgid "Armenian"
+-#~ msgstr "Arménské"
 +msgid "Transparent background"
 +msgstr "Průsvitné pozadí"
-+
+ 
+-#~ msgid "Georgian"
+-#~ msgstr "Gruzínské"
 +msgid "Title"
 +msgstr "Záhlaví"
 +
@@ -3708,10 +3711,10 @@ index 992d7bad..7c560b83 100644
  #~ msgid "text/plain dropped on terminal had wrong format (%d) or length (%d)\n"
  #~ msgstr "टर्मिनलमा छोडिएको पाठ/सादा गलत ढाँचा (%d) वा लम्बाइ (%d)को थियो\n"
 diff --git a/po/nl.po b/po/nl.po
-index cb6a5d2a..81f17d0f 100644
+index 91320a33..38a58507 100644
 --- a/po/nl.po
 +++ b/po/nl.po
-@@ -2808,3 +2808,15 @@ msgstr "Argumenten ontleden is mislukt: %s\n"
+@@ -2831,3 +2831,15 @@ msgstr "Argumenten ontleden is mislukt: %s\n"
  
  #~ msgid "_Add or Remove…"
  #~ msgstr "_Toevoegen of verwijderen…"
@@ -5273,10 +5276,10 @@ index 80cb2343..20e2a93c 100644
 +msgid "Transparent background"
 +msgstr "透明背景"
 -- 
-2.40.0
+2.40.1
 
 
-From ffacb3f8a6e53999ced1b7e6eb7bdbf8ec0f6287 Mon Sep 17 00:00:00 2001
+From 544248595a55c6aa76d53ff620806e92497d3a32 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Wed, 25 May 2016 13:47:36 +0200
 Subject: [PATCH 12/16] Restore the action and shortcut to set a static title
@@ -5422,10 +5425,10 @@ index 61857bfe..98332c6d 100644
      { "tab-detach",          action_tab_detach_cb,       nullptr,   nullptr, nullptr },
      { "tab-move-left",       action_tab_move_left_cb,    nullptr,   nullptr, nullptr },
 -- 
-2.40.0
+2.40.1
 
 
-From 753256853ce8d9e72a7fc9ce4e6b23f937fe0be8 Mon Sep 17 00:00:00 2001
+From fa8333d5ffcd5c4db77a06128a7c928bd81183e2 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Thu, 30 Jun 2016 18:14:36 +0200
 Subject: [PATCH 13/16] screen: Style fix
@@ -5452,10 +5455,10 @@ index 506ab66e..28088a98 100644
      const char *p;
  
 -- 
-2.40.0
+2.40.1
 
 
-From e635c50b92607471cb3ce62210533838ff208f06 Mon Sep 17 00:00:00 2001
+From 4260e6c04d0b718d825e3f80da80060faf9a3055 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Thu, 30 Jun 2016 16:58:15 +0200
 Subject: [PATCH 14/16] Restore the rest of the title handling options and make
@@ -6071,10 +6074,10 @@ index 98332c6d..389d4d71 100644
  
  static void
 -- 
-2.40.0
+2.40.1
 
 
-From 0b6eababdab6f530e4e500db6f1e87d39639c25f Mon Sep 17 00:00:00 2001
+From 97a0aef0a716a2009a5eec011e2f1d9ac0a4aa9d Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Wed, 3 Apr 2019 15:38:09 +0200
 Subject: [PATCH 15/16] Update the title with the current foreground process
@@ -6246,10 +6249,10 @@ index 5456839a..177431d0 100644
    retval = G_SOURCE_REMOVE;
  
 -- 
-2.40.0
+2.40.1
 
 
-From a9ad18506922e20f8e4d705bbffff14b926297c7 Mon Sep 17 00:00:00 2001
+From 506c1cf5c6ca12b2ac2675b07335b4a62aa120d9 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <debarshir@gnome.org>
 Date: Thu, 27 Feb 2020 19:32:08 +0100
 Subject: [PATCH 16/16] screen, window: Preserve current toolbox, if any
@@ -6371,5 +6374,5 @@ index 389d4d71..d69cf1f0 100644
    if (mode == TERMINAL_NEW_TERMINAL_MODE_WINDOW)
      gtk_window_present (GTK_WINDOW (window));
 -- 
-2.40.0
+2.40.1
 
